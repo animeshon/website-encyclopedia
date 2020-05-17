@@ -1,0 +1,71 @@
+.container,
+.internal-grid {
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    padding: 20px;
+}
+
+.internal-grid {
+    padding: 0 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+[class*='any'][class*='__cover'] {
+    width: 260px;
+    min-height: 400px;
+    position: relative;
+    top: -150px;
+    margin-right: 20px;
+}
+
+[class*='any'][class*='__description'],
+.product-page-offset {
+    flex: 1;
+}
+
+.product-page-offset {
+    margin-left: 15px;
+}
+
+.grid {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+/*  */
+.grid.single-episode {
+    flex-direction: column;
+}
+
+.grid.single-episode .landing-section-box,
+.grid.single-episode .landing-section-box .episode__box {
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 1024px) {
+    [class*='any'][class*='__cover'] {
+        width: 200px;
+        min-height: initial;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    [class*='any'][class*='__cover'] {
+        top: initial;
+        width: 180px;
+        margin-top: -120px;
+        margin-bottom: 20px;
+    }
+    .product-page-offset {
+        margin-left: 0px;
+    }
+}

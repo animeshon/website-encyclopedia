@@ -1,0 +1,22 @@
+{
+  "name": "animeshon_enciclopedia",
+  "version": "0.0.1",
+  "description": "Enciclopedia project with Nextjs and Modern Reactjs",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "flagpack": "^1.0.5",
+    "html-react-parser": "^0.10.3",
+    "lodash": "^4.17.15",
+    "next": "^9.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-responsive": "^8.0.3"
+  }
+}

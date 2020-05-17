@@ -1,0 +1,731 @@
+a {
+    text-decoration: none;
+}
+
+p {
+    font-weight: lighter;
+    font-size: 16px;
+}
+
+/* buttons */
+/* default */
+.btn {
+    border: none;
+    padding: 0 10px;
+    line-height: 32px;
+    background-color: #cfcfcf;
+    min-width: 100px;
+    text-align: center;
+    border-radius: 4px;
+    font-weight: lighter;
+    letter-spacing: 0.05em;
+}
+
+.btn.cherry-red {
+    border: 1px solid #ef0c40;
+    background-color: #ef0c40;
+    color: #fff;
+}
+
+.btn.cherry-red:hover {
+    background-color: #fff;
+    color: #ef0c40;
+}
+
+.btn.medium {
+    font-size: 15px;
+    width: 100px;
+}
+
+/* custom button only for cast card */
+.btn.character-button-ref {
+    width: 100%;
+    height: 32px;
+    background-color: #e0e0e0;
+    border: 1px solid #e0e0e0;
+    color: #1e7492;
+    letter-spacing: unset;
+    font-weight: 400;
+    text-align: initial;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+}
+.btn.character-button-ref .character-image {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    border-radius: 5px;
+}
+.btn.character-button-ref .character-image img {
+    max-width: 46px;
+}
+.btn.character-button-ref .character-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* default */
+
+/* Top Hero image */
+.hero-cover {
+    height: 315px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.hero-cover__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+}
+
+.hero-cover__shade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 210px;
+    margin: auto;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.77),
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.63),
+        rgba(0, 0, 0, 0.56),
+        rgba(0, 0, 0, 0.49),
+        rgba(0, 0, 0, 0.42),
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.28),
+        rgba(0, 0, 0, 0.21),
+        rgba(0, 0, 0, 0.14),
+        rgba(0, 0, 0, 0.07),
+        rgba(0, 0, 0, 0)
+    );
+    z-index: 0;
+}
+.hero-cover__title {
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+    width: 100%;
+    max-width: 1440px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-left: 295px;
+    color: #fff;
+    letter-spacing: 0.05em;
+}
+
+@media screen and (max-width: 1024px) {
+    .hero-cover__title {
+        padding-left: 235px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero-cover {
+        height: 230px;
+    }
+    .hero-cover__title {
+        display: none;
+    }
+}
+
+/* Entity Title Bar */
+.entity-title-bar {
+    position: relative;
+    z-index: 10;
+}
+
+@media screen and (max-width: 768px) {
+    .entity-title-bar {
+        font-size: 20px;
+        padding: 0;
+        margin: 20px 0 30px;
+    }
+    .entity-title-bar h1 {
+        font-weight: 500;
+        font-size: 24px;
+        color: #1e7492;
+    }
+}
+
+/* Generic Product / Person / Character Image */
+.product-cover__image {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.product-cover__image img {
+    width: 100%;
+    border-radius: 5px;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+}
+
+/* Anime / Manga / Light-Novel / Games / Visual-Novels */
+.hero-cover__title h1 {
+    font-size: 30px;
+}
+
+.landing-section-box {
+    flex: 1;
+    margin-bottom: 20px;
+}
+.landing-section-box header {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-content: center;
+    margin-bottom: 20px;
+}
+.landing-section-box header h3,
+.landing-section-box header h4,
+.landing-section-box header a {
+    flex: none;
+}
+.landing-section-box header span {
+    content: ' ';
+    width: 100%;
+    margin: 0 0 4px 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Tab Navigation */
+.tab-navigation {
+    width: 100%;
+    background-color: #e0e0e0;
+    height: 44px;
+}
+.tab-navigation__list {
+    margin-left: 280px;
+}
+.tab-navigation__mobile {
+    display: none;
+}
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+}
+.overlay.invisible {
+    opacity: 0;
+    transition: 300ms ease-in-out;
+    transform: translateY(2000%);
+}
+.overlay.visible {
+    opacity: 1;
+    transition: 300ms ease-in-out;
+    transform: translateY(0%);
+}
+@media screen and (max-width: 1024px) {
+    .tab-navigation__list {
+        margin-left: 220px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .tab-navigation__list {
+        margin-left: 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        transform: translateY(200%);
+        transition: 300ms ease-in-out;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+    }
+    .tab-navigation__list.opened {
+        transform: translateY(0%);
+    }
+    .tab-navigation__mobile {
+        background-color: #cfcfcf;
+        line-height: 41px;
+        border: none;
+        margin-left: 220px;
+        display: block;
+        width: calc(100% - 240px);
+        text-align: left;
+        padding-left: 15px;
+        background-position: calc(100% - 10px) center;
+        background-size: 30px;
+        background-repeat: no-repeat;
+        background-image: url('/icons/structure/caret_arrow_down.png');
+    }
+}
+
+.tab-navigation__list-item {
+    display: inline-block;
+}
+.tab-navigation__list-item.selected {
+    background-color: #fff;
+}
+.tab-navigation__list-item a {
+    display: inline-block;
+    line-height: 44px;
+    padding: 0 15px;
+    color: #000;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
+.tab-navigation__list-item:not(:last-child) a {
+    border-right: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .tab-navigation__list-item a {
+        padding: 0 10px;
+    }
+}
+@media screen and (max-width: 768px) {
+    .tab-navigation__list-item,
+    .tab-navigation__list-item a {
+        border: none;
+        width: 100%;
+        padding-left: 10px;
+        line-height: 50px;
+    }
+    .tab-navigation__list-item.selected {
+        background-color: #efefef;
+    }
+}
+
+/* 4 slots image lists */
+.characters-list,
+.adaptations-list {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.characters-list li a span,
+.adaptations-list li a span {
+    color: #1e7492;
+    text-transform: capitalize;
+}
+.characters-list li,
+.adaptations-list li {
+    margin: 0 10px;
+    text-align: center;
+    max-width: 130px;
+    margin-bottom: 20px;
+}
+.characters-list li .cover,
+.adaptations-list li .cover {
+    overflow: hidden;
+    max-height: 130px;
+    min-width: 130px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #dfdfdf;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+.characters-list li .cover img,
+.adaptations-list li .cover img {
+    object-fit: cover;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    min-height: 130px;
+}
+
+.adaptations-list li .cover {
+    max-height: 180px;
+}
+
+@media screen and (max-width: 875px) {
+    .characters-list li,
+    .adaptations-list li {
+        max-width: 100px;
+    }
+    .characters-list li .cover,
+    .adaptations-list li .cover {
+        min-width: 100px;
+        max-height: 100px;
+    }
+    .adaptations-list li .cover {
+        max-height: 180px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .characters-list li,
+    .adaptations-list li {
+        max-width: 80px;
+    }
+    .characters-list li .cover,
+    .adaptations-list li .cover {
+        min-width: 80px;
+        max-height: 80px;
+    }
+    .adaptations-list li .cover {
+        min-height: 120px;
+    }
+}
+
+@media screen and (max-width: 549px) {
+    .characters-list li,
+    .adaptations-list li {
+        max-width: 150px;
+    }
+    .characters-list li .cover,
+    .adaptations-list li .cover {
+        min-width: 150px;
+        max-height: 150px;
+    }
+    .adaptations-list li .cover {
+        min-height: 206px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .characters-list li,
+    .adaptations-list li {
+        max-width: 119px;
+    }
+    .characters-list li .cover,
+    .adaptations-list li .cover {
+        min-width: 119px;
+        max-height: 119px;
+    }
+    .adaptations-list li .cover {
+        min-height: 170px;
+    }
+    .characters-list li .cover img {
+        min-height: 119px;
+    }
+}
+
+/* Details Box */
+.details__table {
+    margin-top: 20px;
+}
+.details__row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    line-height: 1.5;
+    font-size: 14px;
+}
+.details__row:last-child {
+    margin-bottom: 0;
+}
+.details__key {
+    font-weight: 700;
+    width: 110px;
+    margin-right: 10px;
+}
+.details__value {
+    font-weight: 300;
+    width: 100%;
+    color: #6e6e6e;
+}
+.details__breaker {
+    margin: 20px 0;
+    border: none;
+    border-bottom: 1px dotted #cfcfcf;
+}
+
+/* Anime Episodes List */
+.episodes-list__box,
+.episode__box {
+    display: flex;
+    border-bottom: 1px dotted #dfdfdf;
+    margin-bottom: 25px;
+}
+
+.episode__box {
+    border: none;
+}
+.episodes-list__image,
+.episode__image {
+    padding: 0;
+    margin: 0 20px 28px 0;
+    border-radius: 5px;
+    display: flex;
+    flex: none;
+    align-content: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 270px;
+    height: 160px;
+    margin-right: 20px;
+}
+
+.episode__image {
+    width: 300px;
+    height: 200px;
+}
+
+.episodes-list__image img,
+.episode__image img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.episode-details__season-episode {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.episode-details h4 {
+    font-weight: 400;
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #1e7492;
+}
+.episode-details__length-date {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0px 0 10px;
+}
+
+.episode-details__description {
+    margin-top: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 900px) and (min-width: 769px) {
+    .episodes-list__image,
+    .episode__image {
+        width: 200px;
+        height: 120px;
+    }
+}
+
+@media screen and (max-width: 650px) and (min-width: 550px) {
+    .episodes-list__image,
+    .episode__image {
+        width: 200px;
+        height: 120px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .episodes-list__box,
+    .episode__box {
+        flex-direction: column;
+    }
+    .episodes-list__image,
+    .episode__image {
+        width: 100%;
+        height: 180px;
+        margin-bottom: 20px;
+    }
+    .episodes-list__image img,
+    .episode__image img {
+        height: initial;
+        width: 100%;
+    }
+}
+
+/* common cards */
+.grid-halves {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.card {
+    display: flex;
+    width: calc(50% - 10px);
+    flex-basis: calc(50% - 10px);
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px dotted #dfdfdf;
+}
+.card:nth-child(2n) {
+    margin-left: 20px;
+}
+
+.card__image {
+    width: 125px;
+    height: 125px;
+    margin: 0 20px 0 0;
+    background-color: #efefef;
+    border-radius: 5px;
+    padding: 0;
+    flex: none;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dfdfdf;
+}
+
+.card__image img {
+    width: 100%;
+}
+
+.card__info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: inherit;
+}
+.card__info h4 {
+    font-weight: normal;
+    font-size: 18px;
+    color: #1e7492;
+    margin-bottom: 4px;
+}
+.card__info p {
+    margin: 0 0 7px 0;
+}
+.card__role {
+    text-transform: capitalize;
+    font-weight: normal;
+}
+
+.card__info h4 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card__info .btn {
+    justify-self: flex-end;
+    margin-top: 4px;
+}
+
+@media screen and (max-width: 1140px) {
+    .card {
+        width: 100%;
+        flex-basis: 100%;
+        margin: 0 0 25px 0;
+    }
+    .card:nth-child(2n) {
+        margin-left: 0px;
+    }
+    .card__info {
+        max-width: calc(100% - 140px);
+    }
+    .card__info h4,
+    .card__info p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+@media screen and (max-width: 450px) {
+    .card {
+        width: calc(100vw - 40px);
+        flex-basis: calc(100vw - 40px);
+        margin: 0 0 25px 0;
+    }
+}
+
+/* Staff section */
+.expandable-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.expandable-section h4 {
+    width: 100%;
+}
+.expandable-section h4 button {
+    border: none;
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    text-transform: capitalize;
+    width: 100%;
+    padding: 0;
+    outline: none;
+}
+.expandable-section h4 .label {
+    flex: none;
+    font-weight: 700;
+}
+.expandable-section h4 .line {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #dfdfdf;
+    position: relative;
+    top: -3px;
+    margin-left: 12px;
+    align-self: flex-end;
+}
+
+.expandable-section h4 .toggler {
+    border-left: 2px solid #bfbfbf;
+    border-bottom: 2px solid #bfbfbf;
+    transition: transform 300ms ease-in-out;
+    transform: rotate(135deg) translateX(8px) translateY(-2px);
+    height: 0px;
+    width: 0px;
+    margin: 0 0 0 20px;
+    padding: 6px;
+    position: relative;
+    top: 4px;
+}
+
+.staff-members-holder {
+    overflow: hidden;
+    transition: 300ms ease-in-out;
+    display: flex;
+    flex-wrap: wrap;
+}
+.staff-members-holder.opened {
+    margin-top: 25px;
+    height: auto;
+}
+.staff-members-holder.closed {
+    margin-top: 0;
+    height: 0;
+}
+
+.expandable-section h4 .toggler.opened {
+    transform: rotate(-45deg) translateX(0px) translateY(-6px);
+}
+
+/* flagpack custom css */
+.custom-fp {
+    border: 1px solid #cfcfcf;
+    margin-right: 10px;
+}
+
+.no-links-available,
+.external-links {
+    margin-bottom: 25px;
+}
+
+.no-links-available {
+    text-align: center;
+    font-size: 18px;
+    font-weight: lighter;
+    color: #7f7f7f;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
