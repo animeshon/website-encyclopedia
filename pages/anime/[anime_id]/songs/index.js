@@ -1,9 +1,10 @@
-import AnyWrapper from '../../../AnyWrapper';
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
-import { AnimeNavigation } from '../../../../resources/navigation/allTabNavigations';
+import AnyWrapper from '@/components/_AnyWrapper';
 
 const AnimeSongs = ({
     anime_id,
+    main_title,
     cover_image,
     hero_image,
     cover_image_alt_text,
@@ -12,6 +13,7 @@ const AnimeSongs = ({
     return (
         <AnyWrapper
             anyId={anime_id}
+            anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
@@ -37,11 +39,13 @@ AnimeSongs.getInitialProps = async ctx => {
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
+    const main_title = 'Fate/Kaleid Liner Prisma Illya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
 
     return {
         anime_id,
+        main_title,
         cover_image,
         hero_image,
         cover_image_alt_text,

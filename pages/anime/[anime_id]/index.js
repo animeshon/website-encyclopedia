@@ -1,17 +1,11 @@
-// libraries imports
 import Link from 'next/link';
 import parse from 'html-react-parser';
 import { kebabCase, replace } from 'lodash';
 
-// custom components
-import AnyWrapper from '../../AnyWrapper';
-import { AnimeDetailsBox } from '../../../components/_AnimeDetailsBox';
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
-// anime tab navigation
-import { AnimeNavigation } from '../../../resources/navigation/allTabNavigations';
-
-// helper functions
-import { stringSlugger } from '../../../helpers/stringSlugger';
+import AnyWrapper from '@/components/_AnyWrapper';
+import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
 
 const renderCharacters = items => {
     return items.map(item => (
@@ -38,9 +32,7 @@ const renderAdaptations = items => {
         <li key={item.id}>
             <Link
                 href={`/${item.type}/[${item.type}_id]`}
-                as={`/${item.type}/${item.id}_${stringSlugger(
-                    item.product_name,
-                )}`}
+                as={`/${item.type}/${item.id}_${kebabCase(item.product_name)}`}
             >
                 <a>
                     <div className="cover">
@@ -55,13 +47,13 @@ const renderAdaptations = items => {
 
 const Anime = ({
     anime_id,
+    main_title,
     cover_image,
     hero_image,
     cover_image_alt_text,
     hero_image_alt_text,
     summary_description,
     characters_list,
-    characters_count,
     anime_details,
     adaptations_list,
     adaptations_count,
@@ -69,6 +61,7 @@ const Anime = ({
     return (
         <AnyWrapper
             anyId={anime_id}
+            anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
@@ -76,7 +69,7 @@ const Anime = ({
             anyNav={AnimeNavigation}
             selectedMenu="Summary"
         >
-            <main className="anime-landing__description">
+            <main className="landing__description">
                 {/*  */}
                 <section className="landing-section-box">
                     <header>
@@ -89,9 +82,12 @@ const Anime = ({
                     <header>
                         <h3>Characters</h3>
                         <span />
-                        {characters_count > 4 && (
-                            <Link href="" as="">
-                                <a>View all</a>
+                        {characters_list.length > 3 && (
+                            <Link
+                                href="/anime/[anime_id]/characters"
+                                as={`/anime/${anime_id}/characters`}
+                            >
+                                <a className="view-all-link">View all</a>
                             </Link>
                         )}
                     </header>
@@ -107,49 +103,30 @@ const Anime = ({
                     </header>
                 </section>
                 {/* Adaptations */}
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Adaptations</h3>
-                        <span />
-                        {adaptations_count > 4 && (
-                            <Link href="" as="">
-                                <a>View all</a>
-                            </Link>
-                        )}
-                    </header>
-                    <ul className="adaptations-list">
-                        {renderAdaptations(adaptations_list)}
-                    </ul>
-                </section>
+                {adaptations_list.length !== 0 && (
+                    <section className="landing-section-box">
+                        <header>
+                            <h3>Adaptations</h3>
+                            <span />
+                            {adaptations_count > 4 && (
+                                <Link href="" as="">
+                                    <a className="view-all-link">View all</a>
+                                </Link>
+                            )}
+                        </header>
+                        <ul className="adaptations-list">
+                            {renderAdaptations(adaptations_list)}
+                        </ul>
+                    </section>
+                )}
                 {/*  */}
             </main>
-            <aside className="anime-landing__details">
+            <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
                 <AnimeDetailsBox obj={anime_details} />
             </aside>
-            <style jsx>{`
-                .anime-landing__details {
-                    width: 260px;
-                    min-width: 260px;
-                    margin-left: 35px;
-                    min-height: 120px;
-                    height: min-content;
-                    border: 1px solid #ddd;
-                    border-radius: 5px;
-                    padding: 15px;
-                }
-
-                @media screen and (max-width: 1024px) {
-                    .anime-landing__details {
-                        align-self: center;
-                        width: 100%;
-                        max-width: 500px;
-                        margin: 0;
-                    }
-                }
-            `}</style>
         </AnyWrapper>
     );
 };
@@ -160,6 +137,7 @@ Anime.getInitialProps = async ctx => {
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
+    const main_title = 'Fate/Kaleid Liner Prisma Illya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
     const summary_description = `Toosaka Rin and Luviagelita Edelfelt are magi from the Clock Tower,
@@ -238,6 +216,7 @@ Anime.getInitialProps = async ctx => {
             id: 'AwqrPSQQbLX8b8iwyeDhnf',
         },
     ];
+
     const anime_details = {
         english_title: 'Fate/Kaleid Liner Prisma Illya',
         japanese_title: 'Fate/kaleid liner プリズマ☆イリヤ',
@@ -254,6 +233,7 @@ Anime.getInitialProps = async ctx => {
 
     return {
         anime_id,
+        main_title,
         cover_image,
         hero_image,
         cover_image_alt_text,

@@ -1,8 +1,9 @@
-import HeroCover from '../components/HeroCover';
-import ProductCover from '../components/ProductCover';
-import TabNavigation from '../components/TabNavigation';
-import EntityTitle from '../components/EntityTitle';
 import { useMediaQuery } from 'react-responsive';
+
+import HeroCover from '../HeroCover';
+import ProductCover from '../ProductCover';
+import TabNavigation from '../TabNavigation';
+import EntityTitle from '../EntityTitle';
 
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });

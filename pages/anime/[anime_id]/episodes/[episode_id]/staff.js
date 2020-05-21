@@ -102,9 +102,10 @@ const renderStaff = (items, openSection, actionSection) => {
     });
 };
 
-const AnimeStaff = ({
+const AnimeEpisodeStaff = ({
     anime_id,
     main_title,
+    episode_id,
     cover_image,
     hero_image,
     cover_image_alt_text,
@@ -150,8 +151,14 @@ const AnimeStaff = ({
         >
             <main className="anime-staff__description grid">
                 <div className="landing-section-box">
-                    <header>
-                        <h3>Staff</h3>
+                    <header className="header-w-back-button">
+                        <Link
+                            as={`/anime/${anime_id}/episodes/${episode_id}`}
+                            href="/anime/[anime_id]/episodes/[episode_id]"
+                        >
+                            <a>&larr; Back</a>
+                        </Link>
+                        <h3>Episode's Staff</h3>
                     </header>
                     <div className="grid-halves">
                         {renderStaff(
@@ -166,13 +173,13 @@ const AnimeStaff = ({
     );
 };
 
-AnimeStaff.getInitialProps = async ctx => {
-    const { anime_id } = ctx.query;
+AnimeEpisodeStaff.getInitialProps = async ctx => {
+    const { anime_id, episode_id } = ctx.query;
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate/Kaleid Liner Prisma Illya';
+    const main_title = 'Fate Kaleid Prisma Ilya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
     const staff_full_list = [
@@ -259,6 +266,7 @@ AnimeStaff.getInitialProps = async ctx => {
     return {
         anime_id,
         main_title,
+        episode_id,
         cover_image,
         hero_image,
         cover_image_alt_text,
@@ -267,4 +275,4 @@ AnimeStaff.getInitialProps = async ctx => {
     };
 };
 
-export default AnimeStaff;
+export default AnimeEpisodeStaff;

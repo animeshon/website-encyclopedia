@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { kebabCase, replace } from 'lodash';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { MangaNavigation } from '@/resources/navigation/allTabNavigations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
@@ -55,8 +55,8 @@ const renderCharacters = items => {
     });
 };
 
-const AnimeCharacters = ({
-    anime_id,
+const MangaCharacters = ({
+    manga_id,
     main_title,
     cover_image,
     hero_image,
@@ -66,13 +66,13 @@ const AnimeCharacters = ({
 }) => {
     return (
         <AnyWrapper
-            anyId={anime_id}
+            anyId={manga_id}
             anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
+            anyNav={MangaNavigation}
             selectedMenu="Characters"
         >
             <main className="anime-characters__description grid">
@@ -89,65 +89,64 @@ const AnimeCharacters = ({
     );
 };
 
-AnimeCharacters.getInitialProps = async ctx => {
-    const { anime_id } = ctx.query;
+MangaCharacters.getInitialProps = async ctx => {
+    const { manga_id } = ctx.query;
     const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya Cover';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
+        'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
+    const cover_image = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
+    const main_title = "Komi Can't Communicate";
+    const cover_image_alt_text = "Komi Can't Communicate Cover";
+    const hero_image_alt_text = "Komi Can't Communicate Hero";
 
     const characters_full_list = [
         {
-            fname: 'Miyu',
-            lname: 'Edelfelt',
-            role: 'main-character',
+            fname: 'Shouko',
+            lname: 'Komi',
             japanese_name: '美遊・エーデルフェルト',
             sex: 'female',
             type: 'character',
+            role: 'main-character',
             profile_picture:
-                'https://www.nautiljon.com/images/perso/00/25/miyu_edelfelt_12352.jpg',
+                'https://pm1.narvii.com/7213/a5ea8f55fbb18752a8761b4b059fca9a2ae5a854r1-400-400v2_00.jpg',
             id: '8WZqW4hZMSmiucnKrTdai5',
         },
         {
-            fname: 'Rin',
-            lname: 'Toosaka',
-            role: 'main-character',
-            japanese_name: '遠坂 凛',
-            sex: 'female',
+            fname: 'Hitohito',
+            lname: 'Tadano',
+            japanese_name: '美遊・エーデルフェルト',
+            sex: 'male',
             type: 'character',
+            role: 'main-character',
             profile_picture:
-                'https://th.bing.com/th/id/OIP.FpTXIz4zw8zYCEi9OsOckAAAAA?pid=Api&rs=1',
+                'https://www.anime-planet.com/images/characters/hitohito-tadano-132049.jpg',
             id: 'm5akibjJM2UGGHNdi4aQX3',
         },
         {
-            fname: 'Illya',
-            lname: 'von Einzbern',
-            role: 'main-character',
-            japanese_name: 'イリヤスフィール・フォン・アイン',
+            fname: 'Rumiko',
+            lname: 'Manbagi',
+            japanese_name: '美遊・エーデルフェルト',
             sex: 'female',
             type: 'character',
+            role: 'main-character',
             profile_picture:
-                'https://th.bing.com/th/id/OIP.fh94YfP_58licslWVbJAMQHaHa?pid=Api&rs=1',
-            id: 'y9g9z3N9Sxb58nGF2jmfqB',
+                'https://vignette.wikia.nocookie.net/komisan-wa-komyushou-desu/images/7/76/Manbagi.PNG/revision/latest/scale-to-width-down/340?cb=20180722174428',
+            id: 'm5akibjJM2UGGHNdi4aQX3',
         },
         {
-            fname: 'Luviagelita',
-            lname: 'Edelfelt',
-            role: 'main-character',
-            japanese_name: 'ルヴィアゼリッタ・エーデルフェルト',
+            fname: 'Najimi',
+            lname: 'Osana',
+            japanese_name: '美遊・エーデルフェルト',
             sex: 'female',
             type: 'character',
+            role: 'supporting-character',
             profile_picture:
-                'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
-            id: '3RnW4DLemcHdW2Job6xX2c',
+                'https://pm1.narvii.com/7177/8771c01a3826dc32452b54123bcc7cfb6263f2bfr1-276-276v2_00.jpg',
+            id: 'm5akibjJM2UGGHNdi4aQX3',
         },
     ];
 
     return {
-        anime_id,
+        manga_id,
         main_title,
         cover_image,
         hero_image,
@@ -157,4 +156,4 @@ AnimeCharacters.getInitialProps = async ctx => {
     };
 };
 
-export default AnimeCharacters;
+export default MangaCharacters;

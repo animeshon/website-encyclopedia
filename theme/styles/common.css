@@ -1,10 +1,58 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Light.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 800;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/roboto/Roboto-BoldItalic.ttf') format('truetype');
+    font-style: italic;
+    font-weight: 800;
+}
+
+html {
+    font-family: 'Roboto', 'Helvetica-Neue', Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
 a {
     text-decoration: none;
+    color: #06aed5;
 }
 
 p {
     font-weight: lighter;
     font-size: 16px;
+    line-height: 1.5;
+}
+
+b {
+    font-weight: 700;
 }
 
 /* buttons */
@@ -186,6 +234,26 @@ p {
     font-size: 30px;
 }
 
+.landing__details {
+    width: 260px;
+    min-width: 260px;
+    margin-left: 35px;
+    min-height: 120px;
+    height: min-content;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+@media screen and (max-width: 1024px) {
+    .landing__details {
+        align-self: center;
+        width: 100%;
+        max-width: 500px;
+        margin: 0;
+    }
+}
+
 .landing-section-box {
     flex: 1;
     margin-bottom: 20px;
@@ -207,6 +275,21 @@ p {
     width: 100%;
     margin: 0 0 4px 10px;
     border-bottom: 1px solid #e0e0e0;
+}
+
+/* Landing Section Box exceptions */
+.landing-section-box.watch-links {
+    margin-bottom: 20px !important;
+}
+
+/* Episode Characters Appearences exceptions */
+.header-w-back-button {
+    align-content: space-around !important;
+}
+.header-w-back-button h3 {
+    text-align: center;
+    flex: 1 !important;
+    width: auto;
 }
 
 /* Tab Navigation */
@@ -447,6 +530,15 @@ p {
     font-weight: 300;
     width: 100%;
     color: #6e6e6e;
+    text-transform: capitalize;
+}
+.details__value p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.details__value p:last-child {
+    margin-bottom: 0;
 }
 .details__breaker {
     margin: 20px 0;
@@ -604,7 +696,8 @@ p {
     font-weight: normal;
 }
 
-.card__info h4 {
+.card__info h4,
+.card__info p {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -661,6 +754,7 @@ p {
     width: 100%;
     padding: 0;
     outline: none;
+    background-color: transparent;
 }
 .expandable-section h4 .label {
     flex: none;
@@ -708,12 +802,86 @@ p {
     transform: rotate(-45deg) translateX(0px) translateY(-6px);
 }
 
-/* flagpack custom css */
-.custom-fp {
+/* External Platforms Links */
+.grid-halves.manga-links {
+    flex-direction: column;
+}
+.external-platform-button {
+    padding: 10px 20px;
     border: 1px solid #cfcfcf;
-    margin-right: 10px;
+    border-radius: 5px;
+    width: calc(25% - calc(40px / 3));
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.external-platform-button:nth-child(4n) {
+    margin-right: 0;
 }
 
+.grid-halves.manga-links .external-platform-button {
+    display: inline-flex;
+    padding: 0;
+    cursor: pointer;
+}
+
+.grid-halves.manga-links .links-row p {
+    font-size: 14px;
+    font-weight: 800;
+    margin-top: 0;
+    font-style: italic;
+}
+
+@media screen and (max-width: 1100px) {
+    .external-platform-button {
+        width: calc(33% - calc(40px / 3));
+    }
+    .external-platform-button:nth-child(3n) {
+        margin-right: 0;
+    }
+    .grid-halves.manga-links .external-platform-button:nth-child(3n) {
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .external-platform-button {
+        width: calc(50% - calc(40px / 3));
+    }
+    .external-platform-button:nth-child(2n) {
+        margin-right: 0;
+    }
+    /* Watch Links exceptions */
+    .watch-links .grid-halves {
+        display: flex;
+        justify-content: center;
+    }
+    .grid-halves.manga-links .external-platform-button {
+        width: calc(33% - calc(54px / 3));
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .grid-halves.manga-links .external-platform-button {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    .external-platform-button {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+/*  */
+.view-all-link {
+    margin-left: 12px;
+}
 .no-links-available,
 .external-links {
     margin-bottom: 25px;
@@ -728,4 +896,98 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Manga */
+.manga-volumes {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% + 20px);
+    justify-content: flex-start;
+    position: relative;
+    left: -10px;
+}
+.volume-cover {
+    margin: 0px 10px 30px 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    width: calc(25% - calc(80px / 4));
+    flex-basis: calc(25% - calc(80px / 4));
+    transition: transform 300ms ease-in-out;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+.volume-cover:hover {
+    transform: scale(1.05);
+}
+.volume-cover img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Manga from Chapters perspective */
+.collected-in .volume-cover {
+    width: calc(33% - calc(60px / 3));
+    flex-basis: calc(33% - calc(60px / 3));
+    position: relative;
+}
+.appears-on-hover {
+    position: absolute;
+    opacity: 1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 300ms ease-in-out;
+}
+
+.collected-in .volume-cover:hover .appears-on-hover {
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.appears-on-hover h5,
+.appears-on-hover p {
+    color: #fff;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 1024px) {
+    .volume-cover {
+        width: calc(33% - calc(58px / 3));
+        flex-basis: calc(33% - calc(58px / 3));
+    }
+    .collected-in .volume-cover {
+        width: calc(50% - calc(40px / 2));
+        flex-basis: calc(50% - calc(40px / 2));
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .volume-cover {
+        width: calc(50% - calc(40px / 2));
+        flex-basis: calc(50% - calc(40px / 2));
+    }
+}
+
+@media screen and (max-width: 414px) {
+    .volume-cover,
+    .collected-in .volume-cover {
+        width: calc(100%);
+        flex-basis: calc(100%);
+    }
+}
+
+/* Chapters */
+.chapters-line {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+}
+/* flagpack custom css */
+.custom-fp {
+    border: 1px solid #cfcfcf;
+    margin-right: 10px;
 }

@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import { kebabCase, replace, capitalize } from 'lodash';
 
-import AnyWrapper from '../../../AnyWrapper';
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
-import { AnimeNavigation } from '../../../../resources/navigation/allTabNavigations';
-
-import Button from '../../../../components/Button';
-import CardImage from '../../../../components/Card/Image';
+import AnyWrapper from '@/components/_AnyWrapper';
+import Button from '@/components/Button';
+import CardImage from '@/components/Card/Image';
 
 const renderStaff = (items, openSection, actionSection) => {
     return items.map(item => {
@@ -184,8 +183,26 @@ const renderEpisode = (item, isMultiSeason) => {
     );
 };
 
+const renderWatchLinks = links => {
+    return links.map(link => {
+        const country = 'us';
+        return (
+            <a
+                key={link.platform}
+                className="external-platform-button"
+                href={link.links[country]}
+                target="_blank"
+            >
+                <img src={link.image} alt={link.platform} />
+            </a>
+        );
+    });
+};
+
 const AnimeEpisode = ({
     anime_id,
+    main_title,
+    episode_id,
     cover_image,
     hero_image,
     cover_image_alt_text,
@@ -200,6 +217,7 @@ const AnimeEpisode = ({
     return (
         <AnyWrapper
             anyId={anime_id}
+            anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
@@ -224,14 +242,14 @@ const AnimeEpisode = ({
                         </header>
                     </section>
                 )}
-                <section className="landing-section-box">
+                <section className="landing-section-box watch-links">
                     <header>
                         <h4>Watch on</h4>
                         <span />
                     </header>
                     {watch_list.length !== 0 ? (
                         <div className="grid-halves">
-                            {renderCharacters(characters_appearence_list)}
+                            {renderWatchLinks(watch_list)}
                         </div>
                     ) : (
                         <div className="no-links-available">
@@ -245,6 +263,14 @@ const AnimeEpisode = ({
                         <header>
                             <h4>Characters</h4>
                             <span />
+                            {characters_appearence_list.length > 3 && (
+                                <Link
+                                    href="/anime/[anime_id]/episodes/[episode_id]/characters"
+                                    as={`/anime/${anime_id}/episodes/${episode_id}/characters`}
+                                >
+                                    <a className="view-all-link">View all</a>
+                                </Link>
+                            )}
                         </header>
                         <div className="grid-halves">
                             {renderCharacters(characters_appearence_list)}
@@ -255,6 +281,12 @@ const AnimeEpisode = ({
                     <header>
                         <h4>Staff</h4>
                         <span />
+                        <Link
+                            href="/anime/[anime_id]/episodes/[episode_id]/staff"
+                            as={`/anime/${anime_id}/episodes/${episode_id}/staff`}
+                        >
+                            <a className="view-all-link">View all</a>
+                        </Link>
                     </header>
                     <div className="grid-halves">{renderStaff(staff_list)}</div>
                 </section>
@@ -264,11 +296,12 @@ const AnimeEpisode = ({
 };
 
 AnimeEpisode.getInitialProps = async ctx => {
-    const { anime_id } = ctx.query;
+    const { anime_id, episode_id } = ctx.query;
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
+    const main_title = 'Fate Kaleid Prisma Ilya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
     const is_multiseason = false;
@@ -347,36 +380,36 @@ AnimeEpisode.getInitialProps = async ctx => {
                     id: 'Ypbh7y2ivfjHKf7SXSsPXn',
                     picture: '',
                 },
-                {
-                    fname: 'Hiroyama',
-                    lname: 'Hiroshi',
-                    japanese_name: 'ひろやまひろし',
-                    sex: 'male',
-                    nationality: {
-                        extended: 'japan',
-                        iso: 'jp',
-                    },
-                    type: 'people',
-                    person_role: 'Orignial Work',
-                    id: 'Ypbh7y2ivfjHKf7SXSsPXn',
-                    picture: '',
-                },
-                {
-                    fname: 'Hiroyama',
-                    lname: 'Hiroshi',
-                    japanese_name: 'ひろやまひろし',
-                    sex: 'male',
-                    nationality: {
-                        extended: 'japan',
-                        iso: 'jp',
-                    },
-                    type: 'people',
-                    person_role: 'Orignial Work',
-                    id: 'Ypbh7y2ivfjHKf7SXSsPXn',
-                    picture: '',
-                },
             ],
             chief_direction: [
+                {
+                    fname: 'Hiroyama',
+                    lname: 'Hiroshi',
+                    japanese_name: 'ひろやまひろし',
+                    sex: 'female',
+                    nationality: {
+                        extended: 'japan',
+                        iso: 'jp',
+                    },
+                    type: 'people',
+                    person_role: 'Orignial Work',
+                    id: 'Ypbh7y2ivfjHK7SXSsPXn',
+                    picture: '',
+                },
+                {
+                    fname: 'Hiroyama',
+                    lname: 'Hiroshi',
+                    japanese_name: 'ひろやまひろし',
+                    sex: 'female',
+                    nationality: {
+                        extended: 'japan',
+                        iso: 'jp',
+                    },
+                    type: 'people',
+                    person_role: 'Orignial Work',
+                    id: 'Ypbh7y2ivfHKf7SXSsPXn',
+                    picture: '',
+                },
                 {
                     fname: 'Hiroyama',
                     lname: 'Hiroshi',
@@ -408,41 +441,59 @@ AnimeEpisode.getInitialProps = async ctx => {
                     picture: '',
                 },
             ],
+            character_design: [
+                {
+                    fname: 'Hiroyama',
+                    lname: 'Hiroshi',
+                    japanese_name: 'ひろやまひろし',
+                    sex: 'male',
+                    nationality: {
+                        extended: 'japan',
+                        iso: 'jp',
+                    },
+                    type: 'people',
+                    person_role: 'Orignial Work',
+                    id: 'Ypbh7y2ivfjHKfSsPXn',
+                    picture: '',
+                },
+            ],
         },
     ];
 
     const watch_list = [
-        // {
-        //     platform: 'Netflix',
-        //     image: '',
-        //     links: {
-        //         usa: 'https://netflix.com/2879216347456/episode-1',
-        //         germany: 'https://netflix.com/de/96759817058/episode-1',
-        //         italy: 'https://netflix.com/it/15451534676/episode-1',
-        //     },
-        // },
-        // {
-        //     platform: 'Hulu',
-        //     image: '',
-        //     links: {
-        //         usa: 'https://hulu.com/2879216347456/episode-1',
-        //         germany: 'https://hulu.com/de/96759817058/episode-1',
-        //         italy: 'https://hulu.com/it/15451534676/episode-1',
-        //     },
-        // },
-        // {
-        //     platform: 'Crunchyroll',
-        //     image: '',
-        //     links: {
-        //         usa: 'https://crunchyroll.com/2879216347456/episode-1',
-        //         germany: 'https://crunchyroll.com/de/96759817058/episode-1',
-        //         italy: 'https://crunchyroll.com/it/15451534676/episode-1',
-        //     },
-        // },
+        {
+            platform: 'Netflix',
+            image: '/images/platform-netflix.png',
+            links: {
+                us: 'https://netflix.com/2879216347456/episode-1',
+                de: 'https://netflix.com/de/96759817058/episode-1',
+                it: 'https://netflix.com/it/15451534676/episode-1',
+            },
+        },
+        {
+            platform: 'Hulu',
+            image: '/images/platform-hulu.png',
+            links: {
+                us: 'https://hulu.com/2879216347456/episode-1',
+                de: 'https://hulu.com/de/96759817058/episode-1',
+                it: 'https://hulu.com/it/15451534676/episode-1',
+            },
+        },
+        {
+            platform: 'Crunchyroll',
+            image: '/images/platform-crunchyroll.png',
+            links: {
+                us: 'https://crunchyroll.com/2879216347456/episode-1',
+                de: 'https://crunchyroll.com/de/96759817058/episode-1',
+                it: 'https://crunchyroll.com/it/15451534676/episode-1',
+            },
+        },
     ];
 
     return {
         anime_id,
+        main_title,
+        episode_id,
         cover_image,
         hero_image,
         cover_image_alt_text,

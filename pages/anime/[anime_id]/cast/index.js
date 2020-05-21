@@ -1,18 +1,18 @@
 import Link from 'next/link';
 import { kebabCase, capitalize } from 'lodash';
 
-import { AnimeNavigation } from '../../../../resources/navigation/allTabNavigations';
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
-import AnyWrapper from '../../../AnyWrapper';
-import Button from '../../../../components/Button';
-
-import CardImage from '../../../../components/Card/Image';
+import AnyWrapper from '@/components/_AnyWrapper';
+import Button from '@/components/Button';
+import CardImage from '@/components/Card/Image';
 
 const renderCast = items => {
+    const linkTo = '/poeople/';
     return items.map(item => {
         const linkProps = {
-            href: '/people/[people_id]',
-            as: `/people/${
+            href: `${linkTo}[people_id]`,
+            as: `${linkTo}${
                 item.id + '_' + kebabCase(item.fname + '-' + item.lname)
             }`,
         };
@@ -45,8 +45,8 @@ const renderCast = items => {
                     </p>
                     <Button
                         className="cherry-red medium character-button-ref"
-                        href="/people/[people_id]"
-                        as={`/people/${item.id}_${kebabCase(
+                        href={`${linkTo}[people_id]`}
+                        as={`${linkTo}${item.id}_${kebabCase(
                             item.fname + '-' + item.lname,
                         )}`}
                         type="next-link"
@@ -68,6 +68,7 @@ const renderCast = items => {
 };
 const AnimeCast = ({
     anime_id,
+    main_title,
     cover_image,
     hero_image,
     cover_image_alt_text,
@@ -77,6 +78,7 @@ const AnimeCast = ({
     return (
         <AnyWrapper
             anyId={anime_id}
+            anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
@@ -104,6 +106,7 @@ AnimeCast.getInitialProps = async ctx => {
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
+    const main_title = 'Fate Kaleid Prisma Ilya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
     const cast_full_list = [
@@ -191,6 +194,7 @@ AnimeCast.getInitialProps = async ctx => {
 
     return {
         anime_id,
+        main_title,
         cover_image,
         hero_image,
         cover_image_alt_text,

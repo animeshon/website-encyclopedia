@@ -38,6 +38,12 @@
     flex-direction: row;
 }
 
+@media screen and (max-width: 1024px) {
+    .grid {
+        flex-direction: column;
+    }
+}
+
 /*  */
 .grid.single-episode {
     flex-direction: column;

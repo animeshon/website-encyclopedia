@@ -53,7 +53,7 @@ export const AnimeDetailsBox = ({ obj }) => {
             <div className="details__row">
                 <div className="details__key">Genres</div>
                 <div className="details__value">
-                    {genres.forEach(element => `${element}`)}
+                    {genres.map(element => `${element}, `)}
                 </div>
             </div>
             <div className="details__row">

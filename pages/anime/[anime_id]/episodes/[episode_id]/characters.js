@@ -55,9 +55,10 @@ const renderCharacters = items => {
     });
 };
 
-const AnimeCharacters = ({
+const EpisodeCharacters = ({
     anime_id,
     main_title,
+    episode_id,
     cover_image,
     hero_image,
     cover_image_alt_text,
@@ -77,8 +78,14 @@ const AnimeCharacters = ({
         >
             <main className="anime-characters__description grid">
                 <section className="landing-section-box">
-                    <header>
-                        <h3>Characters</h3>
+                    <header className="header-w-back-button">
+                        <Link
+                            as={`/anime/${anime_id}/episodes/${episode_id}`}
+                            href="/anime/[anime_id]/episodes/[episode_id]"
+                        >
+                            <a>&larr; Back</a>
+                        </Link>
+                        <h3>Characters Appearences</h3>
                     </header>
                     <div className="grid-halves">
                         {renderCharacters(characters_full_list)}
@@ -89,13 +96,13 @@ const AnimeCharacters = ({
     );
 };
 
-AnimeCharacters.getInitialProps = async ctx => {
-    const { anime_id } = ctx.query;
+EpisodeCharacters.getInitialProps = async ctx => {
+    const { anime_id, episode_id } = ctx.query;
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya Cover';
+    const main_title = 'Fate Kaleid Prisma Ilya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
     const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
 
@@ -149,6 +156,7 @@ AnimeCharacters.getInitialProps = async ctx => {
     return {
         anime_id,
         main_title,
+        episode_id,
         cover_image,
         hero_image,
         hero_image_alt_text,
@@ -157,4 +165,4 @@ AnimeCharacters.getInitialProps = async ctx => {
     };
 };
 
-export default AnimeCharacters;
+export default EpisodeCharacters;

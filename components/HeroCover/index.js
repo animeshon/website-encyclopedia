@@ -6,7 +6,7 @@ const Default = ({ children }) => {
     return isNotMobile ? children : null;
 };
 
-const HeroCover = ({ heroImage, altText = 'hero cover pic' }) => {
+const HeroCover = ({ entityTitle, heroImage, altText = 'hero cover pic' }) => {
     if (heroImage) {
         return (
             <div className="hero-cover">
@@ -18,7 +18,7 @@ const HeroCover = ({ heroImage, altText = 'hero cover pic' }) => {
                 <div className="hero-cover__shade" />
                 <Default>
                     <div className="hero-cover__title">
-                        <EntityTitle title="Fate/Kaleid Liner Prisma Illya" />
+                        <EntityTitle title={entityTitle} />
                     </div>
                 </Default>
             </div>

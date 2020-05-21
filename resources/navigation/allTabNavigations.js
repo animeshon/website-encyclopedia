@@ -50,6 +50,31 @@ export const MangaNavigation = mangaId => [
         href: '/manga/[manga_id]',
         as: `/manga/${mangaId}`,
     },
+    {
+        label: 'Volumes',
+        href: '/manga/[manga_id]/volumes',
+        as: `/manga/${mangaId}/volumes`,
+    },
+    {
+        label: 'Chapters',
+        href: '/manga/[manga_id]/chapters',
+        as: `/manga/${mangaId}/chapters`,
+    },
+    {
+        label: 'Characters',
+        href: '/manga/[manga_id]/characters',
+        as: `/manga/${mangaId}/characters`,
+    },
+    {
+        label: 'Companies',
+        href: '/manga/[manga_id]/companies',
+        as: `/manga/${mangaId}/companies`,
+    },
+    {
+        label: 'Staff',
+        href: '/manga/[manga_id]/staff',
+        as: `/manga/${mangaId}/staff`,
+    },
 ];
 
 export const LightNovelNavigation = lightNovelId => [

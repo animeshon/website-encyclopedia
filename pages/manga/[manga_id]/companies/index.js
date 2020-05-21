@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { kebabCase, capitalize } from 'lodash';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { MangaNavigation } from '@/resources/navigation/allTabNavigations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
@@ -57,7 +57,7 @@ const renderCompanies = items => {
 };
 
 const AnimeCompanies = ({
-    anime_id,
+    manga_id,
     main_title,
     cover_image,
     hero_image,
@@ -67,13 +67,13 @@ const AnimeCompanies = ({
 }) => {
     return (
         <AnyWrapper
-            anyId={anime_id}
+            anyId={manga_id}
             anyTitle={main_title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
+            anyNav={MangaNavigation}
             selectedMenu="Companies"
         >
             <main className="anime-characters__description grid">
@@ -91,14 +91,14 @@ const AnimeCompanies = ({
 };
 
 AnimeCompanies.getInitialProps = async ctx => {
-    const { anime_id } = ctx.query;
+    const { manga_id } = ctx.query;
     const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya Cover';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
+        'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
+    const cover_image = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
+    const main_title = "Komi Can't Communicate";
+    const cover_image_alt_text = "Komi Can't Communicate Cover";
+    const hero_image_alt_text = "Komi Can't Communicate Hero";
+
     const companies_full_list = [
         {
             company_name: 'Type Moon',
@@ -114,7 +114,7 @@ AnimeCompanies.getInitialProps = async ctx => {
     ];
 
     return {
-        anime_id,
+        manga_id,
         main_title,
         cover_image,
         hero_image,
