@@ -38,18 +38,20 @@ const renderBuyLinks = links => {
 const renderChapters = (items, manga_id) => {
     return items.map(item => {
         return (
-            <Link
-                key={item.id}
-                as={`/manga/${manga_id}/chapters/${item.id}`}
-                href="/manga/[manga_id]/chapters/[chapter_id]"
-            >
-                <a className="chapters-line">
-                    CHAPTER {item.issue_number} -{' '}
-                    <strong>{item.name.en}</strong> /{' '}
-                    <strong>{item.name.rmj}</strong> /{' '}
-                    <strong>{item.name.jp}</strong>
-                </a>
-            </Link>
+            <li>
+                <Link
+                    key={item.id}
+                    as={`/manga/${manga_id}/chapters/${item.id}`}
+                    href="/manga/[manga_id]/chapters/[chapter_id]"
+                >
+                    <a className="chapters-line">
+                        CHAPTER {item.issue_number} -{' '}
+                        <strong>{item.name.en}</strong> /{' '}
+                        <strong>{item.name.rmj}</strong> /{' '}
+                        <strong>{item.name.jp}</strong>
+                    </a>
+                </Link>
+            </li>
         );
     });
 };
@@ -72,7 +74,7 @@ const MangaVolumePage = ({
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={MangaNavigation}
-            selectedMenu="Summary"
+            selectedMenu="Volumes"
         >
             <main className="landing__description">
                 <section className="landing-section-box">
@@ -104,9 +106,9 @@ const MangaVolumePage = ({
                         </h4>
                         <span />
                     </header>
-                    <div className="grid-halves">
+                    <ul className="grid-halves">
                         {renderChapters(volume_details.chapters, manga_id)}
-                    </div>
+                    </ul>
                 </section>
             </main>
             <aside className="landing__details">

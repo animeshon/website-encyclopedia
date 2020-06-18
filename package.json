@@ -11,10 +11,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "apollo-boost": "^0.4.9",
     "flagpack": "^1.0.5",
+    "graphql": "^15.0.0",
     "html-react-parser": "^0.10.3",
     "lodash": "^4.17.15",
     "next": "^9.4.0",
+    "next-with-apollo": "^5.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-responsive": "^8.0.3"

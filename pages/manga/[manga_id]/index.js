@@ -81,7 +81,7 @@ const Manga = ({
                     <header>
                         <h3>Characters</h3>
                         <span />
-                        {characters_list.length > 4 && (
+                        {characters_list.length > 3 && (
                             <Link
                                 href="/manga/[manga_id]/characters"
                                 as={`/manga/${manga_id}/characters`}
@@ -132,6 +132,7 @@ const Manga = ({
 
 Manga.getInitialProps = async ctx => {
     const { manga_id } = ctx.query;
+
     const hero_image =
         'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
     const cover_image = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';

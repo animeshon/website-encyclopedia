@@ -40,7 +40,7 @@ const MangaChapters = ({
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={MangaNavigation}
-            selectedMenu="Summary"
+            selectedMenu="Chapters"
         >
             <main className="landing__description">
                 <section className="landing-section-box">

@@ -103,17 +103,42 @@ export const GamesNavigation = gameId => [
 
 export const CharacterNavigation = characterId => [
     {
-        label: 'Biography',
+        label: 'Summary',
         href: '/characters/[character_id]',
-        as: `/character/${characterId}`,
+        as: `/characters/${characterId}`,
+    },
+    {
+        label: 'Appearences',
+        href: '/characters/[character_id]/appearences',
+        as: `/characters/${characterId}/appearences`,
+    },
+    {
+        label: 'Voice Actors',
+        href: '/characters/[character_id]/voice-actors',
+        as: `/characters/${characterId}/voice-actors`,
+    },
+    {
+        label: 'Pictures',
+        href: '/characters/[character_id]/pictures',
+        as: `/characters/${characterId}/pictures`,
     },
 ];
 
 export const PeopleNavigation = personId => [
     {
         label: 'Biography',
-        href: '/people/[person_id]',
+        href: '/people/[people_id]',
         as: `/people/${personId}`,
+    },
+    {
+        label: 'Productions',
+        href: '/people/[people_id]/productions',
+        as: `/people/${personId}/productions`,
+    },
+    {
+        label: 'Organizations',
+        href: '/people/[people_id]/organizations',
+        as: `/people/${personId}/organizations`,
     },
 ];
 
