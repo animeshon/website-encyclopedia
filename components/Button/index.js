@@ -7,6 +7,7 @@ const Button = ({
     children,
     className,
     type = 'next-link',
+    disabled,
 }) => {
     switch (type) {
         case 'next-link':
@@ -21,12 +22,13 @@ const Button = ({
                     onClick={onClick}
                     type="submit"
                     value={children}
-                    className={className}
+                    className={`btn ${className}`}
+                    disabled={disabled}
                 />
             );
         case 'button':
             return (
-                <button type="button" className={className}>
+                <button type="button" className={`btn ${className}`}>
                     {children}
                 </button>
             );

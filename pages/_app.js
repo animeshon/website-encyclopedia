@@ -7,9 +7,6 @@ import App from 'next/app';
 // import { ApolloProvider } from '@apollo/react-hooks';
 // import ApolloClient, { InMemoryCache } from 'apollo-boost';
 
-// components
-import Header from '../components/Header';
-
 // reset and grid css
 import '../theme/styles/reset.css';
 import '../theme/styles/grid.css';
@@ -22,7 +19,6 @@ class Animeshon extends App {
         return (
             <>
                 {/* <ApolloProvider client={apollo}> */}
-                <Header />
                 <Component {...pageProps} />
                 {/* </ApolloProvider> */}
             </>

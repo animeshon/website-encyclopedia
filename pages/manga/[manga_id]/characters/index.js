@@ -12,7 +12,7 @@ const renderCharacters = items => {
     return items.map(item => {
         const linkProps = {
             href: `${linkTo}[character_id]`,
-            as: `/characters/${
+            as: `${linkTo}${
                 item.id + '_' + kebabCase(item.fname + '-' + item.lname)
             }`,
         };

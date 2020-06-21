@@ -3,10 +3,8 @@ import Link from 'next/link';
 import MangaDetails from './MangaDetails';
 
 export const MangaDetailsBox = ({ obj, pageType }) => {
-    console.log(pageType);
-
     let data = {};
-    if (pageType === 'manga-landing') {
+    if (pageType == 'manga-landing') {
         data = {
             author: obj.author,
             media: obj.media,
@@ -17,7 +15,7 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
             date_end: obj.date_end,
         };
     }
-    if (pageType === 'manga-volume-details') {
+    if (pageType == 'manga-volume-details') {
         data = {
             media: obj.media,
             chapters: obj.chapters_in_volume,
@@ -25,7 +23,7 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
             release_date: obj.release_date,
         };
     }
-    if (pageType === 'manga-chapter-details') {
+    if (pageType == 'manga-chapter-details') {
         data = {
             media: obj.media,
             pages_in_chapter: obj.pages_in_chapter,

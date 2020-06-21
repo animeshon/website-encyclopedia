@@ -39,8 +39,33 @@ export const AnimeNavigation = animeId => [
 export const UniverseNavigation = universeId => [
     {
         label: 'Summary',
-        href: '/universe/[anime_id]',
+        href: '/universe/[universe_id]',
         as: `/universe/${universeId}`,
+    },
+    {
+        label: 'Manga',
+        href: '/universe/[universe_id]/manga',
+        as: `/universe/${universeId}/manga`,
+    },
+    {
+        label: 'Anime',
+        href: '/universe/[universe_id]/anime',
+        as: `/universe/${universeId}/anime`,
+    },
+    {
+        label: 'Light Novel',
+        href: '/universe/[universe_id]/light-novel',
+        as: `/universe/${universeId}/light-novel`,
+    },
+    {
+        label: 'Visual Novel',
+        href: '/universe/[universe_id]/visual-novel',
+        as: `/universe/${universeId}/visual-novel`,
+    },
+    {
+        label: 'Games',
+        href: '/universe/[universe_id]/games',
+        as: `/universe/${universeId}/games`,
     },
 ];
 
