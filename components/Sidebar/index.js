@@ -35,8 +35,8 @@ const Sidebar = ({ isOpened, closeSidebar, router }) => {
                     closeSidebar={closeSidebar}
                     page={page}
                 />
-                <li onClick={closeSidebar}>
-                    <button>Safe Search</button>
+                <li>
+                    <button onClick={closeSidebar}>Safe Search</button>
                 </li>
             </ul>
         </aside>

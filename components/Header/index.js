@@ -1,29 +1,54 @@
 import Link from 'next/link';
 import Router from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
+import { SearchContext } from '@/ctx/search';
 
 import { useInputChange } from '@/functions/inputChange';
+import { cleanSearch } from '@/functions/cleanSearch';
 
 import Sidebar from '@/components/Sidebar';
 
 const Header = ({ isSearchAvailable }) => {
+    const { search, dispatchSearch } = useContext(SearchContext);
     const [sidebar, setSidebar] = useState(false);
-
-    const [input, handleInputChange, setFieldValue] = useInputChange();
 
     useEffect(() => {
         const { q } = Router.router.query;
-        setFieldValue('searchQuery', q);
+        dispatchSearch({
+            type: 'performNewSearch',
+            payload: q,
+        });
     }, []);
 
+    const handleInputChange = e => {
+        dispatchSearch({
+            type: 'performNewSearch',
+            payload: e.currentTarget.value,
+        });
+    };
+
     const handleQuerySubmit = e => {
-        const { searchQuery } = input;
         e.preventDefault();
 
-        Router.push({
-            pathname: '/search',
-            query: { q: searchQuery },
-        });
+        const q = cleanSearch(search.search);
+
+        if (search.search != '') {
+            dispatchSearch({
+                type: 'performNewSearch',
+                payload: q,
+            });
+
+            Router.push({
+                pathname: '/search',
+                query: { q },
+            });
+        } else {
+            dispatchSearch({
+                type: 'performNewSearch',
+                payload: search.search,
+            });
+        }
     };
 
     const handleSidebarOpening = e => {
@@ -48,7 +73,7 @@ const Header = ({ isSearchAvailable }) => {
                         type="text"
                         className="search-input"
                         name="searchQuery"
-                        value={input.searchQuery}
+                        value={search.search}
                         onChange={handleInputChange}
                     />
                 </form>

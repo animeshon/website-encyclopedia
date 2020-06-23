@@ -1,8 +1,12 @@
 import Link from 'next/link';
 
-const Footer = () => {
+const Footer = ({ contextualClass }) => {
     return (
-        <div className="home-footer">
+        <footer
+            className={`home-footer${
+                contextualClass ? ` ${contextualClass}` : ''
+            }`}
+        >
             <div className="internal-space">
                 <ul>
                     <li>
@@ -34,7 +38,7 @@ const Footer = () => {
                 </ul>
                 <p>&copy; Copyright 2020 Animeshon.com - All Rights Reserved</p>
             </div>
-        </div>
+        </footer>
     );
 };
 

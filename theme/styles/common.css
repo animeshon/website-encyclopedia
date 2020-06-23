@@ -55,108 +55,6 @@ b {
     font-weight: 700;
 }
 
-/* search */
-/* header */
-.search-header {
-    height: 96px;
-    background-color: #fff;
-    border-bottom: 1px solid #dfdfdf;
-    width: 100%;
-    display: flex;
-    padding: 25px 33px;
-    display: flex;
-}
-
-.search-header .brand {
-    cursor: pointer;
-    display: block;
-    width: 148px;
-    height: 46px;
-    background: url('/brand/animeshon-brand-horizontal.svg');
-    margin-right: 40px;
-}
-
-.search-header .brand span {
-    font-size: 12px;
-    opacity: 0;
-}
-.search-header .search-group {
-    flex: 1;
-}
-.search-header .search-input {
-    text-indent: 20px;
-    max-width: 500px;
-    width: 100%;
-    height: 44px;
-    border: 1px solid #cfcfcf;
-    border-radius: 22px;
-    outline: none;
-}
-.search-header .hamburger-icon {
-    display: block;
-    height: 32px;
-    width: 32px;
-    padding: 3px 0;
-    background-color: #fff;
-    appearance: none;
-    border: none;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    align-self: center;
-    justify-self: flex-end;
-    outline: none;
-    cursor: pointer;
-}
-.search-header .hamburger-icon span {
-    height: 1px;
-    background-color: #7f7f7f;
-    width: 100%;
-    display: block;
-}
-.search-header .sidebar {
-    transform: translateX(120%);
-    transition: 300ms ease-in-out;
-    position: fixed;
-    background-color: #fff;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    min-width: 260px;
-    max-width: 280px;
-}
-.search-header .sidebar.opened {
-    transform: translateX(0);
-}
-.search-header .sidebar ul {
-    list-style: none;
-}
-.search-header .sidebar ul li {
-    display: block;
-}
-.search-header .sidebar ul li a,
-.search-header .sidebar ul li button {
-    font-size: 14px;
-    color: #656565;
-    padding: 20px 30px;
-    display: block;
-    width: 100%;
-    border: none;
-    font-weight: 300;
-    text-align: left;
-    appearance: none;
-    background-color: #fff;
-    border-bottom: 1px solid #e2e2e2;
-}
-
-.search-header .sidebar ul li a:hover,
-.search-header .sidebar ul li a.selected,
-.search-header .sidebar ul li button:hover {
-    background-color: #f3f3f3;
-    color: #000;
-}
-
 /* common pages typography */
 .text-container {
     padding: 30px 35px;
@@ -1577,6 +1475,14 @@ ul.grid-halves {
     margin: 0;
     line-height: 66px;
     color: #797979;
+    display: contents;
+}
+
+.search-footer .internal-space {
+    align-content: space-between;
+    display: flex;
+    max-width: 1040px;
+    margin-left: 200px;
 }
 
 @media screen and (max-width: 768px) {
@@ -1622,5 +1528,391 @@ ul.grid-halves {
         font-size: 12px;
         line-height: 20px;
         text-align: center;
+    }
+}
+
+/* search */
+/* header */
+.search-header {
+    height: 96px;
+    background-color: #fff;
+    border-bottom: 1px solid #dfdfdf;
+    width: 100%;
+    display: flex;
+    padding: 25px 33px;
+    display: flex;
+}
+
+.search-header .brand {
+    cursor: pointer;
+    display: block;
+    width: 148px;
+    height: 46px;
+    background: url('/brand/animeshon-brand-horizontal.svg');
+    margin-right: 40px;
+}
+
+.search-header .brand span {
+    font-size: 12px;
+    opacity: 0;
+}
+.search-header .search-group {
+    flex: 1;
+    margin-right: 30px;
+}
+.search-header .search-input {
+    text-indent: 20px;
+    max-width: 500px;
+    width: 100%;
+    height: 44px;
+    border: 1px solid #cfcfcf;
+    border-radius: 22px;
+    outline: none;
+}
+.search-header .hamburger-icon {
+    display: block;
+    height: 32px;
+    width: 32px;
+    padding: 3px 0;
+    background-color: #fff;
+    appearance: none;
+    border: none;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-self: center;
+    justify-self: flex-end;
+    outline: none;
+    cursor: pointer;
+}
+.search-header .hamburger-icon span {
+    height: 1px;
+    background-color: #7f7f7f;
+    width: 100%;
+    display: block;
+}
+.search-header .sidebar {
+    transform: translateX(120%);
+    transition: 300ms ease-in-out;
+    position: fixed;
+    background-color: #fff;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    min-width: 260px;
+    max-width: 280px;
+}
+.search-header .sidebar.opened {
+    transform: translateX(0);
+}
+.search-header .sidebar ul {
+    list-style: none;
+}
+.search-header .sidebar ul li {
+    display: block;
+}
+.search-header .sidebar ul li a,
+.search-header .sidebar ul li button {
+    font-size: 14px;
+    color: #656565;
+    padding: 20px 30px;
+    display: block;
+    width: 100%;
+    border: none;
+    font-weight: 300;
+    text-align: left;
+    appearance: none;
+    background-color: #fff;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.search-header .sidebar ul li a:hover,
+.search-header .sidebar ul li a.selected,
+.search-header .sidebar ul li button:hover {
+    background-color: #f3f3f3;
+    color: #000;
+}
+
+@media screen and (max-width: 1280px) {
+}
+
+/* container */
+.results-container {
+    margin-top: 40px;
+    margin-bottom: 60px;
+    margin-left: 220px;
+    max-width: 1040px;
+    display: flex;
+}
+
+.results-displayer {
+    margin-top: 40px;
+    max-width: 1040px;
+    margin-left: 220px;
+    display: block;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: #7f7f7f;
+    font-weight: 300;
+}
+
+.results-container .left-column {
+    max-width: 640px;
+    flex: 1;
+    padding-right: 10px;
+}
+.results-container .right-column {
+    min-width: 400px;
+    padding-left: 10px;
+}
+
+.search-result {
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid #d6d6d6;
+}
+.search-result.primary-result {
+    border-left-color: #f0c808;
+    margin-bottom: 65px;
+}
+.search-result.secondary-result {
+    margin-bottom: 35px;
+}
+
+.search-result__row {
+    display: flex;
+}
+.search-result__identity {
+    min-width: 2px;
+    min-height: 100%;
+    background-color: #6e6e6e;
+}
+
+.search-result__contents {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-result__image {
+    margin: 0 18px;
+    min-width: 85px;
+    max-width: 85px;
+    min-height: 130px;
+    max-height: 130px;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.search-result__image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    align-self: flex-start;
+}
+.anime .search-result__image img,
+.manga .search-result__image img,
+.game .search-result__image img,
+.people .search-result__image img {
+    max-width: unset;
+    object-fit: cover;
+}
+
+.search-result__breadcrumb {
+    margin-bottom: 10px;
+    line-height: 0.5;
+}
+.search-result__breadcrumb span {
+    font-size: 11px;
+    color: #7f7f7f;
+}
+
+.search-result__breadcrumb span::after {
+    content: ' ';
+    margin: 0 6px 0 4px;
+    width: 0;
+    height: 0;
+    transform: rotate(-135deg);
+    display: inline-block;
+    border-left: 3px solid #7f7f7f;
+    border-bottom: 3px solid #7f7f7f;
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+
+.search-result__breadcrumb span:last-child::after {
+    display: none;
+}
+
+.search-result__texts h2 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: -webkit-box;
+    display: -moz-box;
+    -moz-line-clamp: 3;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result__texts strong,
+.search-result__texts p {
+    font-size: 14px;
+    margin: 5px 0;
+    display: -webkit-box;
+    display: -moz-box;
+    -moz-line-clamp: 3;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result__aside {
+    flex: 1;
+    display: flex;
+    margin-left: 18px;
+    flex-direction: column;
+}
+
+.search-result__aside h3 {
+    font-size: 14px;
+    font-weight: 800;
+    margin: 15px 0;
+}
+
+.search-result__aside__item {
+    display: flex;
+    margin-right: 18px;
+    width: 50%;
+}
+
+.search-result__aside__item:last-child {
+    margin-right: 0;
+}
+
+.anime .search-result__aside__item figure,
+.manga .search-result__aside__item figure {
+    min-width: 100px;
+    max-width: 100px;
+    margin: 0 18px 0 0;
+    background-color: #fff;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.anime .search-result__aside__item figure img,
+.manga .search-result__aside__item figure img {
+    object-fit: cover;
+    max-width: 100%;
+}
+.manga .search-result__aside__item figure {
+    min-width: 60px;
+    max-width: 60px;
+    border: 1px solid #dfdfdf;
+}
+
+.search-result__aside__texts p,
+.search-result__aside__texts h4 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.search-result__aside__texts h4,
+.search-result__texts h2 {
+    color: #1e7492;
+    display: -webkit-box;
+    display: -moz-box;
+    -moz-line-clamp: 1;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result__aside__texts p {
+    font-weight: 300;
+    margin-bottom: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    -moz-line-clamp: 3;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result__more-trigger {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.search-result__more-trigger button {
+    color: #1e7492;
+    font-size: 14px;
+    height: 24px;
+    appearance: none;
+    border: 1px solid #e1e1e1;
+    background-color: #fff;
+    padding: 3px 15px;
+    margin-top: -24px;
+    position: relative;
+    top: 40px;
+}
+
+.search-result__column {
+    display: flex;
+}
+
+@media screen and (max-width: 1280px) {
+    .results-container,
+    .results-displayer {
+        margin-left: 33px;
+        max-width: 1040px;
+    }
+}
+
+@media screen and (max-width: 940px) {
+    .results-container,
+    .results-displayer {
+        margin-left: 33px;
+        margin-right: 33px;
+        max-width: calc(100% - 66px);
+        width: calc(100% - 66px);
+    }
+    .results-container {
+        flex-direction: column-reverse;
+    }
+    .results-container .left-column,
+    .results-container .right-column {
+        max-width: 100%;
+        width: 100%;
+    }
+    .results-container .left-column {
+        padding-right: 0;
+    }
+    .results-container .right-column {
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .search-result__aside__item {
+        width: 100%;
+    }
+    .search-result__aside__item:last-child {
+        display: none;
     }
 }

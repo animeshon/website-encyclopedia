@@ -1,5 +1,5 @@
 // high order libraries
-import React from 'react';
+import React, { useContext, useReducer } from 'react';
 import App from 'next/app';
 
 // Apollo Client for GraphQL
@@ -7,24 +7,26 @@ import App from 'next/app';
 // import { ApolloProvider } from '@apollo/react-hooks';
 // import ApolloClient, { InMemoryCache } from 'apollo-boost';
 
+import { SearchContext, searchReducer } from '@/ctx/search';
+
 // reset and grid css
 import '../theme/styles/reset.css';
 import '../theme/styles/grid.css';
 import '../theme/styles/common.css';
 import '../node_modules/flagpack/dist/flagpack.css';
 
-class Animeshon extends App {
-    render() {
-        const { Component, pageProps, apollo } = this.props;
-        return (
-            <>
-                {/* <ApolloProvider client={apollo}> */}
+const Animeshon = ({ pageProps, Component }) => {
+    const [search, dispatchSearch] = useReducer(searchReducer, {});
+    return (
+        <>
+            {/* <ApolloProvider client={apollo}> */}
+            <SearchContext.Provider value={{ search, dispatchSearch }}>
                 <Component {...pageProps} />
-                {/* </ApolloProvider> */}
-            </>
-        );
-    }
-}
+            </SearchContext.Provider>
+            {/* </ApolloProvider> */}
+        </>
+    );
+};
 
 // export default withApollo(({ initialState }) => {
 //     return new ApolloClient({

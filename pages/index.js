@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
+import { SearchContext } from '@/ctx/search';
 
 import { useInputChange } from '@/functions/inputChange';
 
@@ -9,24 +11,38 @@ import Footer from '@/components/Footer';
 
 const Home = ({ router }) => {
     const { push } = router;
-    const [input, handleInputChange, setFieldValue] = useInputChange();
+    const { search, dispatchSearch } = useContext(SearchContext);
 
     useEffect(() => {
-        setFieldValue('searchQuery', '');
+        dispatchSearch({
+            type: 'performNewSearch',
+            payload: '',
+        });
     }, []);
 
     const navigateToQuery = e => {
-        const { searchQuery } = input;
         e.preventDefault();
+
+        dispatchSearch({
+            type: 'performNewSearch',
+            payload: search.search,
+        });
 
         push({
             pathname: '/search',
-            query: { q: searchQuery },
+            query: { q: search.search },
+        });
+    };
+
+    const handleInputChange = e => {
+        dispatchSearch({
+            type: 'performNewSearch',
+            payload: e.currentTarget.value,
         });
     };
 
     // reverse condition to enable and disable the search query button
-    const isButtonDisabled = !(input.searchQuery !== '');
+    const isButtonDisabled = !(search.search !== '');
 
     return (
         <div className="home">
