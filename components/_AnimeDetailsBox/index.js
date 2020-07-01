@@ -5,8 +5,8 @@ export const AnimeDetailsBox = ({ obj }) => {
         english_title,
         japanese_title,
         romaji_title,
-        media,
         episodes_number,
+        media,
         status,
         season,
         genres,
@@ -16,50 +16,72 @@ export const AnimeDetailsBox = ({ obj }) => {
     } = obj;
     return (
         <div className="details__table">
-            <div className="details__row">
-                <div className="details__key">English{`\n`}(title)</div>
-                <div className="details__value">{english_title}</div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Japanese{`\n`}(title)</div>
-                <div className="details__value">{japanese_title}</div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Romaji{`\n`}(title)</div>
-                <div className="details__value">{romaji_title}</div>
-            </div>
-            {/*  */}
-            <hr className="details__breaker" />
-            {/*  */}
-            <div className="details__row">
-                <div className="details__key">Media</div>
-                <div className="details__value">{media}</div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Episodes</div>
-                <div className="details__value">{episodes_number}</div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Status</div>
-                <div className="details__value">{status}</div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Season</div>
-                <div className="details__value">{season}</div>
-            </div>
-            {/*  */}
-            <hr className="details__breaker" />
-            {/*  */}
-            <div className="details__row">
-                <div className="details__key">Genres</div>
-                <div className="details__value">
-                    {genres.map(element => `${element}, `)}
+            {english_title && (
+                <div className="details__row">
+                    <div className="details__key">English{`\n`}(title)</div>
+                    <div className="details__value">{english_title}</div>
                 </div>
-            </div>
-            <div className="details__row">
-                <div className="details__key">Age Rating</div>
-                <div className="details__value">{age_rating}</div>
-            </div>
+            )}
+            {japanese_title && (
+                <div className="details__row">
+                    <div className="details__key">Japanese{`\n`}(title)</div>
+                    <div className="details__value">{japanese_title}</div>
+                </div>
+            )}
+            {romaji_title && (
+                <div className="details__row">
+                    <div className="details__key">Romaji{`\n`}(title)</div>
+                    <div className="details__value">{romaji_title}</div>
+                </div>
+            )}
+            {/*  */}
+            {(english_title || japanese_title || romaji_title) && (
+                <hr className="details__breaker" />
+            )}
+            {/*  */}
+            {media && (
+                <div className="details__row">
+                    <div className="details__key">Media</div>
+                    <div className="details__value">{media}</div>
+                </div>
+            )}
+            {episodes_number && (
+                <div className="details__row">
+                    <div className="details__key">Episodes</div>
+                    <div className="details__value">{episodes_number}</div>
+                </div>
+            )}
+            {status && (
+                <div className="details__row">
+                    <div className="details__key">Status</div>
+                    <div className="details__value">{status}</div>
+                </div>
+            )}
+            {season && (
+                <div className="details__row">
+                    <div className="details__key">Season</div>
+                    <div className="details__value">{season}</div>
+                </div>
+            )}
+            {/*  */}
+            {(media || episodes_number || status || season) && (
+                <hr className="details__breaker" />
+            )}
+            {/*  */}
+            {genres && (
+                <div className="details__row">
+                    <div className="details__key">Genres</div>
+                    <div className="details__value">
+                        {genres.map(element => `${element}, `)}
+                    </div>
+                </div>
+            )}
+            {age_rating && (
+                <div className="details__row">
+                    <div className="details__key">Age Rating</div>
+                    <div className="details__value">{age_rating}</div>
+                </div>
+            )}
             {universe && (
                 <div className="details__row">
                     <div className="details__key">Universe</div>

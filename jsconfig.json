@@ -5,6 +5,7 @@
             "@/components/*": ["components/*"],
             "@/resources/*": ["resources/*"],
             "@/functions/*": ["functions/*"],
+            "@/queries/*": ["queries/*"],
             "@/ctx/*": ["context/*"]
         }
     }

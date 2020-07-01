@@ -1,9 +1,13 @@
+import { useReducer } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-import HeroCover from '../HeroCover';
-import ProductCover from '../ProductCover';
-import TabNavigation from '../TabNavigation';
-import EntityTitle from '../EntityTitle';
+import HeroCover from '@/components/HeroCover';
+import ProductCover from '@/components/ProductCover';
+import TabNavigation from '@/components/TabNavigation';
+import EntityTitle from '@/components/EntityTitle';
+
+// components
+import Header from '@/components/Header';
 
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -23,6 +27,7 @@ const AnyWrapper = ({
 }) => {
     return (
         <div className="any">
+            <Header isSearchAvailable />
             <HeroCover
                 entityTitle={anyTitle}
                 altText={heroImageAltText}

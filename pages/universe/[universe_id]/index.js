@@ -1,4 +1,4 @@
-import navigation from '../tab_nav';
+import { UniverseNavigation } from '@/resources/navigation/allTabNavigations';
 
 const Universe = () => {
     return <div className="universe"></div>;

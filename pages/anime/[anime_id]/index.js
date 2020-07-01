@@ -1,11 +1,118 @@
+import { useContext } from 'react';
 import Link from 'next/link';
 import parse from 'html-react-parser';
-import { kebabCase, replace } from 'lodash';
+import replace from 'lodash/replace';
+import kebabCase from 'lodash/kebabCase';
+import fetch from 'cross-fetch';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { createHttpLink } from 'apollo-link-http';
+import ApolloClient from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { LanguageContext } from '@/ctx/languages';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
+
+import getAnimeSummary from '@/queries/anime/Summary';
+
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+
+const Anime = ({
+    anime_id,
+    titles,
+    cover_image,
+    hero_image,
+    descriptions,
+    characters_list,
+    anime_details,
+    adaptations_list,
+    adaptations_count,
+}) => {
+    const { language } = useContext(LanguageContext);
+    const finalTitle = titles.filter(o => o.localization[0].id != language);
+    const finalDescription = descriptions.filter(
+        o => o.localization[0].id != language,
+    );
+    // TODO waiting for the final version of data
+    // for all of the things below
+    const mainTitle = finalTitle[0] ? finalTitle[0].text : '';
+    const mainDescription = finalDescription[0] ? finalDescription[0].text : '';
+
+    return (
+        <AnyWrapper
+            anyId={anime_id}
+            anyTitle={mainTitle} // TODO: not definitive
+            coverImage={cover_image}
+            heroImage={hero_image}
+            coverImageAltText={`${mainTitle} Cover`}
+            heroImageAltText={`${mainTitle} Hero illustration`}
+            anyNav={AnimeNavigation}
+            selectedMenu="Summary"
+        >
+            <main className="landing__description">
+                {/*  */}
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Description</h3>
+                    </header>
+                    <p>{parse(mainDescription)}</p> {/* TODO: not definitive */}
+                </section>
+                {/* Characters */}
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Characters</h3>
+                        <span />
+                        {characters_list.length > 3 && (
+                            <Link
+                                href="/anime/[anime_id]/characters"
+                                as={`/anime/${anime_id}/characters`}
+                            >
+                                <a className="view-all-link">View all</a>
+                            </Link>
+                        )}
+                    </header>
+                    <ul className="characters-list">
+                        {renderCharacters(characters_list)}
+                    </ul>
+                </section>
+                {/* Anime Timeline 
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Anime Timeline</h3>
+                        <span />
+                    </header>
+                </section>
+                */}
+                {/* Adaptations
+                {adaptations_list.length !== 0 && (
+                    <section className="landing-section-box">
+                        <header>
+                            <h3>Adaptations</h3>
+                            <span />
+                            {adaptations_count > 4 && (
+                                <Link href="" as="">
+                                    <a className="view-all-link">View all</a>
+                                </Link>
+                            )}
+                        </header>
+                        <ul className="adaptations-list">
+                            {renderAdaptations(adaptations_list)}
+                        </ul>
+                    </section>
+                )}
+                */}
+                {/*  */}
+            </main>
+            <aside className="landing__details">
+                <header>
+                    <h3>Details</h3>
+                </header>
+                <AnimeDetailsBox obj={anime_details} />
+            </aside>
+        </AnyWrapper>
+    );
+};
 
 const renderCharacters = items => {
     return items.map(item => (
@@ -45,113 +152,36 @@ const renderAdaptations = items => {
     ));
 };
 
-const Anime = ({
-    anime_id,
-    main_title,
-    cover_image,
-    hero_image,
-    cover_image_alt_text,
-    hero_image_alt_text,
-    summary_description,
-    characters_list,
-    anime_details,
-    adaptations_list,
-    adaptations_count,
-}) => {
-    return (
-        <AnyWrapper
-            anyId={anime_id}
-            anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
-            selectedMenu="Summary"
-        >
-            <main className="landing__description">
-                {/*  */}
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Description</h3>
-                    </header>
-                    <p>{parse(summary_description)}</p>
-                </section>
-                {/* Characters */}
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Characters</h3>
-                        <span />
-                        {characters_list.length > 3 && (
-                            <Link
-                                href="/anime/[anime_id]/characters"
-                                as={`/anime/${anime_id}/characters`}
-                            >
-                                <a className="view-all-link">View all</a>
-                            </Link>
-                        )}
-                    </header>
-                    <ul className="characters-list">
-                        {renderCharacters(characters_list)}
-                    </ul>
-                </section>
-                {/* Anime Timeline */}
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Anime Timeline</h3>
-                        <span />
-                    </header>
-                </section>
-                {/* Adaptations */}
-                {adaptations_list.length !== 0 && (
-                    <section className="landing-section-box">
-                        <header>
-                            <h3>Adaptations</h3>
-                            <span />
-                            {adaptations_count > 4 && (
-                                <Link href="" as="">
-                                    <a className="view-all-link">View all</a>
-                                </Link>
-                            )}
-                        </header>
-                        <ul className="adaptations-list">
-                            {renderAdaptations(adaptations_list)}
-                        </ul>
-                    </section>
-                )}
-                {/*  */}
-            </main>
-            <aside className="landing__details">
-                <header>
-                    <h3>Details</h3>
-                </header>
-                <AnimeDetailsBox obj={anime_details} />
-            </aside>
-        </AnyWrapper>
-    );
-};
+// Apollo
+// **************************
+const client = new ApolloClient({
+    link: createHttpLink({
+        uri: 'http://localhost:8080/graphql',
+        fetch,
+    }),
+    cache: new InMemoryCache(),
+});
 
 Anime.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
+    const raw_id = anime_id.substring(0, 16);
+
+    const res = await client.query({
+        query: getAnimeSummary(raw_id),
+    });
+
+    const data = res.data.queryAnime[0];
+
+    const titles = data ? data.names : []; // returns an array
+    const descriptions = data ? data.description : []; // returns an array
+    const characters = data ? data.starring[0] : []; // ??
+
+    console.log(titles);
+
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate/Kaleid Liner Prisma Illya';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
-    const summary_description = `Toosaka Rin and Luviagelita Edelfelt are magi from the Clock Tower,
-    the headquarters of the Mage’s Association, and they were sent to Fuyuki City by its director
-    to collect Class Cards, each holding the powers of a Servant from the Holy Grail War. To aid in
-    their quest, they were handed two powerful magic wands, Rin receiving Magical Ruby and Luvia
-    taking Magical Sapphire.<br/><br/>However, due to the two girls’ inability to get along, the wands got
-    fed up with them and broke their contract. Ruby then sought a new master, and found one in an
-    unsuspecting school girl by the name of Illyasviel von Einzbern. Despite Illya’s protests, Ruby
-    insisted in making a magical girl out of her, and she is now Prisma Illya. With no knowledge in
-    magecraft and no previous training of her own, being in fact a completely normal young girl with no
-    outstanding abilities, now she must collect the powerful Class Cards using whatever limited aid Rin can
-    give her. Will the two at least to enter a truce with Luvia and Sapphire’s new master and work together
-    for this goal?`;
     const characters_count = 10;
     const characters_list = [
         {
@@ -185,37 +215,6 @@ Anime.getInitialProps = async ctx => {
             id: '3RnW4DLemcHdW2Job6xX2c',
         },
     ];
-    const adaptations_count = 5;
-    const adaptations_list = [
-        {
-            type: 'manga',
-            product_name: 'Fate Kaleid Prisma Illya Ein',
-            cover_url:
-                'https://static.zerochan.net/Prisma.Illya.full.1905008.jpg',
-            id: 'bRC8n6bmmC6RZYuuj2eNXf',
-        },
-        {
-            type: 'light-novel',
-            product_name: 'Fate Kaleid Prisma Illya Zwei',
-            cover_url:
-                'https://static.comicvine.com/uploads/scale_large/6/67663/6541531-10.jpg',
-            id: '2Wn2bTqxekDpHwej7ABXF6',
-        },
-        {
-            type: 'game',
-            product_name: 'Fate Kaleid Prisma Illya Drei',
-            cover_url:
-                'https://vignette.wikia.nocookie.net/typemoon/images/9/97/Fate_kaleid_liner_Prisma_Illya_Manga_Vol_1_Cover.jpg',
-            id: 'LzP22Ybg5tT2fDmXNzTwLm',
-        },
-        {
-            type: 'visual-novel',
-            product_name: 'Fate Kaleid Prisma Illya Viel',
-            cover_url:
-                'https://4.bp.blogspot.com/-kSMiSZkesX4/W5We9c0HvjI/AAAAAAAAAHs/CU0kQMrNdVEJRxBFEIWKfiAbW4_qJxVTgCLcBGAs/s1600/Fate_kaleid_liner_Prisma_Illya_Drei_Manga_Vol_9_Cover.jpg',
-            id: 'AwqrPSQQbLX8b8iwyeDhnf',
-        },
-    ];
 
     const anime_details = {
         english_title: 'Fate/Kaleid Liner Prisma Illya',
@@ -233,17 +232,13 @@ Anime.getInitialProps = async ctx => {
 
     return {
         anime_id,
-        main_title,
+        titles,
         cover_image,
         hero_image,
-        cover_image_alt_text,
-        hero_image_alt_text,
-        summary_description,
+        descriptions,
         characters_count,
         characters_list,
         anime_details,
-        adaptations_count,
-        adaptations_list,
     };
 };
 
