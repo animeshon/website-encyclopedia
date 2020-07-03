@@ -3,11 +3,6 @@ import Link from 'next/link';
 import parse from 'html-react-parser';
 import replace from 'lodash/replace';
 import kebabCase from 'lodash/kebabCase';
-import fetch from 'cross-fetch';
-
-import { createHttpLink } from 'apollo-link-http';
-import ApolloClient from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { LanguageContext } from '@/ctx/languages';
 
@@ -20,33 +15,23 @@ import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 const Anime = ({
     anime_id,
-    titles,
+    title,
     cover_image,
     hero_image,
-    descriptions,
+    description,
     characters_list,
     anime_details,
-    adaptations_list,
-    adaptations_count,
 }) => {
     const { language } = useContext(LanguageContext);
-    const finalTitle = titles.filter(o => o.localization[0].id != language);
-    const finalDescription = descriptions.filter(
-        o => o.localization[0].id != language,
-    );
-    // TODO waiting for the final version of data
-    // for all of the things below
-    const mainTitle = finalTitle[0] ? finalTitle[0].text : '';
-    const mainDescription = finalDescription[0] ? finalDescription[0].text : '';
 
     return (
         <AnyWrapper
             anyId={anime_id}
-            anyTitle={mainTitle} // TODO: not definitive
+            anyTitle={title} // TODO: not definitive
             coverImage={cover_image}
             heroImage={hero_image}
-            coverImageAltText={`${mainTitle} Cover`}
-            heroImageAltText={`${mainTitle} Hero illustration`}
+            coverImageAltText={`${title} Cover`}
+            heroImageAltText={`${title} Hero`}
             anyNav={AnimeNavigation}
             selectedMenu="Summary"
         >
@@ -56,7 +41,7 @@ const Anime = ({
                     <header>
                         <h3>Description</h3>
                     </header>
-                    <p>{parse(mainDescription)}</p> {/* TODO: not definitive */}
+                    <p className="text_description">{parse(description)}</p>
                 </section>
                 {/* Characters */}
                 <section className="landing-section-box">
@@ -119,52 +104,44 @@ const renderCharacters = items => {
         <li key={item.id}>
             <Link
                 href="/characters/[character_id]"
-                as={`/characters/${item.id}_${kebabCase(
-                    `${item.fname}-${item.lname}`,
-                )}`}
+                as={`/characters/${item.id}_${kebabCase(`${item.name}`)}`}
             >
                 <a>
                     <div className="cover">
                         <img src={item.profilePic} />
                     </div>
-                    <span>{item.fname}</span>
+                    <span>{item.name}</span>
                 </a>
             </Link>
         </li>
     ));
 };
 
-const renderAdaptations = items => {
-    return items.map(item => (
-        <li key={item.id}>
-            <Link
-                href={`/${item.type}/[${item.type}_id]`}
-                as={`/${item.type}/${item.id}_${kebabCase(item.product_name)}`}
-            >
-                <a>
-                    <div className="cover">
-                        <img src={item.cover_url} />
-                    </div>
-                    <span>{replace(item.type, '-', ' ')}</span>
-                </a>
-            </Link>
-        </li>
-    ));
-};
-
-// Apollo
-// **************************
-const client = new ApolloClient({
-    link: createHttpLink({
-        uri: 'http://localhost:8080/graphql',
-        fetch,
-    }),
-    cache: new InMemoryCache(),
-});
+// const renderAdaptations = items => {
+//     return items.map(item => (
+//         <li key={item.id}>
+//             <Link
+//                 href={`/${item.type}/[${item.type}_id]`}
+//                 as={`/${item.type}/${item.id}_${kebabCase(item.product_name)}`}
+//             >
+//                 <a>
+//                     <div className="cover">
+//                         <img src={item.cover_url} />
+//                     </div>
+//                     <span>{replace(item.type, '-', ' ')}</span>
+//                 </a>
+//             </Link>
+//         </li>
+//     ));
+// };
 
 Anime.getInitialProps = async ctx => {
+    // const langauge = ctx.req.headers['accept-language'].split(',')[0];
+    // const isoLang = langauge != 'ja_JP' ? 'en-US' : 'ja-JP';
+
     const { anime_id } = ctx.query;
     const raw_id = anime_id.substring(0, 16);
+    const client = ctx.apolloClient;
 
     const res = await client.query({
         query: getAnimeSummary(raw_id),
@@ -174,69 +151,55 @@ Anime.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const descriptions = data ? data.description : []; // returns an array
-    const characters = data ? data.starring[0] : []; // ??
+    const characters = data ? data.starring : []; // returns an array
+    const cover_image = data ? data.images[0].image.file.publicUri : '';
 
-    console.log(titles);
+    const description = descriptions.filter(
+        o => o.localization[0].id == 'en-US',
+    )[0].text; // returns a string
+
+    const english_title = titles.filter(o => o.localization[0].id == 'en-US')[0]
+        .text; // returns a string
+
+    const title = english_title;
+
+    const japanese_title = titles.filter(
+        o => o.localization[0].id === 'ja-JP',
+    )[0].text; // returns a string
+
+    // extract the characters
+    const characters_list = characters.map(char => {
+        const { id, images, names } = char.character;
+        return {
+            name: names[0].text,
+            profilePic: images[0].image.file.publicUri,
+            id,
+        };
+    });
 
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const characters_count = 10;
-    const characters_list = [
-        {
-            fname: 'Miyu',
-            lname: 'Endefe',
-            profilePic:
-                'https://www.nautiljon.com/images/perso/00/25/miyu_edelfelt_12352.jpg',
-            id: '8WZqW4hZMSmiucnKrTdai5',
-        },
-        {
-            fname: 'Rin',
-            lname: 'Endefe',
-            profilePic:
-                'https://th.bing.com/th/id/OIP.FpTXIz4zw8zYCEi9OsOckAAAAA?pid=Api&rs=1',
-            id: 'm5akibjJM2UGGHNdi4aQX3',
-        },
-        {
-            fname: 'Illya',
-            lname: 'Endefe',
-
-            profilePic:
-                'https://th.bing.com/th/id/OIP.fh94YfP_58licslWVbJAMQHaHa?pid=Api&rs=1',
-            id: 'y9g9z3N9Sxb58nGF2jmfqB',
-        },
-        {
-            fname: 'Luviagelita',
-            lname: 'Endefe',
-
-            profilePic:
-                'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
-            id: '3RnW4DLemcHdW2Job6xX2c',
-        },
-    ];
 
     const anime_details = {
-        english_title: 'Fate/Kaleid Liner Prisma Illya',
-        japanese_title: 'Fate/kaleid liner プリズマ☆イリヤ',
-        romaji_title: 'Fate/kaleid liner PURIZUMA☆IRIYA',
-        media: 'TV',
-        episodes_number: 10,
-        status: 'Finished',
-        season: 'Summer 2013',
-        genres: ['Action Comedy', 'Drama', 'Supernatural'],
-        age_rating: 'R-18+',
-        universe: 'Fate',
-        universe_id: 'GMhRhdA7urRsLQPXj6XWiB',
+        english_title,
+        japanese_title,
+        romaji_title: undefined, // TODO: still not present on the graphql db
+        media: undefined, // TODO: still not present on the graphql db
+        episodes_number: data.episodes.length,
+        status: data.status.toLowerCase(),
+        season: undefined, // TODO: ?? in case we have a multiseason how we label it? In case we have a movie? 'Summer 2013'
+        genres: undefined, // TODO: still not present on the graphql db
+        age_rating: undefined, // TODO: still not present on the graphql db
+        universe: undefined, // TODO: still not present on the graphql db
+        universe_id: undefined, // TODO: still not present on the graphql db
     };
 
     return {
         anime_id,
-        titles,
+        title,
         cover_image,
         hero_image,
-        descriptions,
-        characters_count,
+        description,
         characters_list,
         anime_details,
     };

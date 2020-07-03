@@ -326,6 +326,9 @@ b {
     flex: 1;
     margin-bottom: 20px;
 }
+.landing-section-box .text_description {
+    white-space: pre-wrap;
+}
 .landing-section-box header {
     width: 100%;
     position: relative;

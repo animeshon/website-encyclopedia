@@ -14,6 +14,10 @@ export const AnimeDetailsBox = ({ obj }) => {
         universe,
         universe_id,
     } = obj;
+
+    const mid_break_one = media || episodes_number || status || season;
+    const mid_break_two = genres || age_rating || universe;
+
     return (
         <div className="details__table">
             {english_title && (
@@ -45,7 +49,7 @@ export const AnimeDetailsBox = ({ obj }) => {
                     <div className="details__value">{media}</div>
                 </div>
             )}
-            {episodes_number && (
+            {(episodes_number || episodes_number === 0) && (
                 <div className="details__row">
                     <div className="details__key">Episodes</div>
                     <div className="details__value">{episodes_number}</div>
@@ -64,7 +68,7 @@ export const AnimeDetailsBox = ({ obj }) => {
                 </div>
             )}
             {/*  */}
-            {(media || episodes_number || status || season) && (
+            {mid_break_one && mid_break_two && (
                 <hr className="details__breaker" />
             )}
             {/*  */}

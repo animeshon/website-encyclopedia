@@ -3,9 +3,43 @@ import { kebabCase, capitalize } from 'lodash';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
+import getAnimeCast from '@/queries/anime/Cast';
+
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+
+const AnimeCast = ({
+    anime_id,
+    title,
+    cover_image,
+    hero_image,
+    cast_full_list,
+}) => {
+    return (
+        <AnyWrapper
+            anyId={anime_id}
+            anyTitle={title}
+            coverImage={cover_image}
+            heroImage={hero_image}
+            coverImageAltText={`${title} Cover`}
+            heroImageAltText={`${title} Hero`}
+            anyNav={AnimeNavigation}
+            selectedMenu="Cast"
+        >
+            <main className="anime-cast__description grid">
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Cast</h3>
+                    </header>
+                    <div className="grid-halves">
+                        {renderCast(cast_full_list)}
+                    </div>
+                </section>
+            </main>
+        </AnyWrapper>
+    );
+};
 
 const renderCast = items => {
     const linkTo = '/poeople/';
@@ -66,49 +100,32 @@ const renderCast = items => {
         );
     });
 };
-const AnimeCast = ({
-    anime_id,
-    main_title,
-    cover_image,
-    hero_image,
-    cover_image_alt_text,
-    hero_image_alt_text,
-    cast_full_list,
-}) => {
-    return (
-        <AnyWrapper
-            anyId={anime_id}
-            anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
-            selectedMenu="Cast"
-        >
-            <main className="anime-cast__description grid">
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Cast</h3>
-                    </header>
-                    <div className="grid-halves">
-                        {renderCast(cast_full_list)}
-                    </div>
-                </section>
-            </main>
-        </AnyWrapper>
-    );
-};
 
 AnimeCast.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
+    const client = ctx.apolloClient;
+
+    const raw_id = anime_id.substring(0, 16);
+
+    const res = await client.query({
+        query: getAnimeCast(raw_id),
+    });
+
+    const data = res.data.queryAnime[0];
+
+    const titles = data ? data.names : []; // returns an array
+    const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
+
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
+    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+
+    // ***********************************************
+    // ***********************************************
+    // Skipped cause of missing data
+    // ***********************************************
+    // ***********************************************
+
     const cast_full_list = [
         {
             fname: 'Shizuka',
@@ -194,11 +211,9 @@ AnimeCast.getInitialProps = async ctx => {
 
     return {
         anime_id,
-        main_title,
+        title,
         cover_image,
         hero_image,
-        cover_image_alt_text,
-        hero_image_alt_text,
         cast_full_list,
     };
 };

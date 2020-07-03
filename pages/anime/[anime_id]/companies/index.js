@@ -1,11 +1,46 @@
 import Link from 'next/link';
-import { kebabCase, capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
+import kebabCase from 'lodash/kebabCase';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+
+import getAnimeOrganizations from '@/queries/anime/Organizations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+
+const AnimeCompanies = ({
+    anime_id,
+    title,
+    cover_image,
+    hero_image,
+    companies_full_list,
+}) => {
+    return (
+        <AnyWrapper
+            anyId={anime_id}
+            anyTitle={title}
+            coverImage={cover_image}
+            heroImage={hero_image}
+            coverImageAltText={`${title} Cover`}
+            heroImageAltText={`${title} Hero`}
+            anyNav={AnimeNavigation}
+            selectedMenu="Companies"
+        >
+            <main className="anime-characters__description grid">
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Companies</h3>
+                    </header>
+                    <div className="grid-halves">
+                        {renderCompanies(companies_full_list)}
+                    </div>
+                </section>
+            </main>
+        </AnyWrapper>
+    );
+};
 
 const renderCompanies = items => {
     const linkTo = '/companies/';
@@ -21,7 +56,7 @@ const renderCompanies = items => {
                         <CardImage
                             type={item.type}
                             picture={item.company_pic}
-                            altText={`${item.fname} ${item.lname}`}
+                            altText={`${item.company_name}`}
                         />
                     </a>
                 </Link>
@@ -42,10 +77,7 @@ const renderCompanies = items => {
                     </p>
                     <Button
                         className="cherry-red medium"
-                        href={`${linkTo}[company_id]`}
-                        as={`${linkTo}${item.id}_${kebabCase(
-                            item.company_name,
-                        )}`}
+                        {...linkProps}
                         type="next-link"
                     >
                         More
@@ -56,70 +88,64 @@ const renderCompanies = items => {
     });
 };
 
-const AnimeCompanies = ({
-    anime_id,
-    main_title,
-    cover_image,
-    hero_image,
-    cover_image_alt_text,
-    hero_image_alt_text,
-    companies_full_list,
-}) => {
-    return (
-        <AnyWrapper
-            anyId={anime_id}
-            anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
-            selectedMenu="Companies"
-        >
-            <main className="anime-characters__description grid">
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Companies</h3>
-                    </header>
-                    <div className="grid-halves">
-                        {renderCompanies(companies_full_list)}
-                    </div>
-                </section>
-            </main>
-        </AnyWrapper>
-    );
-};
-
 AnimeCompanies.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
+    const client = ctx.apolloClient;
+
+    const raw_id = anime_id.substring(0, 16);
+
+    const res = await client.query({
+        query: getAnimeOrganizations(raw_id),
+    });
+
+    const data = res.data.queryAnime[0];
+
+    const titles = data ? data.names : []; // returns an array
+    const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
+    const staff = data ? data.staff : '';
+
+    const companies_full_list = staff
+        .map(item => {
+            const {
+                localization,
+                collaborator: { __typename, id, images, names },
+                role,
+            } = item;
+
+            const company_name = names.filter(o => {
+                if (o.localization[0] !== undefined) {
+                    return o.localization[0].id == 'en-US';
+                }
+            })[0].text;
+
+            // ?? the japanese name is not yet implemented skipping for the moment
+
+            if (__typename == 'Organization') {
+                return {
+                    company_name,
+                    company_nation: {
+                        iso: item.localization.id === 'ja-JP' ? 'jp' : 'us', // there should be a normalization of the flags library
+                    },
+                    type: 'organization',
+                    company_pic: images[0]
+                        ? images[0].image.file.publicUri
+                        : '',
+                    id,
+                };
+            }
+        })
+        .filter(i => i !== undefined);
+
+    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+
     const hero_image =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya Cover';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
-    const companies_full_list = [
-        {
-            company_name: 'Type Moon',
-            company_japanese_name: 'TYPE-MOON',
-            company_nation: {
-                extended: 'japan',
-                iso: 'jp',
-            },
-            type: 'organization',
-            company_pic: '',
-            id: '8WZqW4hZMSmiucnKrTdai5',
-        },
-    ];
 
     return {
         anime_id,
-        main_title,
+        title,
         cover_image,
         hero_image,
-        cover_image_alt_text,
-        hero_image_alt_text,
         companies_full_list,
     };
 };
