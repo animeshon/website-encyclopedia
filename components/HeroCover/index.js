@@ -7,24 +7,25 @@ const Default = ({ children }) => {
 };
 
 const HeroCover = ({ entityTitle, heroImage, altText = 'hero cover pic' }) => {
-    if (heroImage) {
-        return (
-            <div className="hero-cover">
-                <img
-                    className="hero-cover__image"
-                    src={heroImage}
-                    alt={altText}
-                />
-                <div className="hero-cover__shade" />
-                <Default>
-                    <div className="hero-cover__title">
-                        <EntityTitle title={entityTitle} />
-                    </div>
-                </Default>
-            </div>
-        );
-    }
-    return null;
+    return (
+        <div className="hero-cover">
+            {heroImage && (
+                <>
+                    <img
+                        className="hero-cover__image"
+                        src={heroImage}
+                        alt={altText}
+                    />
+                    <div className="hero-cover__shade" />
+                </>
+            )}
+            <Default>
+                <div className="hero-cover__title">
+                    <EntityTitle title={entityTitle} />
+                </div>
+            </Default>
+        </div>
+    );
 };
 
 export default HeroCover;

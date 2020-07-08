@@ -15,6 +15,17 @@ const getAnimeCast = id => gql`
                     id
                     names {
                         text
+                        localization {
+                            id
+                        }
+                    }
+                    images(first: 1) {
+                        type
+                        image {
+                            file {
+                                publicUri
+                            }
+                        }
                     }
                 }
                 character {
@@ -23,8 +34,16 @@ const getAnimeCast = id => gql`
                         id
                         names {
                             text
-                            localization(filter: { id: { eq: "en-US" } }) {
+                            localization {
                                 id
+                            }
+                        }
+                        images(first: 1) {
+                            type
+                            image {
+                                file {
+                                    publicUri
+                                }
                             }
                         }
                     }

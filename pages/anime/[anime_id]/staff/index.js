@@ -173,8 +173,8 @@ AnimeStaff.getInitialProps = async ctx => {
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
     const staff = data ? data.staff : '';
 
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
+    const hero_image = ''; // TODO: Banner image not present
+
     const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
 
     // ***********************************************
@@ -195,7 +195,6 @@ AnimeStaff.getInitialProps = async ctx => {
                         iso: 'jp',
                     },
                     type: 'people',
-                    person_role: 'Orignial Work',
                     id: 'Ypbh7y2ivfjHKf7SXSasdasdasdsPXn',
                     picture: '',
                 },
@@ -208,7 +207,6 @@ AnimeStaff.getInitialProps = async ctx => {
                         iso: 'jp',
                     },
                     type: 'people',
-                    person_role: 'Orignial Work',
                     id: 'Ypbh7y2ivfjHKfsdfsdf7SXSsPXn',
                     picture: '',
                 },
@@ -221,7 +219,6 @@ AnimeStaff.getInitialProps = async ctx => {
                         iso: 'jp',
                     },
                     type: 'people',
-                    person_role: 'Orignial Work',
                     id: 'Ypbh7y2ivfjHKf7dfgdfSXSsPXn',
                     picture: '',
                 },
@@ -236,7 +233,6 @@ AnimeStaff.getInitialProps = async ctx => {
                         iso: 'jp',
                     },
                     type: 'people',
-                    person_role: 'Orignial Work',
                     id: 'Ypbh7y2ivfjHKfghfgf7SXSsPXn',
                     picture: '',
                 },
@@ -251,7 +247,6 @@ AnimeStaff.getInitialProps = async ctx => {
                         iso: 'jp',
                     },
                     type: 'people',
-                    person_role: 'Orignial Work',
                     id: 'Ypbh7y2ivfjHKhjkhjkf7SXSsPXn',
                     picture: '',
                 },

@@ -189,7 +189,9 @@ b {
 
 /* Top Hero image */
 .hero-cover {
-    height: 315px;
+    /* TODO height attribute should be reset to 315px once a banner image is present */
+    height: 130px;
+    background-color: #000;
     overflow: hidden;
     margin: 0;
     padding: 0;
@@ -200,6 +202,8 @@ b {
 }
 
 .hero-cover__image {
+    /* TODO display: none should be removed once the banner image would be present */
+    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -208,6 +212,8 @@ b {
 }
 
 .hero-cover__shade {
+    /* TODO display: none should be removed once the banner image would be present */
+    display: none;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -300,6 +306,10 @@ b {
 /* Anime / Manga / Light-Novel / Games / Visual-Novels */
 .hero-cover__title h1 {
     font-size: 30px;
+}
+
+main.landing__description {
+    flex: 1;
 }
 
 .landing__details {
@@ -602,6 +612,7 @@ b {
     width: 100%;
     color: #6e6e6e;
     text-transform: capitalize;
+    white-space: pre-wrap;
 }
 .details__value ul {
     list-style: none;

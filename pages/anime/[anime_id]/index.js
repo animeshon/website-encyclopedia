@@ -6,10 +6,14 @@ import kebabCase from 'lodash/kebabCase';
 
 import { LanguageContext } from '@/ctx/languages';
 
-import AnyWrapper from '@/components/_AnyWrapper';
-import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
+import { undef } from '@/functions/undef';
+import { localizer } from '@/functions/localizer';
+import { monthSwitch } from '@/functions/monthSwitch';
 
 import getAnimeSummary from '@/queries/anime/Summary';
+
+import AnyWrapper from '@/components/_AnyWrapper';
+import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
@@ -27,7 +31,7 @@ const Anime = ({
     return (
         <AnyWrapper
             anyId={anime_id}
-            anyTitle={title} // TODO: not definitive
+            anyTitle={title}
             coverImage={cover_image}
             heroImage={hero_image}
             coverImageAltText={`${title} Cover`}
@@ -44,23 +48,25 @@ const Anime = ({
                     <p className="text_description">{parse(description)}</p>
                 </section>
                 {/* Characters */}
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Characters</h3>
-                        <span />
-                        {characters_list.length > 3 && (
-                            <Link
-                                href="/anime/[anime_id]/characters"
-                                as={`/anime/${anime_id}/characters`}
-                            >
-                                <a className="view-all-link">View all</a>
-                            </Link>
-                        )}
-                    </header>
-                    <ul className="characters-list">
-                        {renderCharacters(characters_list)}
-                    </ul>
-                </section>
+                {characters_list.length > 0 && (
+                    <section className="landing-section-box">
+                        <header>
+                            <h3>Characters</h3>
+                            <span />
+                            {characters_list.length > 3 && (
+                                <Link
+                                    href="/anime/[anime_id]/characters"
+                                    as={`/anime/${anime_id}/characters`}
+                                >
+                                    <a className="view-all-link">View all</a>
+                                </Link>
+                            )}
+                        </header>
+                        <ul className="characters-list">
+                            {renderCharacters(characters_list)}
+                        </ul>
+                    </section>
+                )}
                 {/* Anime Timeline 
                 <section className="landing-section-box">
                     <header>
@@ -149,23 +155,27 @@ Anime.getInitialProps = async ctx => {
 
     const data = res.data.queryAnime[0];
 
+    // DEBUG: console.log(`${'+'.repeat(120)} SUMMARY ${'+'.repeat(120)} \n`, data);
+
     const titles = data ? data.names : []; // returns an array
+    const genres = data ? data.genres : []; // returns an array
+    const distributions = data ? data.distributions : []; // return an array
     const descriptions = data ? data.description : []; // returns an array
     const characters = data ? data.starring : []; // returns an array
     const cover_image = data ? data.images[0].image.file.publicUri : '';
 
-    const description = descriptions.filter(
-        o => o.localization[0].id == 'en-US',
-    )[0].text; // returns a string
+    const descriptionPreCheck = localizer(descriptions, ['en-US']);
+    const description = undef(descriptionPreCheck);
 
-    const english_title = titles.filter(o => o.localization[0].id == 'en-US')[0]
-        .text; // returns a string
+    const english_title = undef(localizer(titles, ['en-US']));
+    const japanese_title = undef(localizer(titles, ['ja-JP']));
+    const romaji_title = undef(
+        localizer(titles, ['ANSI-Z39-11', 'ISO-3602', 'ISO-3602-STRICT']),
+    );
 
     const title = english_title;
 
-    const japanese_title = titles.filter(
-        o => o.localization[0].id === 'ja-JP',
-    )[0].text; // returns a string
+    // DEBUG: console.log(title);
 
     // extract the characters
     const characters_list = characters.map(char => {
@@ -177,18 +187,44 @@ Anime.getInitialProps = async ctx => {
         };
     });
 
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
+    const genres_list = genres.map(genre => {
+        const name = genre.names[0].text;
+        return name;
+    });
+
+    const season_from = distributions[0].from
+        ? distributions[0].from.datetime.split('-')
+        : undefined;
+    const from_year = season_from ? season_from[0] : undefined;
+    const from_month = season_from ? monthSwitch(season_from[1]) : undefined;
+    const season_to = distributions[0].to
+        ? distributions[0].to.datetime.split('-')
+        : undefined;
+    const to_year = season_to ? season_to[0] : undefined;
+    const to_month = season_to ? monthSwitch(season_to[1]) : undefined;
+
+    const from_string = from_year
+        ? `${to_year ? 'from ' : ''}${
+              from_month ? `${from_month} ` : ''
+          }${from_year}`
+        : '';
+    const to_string = to_year
+        ? `\n to ${to_month ? `${to_month} ` : ''}${to_year}`
+        : '';
+
+    const season = from_string ? `${from_string}, ${to_string}` : '';
+
+    const hero_image = ''; // TODO: Banner image not present
 
     const anime_details = {
         english_title,
         japanese_title,
-        romaji_title: undefined, // TODO: still not present on the graphql db
+        romaji_title,
         media: undefined, // TODO: still not present on the graphql db
         episodes_number: data.episodes.length,
         status: data.status.toLowerCase(),
-        season: undefined, // TODO: ?? in case we have a multiseason how we label it? In case we have a movie? 'Summer 2013'
-        genres: undefined, // TODO: still not present on the graphql db
+        season, // TODO: ?? in case we have a multiseason how we label it? In case we have a movie? 'Summer 2013'
+        genres: genres_list ? genres_list : undefined, // TODO: still not present on the graphql db
         age_rating: undefined, // TODO: still not present on the graphql db
         universe: undefined, // TODO: still not present on the graphql db
         universe_id: undefined, // TODO: still not present on the graphql db

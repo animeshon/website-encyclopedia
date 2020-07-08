@@ -45,9 +45,6 @@ const getAnimeSummary = id => gql`
                     text
                 }
             }
-            ageRatings {
-                age
-            }
             distributions {
                 from {
                     datetime
@@ -67,5 +64,11 @@ const getAnimeSummary = id => gql`
         }
     }
 `;
+
+// excluded fields that cause issues
+// **********************
+// ageRatings {
+//   age
+// }
 
 export default getAnimeSummary;

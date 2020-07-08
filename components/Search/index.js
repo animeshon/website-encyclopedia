@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import CustomInput from '../Input';
+import CustomInput from '@/components/Input';
 
 const Search = () => {
     const [searchValue, setSearchsearchValue] = useState('');

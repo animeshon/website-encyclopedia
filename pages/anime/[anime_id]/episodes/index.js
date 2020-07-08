@@ -3,7 +3,44 @@ import { truncate } from 'lodash';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
+import getAnimeEpisodes from '@/queries/anime/Episodes';
+
 import AnyWrapper from '@/components/_AnyWrapper';
+
+const AnimeEpisodes = ({
+    anime_id,
+    main_title,
+    cover_image,
+    hero_image,
+    cover_image_alt_text,
+    hero_image_alt_text,
+    is_multiseason,
+    episode_list,
+}) => {
+    return (
+        <AnyWrapper
+            anyId={anime_id}
+            anyTitle={main_title}
+            coverImage={cover_image}
+            heroImage={hero_image}
+            coverImageAltText={cover_image_alt_text}
+            heroImageAltText={hero_image_alt_text}
+            anyNav={AnimeNavigation}
+            selectedMenu="Episodes"
+        >
+            <main className="anime-episodes__description grid">
+                <section className="landing-section-box">
+                    <header>
+                        <h3>Episodes</h3>
+                    </header>
+                    <div className="episodes-list">
+                        {renderEpisodes(episode_list, is_multiseason, anime_id)}
+                    </div>
+                </section>
+            </main>
+        </AnyWrapper>
+    );
+};
 
 const renderEpisodes = (items, isMultiSeason, anime_id) => {
     return items.map(item => {
@@ -68,45 +105,22 @@ const renderEpisodes = (items, isMultiSeason, anime_id) => {
     });
 };
 
-const AnimeEpisodes = ({
-    anime_id,
-    main_title,
-    cover_image,
-    hero_image,
-    cover_image_alt_text,
-    hero_image_alt_text,
-    is_multiseason,
-    episode_list,
-}) => {
-    return (
-        <AnyWrapper
-            anyId={anime_id}
-            anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
-            anyNav={AnimeNavigation}
-            selectedMenu="Episodes"
-        >
-            <main className="anime-episodes__description grid">
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Episodes</h3>
-                    </header>
-                    <div className="episodes-list">
-                        {renderEpisodes(episode_list, is_multiseason, anime_id)}
-                    </div>
-                </section>
-            </main>
-        </AnyWrapper>
-    );
-};
-
 AnimeEpisodes.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
+    const client = ctx.apolloClient;
+
+    const raw_id = anime_id.substring(0, 16);
+
+    const res = await client.query({
+        query: getAnimeEpisodes(raw_id),
+    });
+
+    const data = res.data.queryAnime[0];
+
+    // DEBUG: console.log(`${'+'.repeat(120)} EPISODES ${'+'.repeat(120)} \n`, data);
+
+    const hero_image = ''; // TODO: Banner image not present
+
     const cover_image =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
     const main_title = 'Fate/Kaleid Liner Prisma Illya';

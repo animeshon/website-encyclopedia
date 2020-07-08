@@ -2,13 +2,16 @@ import Link from 'next/link';
 import replace from 'lodash/replace';
 import kebabCase from 'lodash/kebabCase';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { undef } from '@/functions/undef';
+import { localizer } from '@/functions/localizer';
 
 import getAnimeCharacters from '@/queries/anime/Characters';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 const AnimeCharacters = ({
     anime_id,
@@ -103,7 +106,7 @@ AnimeCharacters.getInitialProps = async ctx => {
     const titles = data ? data.names : []; // returns an array
     const characters = data ? data.starring : []; // returns an array
 
-    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+    const title = undef(localizer(titles, ['en-US'])); // returns a string
     const cover_image = data ? data.images[0].image.file.publicUri : '';
 
     // extract the characters
@@ -111,22 +114,20 @@ AnimeCharacters.getInitialProps = async ctx => {
         characters.map(char => {
             const { id, images, names, relation } = char.character;
 
+            const english_name = undef(localizer(names, ['en-US']));
+            const japanese_name = undef(localizer(names, ['ja-JP']));
+
             return {
                 type: 'character',
-                english_name: names.filter(
-                    o => o.localization[0].id == 'en-US',
-                )[0].text,
-                japanese_name: names.filter(
-                    o => o.localization[0].id == 'ja-JP',
-                )[0].text,
-                profilePic: images[0].image.file.publicUri,
+                english_name,
+                japanese_name,
+                profilePic: images[0] ? images[0].image.file.publicUri : '',
                 role: char.relation,
                 id,
             };
-        }) || [];
+        }) || []; // returns an array
 
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
+    const hero_image = ''; // TODO: Banner image not present
 
     return {
         anime_id,

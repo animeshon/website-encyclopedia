@@ -26,7 +26,7 @@ const getAnimeOrganizations = id => gql`
                         }
                         names {
                             text
-                            localization(filter: { id: { eq: "en-US" } }) {
+                            localization {
                                 id
                             }
                         }

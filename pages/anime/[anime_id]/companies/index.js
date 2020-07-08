@@ -2,13 +2,16 @@ import Link from 'next/link';
 import capitalize from 'lodash/capitalize';
 import kebabCase from 'lodash/kebabCase';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { undef } from '@/functions/undef';
+import { localizer } from '@/functions/localizer';
 
 import getAnimeOrganizations from '@/queries/anime/Organizations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 const AnimeCompanies = ({
     anime_id,
@@ -104,6 +107,8 @@ AnimeCompanies.getInitialProps = async ctx => {
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
     const staff = data ? data.staff : '';
 
+    // DEBUG: console.log(staff);
+
     const companies_full_list = staff
         .map(item => {
             const {
@@ -112,19 +117,21 @@ AnimeCompanies.getInitialProps = async ctx => {
                 role,
             } = item;
 
-            const company_name = names.filter(o => {
-                if (o.localization[0] !== undefined) {
-                    return o.localization[0].id == 'en-US';
-                }
-            })[0].text;
+            const company_name = undef(localizer(names, ['en-US']), '');
 
-            // ?? the japanese name is not yet implemented skipping for the moment
+            const company_japanese_name = undef(
+                localizer(names, ['ja-JP']),
+                '',
+            );
+
+            const iso = item.localization.id.split('-')[1].toLowerCase();
 
             if (__typename == 'Organization') {
                 return {
                     company_name,
+                    company_japanese_name,
                     company_nation: {
-                        iso: item.localization.id === 'ja-JP' ? 'jp' : 'us', // there should be a normalization of the flags library
+                        iso,
                     },
                     type: 'organization',
                     company_pic: images[0]
@@ -136,10 +143,9 @@ AnimeCompanies.getInitialProps = async ctx => {
         })
         .filter(i => i !== undefined);
 
-    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+    const title = undef(localizer(titles, ['en-US'])); // returns a string
 
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
+    const hero_image = ''; // : Banner image not present
 
     return {
         anime_id,

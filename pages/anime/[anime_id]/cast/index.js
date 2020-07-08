@@ -1,13 +1,16 @@
 import Link from 'next/link';
 import { kebabCase, capitalize } from 'lodash';
 
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { undef } from '@/functions/undef';
+import { localizer } from '@/functions/localizer';
 
 import getAnimeCast from '@/queries/anime/Cast';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+
+import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 const AnimeCast = ({
     anime_id,
@@ -42,13 +45,11 @@ const AnimeCast = ({
 };
 
 const renderCast = items => {
-    const linkTo = '/poeople/';
+    const linkTo = '/people/';
     return items.map(item => {
         const linkProps = {
             href: `${linkTo}[people_id]`,
-            as: `${linkTo}${
-                item.id + '_' + kebabCase(item.fname + '-' + item.lname)
-            }`,
+            as: `${linkTo}${item.id + '_' + kebabCase(item.name)}`,
         };
         return (
             <div key={item.id} className="card">
@@ -58,16 +59,14 @@ const renderCast = items => {
                             type={item.type}
                             sex={item.sex}
                             picture={item.profile_picture}
-                            altText={`${item.fname} ${item.lname}`}
+                            altText={item.name}
                         />
                     </a>
                 </Link>
                 <div className="card__info">
                     <Link {...linkProps}>
                         <a>
-                            <h4>
-                                {item.fname} {item.lname}
-                            </h4>
+                            <h4>{item.name}</h4>
                         </a>
                     </Link>
                     <p className="card__jap-name">{item.japanese_name}</p>
@@ -75,15 +74,17 @@ const renderCast = items => {
                         <span
                             className={`fp fp-sm custom-fp ${item.nationality.iso}`}
                         />
-                        {capitalize(item.sex)}
+                        {/* {capitalize(item.sex)} TODO: skipped cause is not consistent */}
                     </p>
                     <Button
                         className="cherry-red medium character-button-ref"
-                        href={`${linkTo}[people_id]`}
-                        as={`${linkTo}${item.id}_${kebabCase(
-                            item.fname + '-' + item.lname,
-                        )}`}
                         type="next-link"
+                        href={`/characters/[character_id]`}
+                        as={`/characters/${
+                            item.character.id +
+                            '_' +
+                            kebabCase(item.character.name)
+                        }`}
                     >
                         <span className="character-image">
                             <img
@@ -114,100 +115,53 @@ AnimeCast.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
+    const cast = data ? data.voiceActings : []; // returns an array
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
 
-    const hero_image =
-        'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+    const hero_image = ''; // TODO: Banner image not present
+    const title = undef(localizer(titles, ['en-US'])); // returns a string
 
-    // ***********************************************
-    // ***********************************************
-    // Skipped cause of missing data
-    // ***********************************************
-    // ***********************************************
+    const cast_full_list = cast.map(member => {
+        const { actor, character } = member;
 
-    const cast_full_list = [
-        {
-            fname: 'Shizuka',
-            lname: 'Itou',
-            japanese_name: '静伊藤',
+        const actor_id = actor.id;
+        const actor_name = undef(localizer(actor.names, ['en-US']), '');
+        const actor_japanese_name = undef(
+            localizer(actor.names, ['ja-JP']),
+            '',
+        );
+        const actor_pic = actor.images[0]
+            ? actor.images[0].image.file.publicUri
+            : '';
+
+        const character_id = character.id;
+        const character_pic = character.images[0]
+            ? character.images[0].image.file.publicUri
+            : '';
+        const character_name = undef(localizer(character.names, ['en-US']), '');
+
+        return {
+            name: actor_name,
+            japanese_name: actor_japanese_name,
             character: {
-                name: 'Luviagelita Edelfelt',
-                picture:
-                    'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
+                name: character_name,
+                picture: character_pic,
+                id: character_id,
             },
-            sex: 'female',
+            // sex: '', TODO: skipped coause is not consistent
             nationality: {
-                extended: 'japan',
-                iso: 'jp',
+                extended: actor_japanese_name ? 'japan' : '',
+                iso: actor_japanese_name ? 'jp' : '',
             },
             type: 'people',
             person_profession: 'voice-actor',
-            profile_picture:
-                'https://th.bing.com/th/id/OIP.KQLaDnjwz0qPYFGc5MOqUgHaId',
-            id: 'KF6pueaGkhfXjvwHKQiSxY',
-        },
-        {
-            fname: 'Shizuka',
-            lname: 'Itou',
-            japanese_name: '静伊藤',
-            character: {
-                name: 'Luviagelita Edelfelt',
-                picture:
-                    'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
-            },
-            sex: 'female',
-            nationality: {
-                extended: 'japan',
-                iso: 'jp',
-            },
-            type: 'people',
-            person_profession: 'voice-actor',
-            profile_picture:
-                'https://th.bing.com/th/id/OIP.KQLaDnjwz0qPYFGc5MOqUgHaId',
-            id: 'DZozVL4oVHN53s4dPMg9Pk',
-        },
-        {
-            fname: 'Shizuka',
-            lname: 'Itou',
-            japanese_name: '静伊藤',
-            character: {
-                name: 'Luviagelita Edelfelt',
-                picture:
-                    'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
-            },
-            sex: 'female',
-            nationality: {
-                extended: 'japan',
-                iso: 'jp',
-            },
-            type: 'people',
-            person_profession: 'voice-actor',
-            profile_picture:
-                'https://th.bing.com/th/id/OIP.KQLaDnjwz0qPYFGc5MOqUgHaId',
-            id: 'MnUM7UvLwcxFdsUixnYrGN',
-        },
-        {
-            fname: 'Shizuka',
-            lname: 'Itou',
-            japanese_name: '静伊藤',
-            character: {
-                name: 'Luviagelita Edelfelt',
-                picture:
-                    'https://www.nautiljon.com/images/perso/00/35/luviagelita_edelfelt_12353.jpg',
-            },
-            sex: 'female',
-            nationality: {
-                extended: 'japan',
-                iso: 'jp',
-            },
-            type: 'people',
-            person_profession: 'voice-actor',
-            profile_picture:
-                'https://th.bing.com/th/id/OIP.KQLaDnjwz0qPYFGc5MOqUgHaId',
-            id: 'tK7nEDbD2abiYj6KYSQYdD',
-        },
-    ];
+            profile_picture: actor_pic,
+            id: actor_id,
+        };
+    });
+
+    // TODO: Voice Actors filters based on nationality is impossible to be integrated cause no nationality filter is present
+    // TODO: Voice Actors fallback images based on sex are not settable cause of not consistent gender field
 
     return {
         anime_id,
