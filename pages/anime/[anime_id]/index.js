@@ -209,7 +209,7 @@ Anime.getInitialProps = async ctx => {
           }${from_year}`
         : '';
     const to_string = to_year
-        ? `\n to ${to_month ? `${to_month} ` : ''}${to_year}`
+        ? `\nto ${to_month ? `${to_month} ` : ''}${to_year}`
         : '';
 
     const season = from_string ? `${from_string}, ${to_string}` : '';

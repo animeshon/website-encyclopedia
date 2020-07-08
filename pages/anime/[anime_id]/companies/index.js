@@ -107,7 +107,8 @@ AnimeCompanies.getInitialProps = async ctx => {
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
     const staff = data ? data.staff : '';
 
-    // DEBUG: console.log(staff);
+    // DEBUG:
+    console.log(staff);
 
     const companies_full_list = staff
         .map(item => {

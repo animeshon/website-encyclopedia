@@ -10,6 +10,9 @@ const getAnimeCast = id => gql`
                 }
             }
             voiceActings {
+                localization {
+                    id
+                }
                 actor {
                     gender
                     id
