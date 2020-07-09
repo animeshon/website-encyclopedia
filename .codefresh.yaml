@@ -34,7 +34,7 @@ steps:
     title: "Pushing image to Google Cloud Registry"
     type: "push"
     stage: "build"
-    image_name: "encyclopedia"
+    image_name: "encyclopedia-frontend-nextjs"
     registry: "eu-general-tier-0"
     candidate: "${{nextjs_build}}"
     tags:
@@ -45,7 +45,7 @@ steps:
     title: "Pushing image to Google Cloud Registry"
     type: "push"
     stage: "build"
-    image_name: "encyclopedia"
+    image_name: "encyclopedia-frontend-nginx"
     registry: "eu-general-tier-0"
     candidate: "${{nginx_build}}"
     tags:
