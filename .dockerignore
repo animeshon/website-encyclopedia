@@ -1,7 +1,9 @@
+.cache
 .codefresh.yaml
 .dockerignore
+.git
 .gitignore
-/nginx
 /helm
+/nginx
 Dockerfile
 README.md
