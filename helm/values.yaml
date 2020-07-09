@@ -1,11 +1,11 @@
 fullnameOverride: "encyclopedia-frontend"
 
-nextjs:
+nginx:
   service:
     type: LoadBalancer
     port: 80
 
-nodejs:
+nextjs:
   env:
   - name: GRAPHQL_ENDPOINT
     value: "http://graphql.animeshon.com/graphql"
