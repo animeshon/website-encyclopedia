@@ -21,17 +21,6 @@ steps:
     registry: "eu-general-tier-0"
     working_directory: "${{clone}}"
     stage: "build"
-  nextjs_push:
-    title: "Pushing image to Google Cloud Registry"
-    type: "push"
-    stage: "build"
-    image_name: "encyclopedia"
-    registry: "eu-general-tier-0"
-    candidate: "${{build}}"
-    tags:
-      - "${{CF_BRANCH_TAG_NORMALIZED}}"
-      - "${{CF_REVISION}}"
-      - "latest"
   nginx_build:
     title: "Building Docker Image"
     type: "build"
@@ -41,6 +30,17 @@ steps:
     registry: "eu-general-tier-0"
     working_directory: "${{clone}}"
     stage: "build"
+  nextjs_push:
+    title: "Pushing image to Google Cloud Registry"
+    type: "push"
+    stage: "build"
+    image_name: "encyclopedia"
+    registry: "eu-general-tier-0"
+    candidate: "${{nextjs_build}}"
+    tags:
+      - "${{CF_BRANCH_TAG_NORMALIZED}}"
+      - "${{CF_REVISION}}"
+      - "latest"
   nginx_push:
     title: "Pushing image to Google Cloud Registry"
     type: "push"
