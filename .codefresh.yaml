@@ -26,9 +26,9 @@ steps:
     type: "build"
     image_name: "animeshon/encyclopedia-frontend-nginx"
     tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
-    dockerfile: "nginx/Dockerfile"
+    dockerfile: "Dockerfile"
     registry: "eu-general-tier-0"
-    working_directory: "${{clone}}"
+    working_directory: "${{clone}}/nginx"
     stage: "build"
   nextjs_push:
     title: "Pushing image to Google Cloud Registry"
