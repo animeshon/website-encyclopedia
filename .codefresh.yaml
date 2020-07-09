@@ -18,7 +18,7 @@ steps:
     image_name: "animeshon/encyclopedia-frontend-nextjs"
     tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
     dockerfile: "Dockerfile"
-    registry: "eu-general-tier-0"
+    registry: "us-spider-tier-0"
     working_directory: "${{clone}}"
     stage: "build"
   nginx_build:
@@ -27,7 +27,7 @@ steps:
     image_name: "animeshon/encyclopedia-frontend-nginx"
     tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
     dockerfile: "Dockerfile"
-    registry: "eu-general-tier-0"
+    registry: "us-spider-tier-0"
     working_directory: "${{clone}}/nginx"
     stage: "build"
   nextjs_push:
@@ -35,7 +35,7 @@ steps:
     type: "push"
     stage: "build"
     image_name: "encyclopedia-frontend-nextjs"
-    registry: "eu-general-tier-0"
+    registry: "us-spider-tier-0"
     candidate: "${{nextjs_build}}"
     tags:
       - "${{CF_BRANCH_TAG_NORMALIZED}}"
@@ -46,7 +46,7 @@ steps:
     type: "push"
     stage: "build"
     image_name: "encyclopedia-frontend-nginx"
-    registry: "eu-general-tier-0"
+    registry: "us-spider-tier-0"
     candidate: "${{nginx_build}}"
     tags:
       - "${{CF_BRANCH_TAG_NORMALIZED}}"
