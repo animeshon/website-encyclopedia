@@ -1,0 +1,13 @@
+fullnameOverride: "encyclopedia-frontend"
+
+nextjs:
+  service:
+    type: LoadBalancer
+    port: 80
+
+nodejs:
+  env:
+  - name: GRAPHQL_ENDPOINT
+    value: "http://graphql.animeshon.com/graphql"
+  - name: NODE_ENV
+    value: "production"

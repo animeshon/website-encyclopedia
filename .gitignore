@@ -1,3 +1,7 @@
-node_modules
-.next
+.cache/
 .DS_Store
+.env
+.vscode/
+coverage/
+dist/
+node_modules/
