@@ -71,4 +71,4 @@ steps:
     environment:
       - "KUBECONFIG=/codefresh/volume/kubectl"
     commands:
-      - "helm upgrade --install --values ./helm/values.yaml encyclopedia-frontend ./helm/encyclopedia-frontend--set nextjs.image.tag=${{CF_REVISION}} --set nginx.image.tag=${{CF_REVISION}} --namespace animeshon"
+      - "helm upgrade --install --values ./helm/values.yaml encyclopedia-frontend ./helm/encyclopedia-frontend --set nextjs.image.tag=${{CF_REVISION}} --set nginx.image.tag=${{CF_REVISION}} --namespace animeshon"
