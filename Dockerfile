@@ -11,10 +11,11 @@ FROM node:13-alpine
 
 WORKDIR /app
 
+RUN npm install --global pm2
+
 COPY --from=dependencies /build /app
 COPY . .
 
-RUN npm install --global pm2
 RUN npm run build
 
 # Expose the listening port
