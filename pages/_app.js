@@ -55,7 +55,7 @@ const cache = new InMemoryCache({ fragmentMatcher });
 
 export default withApollo(({ initialState }) => {
     return new ApolloClient({
-        uri: httpLin'http://graphql.animeshon.com/graphql'k,
+        uri: 'http://graphql.animeshon.com/graphql',
         cache: cache.restore(initialState || {}),
     });
 })(Animeshon);
