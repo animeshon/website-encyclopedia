@@ -6,7 +6,6 @@ import withApollo from 'next-with-apollo';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
 import introspectionQueryResultData from './../introspection/fragments.generated.json';
 
 import { SearchContext, searchReducer } from '@/ctx/search';
@@ -52,12 +51,11 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
 });
 
-const httpLink = new HttpLink({ uri: 'http://graphql.animeshon.com/graphql' })
 const cache = new InMemoryCache({ fragmentMatcher });
 
 export default withApollo(({ initialState }) => {
     return new ApolloClient({
-        uri: httpLink,
+        uri: httpLin'http://graphql.animeshon.com/graphql'k,
         cache: cache.restore(initialState || {}),
     });
 })(Animeshon);
