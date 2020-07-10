@@ -49,7 +49,7 @@ Animeshon.getInitialProps = async appContext => {
 
 export default withApollo(({ initialState }) => {
     return new ApolloClient({
-        uri: process.env.GRAPHQL_ENDPOINT || 'http://localhost:8080/graphql',
+        uri: "http://graphql.animeshon.com/graphql",
         cache: new InMemoryCache().restore(initialState || {}),
     });
 })(Animeshon);
