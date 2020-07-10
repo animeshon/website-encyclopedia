@@ -1,0 +1,74 @@
+version: "1.0"
+stages:
+  - "clone"
+  - "build"
+  - "integration"
+  - "push"
+  - "deployment"
+steps:
+  clone:
+    type: "git-clone"
+    description: "Cloning main repository..."
+    repo: "animeshon/encyclopedia-frontend"
+    revision: "${{CF_BRANCH}}"
+    stage: "clone"
+  nextjs_build:
+    title: "Building Docker Image"
+    type: "build"
+    image_name: "animeshon/encyclopedia-frontend-nextjs"
+    tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
+    dockerfile: "Dockerfile"
+    registry: "us-spider-tier-0"
+    working_directory: "${{clone}}"
+    stage: "build"
+  nginx_build:
+    title: "Building Docker Image"
+    type: "build"
+    image_name: "animeshon/encyclopedia-frontend-nginx"
+    tag: "${{CF_BRANCH_TAG_NORMALIZED}}"
+    dockerfile: "Dockerfile"
+    registry: "us-spider-tier-0"
+    working_directory: "${{clone}}/nginx"
+    stage: "build"
+  nextjs_push:
+    title: "Pushing image to Google Cloud Registry"
+    type: "push"
+    stage: "build"
+    image_name: "encyclopedia-frontend-nextjs"
+    registry: "us-spider-tier-0"
+    candidate: "${{nextjs_build}}"
+    tags:
+      - "${{CF_BRANCH_TAG_NORMALIZED}}"
+      - "${{CF_REVISION}}"
+      - "latest"
+  nginx_push:
+    title: "Pushing image to Google Cloud Registry"
+    type: "push"
+    stage: "build"
+    image_name: "encyclopedia-frontend-nginx"
+    registry: "us-spider-tier-0"
+    candidate: "${{nginx_build}}"
+    tags:
+      - "${{CF_BRANCH_TAG_NORMALIZED}}"
+      - "${{CF_REVISION}}"
+      - "latest"
+  gcloud_credentials:
+    title: "Authenticating to kubernetes via gcloud command"
+    image: "google/cloud-sdk:290.0.1-alpine"
+    stage: "deployment"
+    environment:
+      - "KUBECONFIG=/codefresh/volume/kubectl"
+    commands:
+      - "echo ${{KUBERNETES_CREDENTIALS}} | base64 -d > ${{GOOGLE_APPLICATION_CREDENTIALS}}"
+      - "gcloud config set container/use_application_default_credentials True"
+      - "gcloud auth activate-service-account --key-file ${{GOOGLE_APPLICATION_CREDENTIALS}}"
+      - "gcloud container clusters get-credentials ${{KUBERNETES_CLUSTER}} --region ${{KUBERNETES_REGION}} --project ${{GCP_PROJECT}}"
+  helm_install:
+    title: "Installing or upgrading the Helm chart"
+    image: "alpine/helm:3.2.0"
+    stage: "deployment"
+    working_directory: "${{clone}}"
+    environment:
+      - "KUBECONFIG=/codefresh/volume/kubectl"
+    commands:
+      - "helm upgrade --install --values ./helm/values.yaml encyclopedia-frontend ./helm/encyclopedia-frontend --set nextjs.image.tag=${{CF_REVISION}} --set nginx.image.tag=${{CF_REVISION}} --namespace animeshon"

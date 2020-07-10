@@ -5,8 +5,8 @@ import App from 'next/app';
 import withApollo from 'next-with-apollo';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { createHttpLink } from 'apollo-link-http';
-import fetch from 'cross-fetch';
+import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+import introspectionQueryResultData from './../introspection/fragments.generated.json';
 
 import { SearchContext, searchReducer } from '@/ctx/search';
 import { LanguageContext, languageReducer } from '@/ctx/languages';
@@ -47,10 +47,16 @@ Animeshon.getInitialProps = async appContext => {
     return { ...appProps };
 };
 
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+    introspectionQueryResultData
+});
+
+const cache = new InMemoryCache({ fragmentMatcher });
+
 export default withApollo(({ initialState }) => {
     return new ApolloClient({
-        uri: 'http://localhost:8080/graphql',
-        cache: new InMemoryCache().restore(initialState || {}),
+        uri: 'http://graphql.animeshon.com/graphql',
+        cache: cache.restore(initialState || {}),
     });
 })(Animeshon);
 

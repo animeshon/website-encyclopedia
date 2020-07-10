@@ -105,10 +105,7 @@ AnimeCompanies.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
-    const staff = data ? data.staff : '';
-
-    // DEBUG:
-    console.log(staff);
+    const staff = data ? data.staff : [];
 
     const companies_full_list = staff
         .map(item => {
@@ -118,16 +115,16 @@ AnimeCompanies.getInitialProps = async ctx => {
                 role,
             } = item;
 
-            const company_name = undef(localizer(names, ['en-US']), '');
-
-            const company_japanese_name = undef(
-                localizer(names, ['ja-JP']),
-                '',
-            );
-
-            const iso = item.localization.id.split('-')[1].toLowerCase();
-
             if (__typename == 'Organization') {
+                const company_name = undef(localizer(names, ['en-US']), '');
+
+                const company_japanese_name = undef(
+                    localizer(names, ['ja-JP']),
+                    '',
+                );
+
+                const iso = item.localization.id.split('-')[1].toLowerCase();
+
                 return {
                     company_name,
                     company_japanese_name,

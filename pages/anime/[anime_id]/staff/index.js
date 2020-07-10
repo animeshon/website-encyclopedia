@@ -171,7 +171,7 @@ AnimeStaff.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
-    const staff = data ? data.staff : '';
+    const staff = data ? data.staff : [];
 
     const hero_image = ''; // TODO: Banner image not present
 
