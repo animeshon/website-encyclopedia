@@ -3,7 +3,6 @@ fullnameOverride: "encyclopedia-frontend"
 nginx:
   service:
     type: LoadBalancer
-    port: 80
 
 nextjs:
   env:
