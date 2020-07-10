@@ -120,7 +120,10 @@ AnimeCompanies.getInitialProps = async ctx => {
 
             // DEBUG:
             console.log(localization);
-            console.log(collaborator);
+            console.log(__typename);
+            console.log(id);
+            console.log(images);
+            console.log(names);
             console.log(role);
 
             const company_name = undef(localizer(names, ['en-US']), '');
