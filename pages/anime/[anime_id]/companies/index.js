@@ -126,22 +126,23 @@ AnimeCompanies.getInitialProps = async ctx => {
             console.log(names);
             console.log(role);
 
-            const company_name = undef(localizer(names, ['en-US']), '');
-
-            const company_japanese_name = undef(
-                localizer(names, ['ja-JP']),
-                '',
-            );
-
-            const iso = item.localization.id.split('-')[1].toLowerCase();
-
-            // DEBUG:
-            console.log(company_name);
-            console.log(company_japanese_name);
-            console.log(iso);
-            console.log(__typename);
 
             if (__typename == 'Organization') {
+                const company_name = undef(localizer(names, ['en-US']), '');
+
+                const company_japanese_name = undef(
+                    localizer(names, ['ja-JP']),
+                    '',
+                );
+
+                const iso = item.localization.id.split('-')[1].toLowerCase();
+
+                // DEBUG:
+                console.log(company_name);
+                console.log(company_japanese_name);
+                console.log(iso);
+                console.log(__typename);
+                
                 return {
                     company_name,
                     company_japanese_name,
