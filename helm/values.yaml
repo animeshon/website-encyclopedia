@@ -4,7 +4,7 @@ nginx:
   service:
     type: LoadBalancer
 
-nextjs:
-  env:
-  - name: NODE_ENV
-    value: "production"
+# nextjs:
+#   env:
+#   - name: NODE_ENV
+#     value: "production"
