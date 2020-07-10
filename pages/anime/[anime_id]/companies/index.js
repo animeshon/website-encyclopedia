@@ -107,9 +107,6 @@ AnimeCompanies.getInitialProps = async ctx => {
     const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
     const staff = data ? data.staff : [];
 
-    // DEBUG:
-    console.log(staff);
-
     const companies_full_list = staff
         .map(item => {
             const {
@@ -117,15 +114,6 @@ AnimeCompanies.getInitialProps = async ctx => {
                 collaborator: { __typename, id, images, names },
                 role,
             } = item;
-
-            // DEBUG:
-            console.log(localization);
-            console.log(__typename);
-            console.log(id);
-            console.log(images);
-            console.log(names);
-            console.log(role);
-
 
             if (__typename == 'Organization') {
                 const company_name = undef(localizer(names, ['en-US']), '');
@@ -137,12 +125,6 @@ AnimeCompanies.getInitialProps = async ctx => {
 
                 const iso = item.localization.id.split('-')[1].toLowerCase();
 
-                // DEBUG:
-                console.log(company_name);
-                console.log(company_japanese_name);
-                console.log(iso);
-                console.log(__typename);
-                
                 return {
                     company_name,
                     company_japanese_name,
