@@ -16,6 +16,7 @@ RUN npm install --global pm2
 COPY --from=dependencies /build /app
 COPY . .
 
+RUN npm run build-fragment
 RUN npm run build
 
 # Expose the listening port

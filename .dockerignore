@@ -5,5 +5,6 @@
 .gitignore
 /helm
 /nginx
+/node_modules
 Dockerfile
 README.md
