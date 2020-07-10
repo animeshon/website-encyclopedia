@@ -9,7 +9,7 @@ RUN rm /etc/nginx/conf.d/* && rm /docker-entrypoint.d/*
 COPY ./default.conf /etc/nginx/conf.d/
 
 # Expose the listening port
-EXPOSE 80
+EXPOSE 8080
 
 # Launch NGINX
 CMD [ "nginx", "-g", "daemon off;" ]
