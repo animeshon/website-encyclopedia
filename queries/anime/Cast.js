@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 const getAnimeCast = id => gql`
     {
         queryAnime(filter: { id: { eq: "${id}" } }) {
-            names @cascade {
+            names {
                 text
                 localization(filter: { id: { eq: "en-US" } }) {
                     id
