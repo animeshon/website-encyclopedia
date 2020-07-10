@@ -8,5 +8,5 @@ nextjs:
   env:
   - name: GRAPHQL_ENDPOINT
     value: "http://graphql.animeshon.com/graphql"
-  - name: NODE_ENV
-    value: "production"
+  # - name: NODE_ENV
+  #   value: "production"
