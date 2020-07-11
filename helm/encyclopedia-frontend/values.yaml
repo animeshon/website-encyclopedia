@@ -62,6 +62,24 @@ nginx:
     type: ClusterIP
     port: 80
   
+  livenessProbe:
+    port: 80
+    path: /
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+
+  readinessProbe:
+    port: 80
+    path: /
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 5
+    successThreshold: 1
+  
   env: {}
 
 resources: {}
