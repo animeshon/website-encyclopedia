@@ -10,7 +10,7 @@ const getAnimeOrganizations = id => gql`
                     id
                 }
             }
-            staff {
+            staff @cascade {
                 localization {
                     id
                 }
