@@ -10,12 +10,15 @@ const getAnimeStaff = id => gql`
                     id
                 }
             }
-            staff @cascade {
+            staff {
                 localization {
                     id
                 }
                 collaborator {
                     __typename
+                    ... on Organization {
+                        id
+                    }
                     ... on Person {
                         id
                         images(first: 1) {
