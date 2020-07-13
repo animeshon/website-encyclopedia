@@ -1,7 +1,13 @@
+import Link from 'next/link';
+
+import kebabCase from 'lodash/kebabCase';
+
+import performSearch from '@/queries/search/Search';
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const Search = () => {
+const Search = ({ manga, anime }) => {
     return (
         <>
             <Header isSearchAvailable />
@@ -10,233 +16,226 @@ const Search = () => {
             </em>
             <div className="results-container">
                 <div className="left-column">
-                    <article className="search-result anime primary-result">
-                        <div className="search-result__row">
-                            <section className="search-result__contents">
-                                <figure className="search-result__image">
-                                    <img
-                                        src="https://cdn.animesaturn.com/static/images/locandine/17405l.jpg"
-                                        alt="Naruto (Anime)"
-                                    />
-                                </figure>
-                                <header className="search-result__texts">
-                                    <div className="search-result__breadcrumb">
-                                        <span>Naruto</span>
-                                        <span>Anime</span>
-                                        <span>Naruto</span>
+                    {anime.map((item, index) => {
+                        const primary = index == 0 ? 'primary' : 'secondary';
+                        const mainId = item.id;
+                        const mainCoverImage = item.images[0]
+                            ? item.images[0].image.file.publicUri
+                            : undefined;
+                        const mainTitle = item.names[0].text;
+                        const mainDescription = item.description[0].text;
+                        const episodes = item.episodes
+                            ? item.episodes
+                            : undefined;
+
+                        // console.log(episodes);
+                        return (
+                            <article
+                                key={mainId}
+                                className={`search-result anime ${primary}-result`}
+                            >
+                                <Link
+                                    href="/anime/[anime_id]"
+                                    as={`/anime/${mainId}_${kebabCase(
+                                        mainTitle,
+                                    )}`}
+                                >
+                                    <div className="search-result__row">
+                                        {mainCoverImage && (
+                                            <figure className="search-result__image">
+                                                <img
+                                                    src={mainCoverImage}
+                                                    alt={`${mainTitle} Cover (Anime)`}
+                                                />
+                                            </figure>
+                                        )}
+                                        <header className="search-result__texts">
+                                            <div className="search-result__breadcrumb">
+                                                <span>Anime</span>
+                                                <span>{mainTitle}</span>
+                                            </div>
+                                            <h2>{mainTitle} (Anime)</h2>
+                                            <strong>Anime</strong>
+                                            <p>{mainDescription}</p>
+                                        </header>
                                     </div>
-                                    <h2>Naruto (Anime)</h2>
-                                    <strong>Anime</strong>
-                                    <p>
-                                        Naruto is an anime series based on
-                                        Masashi Kishimoto’s manga series of the
-                                        same name. The series centers on the
-                                        adventures of Naruto Uzumaki, a young
-                                        ninja of Konohagakure, searching for
-                                        recognitions and wishing …
-                                    </p>
-                                </header>
-                            </section>
-                        </div>
-                        <aside className="search-result__aside">
-                            <h3>Episodes</h3>
-                            <div className="search-result__column">
-                                <div className="search-result__aside__item">
-                                    <figure>
-                                        <img
-                                            src="https://fanaru.com/naruto-shippuuden/image/279686-naruto-shippuuden-naruto-uzumaki-episode-screencap-22x21.jpg"
-                                            alt=""
-                                        />
-                                    </figure>
-                                    <div className="search-result__aside__texts">
-                                        <h4>Enter: Naruto Uzumaki!</h4>
-                                        <p>
-                                            Sanjou! Uzumaki Naruto (参上!
-                                            うずまきナルト)
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="search-result__aside__item">
-                                    <figure>
-                                        <img
-                                            src="https://fanaru.com/naruto-shippuuden/image/276664-naruto-shippuuden-the-valley-of-the-end-episode-screencap-22x17.jpg"
-                                            alt=""
-                                        />
-                                    </figure>
-                                    <div className="search-result__aside__texts">
-                                        <h4>Enter: Naruto Uzumaki!</h4>
-                                        <p>
-                                            Sanjou! Uzumaki Naruto (参上!
-                                            うずまきナルト)
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="search-result__more-trigger">
-                                <button>more</button>
-                            </div>
-                        </aside>
-                    </article>
-                    {/* ---------------------------------------- */}
-                    <article className="search-result manga primary-result">
-                        <div className="search-result__row">
-                            <section className="search-result__contents">
-                                <figure className="search-result__image">
-                                    <img
-                                        src="https://879ed873-madman-com-au.akamaized.net/media/Releases/33400/33400-1060806.jpg"
-                                        alt="Naruto (Manga Series)"
-                                    />
-                                </figure>
-                                <header className="search-result__texts">
-                                    <div className="search-result__breadcrumb">
-                                        <span>Naruto</span>
-                                        <span>Manga</span>
-                                        <span>Naruto</span>
-                                    </div>
-                                    <h2>Naruto (Manga Series)</h2>
-                                    <strong>Manga Series</strong>
-                                    <p>
-                                        Naruto is an anime series based on
-                                        Masashi Kishimoto’s manga series of the
-                                        same name. The series centers on the
-                                        adventures of Naruto Uzumaki, a young
-                                        ninja of Konohagakure, searching for
-                                        recognitions and wishing …
-                                    </p>
-                                </header>
-                            </section>
-                        </div>
-                        <aside className="search-result__aside">
-                            <h3>Volumes</h3>
-                            <div className="search-result__column">
-                                <div className="search-result__aside__item">
-                                    <figure>
-                                        <img
-                                            src="https://upload.wikimedia.org/wikipedia/en/thumb/9/94/NarutoCoverTankobon1.jpg/220px-NarutoCoverTankobon1.jpg"
-                                            alt="Naruto Volume 1"
-                                        />
-                                    </figure>
-                                    <div className="search-result__aside__texts">
-                                        <h4>Volume 1</h4>
-                                        <p>
-                                            Twelve years ago the Village Hidden
-                                            in the Leaves was attacked…
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="search-result__aside__item">
-                                    <figure>
-                                        <img
-                                            src="https://m.media-amazon.com/images/I/61IH90LyydL.jpg"
-                                            alt="Naruto Volume 2"
-                                        />
-                                    </figure>
-                                    <div className="search-result__aside__texts">
-                                        <h4>Volume 2</h4>
-                                        <p>
-                                            Tired of menial tasks, Naruto,
-                                            Sasuke and Sakura ask for a tougher
-                                            assignment…
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="search-result__more-trigger">
-                                <button>more</button>
-                            </div>
-                        </aside>
-                    </article>
-                    {/* ---------------------------------------------- */}
-                    <article className="search-result organization secondary-result">
-                        <div className="search-result__row">
-                            <section className="search-result__contents">
-                                <figure className="search-result__image">
-                                    <img
-                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/TV_Tokyo_logo_20110629.svg/1200px-TV_Tokyo_logo_20110629.svg.png"
-                                        alt="TV Tokio"
-                                    />
-                                </figure>
-                                <header className="search-result__texts">
-                                    <div className="search-result__breadcrumb">
-                                        <span>Organizations</span>
-                                        <span>TV Tokyo</span>
-                                    </div>
-                                    <h2>TV Tokyo</h2>
-                                    <strong>Organization</strong>
-                                    <p>
-                                        JOTX-DTV, branded as TV Tokyo
-                                        (テレビ東京, Terebi Tōkyō) and often
-                                        abbreviated as “Teleto” (テレ東,
-                                        Teretō), a blend of “terebi” and
-                                        “Tokyo”, is the flagship station of the
-                                        TXN Network headquartered in the
-                                        Sumitomo Fudosan Roppongi Grand…
-                                    </p>
-                                </header>
-                            </section>
-                        </div>
-                    </article>
-                    {/* ---------------------------------------------- */}
-                    <article className="search-result game secondary-result">
-                        <div className="search-result__row">
-                            <section className="search-result__contents">
-                                <figure className="search-result__image">
-                                    <img
-                                        src="https://images-na.ssl-images-amazon.com/images/I/81NEQyruZjL._SY445_.jpg"
-                                        alt="Naruto: Clash of Ninja"
-                                    />
-                                </figure>
-                                <header className="search-result__texts">
-                                    <div className="search-result__breadcrumb">
-                                        <span>Games</span>
-                                        <span>Naruto: Clash of Ninja</span>
-                                    </div>
-                                    <h2>Naruto: Clash of Ninja</h2>
-                                    <strong>Manga Series</strong>
-                                    <p>
-                                        Naruto is an anime series based on
-                                        Masashi Kishimoto’s manga series of the
-                                        same name. The series centers on the
-                                        adventures of Naruto Uzumaki, a young
-                                        ninja of Konohagakure, searching for
-                                        recognitions and wishing …
-                                    </p>
-                                </header>
-                            </section>
-                        </div>
-                    </article>
-                    {/* ---------------------------------------------- */}
-                    <article className="search-result people secondary-result">
-                        <div className="search-result__row">
-                            <section className="search-result__contents">
-                                <figure className="search-result__image">
-                                    <img
-                                        src="https://image.tmdb.org/t/p/w235_and_h235_face/7SQSXY0hbloZ9MUznMk1pBxQq1V.jpg"
-                                        alt="Hayato Date"
-                                    />
-                                </figure>
-                                <header className="search-result__texts">
-                                    <div className="search-result__breadcrumb">
-                                        <span>People</span>
-                                        <span>Hayato Date</span>
-                                    </div>
-                                    <h2>Hayato Date</h2>
-                                    <strong>Director</strong>
-                                    <p>
-                                        Hayato Date (伊達勇登, Date Hayato, born
-                                        May 22, 1962) is a Japanese animation
-                                        film and television director.
-                                    </p>
-                                </header>
-                            </section>
-                        </div>
-                    </article>
+                                </Link>
+                                {episodes && primary == 'primary' && (
+                                    <aside className="search-result__aside">
+                                        <h3>Episodes</h3>
+                                        <div className="search-result__column">
+                                            <AnimeEpisodes
+                                                animeTitle={mainTitle}
+                                                animeId={mainId}
+                                                episodes={episodes}
+                                            />
+                                        </div>
+                                        <div className="search-result__more-trigger">
+                                            <Link
+                                                href="/anime/[anime_id]/episodes"
+                                                as={`/anime/${mainId}_${kebabCase(
+                                                    mainTitle,
+                                                )}/episodes`}
+                                            >
+                                                <button>more</button>
+                                            </Link>
+                                        </div>
+                                    </aside>
+                                )}
+                            </article>
+                        );
+                    })}
+
+                    {manga &&
+                        manga.map((item, index) => {
+                            const primary =
+                                index == 0 ? 'primary' : 'secondary';
+                            const volumes = item.volumes[0]
+                                ? item.volumes[0]
+                                : undefined;
+                            const mainId = item.id;
+                            const mainCoverImage = item.images[0]
+                                ? item.images[0].image.file.publicUri
+                                : undefined;
+                            const mainTitle = item.names[0]
+                                ? item.names[0].text
+                                : 'UNDEFINED';
+                            const mainDescription = item.description[0].text;
+
+                            return (
+                                <article
+                                    key={mainId}
+                                    className={`search-result manga ${primary}-result`}
+                                >
+                                    <Link
+                                        href="/manga/[manga_id]"
+                                        as={`/manga/${mainId}_${kebabCase(
+                                            mainTitle,
+                                        )}`}
+                                    >
+                                        <div className="search-result__row">
+                                            <section className="search-result__contents">
+                                                <figure className="search-result__image">
+                                                    <img
+                                                        src={mainCoverImage}
+                                                        alt={`${mainTitle} (Manga)`}
+                                                    />
+                                                </figure>
+                                                <header className="search-result__texts">
+                                                    <div className="search-result__breadcrumb">
+                                                        <span>Manga</span>
+                                                        <span>{mainTitle}</span>
+                                                    </div>
+                                                    <h2>{mainTitle} (Manga)</h2>
+                                                    <strong>
+                                                        Manga Series
+                                                    </strong>
+                                                    <p>{mainDescription}</p>
+                                                </header>
+                                            </section>
+                                        </div>
+                                    </Link>
+                                    {volumes && primary == 'primary' && (
+                                        <aside className="search-result__aside">
+                                            <h3>Volumes</h3>
+                                            <div className="search-result__column">
+                                                <MangaVolumes
+                                                    volumes={volumes}
+                                                />
+                                            </div>
+                                            <div className="search-result__more-trigger">
+                                                <Link
+                                                    href="/manga/[manga_id]"
+                                                    as={`/manga/${mainId}_${mainTitle}/volumes`}
+                                                >
+                                                    <button>more</button>
+                                                </Link>
+                                            </div>
+                                        </aside>
+                                    )}
+                                </article>
+                            );
+                        })}
                 </div>
-                <div className="right-column">right</div>
+                <div className="right-column"></div>
             </div>
             <Footer contextualClass="search-footer" />
         </>
     );
+};
+
+const AnimeEpisodes = ({ episodes, animeId, animeTitle }) => {
+    return episodes.map(episode => {
+        const image = episode.images[0]
+            ? episode.images[0].image.file.publicUri
+            : undefined;
+        const name = episode.names[0].text;
+        const descirption = episode.description[0]
+            ? episode.description[0].text
+            : undefined;
+        const episodeId = episode.id;
+
+        return (
+            <Link
+                key={episodeId}
+                href="/anime/[anime_id]/episodes/[episode_id]"
+                as={`/anime/${animeId}_${kebabCase(
+                    animeTitle,
+                )}/episodes/${episodeId}_${kebabCase(name)}`}
+            >
+                <div className="search-result__aside__item">
+                    {image && (
+                        <figure>
+                            <img src={image} alt="" />
+                        </figure>
+                    )}
+                    <div className="search-result__aside__texts">
+                        <h4>{name}</h4>
+                        {descirption && <p>{descirption}</p>}
+                    </div>
+                </div>
+            </Link>
+        );
+    });
+};
+
+const MangaVolumes = ({ volumes }) => {
+    return volumes.map((volume, index) => {
+        return (
+            <div key={volume.id} className="search-result__aside__item">
+                <figure>
+                    <img src="" alt="" />
+                </figure>
+                <div className="search-result__aside__texts">
+                    <h4>Volume {index}</h4>
+                    <p>descritpion</p>
+                </div>
+            </div>
+        );
+    });
+};
+
+Search.getInitialProps = async ctx => {
+    const searchTerm = ctx.query.q;
+    const client = ctx.apolloClient;
+
+    // console.name(searchTerm);
+
+    const res = await client.query({
+        query: performSearch(searchTerm),
+    });
+
+    const {
+        data: { queryAnime, queryManga },
+    } = res;
+
+    const manga = queryManga;
+    const anime = queryAnime;
+
+    return {
+        manga,
+        anime,
+    };
 };
 
 export default Search;

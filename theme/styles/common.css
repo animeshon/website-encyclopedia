@@ -1696,6 +1696,7 @@ ul.grid-halves {
 
 .search-result__row {
     display: flex;
+    cursor: pointer;
 }
 .search-result__identity {
     min-width: 2px;
@@ -1729,7 +1730,6 @@ ul.grid-halves {
 .manga .search-result__image img,
 .game .search-result__image img,
 .people .search-result__image img {
-    max-width: unset;
     object-fit: cover;
 }
 
@@ -1806,6 +1806,7 @@ ul.grid-halves {
     display: flex;
     margin-right: 18px;
     width: 50%;
+    cursor: pointer;
 }
 
 .search-result__aside__item:last-child {
