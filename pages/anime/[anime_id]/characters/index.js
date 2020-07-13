@@ -94,7 +94,7 @@ const renderCharacters = items => {
 
 AnimeCharacters.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
-    const raw_id = anime_id.substring(0, 16);
+    const raw_id = anime_id.substring(0, 6);
     const client = ctx.apolloClient;
 
     const res = await client.query({

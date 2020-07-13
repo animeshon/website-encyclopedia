@@ -161,7 +161,7 @@ AnimeStaff.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
     const client = ctx.apolloClient;
 
-    const raw_id = anime_id.substring(0, 16);
+    const raw_id = anime_id.substring(0, 6);
 
     const res = await client.query({
         query: getAnimeStaff(raw_id),

@@ -146,7 +146,7 @@ Anime.getInitialProps = async ctx => {
     // const isoLang = langauge != 'ja_JP' ? 'en-US' : 'ja-JP';
 
     const { anime_id } = ctx.query;
-    const raw_id = anime_id.substring(0, 16);
+    const raw_id = anime_id.substring(0, 6);
     const client = ctx.apolloClient;
 
     const res = await client.query({
@@ -180,9 +180,12 @@ Anime.getInitialProps = async ctx => {
     // extract the characters
     const characters_list = characters.map(char => {
         const { id, images, names } = char.character;
+        console.log(images[0]);
         return {
-            name: names[0].text,
-            profilePic: images[0].image.file.publicUri,
+            name: names[0] ? names[0].text : 'DEBUG: skipped',
+            profilePic: images[0]
+                ? images[0].image.file.publicUri
+                : 'https://via.placeholder.com/150',
             id,
         };
     });
@@ -192,12 +195,12 @@ Anime.getInitialProps = async ctx => {
         return name;
     });
 
-    const season_from = distributions[0].from
+    const season_from = distributions[0]
         ? distributions[0].from.datetime.split('-')
         : undefined;
     const from_year = season_from ? season_from[0] : undefined;
     const from_month = season_from ? monthSwitch(season_from[1]) : undefined;
-    const season_to = distributions[0].to
+    const season_to = distributions[0]
         ? distributions[0].to.datetime.split('-')
         : undefined;
     const to_year = season_to ? season_to[0] : undefined;
