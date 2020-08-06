@@ -4,6 +4,7 @@ stages:
   - "build"
   - "integration"
   - "push"
+  - "provisioning"
   - "deployment"
 steps:
   clone:
