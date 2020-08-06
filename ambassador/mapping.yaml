@@ -7,4 +7,4 @@ spec:
   ambassador_id: [ "ambassador-edge" ]
   prefix: /
   host: insider.animeshon.com
-  service: "encyclopedia-frontend.animeshon:80"
+  service: "encyclopedia-frontend-nginx.animeshon:80"
