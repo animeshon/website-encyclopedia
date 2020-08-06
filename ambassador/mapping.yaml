@@ -1,0 +1,10 @@
+apiVersion: getambassador.io/v2
+kind:  Mapping
+metadata:
+  name:  encyclopedia-frontend
+  namespace: ambassador
+spec:
+  ambassador_id: [ "ambassador-edge" ]
+  prefix: /
+  host: insider.animeshon.com
+  service: "encyclopedia-frontend.animeshon:80"

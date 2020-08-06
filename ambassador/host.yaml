@@ -1,0 +1,12 @@
+# apiVersion: getambassador.io/v2
+# kind: Host
+# metadata:
+#   name: insider-animeshon-com
+#   namespace: ambassador
+# spec:
+#   ambassador_id: [ "ambassador-edge" ]
+#   hostname: insider.animeshon.com
+#   acmeProvider:
+#     email: christian.roggia@animeshon.com
+#   tlsSecret:
+#     name: tls-insider-animeshon-com

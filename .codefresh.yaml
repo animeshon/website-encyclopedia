@@ -52,9 +52,24 @@ steps:
       - "${{CF_BRANCH_TAG_NORMALIZED}}"
       - "${{CF_REVISION}}"
       - "latest"
+  prepare_plan:
+    image: "alpine:3.9"
+    title: "Setting up Terraform CLI"
+    stage: "provisioning"
+    working_directory: "${{clone}}"
+    commands:
+      - "./terraform/setup.sh"
+  deploy:
+    image: "hashicorp/terraform:0.12.29"
+    title: "Executing Terraform provisioning"
+    stage: "provisioning"
+    working_directory: "${{clone}}/terraform"
+    commands:
+      - "terraform init"
+      - "terraform apply -auto-approve" 
   gcloud_credentials:
     title: "Authenticating to kubernetes via gcloud command"
-    image: "google/cloud-sdk:290.0.1-alpine"
+    image: "google/cloud-sdk:303.0.0-alpine"
     stage: "deployment"
     environment:
       - "KUBECONFIG=/codefresh/volume/kubectl"
@@ -65,10 +80,19 @@ steps:
       - "gcloud container clusters get-credentials ${{KUBERNETES_CLUSTER}} --region ${{KUBERNETES_REGION}} --project ${{GCP_PROJECT}}"
   helm_install:
     title: "Installing or upgrading the Helm chart"
-    image: "alpine/helm:3.2.0"
+    image: "alpine/helm:3.2.3"
     stage: "deployment"
     working_directory: "${{clone}}"
     environment:
       - "KUBECONFIG=/codefresh/volume/kubectl"
     commands:
       - "helm upgrade --install --values ./helm/values.yaml encyclopedia-frontend ./helm/encyclopedia-frontend --set nextjs.image.tag=${{CF_REVISION}} --set nginx.image.tag=${{CF_REVISION}} --namespace animeshon"
+  kubernetes_apply:
+    title: "Applying Kubernetes configurations"
+    image: "bitnami/kubectl:1.17"
+    stage: "deployment"
+    working_directory: "${{clone}}"
+    environment:
+      - "KUBECONFIG=/codefresh/volume/kubectl"
+    commands:
+      - "kubectl apply -f ambassador/"

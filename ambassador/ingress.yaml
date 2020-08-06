@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: insider-animeshon-com
+    networking.gke.io/managed-certificates: insider-animeshon-com
+  name: insider-animeshon-com
+  namespace: ambassador
+spec:
+  rules:
+  - host: insider.animeshon.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: ambassador
+          servicePort: 443

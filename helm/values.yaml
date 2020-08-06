@@ -1,9 +1,5 @@
 fullnameOverride: "encyclopedia-frontend"
 
-nginx:
-  service:
-    type: LoadBalancer
-
 # nextjs:
 #   env:
 #   - name: NODE_ENV
