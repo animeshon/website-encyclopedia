@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: insider-animeshon-com
+  namespace: istio-system
+spec:
+  hosts:
+  - "insider.animeshon.com"
+  gateways:
+  - insider-animeshon-com
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 80
+        host: encyclopedia-frontend-nginx.animeshon.svc.cluster.local

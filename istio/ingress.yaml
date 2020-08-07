@@ -5,7 +5,7 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: insider-animeshon-com
     networking.gke.io/managed-certificates: insider-animeshon-com
   name: insider-animeshon-com
-  namespace: ambassador
+  namespace: istio-system
 spec:
   rules:
   - host: insider.animeshon.com
@@ -13,5 +13,5 @@ spec:
       paths:
       - path: /*
         backend:
-          serviceName: ambassador
-          servicePort: 443
+          serviceName: istio-ingress
+          servicePort: 80 # ! Figure out how to make it work with TLS on port 443.

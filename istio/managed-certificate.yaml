@@ -2,7 +2,7 @@ apiVersion: networking.gke.io/v1beta2
 kind: ManagedCertificate
 metadata:
   name: insider-animeshon-com
-  namespace: ambassador
+  namespace: istio-system
 spec:
   domains:
     - insider.animeshon.com

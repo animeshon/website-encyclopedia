@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: encyclopedia-frontend
+  namespace: istio-system
+spec:
+  host: encyclopedia-frontend-nginx.animeshon.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    portLevelSettings:
+    - port:
+        number: 80
+      tls:
+        mode: DISABLE

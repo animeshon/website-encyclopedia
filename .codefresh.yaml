@@ -96,4 +96,4 @@ steps:
     environment:
       - "KUBECONFIG=/codefresh/volume/kubectl"
     commands:
-      - "kubectl apply -f ambassador/"
+      - "kubectl apply -f istio/"
