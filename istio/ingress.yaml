@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   annotations:
+    kubernetes.io/ingress.allow-http: "false"
     kubernetes.io/ingress.global-static-ip-name: insider-animeshon-com
     networking.gke.io/managed-certificates: insider-animeshon-com
   name: insider-animeshon-com
