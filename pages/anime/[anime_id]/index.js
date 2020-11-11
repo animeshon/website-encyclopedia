@@ -146,7 +146,7 @@ Anime.getInitialProps = async ctx => {
     // const isoLang = langauge != 'ja_JP' ? 'en-US' : 'ja-JP';
 
     const { anime_id } = ctx.query;
-    const raw_id = anime_id.substring(0, 6);
+    const raw_id = anime_id.substring(0, 12);
     const client = ctx.apolloClient;
 
     const res = await client.query({
@@ -159,18 +159,18 @@ Anime.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const genres = data ? data.genres : []; // returns an array
-    const distributions = data ? data.distributions : []; // return an array
-    const descriptions = data ? data.description : []; // returns an array
+    const runnings = data ? data.runnings : []; // return an array
+    const descriptions = data ? data.descriptions : []; // returns an array
     const characters = data ? data.starring : []; // returns an array
-    const cover_image = data ? data.images[0].image.file.publicUri : '';
+    const cover_image = data ? data.images[0].image.files[0].publicUri : '';
 
-    const descriptionPreCheck = localizer(descriptions, ['en-US']);
+    const descriptionPreCheck = localizer(descriptions, ['eng'], ['Latn']);
     const description = undef(descriptionPreCheck);
 
-    const english_title = undef(localizer(titles, ['en-US']));
-    const japanese_title = undef(localizer(titles, ['ja-JP']));
+    const english_title = undef(localizer(titles, ['eng'], ['Latn']));
+    const japanese_title = undef(localizer(titles, ['jpn'], ['Jpan']));
     const romaji_title = undef(
-        localizer(titles, ['ANSI-Z39-11', 'ISO-3602', 'ISO-3602-STRICT']),
+        localizer(titles, ['jpn'], ['Latn']),
     );
 
     const title = english_title;
@@ -184,7 +184,7 @@ Anime.getInitialProps = async ctx => {
         return {
             name: names[0] ? names[0].text : 'DEBUG: skipped',
             profilePic: images[0]
-                ? images[0].image.file.publicUri
+                ? images[0].image.files[0].publicUri
                 : 'https://via.placeholder.com/150',
             id,
         };
@@ -195,13 +195,13 @@ Anime.getInitialProps = async ctx => {
         return name;
     });
 
-    const season_from = distributions[0]
-        ? distributions[0].from.datetime.split('-')
+    const season_from = runnings[0]
+        ? runnings[0].from.split('-')
         : undefined;
     const from_year = season_from ? season_from[0] : undefined;
     const from_month = season_from ? monthSwitch(season_from[1]) : undefined;
-    const season_to = distributions[0]
-        ? distributions[0].to.datetime.split('-')
+    const season_to = runnings[0]
+        ? runnings[0].to.split('-')
         : undefined;
     const to_year = season_to ? season_to[0] : undefined;
     const to_month = season_to ? monthSwitch(season_to[1]) : undefined;

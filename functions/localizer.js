@@ -1,8 +1,17 @@
-export const localizer = (arr, local) => {
-    return arr.filter(o => {
-        const id = o.localization[0].id;
-        if (id) {
-            return local.includes(id);
+export const localizer = (i, languages, scripts) => {
+    // if (i == undefined) {
+    //     return undefined;
+    // }
+
+    return i.filter(o => {
+        const language = o.localization.language.code;
+        if (!language || !languages.includes(language)) {
+            return false;
+        }
+
+        const script = o.localization.script.code;
+        if (script) {
+            return scripts.includes(script);
         }
     })[0];
 };
