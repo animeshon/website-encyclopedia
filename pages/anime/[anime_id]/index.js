@@ -182,7 +182,7 @@ Anime.getInitialProps = async ctx => {
         const { id, images, names } = char.character;
         console.log(images[0]);
         return {
-            name: names[0] ? names[0].text : 'DEBUG: skipped',
+            name: names[0] ? names[0].text : '',
             profilePic: images[0]
                 ? images[0].image.files[0].publicUri
                 : 'https://via.placeholder.com/150',

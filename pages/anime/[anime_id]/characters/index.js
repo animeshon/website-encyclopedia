@@ -94,7 +94,7 @@ const renderCharacters = items => {
 
 AnimeCharacters.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
-    const raw_id = anime_id.substring(0, 6);
+    const raw_id = anime_id.substring(0, 12);
     const client = ctx.apolloClient;
 
     const res = await client.query({
@@ -106,22 +106,22 @@ AnimeCharacters.getInitialProps = async ctx => {
     const titles = data ? data.names : []; // returns an array
     const characters = data ? data.starring : []; // returns an array
 
-    const title = undef(localizer(titles, ['en-US'])); // returns a string
-    const cover_image = data ? data.images[0].image.file.publicUri : '';
+    const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
+    const cover_image = data ? data.images[0].image.files[0].publicUri : '';
 
     // extract the characters
     const characters_list =
         characters.map(char => {
             const { id, images, names, relation } = char.character;
 
-            const english_name = undef(localizer(names, ['en-US']));
-            const japanese_name = undef(localizer(names, ['ja-JP']));
+            const english_name = undef(localizer(names, null, ['Latn']));
+            const japanese_name = undef(localizer(names, null, ['Jpan']));
 
             return {
                 type: 'character',
                 english_name,
                 japanese_name,
-                profilePic: images[0] ? images[0].image.file.publicUri : '',
+                profilePic: images[0] ? images[0].image.files[0].publicUri : '',
                 role: char.relation,
                 id,
             };

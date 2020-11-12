@@ -4,14 +4,20 @@ export const localizer = (i, languages, scripts) => {
     // }
 
     return i.filter(o => {
-        const language = o.localization.language.code;
-        if (!language || !languages.includes(language)) {
-            return false;
+        if (languages !== null) {
+            const language = o.localization.language.code;
+            if (!language || !languages.includes(language)) {
+                return false;
+            }
         }
 
-        const script = o.localization.script.code;
-        if (script) {
-            return scripts.includes(script);
+        if (scripts !== null) {
+            const script = o.localization.script.code;
+            if (!script || !scripts.includes(script)) {
+                return false;
+            }
         }
+
+        return true;
     })[0];
 };

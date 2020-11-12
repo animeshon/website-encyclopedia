@@ -95,7 +95,7 @@ AnimeCompanies.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
     const client = ctx.apolloClient;
 
-    const raw_id = anime_id.substring(0, 6);
+    const raw_id = anime_id.substring(0, 12);
 
     const res = await client.query({
         query: getAnimeOrganizations(raw_id),
@@ -104,7 +104,7 @@ AnimeCompanies.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
+    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
     const staff = data ? data.staff : [];
 
     const companies_full_list = staff
@@ -116,14 +116,17 @@ AnimeCompanies.getInitialProps = async ctx => {
             } = item;
 
             if (__typename == 'Organization') {
-                const company_name = undef(localizer(names, ['en-US']), '');
+                var company_name = undef(localizer(names, ['eng'], ['Latn']), '');
+                if (company_name == '') {
+                    company_name = undef(localizer(names, null, ['Latn']), '');
+                }
 
                 const company_japanese_name = undef(
-                    localizer(names, ['ja-JP']),
+                    localizer(names, ['jpn'], ['Jpan']),
                     '',
                 );
 
-                const iso = item.localization.id.split('-')[1].toLowerCase();
+                const iso = localization.country.alpha2.toLowerCase();
 
                 return {
                     company_name,
@@ -131,9 +134,9 @@ AnimeCompanies.getInitialProps = async ctx => {
                     company_nation: {
                         iso,
                     },
-                    type: 'organization',
+                    type: role.names[0].text,
                     company_pic: images[0]
-                        ? images[0].image.file.publicUri
+                        ? images[0].image.files[0].publicUri
                         : '',
                     id,
                 };
@@ -141,7 +144,7 @@ AnimeCompanies.getInitialProps = async ctx => {
         })
         .filter(i => i !== undefined);
 
-    const title = undef(localizer(titles, ['en-US'])); // returns a string
+    const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
 
     const hero_image = ''; // : Banner image not present
 

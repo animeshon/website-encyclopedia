@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { replace, kebabCase, capitalize } from 'lodash';
 
+import { localizer } from '@/functions/localizer';
+
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 import getAnimeStaff from '@/queries/anime/Staff';
@@ -46,11 +48,11 @@ const AnimeStaff = ({
     return (
         <AnyWrapper
             anyId={anime_id}
-            anyTitle={title}
+            anyTitle={title.text}
             coverImage={cover_image}
             heroImage={hero_image}
-            coverImageAltText={`${title} Cover`}
-            heroImageAltText={`${title} Hero`}
+            coverImageAltText={`${title.text} Cover`}
+            heroImageAltText={`${title.text} Hero`}
             anyNav={AnimeNavigation}
             selectedMenu="Staff"
         >
@@ -161,7 +163,7 @@ AnimeStaff.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
     const client = ctx.apolloClient;
 
-    const raw_id = anime_id.substring(0, 6);
+    const raw_id = anime_id.substring(0, 12);
 
     const res = await client.query({
         query: getAnimeStaff(raw_id),
@@ -170,12 +172,12 @@ AnimeStaff.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
+    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
     const staff = data ? data.staff : [];
 
     const hero_image = ''; // TODO: Banner image not present
 
-    const title = titles.filter(o => o.localization[0].id == 'en-US')[0].text; // returns a string
+    const title = localizer(titles, ['eng'], ['Latn']); // returns a string
 
     // ***********************************************
     // ***********************************************

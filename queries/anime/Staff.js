@@ -1,60 +1,79 @@
 import gql from 'graphql-tag';
 
 const getAnimeStaff = id => gql`
-    {
-        queryAnime(filter: { id: { eq: "${id}" } }) {
-            id
-            names @cascade {
-                text
-                localization(filter: { id: { eq: "en-US" } }) {
-                    id
-                }
-            }
-            staff {
-                localization {
-                    id
-                }
-                collaborator {
-                    __typename
-                    ... on Organization {
-                        id
-                    }
-                    ... on Person {
-                        id
-                        images(first: 1) {
-                            image {
-                                file {
-                                    publicUri
-                                }
-                            }
-                        }
-                        names {
-                            text
-                            localization {
-                                id
-                            }
-                        }
-                    }
-                }
-                role {
-                    names @cascade {
-                        text
-                        localization(filter: { id: { eq: "en-US" } }) {
-                            id
-                        }
-                    }
-                }
-            }
-            images(first: 1) {
-                type
-                image {
-                    file {
-                        publicUri
-                    }
-                }
-            }
+{
+  queryAnime(filter: {id: {eq: "${id}"}}) {
+    id
+    names @cascade {
+      text
+      localization {
+        language {
+          code
         }
+        script {
+          code
+        }
+      }
     }
+    staff {
+      localization {
+        language {
+          code
+        }
+        country {
+          code
+        }
+      }
+      collaborator {
+        ... on Organization {
+          id
+        }
+        ... on Person {
+          id
+          images(first: 1) {
+            image {
+              files {
+                publicUri
+              }
+            }
+          }
+          names {
+            text
+            localization {
+              language {
+                code
+              }
+              script {
+                code
+              }
+            }
+          }
+        }
+      }
+      role {
+        ... on TypedRole {
+          id
+          type
+        }
+        ... on FreeTextRole {
+          id
+          tag
+          names {
+            text
+          }
+        }
+      }
+    }
+    images(first: 1) {
+      type
+      image {
+        files {
+          publicUri
+        }
+      }
+    }
+  }
+}
 `;
 
 export default getAnimeStaff;

@@ -1,38 +1,37 @@
 export const langPickerSwitcher = arr =>
     arr.map(iso => {
         switch (iso) {
-            case 'jp':
+            case 'jpn':
                 return {
                     iso,
                     extended: 'Japanese',
                 };
-            case 'de':
+            case 'deu':
                 return {
                     iso,
                     extended: 'German',
                 };
-            case 'es':
+            case 'spa':
                 return {
                     iso,
                     extended: 'Spanish',
                 };
-            case 'us':
+            case 'eng':
                 return {
                     iso,
                     extended: 'English',
                 };
-            case 'fr':
+            case 'fra':
                 return {
                     iso,
                     extended: 'French',
                 };
-            case 'it':
+            case 'ita':
                 return {
                     iso,
                     extended: 'Italian',
                 };
-            case 'pt':
-            case 'br':
+            case 'por':
                 return {
                     iso,
                     extended: 'Portuguese',
@@ -42,7 +41,7 @@ export const langPickerSwitcher = arr =>
                     iso,
                     extended: 'Finnish',
                 };
-            case 'pl':
+            case 'pol':
                 return {
                     iso,
                     extended: 'Polish',

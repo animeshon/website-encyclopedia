@@ -25,7 +25,7 @@ const getAnimeSummary = id => gql`
         }
       }
     }
-    starring {
+    starring(first: 5) {
       character {
         ... on Character {
           id
@@ -38,11 +38,9 @@ const getAnimeSummary = id => gql`
             }
           }
           names @cascade {
+            text
             localization {
-              language(filter: {code: {eq: "eng"}}) {
-                code
-              }
-              script {
+              script(filter: {code: {eq: "Latn"}}) {
                 code
               }
             }
@@ -50,7 +48,15 @@ const getAnimeSummary = id => gql`
         }
       }
     }
-    episodes {
+    type
+    ageRatings {
+      country {
+        code
+      }
+      age
+      tag
+    }
+    episodes(filter: {type: {eq: REGULAR}}) {
       id
     }
     status

@@ -24,7 +24,7 @@ const AnimeCast = ({
     cast_full_list,
     list_of_flags,
 }) => {
-    const [productionLang, setProductionLang] = useState('jp');
+    const [productionLang, setProductionLang] = useState('jpn');
 
     const changeProductionLang = e => {
         setProductionLang(e.currentTarget.value);
@@ -139,7 +139,7 @@ AnimeCast.getInitialProps = async ctx => {
     const { anime_id } = ctx.query;
     const client = ctx.apolloClient;
 
-    const raw_id = anime_id.substring(0, 6);
+    const raw_id = anime_id.substring(0, 12);
 
     const res = await client.query({
         query: getAnimeCast(raw_id),
@@ -149,38 +149,33 @@ AnimeCast.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const cast = data ? data.voiceActings : []; // returns an array
-    const cover_image = data ? data.images[0].image.file.publicUri : ''; // returns a string
+    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
 
     const hero_image = ''; // TODO: Banner image not present
-    const title = undef(localizer(titles, ['en-US'])); // returns a string
+    const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
 
     const list_of_flags = [];
 
     const cast_full_list = cast.map(member => {
-        const { actor, character, localization } = member;
+        const { actor, voiced, localization } = member;
 
         const actor_id = actor.id;
-        const actor_name = undef(localizer(actor.names, ['en-US']), '');
+        const actor_name = undef(localizer(actor.names, null, ['Latn']), '');
         const actor_japanese_name = undef(
-            localizer(actor.names, ['ja-JP']),
+            localizer(actor.names, ['jpn'], ['Jpan']),
             '',
         );
         const actor_pic = actor.images[0]
-            ? actor.images[0].image.file.publicUri
+            ? actor.images[0].image.files[0].publicUri
             : '';
 
-        const character_id = character.id;
-        const character_pic = character.images[0]
-            ? character.images[0].image.file.publicUri
+        const character_id = voiced.id;
+        const character_pic = voiced.images[0]
+            ? voiced.images[0].image.files[0].publicUri
             : '';
-        const character_name = undef(localizer(character.names, ['en-US']), '');
+        const character_name = undef(localizer(voiced.names, null, ['Latn']), '');
 
-        const production_iso =
-            localization.id != 'UNDEFINED'
-                ? localization.id.split('-')[1].toLowerCase()
-                : '';
-
-        list_of_flags.push(production_iso);
+        list_of_flags.push(localization.language.code);
 
         return {
             name: actor_name,
@@ -193,7 +188,7 @@ AnimeCast.getInitialProps = async ctx => {
             // sex: '', TODO: skipped coause is not consistent
             nationality: {
                 extended: actor_japanese_name ? 'japan' : '',
-                iso: production_iso,
+                iso: localization.language.code,
             },
             type: 'people',
             person_profession: 'voice-actor',
