@@ -5,7 +5,6 @@ import { useState, useEffect, useContext } from 'react';
 import { SearchContext } from '@/ctx/search';
 
 import { useInputChange } from '@/functions/inputChange';
-import { cleanSearch } from '@/functions/cleanSearch';
 
 import Sidebar from '@/components/Sidebar';
 
@@ -31,17 +30,15 @@ const Header = ({ isSearchAvailable }) => {
     const handleQuerySubmit = e => {
         e.preventDefault();
 
-        const q = cleanSearch(search.search);
-
         if (search.search != '') {
             dispatchSearch({
                 type: 'performNewSearch',
-                payload: q,
+                payload: search.search,
             });
 
             Router.push({
                 pathname: '/search',
-                query: { q },
+                query:  search.search ,
             });
         } else {
             dispatchSearch({

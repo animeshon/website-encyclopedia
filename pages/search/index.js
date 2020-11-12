@@ -3,6 +3,7 @@ import Link from 'next/link';
 import kebabCase from 'lodash/kebabCase';
 
 import performSearch from '@/queries/search/Search';
+import details from '@/queries/search/details';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -219,23 +220,22 @@ Search.getInitialProps = async ctx => {
     const searchTerm = ctx.query.q;
     const client = ctx.apolloClient;
 
-    // console.name(searchTerm);
-
-    const res = await client.query({
-        query: performSearch(searchTerm),
+    const {
+        data: { querySearch : { res } },
+    } = await client.query({
+        query: performSearch(),
+        variables: {
+            search: searchTerm,
+            first: 10,
+            offset: 0,
+            filter: [],
+        },
     });
 
-    const {
-        data: { queryAnime, queryManga },
-    } = res;
-
-    const manga = queryManga;
-    const anime = queryAnime;
-
-    return {
-        manga,
-        anime,
-    };
+    const promises = res.map(x => details(x.type, x.id, client));
+    const resolved = await Promise.all(promises);
+    const results = resolved.filter(function(r) {return r !== undefined}).map(r => r.data.result);
+    return results
 };
 
 export default Search;
