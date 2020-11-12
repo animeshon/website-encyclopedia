@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 const getAnimeSummary = id => gql`
 {
   queryAnime(filter: {id: {eq: "${id}"}}) {
+    id
     names @cascade {
       text
       localization {
@@ -29,7 +30,7 @@ const getAnimeSummary = id => gql`
       character {
         ... on Character {
           id
-          images(first: 1) {
+          images {
             type
             image {
               files {
@@ -37,10 +38,13 @@ const getAnimeSummary = id => gql`
               }
             }
           }
-          names @cascade {
+          names {
             text
             localization {
-              script(filter: {code: {eq: "Latn"}}) {
+              language {
+                code
+              }
+              script {
                 code
               }
             }
@@ -61,18 +65,27 @@ const getAnimeSummary = id => gql`
     }
     status
     genres {
-      names {
+      names @cascade {
         text
+        localization {
+          language {
+            code
+          }
+          script {
+            code
+          }
+        }
       }
     }
     runnings {
       from
       to
     }
-    images(first: 1, filter: {type: {eq: PROFILE}}) {
+    images {
       type
       image {
         files {
+          format
           publicUri
         }
       }

@@ -16,6 +16,9 @@ import AnyWrapper from '@/components/_AnyWrapper';
 import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import { fallbackLatinAny, fallbackScriptAny, withLocale } from 'utilities/localization';
+import { withQuery } from 'utilities/query';
+import { withImage, fallbackRegularAny } from 'utilities/image';
 
 const Anime = ({
     anime_id,
@@ -142,57 +145,31 @@ const renderCharacters = items => {
 // };
 
 Anime.getInitialProps = async ctx => {
-    // const langauge = ctx.req.headers['accept-language'].split(',')[0];
-    // const isoLang = langauge != 'ja_JP' ? 'en-US' : 'ja-JP';
+    const data = await withQuery(ctx, getAnimeSummary, function (data) { return data.queryAnime[0]; });
 
-    const { anime_id } = ctx.query;
-    const raw_id = anime_id.substring(0, 12);
-    const client = ctx.apolloClient;
-
-    const res = await client.query({
-        query: getAnimeSummary(raw_id),
-    });
-
-    const data = res.data.queryAnime[0];
-
-    // DEBUG: console.log(`${'+'.repeat(120)} SUMMARY ${'+'.repeat(120)} \n`, data);
-
-    const titles = data ? data.names : []; // returns an array
-    const genres = data ? data.genres : []; // returns an array
     const runnings = data ? data.runnings : []; // return an array
-    const descriptions = data ? data.descriptions : []; // returns an array
-    const characters = data ? data.starring : []; // returns an array
-    const cover_image = data ? data.images[0].image.files[0].publicUri : '';
 
-    const descriptionPreCheck = localizer(descriptions, ['eng'], ['Latn']);
-    const description = undef(descriptionPreCheck);
+    const profileImage  = withImage(data.images, ['PROFILE'], ['PNG'], fallbackRegularAny);
+    const coverImage    = withImage(data.images, ['COVER'], ['PNG']);
 
-    const english_title = undef(localizer(titles, ['eng'], ['Latn']));
-    const japanese_title = undef(localizer(titles, ['jpn'], ['Jpan']));
-    const romaji_title = undef(
-        localizer(titles, ['jpn'], ['Latn']),
-    );
+    const title         = withLocale(data.names, ['eng'], ['Latn'], [], fallbackLatinAny) || '(Missing title)';
+    const description   = withLocale(data.descriptions, ['eng'], ['Latn']) || 'There is no description available in your language.';
 
-    const title = english_title;
+    const englishTitle  = withLocale(data.names, ['eng'], ['Latn']) || '-';
+    const romajiTitle   = withLocale(data.names, ['jpn'], ['Latn']) || '-';
+    const japaneseTitle = withLocale(data.names, ['jpn'], ['Jpan']) || '-';
 
-    // DEBUG: console.log(title);
-
-    // extract the characters
-    const characters_list = characters.map(char => {
-        const { id, images, names } = char.character;
-        console.log(images[0]);
+    const characters = (data.starring || []).map(i => {
+        const { id, images, names } = i.character;
         return {
-            name: names[0] ? names[0].text : '',
-            profilePic: images[0]
-                ? images[0].image.files[0].publicUri
-                : 'https://via.placeholder.com/150',
             id,
+            name: withLocale(names, [], ['Latn'], [], fallbackScriptAny) || '(Missing name)',
+            profilePic: withImage(images, ['PROFILE'], ['PNG'], fallbackRegularAny),
         };
     });
 
-    const genres_list = genres.map(genre => {
-        const name = genre.names[0].text;
-        return name;
+    const genres = (data.genres || []).map(genre => {
+        return genre.names[0].text;
     });
 
     const season_from = runnings[0]
@@ -217,29 +194,27 @@ Anime.getInitialProps = async ctx => {
 
     const season = from_string ? `${from_string}, ${to_string}` : '';
 
-    const hero_image = ''; // TODO: Banner image not present
-
     const anime_details = {
-        english_title,
-        japanese_title,
-        romaji_title,
+        english_title: englishTitle,
+        japanese_title: japaneseTitle,
+        romaji_title: romajiTitle,
         media: undefined, // TODO: still not present on the graphql db
         episodes_number: data.episodes.length,
         status: data.status.toLowerCase(),
         season, // TODO: ?? in case we have a multiseason how we label it? In case we have a movie? 'Summer 2013'
-        genres: genres_list ? genres_list : undefined, // TODO: still not present on the graphql db
+        genres, // TODO: still not present on the graphql db
         age_rating: undefined, // TODO: still not present on the graphql db
         universe: undefined, // TODO: still not present on the graphql db
         universe_id: undefined, // TODO: still not present on the graphql db
     };
 
     return {
-        anime_id,
+        anime_id: data.id,
         title,
-        cover_image,
-        hero_image,
+        cover_image: profileImage,
+        hero_image: coverImage,
         description,
-        characters_list,
+        characters_list: characters,
         anime_details,
     };
 };
