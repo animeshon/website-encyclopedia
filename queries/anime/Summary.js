@@ -25,7 +25,7 @@ const getAnimeSummary = id => gql`
         }
       }
     }
-    starring(first: 5) {
+    starring(first: 5, filter: {relation: {eq: MAIN}}) {
       character {
         ... on Character {
           id
@@ -69,7 +69,7 @@ const getAnimeSummary = id => gql`
       from
       to
     }
-    images(first: 1) {
+    images(first: 1, filter: {type: {eq: PROFILE}}) {
       type
       image {
         files {

@@ -20,7 +20,7 @@ const getAnimeCharacters = id => gql`
       character {
         ... on Character {
           id
-          images(first: 1) {
+          images(first: 1, filter: {type: {eq: PROFILE}}) {
             image {
               files {
                 publicUri
@@ -38,7 +38,7 @@ const getAnimeCharacters = id => gql`
         }
       }
     }
-    images(first: 1) {
+    images(first: 1, filter: {type: {eq: PROFILE}}) {
       type
       image {
         files {

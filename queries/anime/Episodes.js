@@ -17,7 +17,7 @@ const getAnimeEpisodes = id => gql`
     }
     episodes {
       index
-      videos(first: 1) {
+      videos {
         video {
           duration
         }
@@ -45,7 +45,7 @@ const getAnimeEpisodes = id => gql`
           }
         }
       }
-      images(first: 1) {
+      images(first: 1, filter: {type: {eq: PROFILE}}) {
         type
         image {
           files {
@@ -54,7 +54,7 @@ const getAnimeEpisodes = id => gql`
         }
       }
     }
-    images(first: 1) {
+    images(first: 1, filter: {type: {eq: PROFILE}}) {
       type
       image {
         files {

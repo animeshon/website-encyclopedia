@@ -30,7 +30,7 @@ const getAnimeStaff = id => gql`
         }
         ... on Person {
           id
-          images(first: 1) {
+          images(first: 1, filter: {type: {eq: PROFILE}}) {
             image {
               files {
                 publicUri
@@ -64,7 +64,7 @@ const getAnimeStaff = id => gql`
         }
       }
     }
-    images(first: 1) {
+    images(first: 1, filter: {type: {eq: PROFILE}}) {
       type
       image {
         files {

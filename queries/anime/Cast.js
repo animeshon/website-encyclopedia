@@ -5,8 +5,9 @@ const getAnimeCast = id => gql`
   queryAnime(filter: {id: {eq: "${id}"}}) {
     id
     names @cascade {
+      text
       localization {
-        language(filter: {code: {eq: "eng"}}) {
+        language {
           code
         }
         script {
@@ -19,8 +20,8 @@ const getAnimeCast = id => gql`
         language {
           code
         }
-        script {
-          code
+        country {
+          alpha2
         }
       }
       actor {
@@ -37,7 +38,7 @@ const getAnimeCast = id => gql`
             }
           }
         }
-        images(first: 1) {
+        images(first: 1, filter: {type: {eq: PROFILE}}) {
           type
           image {
             files {
@@ -47,7 +48,9 @@ const getAnimeCast = id => gql`
         }
       }
       voiced {
-        __typename
+        ... on VoiceOver {
+          id
+        }
         ... on Character {
           id
           names {
@@ -61,7 +64,7 @@ const getAnimeCast = id => gql`
               }
             }
           }
-          images(first: 1) {
+          images(first: 1, filter: {type: {eq: PROFILE}}) {
             type
             image {
               files {
@@ -72,7 +75,7 @@ const getAnimeCast = id => gql`
         }
       }
     }
-    images(first: 1) {
+    images(first: 1, filter: {type: {eq: PROFILE}}) {
       type
       image {
         files {
