@@ -15,14 +15,26 @@ const getAnimeEpisodes = id => gql`
         }
       }
     }
-    episodes {
+    episodes(filter: {type: {eq: REGULAR}}) {
+      id
       index
       videos {
         video {
           duration
         }
       }
-      id
+      broadcasts {
+        from
+        to
+        localization {
+          country {
+            code
+          }
+          language {
+            code
+          }
+        }
+      }
       names @cascade {
         text
         localization {

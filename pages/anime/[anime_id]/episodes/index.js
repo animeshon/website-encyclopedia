@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import { truncate } from 'lodash';
 
+import { undef } from '@/functions/undef';
+import { localizer } from '@/functions/localizer';
+
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 import getAnimeEpisodes from '@/queries/anime/Episodes';
@@ -51,12 +54,13 @@ const renderEpisodes = (items, isMultiSeason, anime_id) => {
             espisode_number,
             cover_image,
             excerpt,
+            broadcast,
             id,
         } = item;
 
         const date = new Date();
 
-        const date_human_readable = date.toDateString();
+        const date_human_readable = (new Date(broadcast)).toDateString();
         const year = date.getFullYear();
         const month = date.getMonth();
         const day = date.getDate();
@@ -117,78 +121,51 @@ AnimeEpisodes.getInitialProps = async ctx => {
 
     const data = res.data.queryAnime[0];
 
-    // DEBUG: console.log(`${'+'.repeat(120)} EPISODES ${'+'.repeat(120)} \n`, data);
+    const titles = data ? data.names : []; // returns an array
+    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
+    const episodes = data ? data.episodes : [];
 
     const hero_image = ''; // TODO: Banner image not present
 
-    const cover_image =
-        'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate/Kaleid Liner Prisma Illya';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
-    const is_multiseason = false;
-    const episode_list = [
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '1',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'ADS2Z8pXhxd96xNVXQSc9X',
-        },
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '2',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'bBrhDVT3HC3BywqCAgW2Qk',
-        },
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '2',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'ZLbqjMsG8NDWp79gPMkCYK',
-        },
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '2',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'ayPdPVBSCayw9vPUb6NHnE',
-        },
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '2',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'KrU4SWCvCbQF6MLAWBcPCn',
-        },
-        {
-            title_name: 'Birth! A Magical Girl',
-            length_minutes: '24',
-            season_number: '1',
-            espisode_number: '2',
-            cover_image:
-                'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
-            excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
-            id: 'GUEfU7Qx8C3zWChfu9xreM',
-        },
-    ];
+    const main_title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
+    const cover_image_alt_text = main_title; // TODO: Better alt text for SEO.
+    const hero_image_alt_text = main_title; // TODO: Better alt text for SEO.
+    const is_multiseason = false; // TODO: Figure out how to detect this value.
+
+    const episode_list = episodes
+        .map(item => {
+            const {
+                id,
+                index,
+                videos,
+                names,
+                descriptions,
+                images,
+                broadcasts
+            } = item;
+
+
+            var length_minutes = '?';
+            if (videos && videos[0]) {
+                length_minutes = videos[0].video.duration;
+            }
+
+            return {
+                title_name: undef(localizer(names, ['eng'], ['Latn']), ''),
+                length_minutes,
+                season_number: '1',
+                espisode_number: index,
+                cover_image: images[0]
+                    ? images[0].image.files[0].publicUri
+                    : 'https://via.placeholder.com/270x160?text=Episode '+index,
+                excerpt: undef(localizer(descriptions, ['eng'], ['Latn']), ''),
+                broadcast: broadcasts[0] ? broadcasts[0].from : '',
+                id,
+            };
+        })
+        .filter(i => i !== undefined);
+    
+    episode_list.sort((a, b) => (parseInt(a.espisode_number) - parseInt(b.espisode_number)));
 
     return {
         anime_id,
