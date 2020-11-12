@@ -6,10 +6,20 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "build-fragment": "node introspection/generate.js"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ]
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
@@ -27,5 +37,13 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-responsive": "^8.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.21.5"
   }
 }
