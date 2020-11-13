@@ -18,7 +18,7 @@ const AnimeCharacters = ({
     title,
     bannerImage,
     profileImage,
-    characters_list,
+    characters,
 }) => {
     return (
         <AnyWrapper
@@ -26,8 +26,8 @@ const AnimeCharacters = ({
             anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={`${title} Cover`}
-            heroImageAltText={`${title} Hero`}
+            bannerImageAltText={`${title} Cover`}
+            profileImageAltText={`${title} Hero`}
             anyNav={AnimeNavigation}
             selectedMenu="Characters"
         >
@@ -37,8 +37,8 @@ const AnimeCharacters = ({
                         <h3>Characters</h3>
                     </header>
                     <div className="grid-halves">
-                        {characters_list.length != 0 &&
-                            renderCharacters(characters_list)}
+                        {characters.length != 0 &&
+                            renderCharacters(characters)}
                     </div>
                 </section>
             </main>
@@ -104,14 +104,14 @@ AnimeCharacters.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const characters = data ? data.starring : []; // returns an array
+    const characters_ = data ? data.starring : []; // returns an array
 
     const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
     const bannerImage = data ? data.images[0].image.files[0].publicUri : '';
 
     // extract the characters
-    const characters_list =
-        characters.map(char => {
+    const characters =
+    characters_.map(char => {
             const { id, images, names, relation } = char.character;
 
             const english_name = undef(localizer(names, null, ['Latn']));
@@ -134,7 +134,7 @@ AnimeCharacters.getInitialProps = async ctx => {
         title,
         bannerImage,
         profileImage,
-        characters_list,
+        characters,
     };
 };
 

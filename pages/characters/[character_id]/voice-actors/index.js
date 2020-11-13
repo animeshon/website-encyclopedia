@@ -80,17 +80,17 @@ const CharacterVoiceActors = ({
     character_id,
     character_name,
     profileImage,
-    hero_image_alt_text,
+    profileImageAltText,
     bannerImage,
-    cover_image_alt_text,
+    bannerImageAltText,
 }) => {
     return (
         <AnyWrapper
             anyId={character_id}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
+            bannerImageAltText={bannerImageAltText}
+            profileImageAltText={profileImageAltText}
             anyNav={CharacterNavigation}
             anyTitle={character_name}
             selectedMenu="Voice Actors"
@@ -113,10 +113,10 @@ CharacterVoiceActors.getInitialProps = async ctx => {
     const { character_id } = ctx.query;
     const profileImage =
         'http://2.bp.blogspot.com/-IlqVBmHSO7c/UQk4sPRMVsI/AAAAAAAAAiI/TQm72CS8kls/s1600/Monkey+D.+Luffy+2.jpg';
-    const hero_image_alt_text = 'Monkey D. Luffy Hero';
+    const profileImageAltText = 'Monkey D. Luffy Hero';
     const bannerImage =
         'https://s-media-cache-ak0.pinimg.com/originals/0a/fb/46/0afb465b38987240997ed8d3cb054c64.png';
-    const cover_image_alt_text = 'Monkey D. Luffy Cover';
+    const bannerImageAltText = 'Monkey D. Luffy Cover';
     const character_name = 'Monkey D. Luffy';
 
     const voice_actors = [
@@ -249,9 +249,9 @@ CharacterVoiceActors.getInitialProps = async ctx => {
         character_id,
         character_name,
         profileImage,
-        hero_image_alt_text,
+        profileImageAltText,
         bannerImage,
-        cover_image_alt_text,
+        bannerImageAltText,
     };
 };
 

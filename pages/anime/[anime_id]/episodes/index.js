@@ -12,22 +12,22 @@ import AnyWrapper from '@/components/_AnyWrapper';
 
 const AnimeEpisodes = ({
     anime_id,
-    main_title,
+    title,
     bannerImage,
     profileImage,
-    cover_image_alt_text,
-    hero_image_alt_text,
+    bannerImageAltText,
+    profileImageAltText,
     is_multiseason,
     episode_list,
 }) => {
     return (
         <AnyWrapper
             anyId={anime_id}
-            anyTitle={main_title}
+            anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
+            bannerImageAltText={bannerImageAltText}
+            profileImageAltText={profileImageAltText}
             anyNav={AnimeNavigation}
             selectedMenu="Episodes"
         >
@@ -127,9 +127,9 @@ AnimeEpisodes.getInitialProps = async ctx => {
 
     const profileImage = ''; // TODO: Banner image not present
 
-    const main_title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
-    const cover_image_alt_text = main_title; // TODO: Better alt text for SEO.
-    const hero_image_alt_text = main_title; // TODO: Better alt text for SEO.
+    const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
+    const bannerImageAltText = title; // TODO: Better alt text for SEO.
+    const profileImageAltText = title; // TODO: Better alt text for SEO.
     const is_multiseason = false; // TODO: Figure out how to detect this value.
 
     const episode_list = episodes
@@ -169,11 +169,11 @@ AnimeEpisodes.getInitialProps = async ctx => {
 
     return {
         anime_id,
-        main_title,
+        title,
         bannerImage,
         profileImage,
-        cover_image_alt_text,
-        hero_image_alt_text,
+        bannerImageAltText,
+        profileImageAltText,
         is_multiseason,
         episode_list,
     };

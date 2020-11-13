@@ -26,8 +26,8 @@ const AnimeCompanies = ({
             anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={`${title} Cover`}
-            heroImageAltText={`${title} Hero`}
+            bannerImageAltText={`${title} Cover`}
+            profileImageAltText={`${title} Hero`}
             anyNav={AnimeNavigation}
             selectedMenu="Companies"
         >

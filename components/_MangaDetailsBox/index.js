@@ -8,8 +8,8 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
         data = {
             author: obj.author,
             media: obj.media,
-            chapters_number: obj.chapters_number,
-            volumes_number: obj.volumes_number,
+            chapterCount: obj.chapterCount,
+            volumeCount: obj.volumeCount,
             status: obj.status,
             date_start: obj.date_start,
             date_end: obj.date_end,
@@ -34,19 +34,19 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
         <div className="details__table">
             {obj.englishTitle && (
                 <div className="details__row">
-                    <div className="details__key">English{`\n`}(title)</div>
+                    <div className="details__key">English</div>
                     <div className="details__value">{obj.englishTitle}</div>
                 </div>
             )}
             {obj.japaneseTitle && (
                 <div className="details__row">
-                    <div className="details__key">Japanese{`\n`}(title)</div>
+                    <div className="details__key">Japanese</div>
                     <div className="details__value">{obj.japaneseTitle}</div>
                 </div>
             )}
             {obj.romajiTitle && (
                 <div className="details__row">
-                    <div className="details__key">Romaji{`\n`}(title)</div>
+                    <div className="details__key">Romaji</div>
                     <div className="details__value">{obj.romajiTitle}</div>
                 </div>
             )}
@@ -57,7 +57,7 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
             {/*  */}
             <hr className="details__breaker" />
             {/*  */}
-            {obj.genres && (
+            {obj.genres && obj.genres.length > 0 && (
                 <div className="details__row">
                     <div className="details__key">Genres</div>
                     <div className="details__value">

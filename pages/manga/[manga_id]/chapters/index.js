@@ -24,21 +24,21 @@ const renderChapters = (items, manga_id) => {
 
 const MangaChapters = ({
     manga_id,
-    main_title,
+    title,
     bannerImage,
     profileImage,
-    cover_image_alt_text,
-    hero_image_alt_text,
+    bannerImageAltText,
+    profileImageAltText,
     chapters,
 }) => {
     return (
         <AnyWrapper
             anyId={manga_id}
-            anyTitle={main_title}
+            anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
+            bannerImageAltText={bannerImageAltText}
+            profileImageAltText={profileImageAltText}
             anyNav={MangaNavigation}
             selectedMenu="Chapters"
         >
@@ -61,9 +61,9 @@ MangaChapters.getInitialProps = async ctx => {
     const profileImage =
         'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
     const bannerImage = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
-    const main_title = "Komi Can't Communicate";
-    const cover_image_alt_text = "Komi Can't Communicate Cover";
-    const hero_image_alt_text = "Komi Can't Communicate Hero";
+    const title = "Komi Can't Communicate";
+    const bannerImageAltText = "Komi Can't Communicate Cover";
+    const profileImageAltText = "Komi Can't Communicate Hero";
 
     const chapters = [
         {
@@ -106,11 +106,11 @@ MangaChapters.getInitialProps = async ctx => {
 
     return {
         manga_id,
-        main_title,
+        title,
         bannerImage,
         profileImage,
-        cover_image_alt_text,
-        hero_image_alt_text,
+        bannerImageAltText,
+        profileImageAltText,
         chapters,
     };
 };

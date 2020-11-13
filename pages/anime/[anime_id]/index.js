@@ -36,8 +36,8 @@ const Anime = ({
             anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={title}
-            heroImageAltText={title}
+            bannerImageAltText={title}
+            profileImageAltText={title}
             anyNav={AnimeNavigation}
             selectedMenu="Summary"
         >
@@ -142,7 +142,8 @@ const renderCanonicals = items => {
 };
 
 Anime.getInitialProps = async ctx => {
-    const data = await withQuery(ctx, getAnimeSummary, function (data) { return data.queryAnime[0]; });
+    const { anime_id } = ctx.query;
+    const data = await withQuery(ctx, anime_id, getAnimeSummary, function (data) { return data.queryAnime[0]; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -175,8 +176,8 @@ Anime.getInitialProps = async ctx => {
             japaneseTitle:      withJapaneseLocale(data.names),
             romajiTitle:        withRomajiLocale(data.names),
             media:              data.type,
-            episodeCount:       data.episodes.length,
-            status:             data.status.toLowerCase(),
+            episodeCount:       data.episodes?.length,
+            status:             data.status?.toLowerCase(),
             season:             withJapaneseSeasonAny(data.runnings),
             ageRating:          withAgeRating(data.ageRatings, ['USA']),
             genres,

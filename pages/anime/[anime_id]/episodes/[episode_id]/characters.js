@@ -57,22 +57,22 @@ const renderCharacters = items => {
 
 const EpisodeCharacters = ({
     anime_id,
-    main_title,
+    title,
     episode_id,
     bannerImage,
     profileImage,
-    cover_image_alt_text,
-    hero_image_alt_text,
+    bannerImageAltText,
+    profileImageAltText,
     characters_full_list,
 }) => {
     return (
         <AnyWrapper
             anyId={anime_id}
-            anyTitle={main_title}
+            anyTitle={title}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
+            bannerImageAltText={bannerImageAltText}
+            profileImageAltText={profileImageAltText}
             anyNav={AnimeNavigation}
             selectedMenu="Characters"
         >
@@ -102,9 +102,9 @@ EpisodeCharacters.getInitialProps = async ctx => {
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
     const bannerImage =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
-    const main_title = 'Fate Kaleid Prisma Ilya';
-    const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
-    const hero_image_alt_text = 'Fate Kaleid Prisma Ilya Hero';
+    const title = 'Fate Kaleid Prisma Ilya';
+    const bannerImageAltText = 'Fate Kaleid Prisma Ilya Cover';
+    const profileImageAltText = 'Fate Kaleid Prisma Ilya Hero';
 
     const characters_full_list = [
         {
@@ -155,12 +155,12 @@ EpisodeCharacters.getInitialProps = async ctx => {
 
     return {
         anime_id,
-        main_title,
+        title,
         episode_id,
         bannerImage,
         profileImage,
-        hero_image_alt_text,
-        cover_image_alt_text,
+        profileImageAltText,
+        bannerImageAltText,
         characters_full_list,
     };
 };

@@ -19,8 +19,8 @@ const AnyWrapper = ({
     anyId,
     bannerImage,
     profileImage,
-    coverImageAltText,
-    heroImageAltText,
+    bannerImageAltText,
+    profileImageAltText,
     selectedMenu,
     anyNav,
     anyTitle,
@@ -30,14 +30,14 @@ const AnyWrapper = ({
             <Header isSearchAvailable />
             <HeroCover
                 entityTitle={anyTitle}
-                altText={heroImageAltText}
+                altText={profileImageAltText}
                 profileImage={profileImage}
             />
             <TabNavigation items={anyNav(anyId)} selected={selectedMenu} />
             <div className="any-landing container">
                 <div className="any-landing__cover">
                     <ProductCover
-                        altText={coverImageAltText}
+                        altText={bannerImageAltText}
                         bannerImage={bannerImage}
                     />
                 </div>

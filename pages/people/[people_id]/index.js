@@ -42,11 +42,11 @@ const renderProductions = items => {
 
 const People = ({
     people_id,
-    main_title,
+    title,
     bannerImage,
     profileImage,
-    cover_image_alt_text,
-    hero_image_alt_text,
+    bannerImageAltText,
+    profileImageAltText,
     biography_description,
     productions,
     people_details,
@@ -56,10 +56,10 @@ const People = ({
             anyId={people_id}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={cover_image_alt_text}
-            heroImageAltText={hero_image_alt_text}
+            bannerImageAltText={bannerImageAltText}
+            profileImageAltText={profileImageAltText}
             anyNav={PeopleNavigation}
-            anyTitle={main_title}
+            anyTitle={title}
             selectedMenu="Biography"
         >
             <main className="landing__description">
@@ -108,9 +108,9 @@ People.getInitialProps = async ctx => {
         'http://i1.wp.com/fapservice.com/wp-content/uploads/2016/08/HorribleSubs-Fate-Kaleid-Liner-PRISMA-ILLYA-3rei-01-720p.mkv_snapshot_11.51_2016.07.06_15.34.51_stitch.jpg';
     const bannerImage =
         'https://www.nautiljon.com/images/people/00/27/oonuma_shin_19372.jpg?1516112465';
-    const main_title = 'Oonuma Shin';
-    const cover_image_alt_text = 'Oonuma Shin';
-    const hero_image_alt_text = 'Oonuma Shin Hero';
+    const title = 'Oonuma Shin';
+    const bannerImageAltText = 'Oonuma Shin';
+    const profileImageAltText = 'Oonuma Shin Hero';
     const biography_description = `Oonuma Shin was born March 8, 1976 in Tokyo, Japan.
     <br/><br/>
     After graduating from Gakkou Houjin Chiyoda Gakuen he joined officeAO where he
@@ -238,11 +238,11 @@ People.getInitialProps = async ctx => {
 
     return {
         people_id,
-        main_title,
+        title,
         bannerImage,
         profileImage,
-        cover_image_alt_text,
-        hero_image_alt_text,
+        bannerImageAltText,
+        profileImageAltText,
         biography_description,
         people_details,
         productions,

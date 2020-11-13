@@ -51,8 +51,8 @@ const AnimeStaff = ({
             anyTitle={title.text}
             bannerImage={bannerImage}
             profileImage={profileImage}
-            coverImageAltText={`${title.text} Cover`}
-            heroImageAltText={`${title.text} Hero`}
+            bannerImageAltText={`${title.text} Cover`}
+            profileImageAltText={`${title.text} Hero`}
             anyNav={AnimeNavigation}
             selectedMenu="Staff"
         >

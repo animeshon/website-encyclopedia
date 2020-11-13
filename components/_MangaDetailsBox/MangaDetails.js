@@ -6,25 +6,33 @@ const MangaDetails = ({ type, data }) => {
                     <div className="details__key">Media</div>
                     <div className="details__value">{data.media}</div>
                 </div>
-                <div className="details__row">
-                    <div className="details__key">Chapters</div>
-                    <div className="details__value">{data.chapters_number}</div>
-                </div>
-                <div className="details__row">
-                    <div className="details__key">Volumes</div>
-                    <div className="details__value">{data.volumes_number}</div>
-                </div>
-                <div className="details__row">
-                    <div className="details__key">Status</div>
-                    <div className="details__value">{data.status}</div>
-                </div>
-                <div className="details__row">
-                    <div className="details__key">Date</div>
-                    <div className="details__value">
-                        {data.date_start} -{' '}
-                        {data.date_end === '-' ? 'Ongoing' : data.date_end}
+                {data.chapterCount > 0 && (
+                    <div className="details__row">
+                        <div className="details__key">Chapters</div>
+                        <div className="details__value">{data.chapterCount}</div>
                     </div>
-                </div>
+                )}
+                {data.volumeCount > 0 && (
+                    <div className="details__row">
+                        <div className="details__key">Volumes</div>
+                        <div className="details__value">{data.volumeCount}</div>
+                    </div>
+                )}
+                {data.status && (
+                    <div className="details__row">
+                        <div className="details__key">Status</div>
+                        <div className="details__value">{data.status}</div>
+                    </div>
+                )}
+                {data.date_start && (
+                    <div className="details__row">
+                        <div className="details__key">Date</div>
+                        <div className="details__value">
+                            {data.date_start} -{' '}
+                            {data.date_end === '-' ? 'Ongoing' : data.date_end}
+                        </div>
+                    </div>
+                )}
             </>
         );
     }
