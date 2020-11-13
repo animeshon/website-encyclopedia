@@ -38,7 +38,7 @@ const Header = ({ isSearchAvailable }) => {
 
             Router.push({
                 pathname: '/search',
-                query:  search.search ,
+                query:  { q: search.search } ,
             });
         } else {
             dispatchSearch({
