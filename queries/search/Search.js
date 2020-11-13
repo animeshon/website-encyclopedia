@@ -300,6 +300,48 @@ const chapterDetails = () => gql`
         }
       }
     }
+    content {
+      __typename
+      ... on Manga {
+        names {
+          text
+          localization {
+            language {
+              code
+            }
+            script {
+              code
+            }
+          }
+        }
+      }
+      ... on LightNovel {
+        names {
+          text
+          localization {
+            language {
+              code
+            }
+            script {
+              code
+            }
+          }
+        }
+      }
+      ... on Doujinshi {
+        names {
+          text
+          localization {
+            language {
+              code
+            }
+            script {
+              code
+            }
+          }
+        }
+      }
+    }
   }
 }`;
 
@@ -341,6 +383,21 @@ const episodeDetails = () => gql`
       }
     }
     releaseDate
+    content {
+        __typename
+        type
+        names {
+            text
+            localization {
+                language {
+                    code
+                }
+                script {
+                    code
+                }
+            }
+        }
+    }
   }
 }`;
 
@@ -369,7 +426,9 @@ export const details = async (type, id, client) => {
     variables: {
         id: id,
     },
-  });
+  }).catch(e => {
+    console.log('A promise failed to resolve', e);
+  })
 }
 
 export default performSearch;

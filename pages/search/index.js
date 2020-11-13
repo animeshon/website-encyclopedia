@@ -57,11 +57,18 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                                         )}
                                         <header className="search-result__texts">
                                             <div className="search-result__breadcrumb">
+                                                {item.parent && (
+                                                    <span>{item.parent.media}</span>
+                                                )}
+                                                {item.parent && (
+                                                    <span>{item.parent.title}</span>
+                                                )}
                                                 <span>{item.media}</span>
                                                 <span>{item.title}</span>
                                             </div>
                                             <h2>{item.title}</h2>
-                                            {item.type && (<strong>{item.type}</strong>)}
+                                            {item.type && (<strong>{item.type}</strong>)} 
+                                            {item.premiere && (<small>{item.premiere}</small>)}
                                             <p>{item.description}</p>
                                         </header>
                                     </div>
@@ -158,6 +165,7 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
     // extract results
     const results = validResults.filter(function(r) {return r !== undefined}).map(r => {
         const data = r.data.result;
+
         return {
             id:             data.id,
             title:          withEnglishLocaleAny(data.names),
@@ -166,12 +174,15 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
             media:          withType(data.__typename),
             type:           withSubType(data.__typename, data.type),
             premiere:       withPremiereAny(data.releaseDate, data.runnings),
-            childContents:  undefined, // TODO: add children to query for all content which have releases, chapter or episodes
+            children:  undefined, // TODO: add children to query for all content which have releases, chapter or episodes
+            parent: data.content ? {
+                title:          withEnglishLocaleAny(data.content.names),
+                media:          withType(data.content.__typename),
+            } : undefined,
         };
     });
 
-    //return {results: results, hasMore: results.length > amountRequested}
-    return {results: results, hasMore: true}
+    return {results: results, hasMore: res.length == amountRequested}
 }
 
 const ChildContents = ({ episodes, animeId, animeTitle }) => {
