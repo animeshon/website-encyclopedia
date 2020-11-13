@@ -15,8 +15,8 @@ import CardImage from '@/components/Card/Image';
 const AnimeStaff = ({
     anime_id,
     title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     staff_full_list,
 }) => {
     const [openedSection, setSection] = useState({});
@@ -49,8 +49,8 @@ const AnimeStaff = ({
         <AnyWrapper
             anyId={anime_id}
             anyTitle={title.text}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={`${title.text} Cover`}
             heroImageAltText={`${title.text} Hero`}
             anyNav={AnimeNavigation}
@@ -172,10 +172,10 @@ AnimeStaff.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
+    const bannerImage = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
     const staff = data ? data.staff : [];
 
-    const hero_image = ''; // TODO: Banner image not present
+    const profileImage = ''; // TODO: Banner image not present
 
     const title = localizer(titles, ['eng'], ['Latn']); // returns a string
 
@@ -259,8 +259,8 @@ AnimeStaff.getInitialProps = async ctx => {
     return {
         anime_id,
         title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         staff_full_list,
     };
 };

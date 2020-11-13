@@ -17,8 +17,8 @@ const Mobile = ({ children }) => {
 const AnyWrapper = ({
     children,
     anyId,
-    coverImage,
-    heroImage,
+    bannerImage,
+    profileImage,
     coverImageAltText,
     heroImageAltText,
     selectedMenu,
@@ -31,14 +31,14 @@ const AnyWrapper = ({
             <HeroCover
                 entityTitle={anyTitle}
                 altText={heroImageAltText}
-                heroImage={heroImage}
+                profileImage={profileImage}
             />
             <TabNavigation items={anyNav(anyId)} selected={selectedMenu} />
             <div className="any-landing container">
                 <div className="any-landing__cover">
                     <ProductCover
                         altText={coverImageAltText}
-                        coverImage={coverImage}
+                        bannerImage={bannerImage}
                     />
                 </div>
                 <div className="product-page-offset grid">

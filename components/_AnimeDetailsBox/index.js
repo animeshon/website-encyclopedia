@@ -2,44 +2,44 @@ import Link from 'next/link';
 
 export const AnimeDetailsBox = ({ obj }) => {
     const {
-        english_title,
-        japanese_title,
-        romaji_title,
-        episodes_number,
+        englishTitle,
+        japaneseTitle,
+        romajiTitle,
+        episodeCount,
         media,
         status,
         season,
         genres,
-        age_rating,
+        ageRating,
         universe,
         universe_id,
     } = obj;
 
-    const mid_break_one = media || episodes_number || status || season;
-    const mid_break_two = genres || age_rating || universe;
+    const mid_break_one = media || episodeCount || status || season;
+    const mid_break_two = genres || ageRating || universe;
 
     return (
         <div className="details__table">
-            {english_title && (
+            {englishTitle && (
                 <div className="details__row">
                     <div className="details__key">English</div>
-                    <div className="details__value">{english_title}</div>
+                    <div className="details__value">{englishTitle}</div>
                 </div>
             )}
-            {japanese_title && (
+            {japaneseTitle && (
                 <div className="details__row">
                     <div className="details__key">Japanese</div>
-                    <div className="details__value">{japanese_title}</div>
+                    <div className="details__value">{japaneseTitle}</div>
                 </div>
             )}
-            {romaji_title && (
+            {romajiTitle && (
                 <div className="details__row">
                     <div className="details__key">Romaji</div>
-                    <div className="details__value">{romaji_title}</div>
+                    <div className="details__value">{romajiTitle}</div>
                 </div>
             )}
             {/*  */}
-            {(english_title || japanese_title || romaji_title) && (
+            {(englishTitle || japaneseTitle || romajiTitle) && (
                 <hr className="details__breaker" />
             )}
             {/*  */}
@@ -49,10 +49,10 @@ export const AnimeDetailsBox = ({ obj }) => {
                     <div className="details__value">{media}</div>
                 </div>
             )}
-            {(episodes_number || episodes_number === 0) && (
+            {(episodeCount || episodeCount === 0) && (
                 <div className="details__row">
                     <div className="details__key">Episodes</div>
-                    <div className="details__value">{episodes_number}</div>
+                    <div className="details__value">{episodeCount}</div>
                 </div>
             )}
             {status && (
@@ -80,10 +80,10 @@ export const AnimeDetailsBox = ({ obj }) => {
                     </div>
                 </div>
             )}
-            {age_rating && (
+            {ageRating && (
                 <div className="details__row">
                     <div className="details__key">Age Rating</div>
-                    <div className="details__value">{age_rating}</div>
+                    <div className="details__value">{ageRating}</div>
                 </div>
             )}
             {universe && (

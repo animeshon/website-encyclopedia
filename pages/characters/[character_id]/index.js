@@ -11,7 +11,7 @@ const renderAppearences = items => {
     return items.map(item => (
         <div className="appearences__item">
             <figure className="appearences__item-cover">
-                <img src={item.cover_image.en} />
+                <img src={item.bannerImage.en} />
             </figure>
             <article className="appearences__item-contents">
                 <header>
@@ -38,17 +38,17 @@ const Character = ({
     character_id,
     character_name,
     character_info,
-    hero_image,
+    profileImage,
     hero_image_alt_text,
-    cover_image,
+    bannerImage,
     cover_image_alt_text,
     summary_description,
 }) => {
     return (
         <AnyWrapper
             anyId={character_id}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={CharacterNavigation}
@@ -115,10 +115,10 @@ const Character = ({
 
 Character.getInitialProps = async ctx => {
     const { character_id } = ctx.query;
-    const hero_image =
+    const profileImage =
         'http://2.bp.blogspot.com/-IlqVBmHSO7c/UQk4sPRMVsI/AAAAAAAAAiI/TQm72CS8kls/s1600/Monkey+D.+Luffy+2.jpg';
     const hero_image_alt_text = 'Monkey D. Luffy Hero';
-    const cover_image =
+    const bannerImage =
         'https://s-media-cache-ak0.pinimg.com/originals/0a/fb/46/0afb465b38987240997ed8d3cb054c64.png';
     const cover_image_alt_text = 'Monkey D. Luffy Cover';
     const character_name = 'Monkey D. Luffy';
@@ -162,7 +162,7 @@ Character.getInitialProps = async ctx => {
                     en: 'One Piece',
                     jp: 'ワンピース',
                 },
-                cover_image: {
+                bannerImage: {
                     en:
                         'https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg',
                     jp:
@@ -182,7 +182,7 @@ Character.getInitialProps = async ctx => {
                     en: 'One Piece',
                     jp: 'ワンピース',
                 },
-                cover_image: {
+                bannerImage: {
                     en:
                         'https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg',
                     jp:
@@ -202,7 +202,7 @@ Character.getInitialProps = async ctx => {
                     en: 'One Piece',
                     jp: 'ワンピース',
                 },
-                cover_image: {
+                bannerImage: {
                     en:
                         'https://upload.wikimedia.org/wikipedia/en/9/90/One_Piece%2C_Volume_61_Cover_%28Japanese%29.jpg',
                     jp:
@@ -225,9 +225,9 @@ Character.getInitialProps = async ctx => {
         character_id,
         character_name,
         character_info,
-        hero_image,
+        profileImage,
         hero_image_alt_text,
-        cover_image,
+        bannerImage,
         cover_image_alt_text,
         summary_description,
     };

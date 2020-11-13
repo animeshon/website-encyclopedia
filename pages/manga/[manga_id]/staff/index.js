@@ -105,8 +105,8 @@ const renderStaff = (items, openSection, actionSection) => {
 const AnimeStaff = ({
     manga_id,
     main_title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     staff_full_list,
@@ -141,8 +141,8 @@ const AnimeStaff = ({
         <AnyWrapper
             anyId={manga_id}
             anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={MangaNavigation}
@@ -168,9 +168,9 @@ const AnimeStaff = ({
 
 AnimeStaff.getInitialProps = async ctx => {
     const { manga_id } = ctx.query;
-    const hero_image =
+    const profileImage =
         'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
-    const cover_image = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
+    const bannerImage = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
     const main_title = "Komi Can't Communicate";
     const cover_image_alt_text = "Komi Can't Communicate Cover";
     const hero_image_alt_text = "Komi Can't Communicate Hero";
@@ -259,8 +259,8 @@ AnimeStaff.getInitialProps = async ctx => {
     return {
         manga_id,
         main_title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         staff_full_list,

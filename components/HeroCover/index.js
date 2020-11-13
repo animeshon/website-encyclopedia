@@ -6,14 +6,14 @@ const Default = ({ children }) => {
     return isNotMobile ? children : null;
 };
 
-const HeroCover = ({ entityTitle, heroImage, altText = 'hero cover pic' }) => {
+const HeroCover = ({ entityTitle, profileImage, altText = 'hero cover pic' }) => {
     return (
         <div className="hero-cover">
-            {heroImage && (
+            {profileImage && (
                 <>
                     <img
                         className="hero-cover__image"
-                        src={heroImage}
+                        src={profileImage}
                         alt={altText}
                     />
                     <div className="hero-cover__shade" />

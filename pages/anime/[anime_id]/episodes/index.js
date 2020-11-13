@@ -13,8 +13,8 @@ import AnyWrapper from '@/components/_AnyWrapper';
 const AnimeEpisodes = ({
     anime_id,
     main_title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     is_multiseason,
@@ -24,8 +24,8 @@ const AnimeEpisodes = ({
         <AnyWrapper
             anyId={anime_id}
             anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={AnimeNavigation}
@@ -52,7 +52,7 @@ const renderEpisodes = (items, isMultiSeason, anime_id) => {
             length_minutes,
             season_number,
             espisode_number,
-            cover_image,
+            bannerImage,
             excerpt,
             broadcast,
             id,
@@ -75,7 +75,7 @@ const renderEpisodes = (items, isMultiSeason, anime_id) => {
                 <Link {...linkProps}>
                     <a>
                         <figure className="episodes-list__image">
-                            <img src={cover_image} alt={title_name} />
+                            <img src={bannerImage} alt={title_name} />
                         </figure>
                     </a>
                 </Link>
@@ -122,10 +122,10 @@ AnimeEpisodes.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
+    const bannerImage = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
     const episodes = data ? data.episodes : [];
 
-    const hero_image = ''; // TODO: Banner image not present
+    const profileImage = ''; // TODO: Banner image not present
 
     const main_title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
     const cover_image_alt_text = main_title; // TODO: Better alt text for SEO.
@@ -155,7 +155,7 @@ AnimeEpisodes.getInitialProps = async ctx => {
                 length_minutes,
                 season_number: '1',
                 espisode_number: index,
-                cover_image: images[0]
+                bannerImage: images[0]
                     ? images[0].image.files[0].publicUri
                     : 'https://via.placeholder.com/270x160?text=Episode '+index,
                 excerpt: undef(localizer(descriptions, ['eng'], ['Latn']), ''),
@@ -170,8 +170,8 @@ AnimeEpisodes.getInitialProps = async ctx => {
     return {
         anime_id,
         main_title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         is_multiseason,

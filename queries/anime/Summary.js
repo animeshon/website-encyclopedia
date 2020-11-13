@@ -136,13 +136,6 @@ const getAnimeSummary = id => gql`
       }
     }
   }
-}
-`;
-
-// excluded fields that cause issues
-// **********************
-// ageRatings {
-//   age
-// }
+}`;
 
 export default getAnimeSummary;

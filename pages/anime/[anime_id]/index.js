@@ -21,11 +21,11 @@ import { withJapaneseSeasonAny } from 'utilities/Season';
 const Anime = ({
     anime_id,
     title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     description,
     characters,
-    anime_details,
+    details,
     canonicals,
 }) => {
     const { language } = useContext(LanguageContext);
@@ -34,28 +34,27 @@ const Anime = ({
         <AnyWrapper
             anyId={anime_id}
             anyTitle={title}
-            coverImage={cover_image}
-            heroImage={hero_image}
-            coverImageAltText={`${title} Cover`}
-            heroImageAltText={`${title} Hero`}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
+            coverImageAltText={title}
+            heroImageAltText={title}
             anyNav={AnimeNavigation}
             selectedMenu="Summary"
         >
             <main className="landing__description">
-                {/*  */}
                 <section className="landing-section-box">
                     <header>
                         <h3>Description</h3>
                     </header>
-                    <p className="text_description">{description ? parse(description) : ''}</p>
+                    <p className="text_description">{description ? parse(description) : 'There is currently no description available.'}</p>
                 </section>
-                {/* Characters */}
+                
                 {characters && characters.length > 0 && (
                     <section className="landing-section-box">
                         <header>
                             <h3>Characters</h3>
                             <span />
-                            {characters.length > 3 && (
+                            {characters.length > 1 && (
                                 <Link
                                     href="/anime/[anime_id]/characters"
                                     as={`/anime/${anime_id}/characters`}
@@ -69,6 +68,7 @@ const Anime = ({
                         </ul>
                     </section>
                 )}
+
                 {/* Anime Timeline 
                 <section className="landing-section-box">
                     <header>
@@ -83,7 +83,7 @@ const Anime = ({
                         <header>
                             <h3>Canonical Franchise</h3>
                             <span />
-                            {canonicals.length > 3 && (
+                            {canonicals.length > 1 && (
                                 <Link href="" as="">
                                     <a className="view-all-link">View all</a>
                                 </Link>
@@ -94,14 +94,12 @@ const Anime = ({
                         </ul>
                     </section>
                 )}
-               
-                {/*  */}
             </main>
             <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
-                <AnimeDetailsBox obj={anime_details} />
+                <AnimeDetailsBox obj={details} />
             </aside>
         </AnyWrapper>
     );
@@ -168,19 +166,19 @@ Anime.getInitialProps = async ctx => {
         anime_id:       data.id,
         title:          withEnglishLocaleAny(data.names),
         description:    withEnglishLocale(data.descriptions),
-        cover_image:    withProfileImageAny(data.images),
-        hero_image:     withCoverImage(data.images),
+        bannerImage:    withProfileImageAny(data.images),
+        profileImage:   withCoverImage(data.images),
         characters:     characters,
         canonicals:     undefined, // TODO: data.partOfCanonicals
-        anime_details: {
-            english_title:      withEnglishLocale(data.names),
-            japanese_title:     withJapaneseLocale(data.names),
-            romaji_title:       withRomajiLocale(data.names),
+        details: {
+            englishTitle:       withEnglishLocale(data.names),
+            japaneseTitle:      withJapaneseLocale(data.names),
+            romajiTitle:        withRomajiLocale(data.names),
             media:              data.type,
-            episodes_number:    data.episodes.length,
+            episodeCount:       data.episodes.length,
             status:             data.status.toLowerCase(),
             season:             withJapaneseSeasonAny(data.runnings),
-            age_rating:         withAgeRating(data.ageRatings, ['USA']),
+            ageRating:          withAgeRating(data.ageRatings, ['USA']),
             genres,
             universe,
         },

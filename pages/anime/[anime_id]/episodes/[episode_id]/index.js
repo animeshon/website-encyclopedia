@@ -141,7 +141,7 @@ const renderEpisode = (item, isMultiSeason) => {
         length_minutes,
         season_number,
         espisode_number,
-        cover_image,
+        bannerImage,
         excerpt,
         id,
     } = item;
@@ -158,7 +158,7 @@ const renderEpisode = (item, isMultiSeason) => {
         <div key={id} className="episode__box">
             <a>
                 <figure className="episode__image">
-                    <img src={cover_image} alt={title_name} />
+                    <img src={bannerImage} alt={title_name} />
                 </figure>
             </a>
             <div className="episode-details">
@@ -203,8 +203,8 @@ const AnimeEpisode = ({
     anime_id,
     main_title,
     episode_id,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     is_multiseason,
@@ -218,8 +218,8 @@ const AnimeEpisode = ({
         <AnyWrapper
             anyId={anime_id}
             anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={AnimeNavigation}
@@ -297,9 +297,9 @@ const AnimeEpisode = ({
 
 AnimeEpisode.getInitialProps = async ctx => {
     const { anime_id, episode_id } = ctx.query;
-    const hero_image =
+    const profileImage =
         'https://www.ricedigital.co.uk/wp-content/uploads/2016/01/Fatekaleid04D.jpgoriginal.jpg';
-    const cover_image =
+    const bannerImage =
         'https://i2.wp.com/www.otakutale.com/wp-content/uploads/2017/10/Fate-kaleid-liner-Prisma-Illya-2017-Sequel-Anime-Visual.jpg';
     const main_title = 'Fate Kaleid Prisma Ilya';
     const cover_image_alt_text = 'Fate Kaleid Prisma Ilya Cover';
@@ -310,7 +310,7 @@ AnimeEpisode.getInitialProps = async ctx => {
         length_minutes: '24',
         season_number: '1',
         espisode_number: '3',
-        cover_image:
+        bannerImage:
             'https://lh6.googleusercontent.com/-BwqNtkkdyQE/Uj9_b523mkI/AAAAAAAALZ4/DqZWDch4W0E/s800/Screen%2520shot%25202013-09-06%2520at%252012.49.14%2520PM.png',
         excerpt: `Illyasviel Von Einzbern, or Illya for short, is an ordinary girl living in Fuyuki City. One day, while she’s taking her bath at night, a suspicious magical stick, “Magical Ruby” suddenly flies in, and tries to tempt Illya into becoming a magical girl…?!`,
         id: 'ZLbqjMsG8NDWp79gPMkCYK',
@@ -494,8 +494,8 @@ AnimeEpisode.getInitialProps = async ctx => {
         anime_id,
         main_title,
         episode_id,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         is_multiseason,

@@ -16,16 +16,16 @@ import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 const AnimeCompanies = ({
     anime_id,
     title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     companies_full_list,
 }) => {
     return (
         <AnyWrapper
             anyId={anime_id}
             anyTitle={title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={`${title} Cover`}
             heroImageAltText={`${title} Hero`}
             anyNav={AnimeNavigation}
@@ -104,7 +104,7 @@ AnimeCompanies.getInitialProps = async ctx => {
     const data = res.data.queryAnime[0];
 
     const titles = data ? data.names : []; // returns an array
-    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
+    const bannerImage = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
     const staff = data ? data.staff : [];
 
     const companies_full_list = staff
@@ -146,13 +146,13 @@ AnimeCompanies.getInitialProps = async ctx => {
 
     const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
 
-    const hero_image = ''; // : Banner image not present
+    const profileImage = ''; // : Banner image not present
 
     return {
         anime_id,
         title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         companies_full_list,
     };
 };

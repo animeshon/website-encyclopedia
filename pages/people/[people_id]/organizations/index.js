@@ -59,8 +59,8 @@ const renderCompanies = items => {
 const AnimeCompanies = ({
     people_id,
     main_title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     companies_full_list,
@@ -69,8 +69,8 @@ const AnimeCompanies = ({
         <AnyWrapper
             anyId={people_id}
             anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={PeopleNavigation}
@@ -92,9 +92,9 @@ const AnimeCompanies = ({
 
 AnimeCompanies.getInitialProps = async ctx => {
     const { people_id } = ctx.query;
-    const hero_image =
+    const profileImage =
         'http://i1.wp.com/fapservice.com/wp-content/uploads/2016/08/HorribleSubs-Fate-Kaleid-Liner-PRISMA-ILLYA-3rei-01-720p.mkv_snapshot_11.51_2016.07.06_15.34.51_stitch.jpg';
-    const cover_image =
+    const bannerImage =
         'https://www.nautiljon.com/images/people/00/27/oonuma_shin_19372.jpg?1516112465';
     const main_title = 'Oonuma Shin';
     const cover_image_alt_text = 'Oonuma Shin';
@@ -117,8 +117,8 @@ AnimeCompanies.getInitialProps = async ctx => {
     return {
         people_id,
         main_title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         companies_full_list,

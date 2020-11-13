@@ -48,8 +48,8 @@ const renderAdaptations = items => {
 const Manga = ({
     manga_id,
     main_title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     summary_description,
@@ -60,8 +60,8 @@ const Manga = ({
     return (
         <AnyWrapper
             anyId={manga_id}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={MangaNavigation}
@@ -133,9 +133,9 @@ const Manga = ({
 Manga.getInitialProps = async ctx => {
     const { manga_id } = ctx.query;
 
-    const hero_image =
+    const profileImage =
         'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
-    const cover_image = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
+    const bannerImage = 'https://m.media-amazon.com/images/I/51B5wtc70mL.jpg';
     const main_title = "Komi Can't Communicate";
     const cover_image_alt_text = "Komi Can't Communicate Cover";
     const hero_image_alt_text = "Komi Can't Communicate Hero";
@@ -180,9 +180,9 @@ Manga.getInitialProps = async ctx => {
     ];
     const adaptations_list = [];
     const manga_details = {
-        english_title: "Komi Can't Communicate",
-        japanese_title: '古見さんは、コミュ症です。',
-        romaji_title: 'Komi-san wa, Komyushou desu.',
+        englishTitle: "Komi Can't Communicate",
+        japaneseTitle: '古見さんは、コミュ症です。',
+        romajiTitle: 'Komi-san wa, Komyushou desu.',
         media: 'manga',
         chapters_number: 249,
         volumes_number: 16,
@@ -190,15 +190,15 @@ Manga.getInitialProps = async ctx => {
         date_start: 'May 2016',
         date_end: '-',
         genres: ['Comedy', 'Drama'],
-        age_rating: 'All',
+        ageRating: 'All',
         universe: 'standalone',
     };
 
     return {
         manga_id,
         main_title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         summary_description,

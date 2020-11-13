@@ -19,8 +19,8 @@ import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 const AnimeCast = ({
     anime_id,
     title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cast_full_list,
     list_of_flags,
 }) => {
@@ -37,8 +37,8 @@ const AnimeCast = ({
         <AnyWrapper
             anyId={anime_id}
             anyTitle={title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={`${title} Cover`}
             heroImageAltText={`${title} Hero`}
             anyNav={AnimeNavigation}
@@ -149,9 +149,9 @@ AnimeCast.getInitialProps = async ctx => {
 
     const titles = data ? data.names : []; // returns an array
     const cast = data ? data.voiceActings : []; // returns an array
-    const cover_image = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
+    const bannerImage = data ? data.images[0].image.files[0].publicUri : ''; // returns a string
 
-    const hero_image = ''; // TODO: Banner image not present
+    const profileImage = ''; // TODO: Banner image not present
     const title = undef(localizer(titles, ['eng'], ['Latn'])); // returns a string
 
     const list_of_flags = [];
@@ -203,8 +203,8 @@ AnimeCast.getInitialProps = async ctx => {
     return {
         anime_id,
         title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cast_full_list,
         list_of_flags,
     };

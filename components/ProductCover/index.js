@@ -1,8 +1,8 @@
-const ProductCover = ({ coverImage, altText }) => {
+const ProductCover = ({ bannerImage, altText }) => {
     return (
         <div className="product-cover">
             <figure className="product-cover__image">
-                <img src={coverImage} alt={altText} />
+                <img src={bannerImage} alt={altText} />
             </figure>
         </div>
     );

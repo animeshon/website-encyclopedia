@@ -32,22 +32,22 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
     }
     return (
         <div className="details__table">
-            {obj.english_title && (
+            {obj.englishTitle && (
                 <div className="details__row">
                     <div className="details__key">English{`\n`}(title)</div>
-                    <div className="details__value">{obj.english_title}</div>
+                    <div className="details__value">{obj.englishTitle}</div>
                 </div>
             )}
-            {obj.japanese_title && (
+            {obj.japaneseTitle && (
                 <div className="details__row">
                     <div className="details__key">Japanese{`\n`}(title)</div>
-                    <div className="details__value">{obj.japanese_title}</div>
+                    <div className="details__value">{obj.japaneseTitle}</div>
                 </div>
             )}
-            {obj.romaji_title && (
+            {obj.romajiTitle && (
                 <div className="details__row">
                     <div className="details__key">Romaji{`\n`}(title)</div>
-                    <div className="details__value">{obj.romaji_title}</div>
+                    <div className="details__value">{obj.romajiTitle}</div>
                 </div>
             )}
             {/*  */}
@@ -65,10 +65,10 @@ export const MangaDetailsBox = ({ obj, pageType }) => {
                     </div>
                 </div>
             )}
-            {obj.age_rating && (
+            {obj.ageRating && (
                 <div className="details__row">
                     <div className="details__key">Age Rating</div>
-                    <div className="details__value">{obj.age_rating}</div>
+                    <div className="details__value">{obj.ageRating}</div>
                 </div>
             )}
             {obj.universe && (

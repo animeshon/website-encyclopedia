@@ -120,8 +120,8 @@ const renderVolumeMagazine = (items, mangaId) => {
 const MangaChapterPage = ({
     manga_id,
     main_title,
-    cover_image,
-    hero_image,
+    bannerImage,
+    profileImage,
     cover_image_alt_text,
     hero_image_alt_text,
     chapter_details,
@@ -130,8 +130,8 @@ const MangaChapterPage = ({
         <AnyWrapper
             anyId={manga_id}
             anyTitle={main_title}
-            coverImage={cover_image}
-            heroImage={hero_image}
+            bannerImage={bannerImage}
+            profileImage={profileImage}
             coverImageAltText={cover_image_alt_text}
             heroImageAltText={hero_image_alt_text}
             anyNav={MangaNavigation}
@@ -202,22 +202,22 @@ const MangaChapterPage = ({
 
 MangaChapterPage.getInitialProps = async ctx => {
     const { manga_id } = ctx.query;
-    const hero_image =
+    const profileImage =
         'https://dw9to29mmj727.cloudfront.net/promo/2016/5992-SeriesHeaders_Komi_2000x800.jpg';
-    const cover_image =
+    const bannerImage =
         'https://covers2.booksamillion.com/covers/bam/1/97/470/713/197470713X.jpg';
     const main_title = "Komi Can't Communicate";
     const cover_image_alt_text = "Komi Can't Communicate Cover";
     const hero_image_alt_text = "Komi Can't Communicate Hero";
 
     const chapter_details = {
-        english_title: "Komi Can't Communicate",
-        japanese_title: '古見さんは、コミュ症です。',
-        romaji_title: 'Komi-san wa, Komyushou desu.',
+        englishTitle: "Komi Can't Communicate",
+        japaneseTitle: '古見さんは、コミュ症です。',
+        romajiTitle: 'Komi-san wa, Komyushou desu.',
         media: 'manga',
         chapter_number: 2,
         pages_in_chapter: 16,
-        age_rating: 'All',
+        ageRating: 'All',
         description: {
             en: `Socially anxious high school student <strong>Shoko Komi</strong>’s
                 greatest dream is to make some friends, but everyone at
@@ -357,8 +357,8 @@ MangaChapterPage.getInitialProps = async ctx => {
     return {
         manga_id,
         main_title,
-        cover_image,
-        hero_image,
+        bannerImage,
+        profileImage,
         cover_image_alt_text,
         hero_image_alt_text,
         chapter_details,
