@@ -78,6 +78,11 @@ const getAnimeSummary = id => gql`
       }
     }
     runnings {
+      localization {
+        country {
+          code
+        }
+      }
       from
       to
     }
@@ -87,6 +92,46 @@ const getAnimeSummary = id => gql`
         files {
           format
           publicUri
+        }
+      }
+    }
+    partOfCanonicals {
+      partOfUniverses {
+        id
+        names {
+          text
+          localization {
+            language {
+              code
+            }
+            script {
+              code
+            }
+          }
+        }
+      }
+      content {
+        __typename
+        ... on Doujinshi {
+          id
+        }
+        ... on Manga {
+          id
+        }
+        ... on LightNovel {
+          id
+        }
+        ... on VisualNovel {
+          id
+        }
+      }
+      images {
+        type
+        image {
+          files {
+            format
+            publicUri
+          }
         }
       }
     }

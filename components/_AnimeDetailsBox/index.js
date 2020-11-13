@@ -22,19 +22,19 @@ export const AnimeDetailsBox = ({ obj }) => {
         <div className="details__table">
             {english_title && (
                 <div className="details__row">
-                    <div className="details__key">English{`\n`}(title)</div>
+                    <div className="details__key">English</div>
                     <div className="details__value">{english_title}</div>
                 </div>
             )}
             {japanese_title && (
                 <div className="details__row">
-                    <div className="details__key">Japanese{`\n`}(title)</div>
+                    <div className="details__key">Japanese</div>
                     <div className="details__value">{japanese_title}</div>
                 </div>
             )}
             {romaji_title && (
                 <div className="details__row">
-                    <div className="details__key">Romaji{`\n`}(title)</div>
+                    <div className="details__key">Romaji</div>
                     <div className="details__value">{romaji_title}</div>
                 </div>
             )}
@@ -72,7 +72,7 @@ export const AnimeDetailsBox = ({ obj }) => {
                 <hr className="details__breaker" />
             )}
             {/*  */}
-            {genres && (
+            {genres && genres.length > 0 && (
                 <div className="details__row">
                     <div className="details__key">Genres</div>
                     <div className="details__value">
@@ -91,10 +91,10 @@ export const AnimeDetailsBox = ({ obj }) => {
                     <div className="details__key">Universe</div>
                     <div className="details__value">
                         <Link
-                            href="/universe/[universe_id]"
-                            as={`/universe/${universe_id}_${universe}`}
+                            href="/universe/[universe.id]"
+                            as={`/universe/${universe.id}_${universe.name}`}
                         >
-                            <a>{universe}</a>
+                            <a>{universe.name}</a>
                         </Link>
                     </div>
                 </div>

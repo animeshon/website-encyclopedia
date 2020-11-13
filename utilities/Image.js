@@ -1,5 +1,13 @@
-export const fallbackRegular = [{types: ['REGULAR'], formats: ['PNG']}];
-export const fallbackRegularAny = [{types: ['REGULAR'], formats: ['PNG']}, {types:['REGULAR']}, {}];
+export const fallbackRegular = [{ types: ['REGULAR'], formats: ['PNG'] }];
+export const fallbackRegularAny = [{ types: ['REGULAR'], formats: ['PNG'] }, { types: ['REGULAR'] }, {}];
+
+export const withProfileImageAny = (images) => {
+    return withImage(images, ['PROFILE'], ['PNG'], fallbackRegularAny)
+};
+
+export const withCoverImage = (images) => {
+    return withImage(images, ['COVER'], ['PNG'])
+};
 
 export const withImage = (images, types, formats, fallback = null) => {
     if (!images || images.length == 0) {
@@ -7,7 +15,7 @@ export const withImage = (images, types, formats, fallback = null) => {
     }
 
     for (var i = 0; i < images.length; i++) {
-        if (!images[i]) {
+        if (!images[i] || !images[i].image || !images[i].image.files) {
             continue;
         }
 
@@ -16,10 +24,6 @@ export const withImage = (images, types, formats, fallback = null) => {
             if (!type || !types.includes(type)) {
                 continue;
             }
-        }
-
-        if (!images[i].image || !images[i].image.files) {
-            continue;
         }
 
         if (formats && formats.length != 0) {
