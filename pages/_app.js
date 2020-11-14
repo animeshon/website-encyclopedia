@@ -1,5 +1,5 @@
 // high order libraries
-import React, { useContext, useReducer, useEffect } from 'react';
+import React, { useContext, useReducer, useEffect, useRef  } from 'react';
 import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
@@ -17,7 +17,20 @@ import '../theme/styles/grid.css';
 import '../theme/styles/common.css';
 import '../node_modules/flagpack/dist/flagpack.css';
 
+import Router from 'next/router';
+import LoadingBar from 'react-top-loading-bar'
+
+
 const Animeshon = ({ pageProps, Component, apollo }) => {
+    // loading bar
+    // ! for issues: https://github.com/klendi/react-top-loading-bar
+    const ref = useRef(null)
+
+    //Binding events for loading bar
+    Router.events.on('routeChangeStart', () => ref.current.continuousStart()); 
+    Router.events.on('routeChangeComplete', () => ref.current.complete()); 
+    Router.events.on('routeChangeError', () => ref.current.complete());
+    
     const [search, dispatchSearch] = useReducer(searchReducer, {});
     const [language, dispatchLanguage] = useReducer(languageReducer, 'en-US');
 
@@ -35,6 +48,7 @@ const Animeshon = ({ pageProps, Component, apollo }) => {
         <ApolloProvider client={apollo}>
             <LanguageContext.Provider value={{ language, dispatchLanguage }}>
                 <SearchContext.Provider value={{ search, dispatchSearch }}>
+                    <LoadingBar color="#f11946" ref={ref} shadow={true} />
                     <Component {...pageProps} />
                 </SearchContext.Provider>
             </LanguageContext.Provider>

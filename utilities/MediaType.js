@@ -27,8 +27,18 @@ export const withType = (type) => {
             return "Episode";
         case "MusicCollection":
             return "Music Coollection";
-        case "VisualNovelRelease":
-            return "Visual Novel Release";
+        case "Character":
+            return "Character";
+        case "Organization":
+            return "Organization";
+        case "Magazine":
+            return "Magazine";
+        case "Circle":
+            return "Circle";
+        case "Convention":
+            return "Convention";
+        case "Person":
+            return "Person";
    }
    return undefined
 };

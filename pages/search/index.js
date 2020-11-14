@@ -34,6 +34,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                         query: { q: searchTerm, p: page+1},
                     })}
                     hasMore={hasMore}
+                    scrollThreshold={0.7}
                     >
                     {results.map((item, index) => {
                         const primary = index <= 3 ? 'primary' : 'secondary';

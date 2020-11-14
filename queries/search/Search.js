@@ -41,7 +41,7 @@ const animeDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -85,7 +85,7 @@ const mangaDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -129,7 +129,7 @@ const doujinshiDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -172,7 +172,7 @@ const lightNovelDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -215,7 +215,7 @@ const visualNovelDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -254,7 +254,7 @@ const songDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -295,7 +295,7 @@ const chapterDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -377,7 +377,7 @@ const episodeDetails = () => gql`
       type
       image {
         files {
-          # format
+          format
           publicUri
         }
       }
@@ -401,6 +401,246 @@ const episodeDetails = () => gql`
   }
 }`;
 
+const characterDetails = () => gql` 
+  query details($id: String!) {
+    result : getCharacter(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
+const organizationDetails = () => gql` 
+  query details($id: String!) {
+    result : getOrganization(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
+const magazineDetails = () => gql` 
+  query details($id: String!) {
+    result : getMagazine(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
+const circleDetails = () => gql` 
+  query details($id: String!) {
+    result : getCircle(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
+const conventionDetails = () => gql` 
+  query details($id: String!) {
+    result : getConvention(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
+const personDetails = () => gql` 
+  query details($id: String!) {
+    result : getPerson(id:$id) {
+    id
+    __typename
+    type
+    names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions @cascade {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    images {
+      type
+      image {
+        files {
+          format
+          publicUri
+        }
+      }
+    }
+  }
+}`;
+
 const typeToQuery = {
   "Anime": animeDetails,
   "Manga": mangaDetails,
@@ -410,6 +650,12 @@ const typeToQuery = {
   "Song": songDetails,
   "Episode": episodeDetails,
   "Chapter": chapterDetails,
+  "Character": characterDetails,
+  "Organization": organizationDetails,
+  "Magazine": magazineDetails,
+  "Circle": circleDetails,
+  "Convention": conventionDetails,
+  "Person": personDetails,
   // TODO Universe
   // TODO Canonicals
   // TODO children volume / chapters / episode

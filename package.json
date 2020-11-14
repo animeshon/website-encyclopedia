@@ -37,7 +37,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-infinite-scroll-component": "^5.1.0",
-    "react-responsive": "^8.0.3"
+    "react-responsive": "^8.0.3",
+    "react-top-loading-bar": "^2.0.1"
   },
   "devDependencies": {
     "eslint": "^7.13.0",
