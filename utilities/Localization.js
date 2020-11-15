@@ -8,6 +8,10 @@ export const fallbackLatinAny = [
         languages: ['jpn'],
         scripts: ['Latn'],
     },
+    { // Case 2.5: Attempt to fetch content in Romaji. (requireing language to be null or undefined)
+        languages: [undefined, null],
+        scripts: ['Latn'],
+    },
     { // Case 3: Attempt to fetch content in Japanese.
         languages: ['jpn'],
     },
@@ -76,7 +80,7 @@ export const withLocale = (values, languages = [], scripts = [], countries = [],
         
         if (languages && languages.length != 0) {
             const language = values[i].localization.language?.code;
-            if (!language || !languages.includes(language)) {
+            if (!languages.includes(language)) {
                 continue;
             }
         }
