@@ -406,7 +406,6 @@ const characterDetails = () => gql`
     result : getCharacter(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {
@@ -446,7 +445,6 @@ const organizationDetails = () => gql`
     result : getOrganization(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {
@@ -486,7 +484,6 @@ const magazineDetails = () => gql`
     result : getMagazine(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {
@@ -526,7 +523,6 @@ const circleDetails = () => gql`
     result : getCircle(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {
@@ -566,7 +562,6 @@ const conventionDetails = () => gql`
     result : getConvention(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {
@@ -606,7 +601,6 @@ const personDetails = () => gql`
     result : getPerson(id:$id) {
     id
     __typename
-    type
     names {
       text
       localization {

@@ -183,7 +183,7 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
         };
     });
 
-    return {results: results, hasMore: res.length == amountRequested}
+    return {results: results, hasMore: res.length > amountRequested}
 }
 
 const ChildContents = ({ episodes, animeId, animeTitle }) => {
