@@ -10,7 +10,6 @@ import AnyWrapper from '@/components/_AnyWrapper';
 const renderProductions = items => {
     return items.map((item, index) => {
         const { bannerImage, id, title, type, role } = item;
-        console.log(role);
 
         if (index + 1 <= 3) {
             return (

@@ -3,6 +3,11 @@
     color: lightgrey;
 }
 
+.coming-soon-alert {
+    margin-left: 20px;
+    color: #ef0c4183;
+}
+
 .coming-soon-content-image {
     content:url('/images/coming-soon-content-wide.svg') !important;
     padding: 10px 0px;

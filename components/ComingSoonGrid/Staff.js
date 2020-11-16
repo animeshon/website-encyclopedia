@@ -7,6 +7,7 @@ const ComingSoonStaffGrid = ({ title }) => {
             <section className="landing-section-box">
                 <header>
                     <h3 className="coming-soon-title">{title}</h3>
+                    <h3 className="coming-soon-alert">This page is coming soon!</h3>
                 </header>
 
                 {Array.apply(null, Array(3)).map(item => {

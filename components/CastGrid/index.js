@@ -39,7 +39,6 @@ const CastGrid = ({ casts, nationalities }) => {
                 </header>
                 <div className="grid-halves">
                     {casts && casts.length ? casts.map(cast => {
-                        console.log(cast.nationality);
                         if (cast.nationality == country) {
                             return (<CastCard
                                 key={`${cast.person.id}-${cast.character.id}`}

@@ -5,7 +5,7 @@ import ComingSoonStaffGrid from '@/components/ComingSoonGrid/Staff';
 
 const Staff = ({people}) => {
     return (
-        <ComingSoonStaffGrid title={"Staff"} />
+        <ComingSoonStaffGrid title={"Members"} />
     );
 };
 
