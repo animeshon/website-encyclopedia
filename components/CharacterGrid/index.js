@@ -12,7 +12,12 @@ const CharacterGrid = ({ characters }) => {
         });
     };
 
-    const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"]
+    // Sort
+    // TODO beautify or do it at query time
+    const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"];
+    (characters["MAIN"] || []).sort((x, y) => {return x.name < y.name ? -1 : x.name > y.name;});
+    (characters["SUPPORT"] || []).sort((x, y) => {return x.name < y.name ? -1 : x.name > y.name;});
+    (characters["APPEARS"] || []).sort((x, y) => {return x.name < y.name ? -1 : x.name > y.name;});
 
     return (
         <main className="anime-characters__description grid">
