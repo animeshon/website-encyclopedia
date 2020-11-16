@@ -15,6 +15,7 @@ import { LanguageContext, languageReducer } from '@/ctx/languages';
 import '../theme/styles/reset.css';
 import '../theme/styles/grid.css';
 import '../theme/styles/common.css';
+import '../theme/styles/coming-soon.css';
 import '../node_modules/flagpack/dist/flagpack.css';
 
 import Router from 'next/router';

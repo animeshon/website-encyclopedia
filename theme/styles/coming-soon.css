@@ -1,0 +1,43 @@
+
+.coming-soon-title {
+    color: lightgrey;
+}
+
+.coming-soon-content-image {
+    content:url('/images/coming-soon-content-wide.svg') !important;
+    padding: 10px 0px;
+    border-bottom: 1px dashed lightgray;
+} 
+
+@media screen and (max-width: 940px) {   
+    .coming-soon-content-image {
+        content:url('/images/coming-soon-content-tablet.svg') !important;
+    } 
+}
+
+@media screen and (max-width: 630px) {   
+    .coming-soon-content-image {
+        content:url('/images/coming-soon-content-mobile.svg') !important;
+    } 
+}
+
+.coming-soon-staff-header {
+    height: 18px;
+    width: 130px;
+    background-color: lightgray;
+    border-radius: 25px;
+}
+
+.coming-soon-staff-title {
+    height: 18px;
+    width: 80px;
+    background-color: lightgray;
+    border-radius: 25px;
+}
+
+.coming-soon-staff-small {
+    height: 14px;
+    width: 80px;
+    background-color: lightgray;
+    border-radius: 25px;
+}
