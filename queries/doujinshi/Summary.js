@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const getDoujinshiSummary = id => gql`
-{
-  queryDoujinshi(filter: {id: {eq: "${id}"}}) {
+const getDoujinshiSummary = () => gql`
+  query details($id: String!) {
+    result : getDoujinshi(id:$id) {
     id
     names @cascade {
       text

@@ -199,3 +199,32 @@ export const CompanyNavigation = id => [
         as: `/organizations/${id}`,
     },
 ];
+
+const Navigation = (type, id) => {
+    const typeToNavigation = {
+        "anime": AnimeNavigation,
+        "manga": MangaNavigation,
+        "doujinshi": DoujinshiNavigation,
+        "light-novels": LightNovelNavigation,
+        "visual-novels": VisualNovelNavigation,
+        // "tracks": track,
+        // "episodes": episode,
+        // "chapters": chapter,
+        "characters": CharacterNavigation,
+        "organizations": CompanyNavigation,
+        // "magazines": magazine,
+        // "circles": circle,
+        // "conventions": convention,
+        "people": PeopleNavigation,
+        "universes": UniverseNavigation,
+        // TODO Canonicals
+        // TODO children volume / chapters / episode
+        // ! Volume? Visual Novel Release? Music Collections?
+    }
+    if (typeToNavigation[type] === undefined) {
+        return undefined;
+    }
+    return typeToNavigation[type](id)
+  };
+
+  export default Navigation

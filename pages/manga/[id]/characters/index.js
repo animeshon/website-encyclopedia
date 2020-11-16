@@ -3,20 +3,19 @@ import React from 'react';
 import getMangaCharacters from '@/queries/manga/Characters';
 
 import CharacterGrid from '@/components/CharacterGrid';
-
-import { MangaNavigation } from '@/resources/navigation/allTabNavigations';
+import withContainer from '@/components/Container';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 
-const MangaCharacters = ({ container, characters }) => {
-    return (<CharacterGrid container={container} characters={characters} />);
+const MangaCharacters = ({ characters }) => {
+    return (<CharacterGrid characters={characters} />);
 };
 
 MangaCharacters.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getMangaCharacters, function (data) { return data.queryManga[0]; });
+    const data = await ExecuteQuery(ctx, { id:id }, getMangaCharacters(), (data, err) => { return data.result; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -30,16 +29,8 @@ MangaCharacters.getInitialProps = async ctx => {
     });
 
     return {
-        characters,
-        container: {
-            id: data.id,
-            title: locale.EnglishAny(data.names),
-            bannerImage: image.ProfileAny(data.images),
-            profileImage: image.Cover(data.images),
-            navigation: MangaNavigation(data.id),
-            selected: "Characters"
-        }
+        characters
     };
 };
 
-export default MangaCharacters;
+export default withContainer(MangaCharacters);

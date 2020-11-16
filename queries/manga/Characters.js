@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const getMangaCharacters = id => gql`
-{
-  queryManga(filter: {id: {eq: "${id}"}}) {
+const getMangaCharacters = () => gql`
+  query details($id: String!) {
+    result : getManga(id:$id) {
     id
     names @cascade {
       text

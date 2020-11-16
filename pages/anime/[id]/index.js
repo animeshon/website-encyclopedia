@@ -3,13 +3,11 @@ import React from 'react';
 import getAnimeSummary from '@/queries/anime/Summary';
 
 import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
-import Container from '@/components/Container';
+import withContainer from '@/components/Container';
 import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
-
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -19,7 +17,7 @@ import { AgeRating } from '@/utilities/AgeRating';
 
 const Anime = ({
     type,
-    container,
+    id,
     title,
     description,
     characters,
@@ -27,12 +25,12 @@ const Anime = ({
     canonicals,
 }) => {
     return (
-        <Container container={container}>
+        <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryCharacter id={container.id} type={type} title={title} characters={characters} />
+                <SummaryCharacter id={id} type={type} title={title} characters={characters} />
                 {/* <SummaryTimeline /> */}
-                <SummaryCanonical id={container.id} title={title} canonicals={canonicals} />
+                <SummaryCanonical id={id} title={title} canonicals={canonicals} />
             </main>
             <aside className="landing__details">
                 <header>
@@ -40,13 +38,13 @@ const Anime = ({
                 </header>
                 <AnimeDetailsBox obj={details} />
             </aside>
-        </Container>
+        </div>
     );
 };
 
 Anime.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getAnimeSummary, (data) => { return data.queryAnime[0]; });
+    const data = await ExecuteQuery(ctx, { id:id }, getAnimeSummary(), (data, err) => { return data.result; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -71,6 +69,7 @@ Anime.getInitialProps = async ctx => {
         description: locale.English(data.descriptions),
         characters: characters,
         canonicals: undefined, // TODO: data.partOfCanonicals
+        id: data.id,
         details: {
             englishTitle: locale.English(data.names),
             japaneseTitle: locale.Japanese(data.names),
@@ -82,16 +81,8 @@ Anime.getInitialProps = async ctx => {
             ageRating: AgeRating(data.ageRatings, ['USA']),
             genres,
             universe,
-        },
-        container: {
-            id: data.id,
-            title: locale.EnglishAny(data.names),
-            bannerImage: image.ProfileAny(data.images),
-            profileImage: image.Cover(data.images),
-            navigation: AnimeNavigation(data.id),
-            selected: "Summary"
-        },
+        }
     };
 };
 
-export default Anime;
+export default withContainer(Anime);

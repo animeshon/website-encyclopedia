@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const getMangaSummary = id => gql`
-{
-  queryManga(filter: {id: {eq: "${id}"}}) {
+const getMangaSummary = () => gql`
+  query details($id: String!) {
+    result : getManga(id:$id) {
     id
     names @cascade {
       text
@@ -88,15 +88,6 @@ const getMangaSummary = id => gql`
       }
       from
       to
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
     }
     partOfCanonicals {
       partOfUniverses {

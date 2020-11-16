@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import Link from 'next/link';
 
-const TabNavigation = ({ items = [], selected }) => {
+const TabNavigation = ({ items = [] }) => {
     const [isMobileMenu, setIsMobileMenu] = useState(false);
     const router = useRouter();
     const { route } = router;
@@ -29,6 +29,8 @@ const TabNavigation = ({ items = [], selected }) => {
                 </li>
             );
         });
+    
+    const selectedLabel = items.filter(i => route === i.href)[0].label
 
     return (
         <div className="tab-navigation">
@@ -36,7 +38,7 @@ const TabNavigation = ({ items = [], selected }) => {
                 onClick={() => handleMobileMenu(true)}
                 className="tab-navigation__mobile"
             >
-                {selected}
+                {selectedLabel}
             </button>
             <div className="internal-grid">
                 <ul

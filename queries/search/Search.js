@@ -656,19 +656,12 @@ const typeToQuery = {
   // ! Volume? Visual Novel Release? Music Collections?
 };
 
-export const details = async (type, id, client) => {
+export const details = (type) => {
   if (typeToQuery[type] === undefined) {
     return undefined;
   }
 
-  return client.query({
-    query: typeToQuery[type](),
-    variables: {
-        id: id,
-    },
-  }).catch(e => {
-    console.log('A promise failed to resolve', e);
-  })
+  return typeToQuery[type]();
 }
 
 export default performSearch;

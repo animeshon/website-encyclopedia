@@ -1,20 +1,9 @@
 import gql from 'graphql-tag';
 
-const getAnimeCharacters = id => gql`
-{
-  queryAnime(filter: {id: {eq: "${id}"}}) {
+const getAnimeCharacters = () => gql`
+  query details($id: String!) {
+    result : getAnime(id:$id) {
     id
-    names @cascade {
-      text
-      localization {
-        language(filter: {code: {eq: "eng"}}) {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
     starring {
       relation
       character {
@@ -35,14 +24,6 @@ const getAnimeCharacters = id => gql`
               }
             }
           }
-        }
-      }
-    }
-    images(first: 1, filter: {type: {eq: PROFILE}}) {
-      type
-      image {
-        files {
-          publicUri
         }
       }
     }

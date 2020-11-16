@@ -3,20 +3,21 @@ import React from 'react';
 import getAnimeCharacters from '@/queries/anime/Characters';
 
 import CharacterGrid from '@/components/CharacterGrid';
-
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import withContainer from '@/components/Container';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 
-const AnimeCharacters = ({ container, characters }) => {
-    return (<CharacterGrid container={container} characters={characters} />);
+const AnimeCharacters = ({ characters }) => {
+    return (
+        <CharacterGrid characters={characters} />
+    );
 };
 
 AnimeCharacters.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getAnimeCharacters, function (data) { return data.queryAnime[0]; });
+    const data = await ExecuteQuery(ctx, { id: id }, getAnimeCharacters(), (data, err) => { return data.result; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -30,16 +31,8 @@ AnimeCharacters.getInitialProps = async ctx => {
     });
 
     return {
-        characters: characters,
-        container: {
-            id: data.id,
-            title: locale.EnglishAny(data.names),
-            bannerImage: image.ProfileAny(data.images),
-            profileImage: image.Cover(data.images),
-            navigation: AnimeNavigation(data.id),
-            selected: "Characters"
-        }
+        characters
     };
 };
 
-export default AnimeCharacters;
+export default withContainer(AnimeCharacters);

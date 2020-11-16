@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import { useState, useEffect, useContext } from 'react';
 
 import kebabCase from 'lodash/kebabCase';
 import { withRouter } from 'next/router';
-import { SearchContext } from '@/ctx/search';
 
 import { performSearch, details } from '@/queries/search/Search';
 
@@ -18,6 +16,7 @@ import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
+import { ExecuteQuery, ExecuteQueryAsync } from '@/utilities/Query';
 
 const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
@@ -125,28 +124,22 @@ Search.getInitialProps = async ctx => {
 
     const client = ctx.apolloClient;
     
-    const { results, hasMore } = await SearchQuery(client, searchTerm, page, []);
+    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
     
     return {queryTime, results, hasMore, searchTerm, page};
 };
 
-const SearchQuery = async (client, searchTerm, pages, filter) => {
+const SearchQuery = async (ctx, searchTerm, pages, filter) => {
     const amountRequested = 10 + pages * 10
     // get ids and types from elastic search
-    const res = await client.query({
-        query: performSearch(),
-        variables: {
-            search: searchTerm,
-            first:  amountRequested + 1,
-            offset: 0,
-            filter: filter,
-        },
-    }).then(res => {
-        return res.data.querySearch.res
-    }).catch(error => {
-        return error
-    });
+    const vars = {
+        search: searchTerm,
+        first:  amountRequested + 1,
+        offset: 0,
+        filter: filter,
+    }
+    const res = await ExecuteQuery(ctx, vars, performSearch(), (data, err) => { return data.querySearch.res; });
 
     if (res instanceof Error) {
         // TODO proper visualization of the errors
@@ -154,7 +147,9 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
     }
 
     // enqueue graphql query to get details
-    const promises = res.map(x => details(x.type, x.id, client));
+    const promises = res.map(x => {
+        return ExecuteQueryAsync(ctx, {id: x.id}, details(x.type), (data, err) => { return data; })
+    });
     // wait
     const resolved = await Promise.all(promises.map(p => p.catch(e => {
         console.log('A promise failed to resolve', e);
@@ -165,7 +160,7 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
 
     // extract results
     const results = validResults.filter(function(r) {return r !== undefined}).map(r => {
-        const data = r.data.result;
+        const data = r.result;
 
         return {
             id:             data.id,

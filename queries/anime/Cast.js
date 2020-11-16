@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const getAnimeCast = id => gql`
-{
-  queryAnime(filter: {id: {eq: "${id}"}}) {
+const getAnimeCast = () => gql`
+  query details($id: String!) {
+    result : getAnime(id:$id) {
     id
     names @cascade {
       text

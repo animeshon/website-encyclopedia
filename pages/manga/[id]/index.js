@@ -3,13 +3,12 @@ import React from 'react';
 import getMangaSummary from '@/queries/manga/Summary';
 
 import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
-import Container from '@/components/Container';
 import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
 
-import { MangaNavigation } from '@/resources/navigation/allTabNavigations';
+import withContainer from '@/components/Container';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -18,7 +17,7 @@ import { AgeRating } from '@/utilities/AgeRating';
 
 const Manga = ({
     type,
-    container,
+    id,
     title,
     description,
     characters,
@@ -26,12 +25,12 @@ const Manga = ({
     canonicals,
 }) => {
     return (
-        <Container container={container}>
+        <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryCharacter id={container.id} type={type} title={title} characters={characters} />
+                <SummaryCharacter id={id} type={type} title={title} characters={characters} />
                 {/* <SummaryTimeline /> */}
-                <SummaryCanonical id={container.id} title={title} canonicals={canonicals} />
+                <SummaryCanonical id={id} title={title} canonicals={canonicals} />
             </main>
             <aside className="landing__details">
                 <header>
@@ -39,13 +38,13 @@ const Manga = ({
                 </header>
                 <MangaDetailsBox obj={details} pageType="manga-landing" />
             </aside>
-        </Container>
+        </div>
     );
 };
 
 Manga.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getMangaSummary, function (data) { return data.queryManga[0]; });
+    const data = await ExecuteQuery(ctx, { id:id }, getMangaSummary(), (data, err) => { return data.result; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -67,6 +66,7 @@ Manga.getInitialProps = async ctx => {
 
     return {
         type: 'Manga',
+        id: data.id,
         description: locale.English(data.descriptions),
         characters: characters,
         canonicals: undefined, // TODO: data.partOfCanonicals
@@ -83,16 +83,8 @@ Manga.getInitialProps = async ctx => {
             ageRating:          AgeRating(data.ageRatings, ['USA']),
             genres,
             universe,
-        },
-        container: {
-            id: data.id,
-            title: locale.EnglishAny(data.names),
-            bannerImage: image.ProfileAny(data.images),
-            profileImage: image.Cover(data.images),
-            navigation: MangaNavigation(data.id),
-            selected: "Summary"
-        },
+        }
     };
 };
 
-export default Manga;
+export default withContainer(Manga);

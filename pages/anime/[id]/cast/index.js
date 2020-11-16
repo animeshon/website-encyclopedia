@@ -3,21 +3,20 @@ import React from 'react';
 import getAnimeCast from '@/queries/anime/Cast';
 
 import CastGrid from '@/components/CastGrid';
-
-import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
+import withContainer from '@/components/Container';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 import { FromAlpha2 } from '@/utilities/Nationality';
 
-const AnimeCast = ({ container, casts, nationalities }) => {
-    return (<CastGrid container={container} casts={casts} nationalities={nationalities} />);
+const AnimeCast = ({ casts, nationalities }) => {
+    return (<CastGrid casts={casts} nationalities={nationalities} />);
 };
 
 AnimeCast.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getAnimeCast, function (data) { return data.queryAnime[0]; });
+    const data = await ExecuteQuery(ctx, { id: id }, getAnimeCast(), (data, err) => { return data.result; });
 
     const nationalities = [];
     const casts = (data.voiceActings || []).map(member => {
@@ -55,16 +54,8 @@ AnimeCast.getInitialProps = async ctx => {
 
     return {
         casts: casts,
-        nationalities: FromAlpha2(nationalities),
-        container: {
-            id: data.id,
-            title: locale.EnglishAny(data.names),
-            bannerImage: image.ProfileAny(data.images),
-            profileImage: image.Cover(data.images),
-            navigation: AnimeNavigation(data.id),
-            selected: "Cast"
-        }
+        nationalities: FromAlpha2(nationalities)
     };
 };
 
-export default AnimeCast;
+export default withContainer(AnimeCast);
