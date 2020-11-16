@@ -8,7 +8,7 @@ export const Rewrite = (__typename, name, id, path = null) => {
             return rewrite('Manga', name, id, path);
         case 'Doujinshi':
             return rewrite('Doujinshi', name, id, path);
-        case 'Track':
+        case 'Song':
             return rewrite('Track', name, id, path);
         case 'LightNovel':
             return rewrite('Light_Novel', name, id, path);
@@ -21,8 +21,8 @@ export const Rewrite = (__typename, name, id, path = null) => {
             return rewrite('Chapter', name, id, path);
         case 'Volume':
             return rewrite('Volume', name, id, path);
-        case 'Soundtrack':
-            return rewrite('Soundtrack', name, id, path);
+        case 'MusicCollection':
+            return rewrite('Music_Record', name, id, path);
         case 'Episode':
             return rewrite('Episode', name, id, path);
         

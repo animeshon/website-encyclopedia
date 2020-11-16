@@ -15,11 +15,11 @@ module.exports = {
             },
             {
                 source: '/:slug-Light_Novel-:id([A-Za-z0-9-_]{12})/:path*',
-                destination: '/lightnovels/:id/:path*',
+                destination: '/light-novels/:id/:path*',
             },
             {
                 source: '/:slug-Visual_Novel-:id([A-Za-z0-9-_]{12})/:path*',
-                destination: '/visualnovels/:id/:path*',
+                destination: '/visual-novels/:id/:path*',
             },
             {
                 source: '/:slug-Track-:id([A-Za-z0-9-_]{12})/:path*',
@@ -45,8 +45,8 @@ module.exports = {
                 destination: '/episodes/:id/:path*',
             },
             {
-                source: '/:slug-Soundtrack-:id([A-Za-z0-9-_]{12})/:path*',
-                destination: '/soundtracks/:id/:path*',
+                source: '/:slug-Music_Record-:id([A-Za-z0-9-_]{12})/:path*',
+                destination: '/music-records/:id/:path*',
             },
 
 
