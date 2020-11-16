@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Head from 'next/head';
 import { withRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 
@@ -45,35 +46,41 @@ const Home = ({ router }) => {
     const isButtonDisabled = !(search.search !== '');
 
     return (
-        <div className="home">
-            <div className="home-header">
-                <Button className="cherry-red default" type="form-submit">
-                    About Animeshon
-                </Button>
-            </div>
-            <div className="home-search-box">
-                <form onSubmit={navigateToQuery} className="internal-space">
-                    <h1>
-                        <span>Animeshon Manga and Anime Search</span>
-                        <div className="brand" />
-                    </h1>
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        className="search-field"
-                        name="searchQuery"
-                        onChange={handleInputChange}
-                    />
-                    <Button
-                        disabled={isButtonDisabled}
-                        className="cyan-blue big"
-                        type="form-submit"
-                    >
-                        Search
+        <div>
+            <Head>
+                <title>Animeshon Encyclopedia | Everything about Anime, Manga, and much more!</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
+            <div className="home">
+                <div className="home-header">
+                    <Link href='https://animeshon.com/'>
+                        About Animeshon
+                </Link>
+                </div>
+                <div className="home-search-box">
+                    <form onSubmit={navigateToQuery} className="internal-space">
+                        <h1>
+                            <span>Animeshon Manga and Anime Search</span>
+                            <div className="brand" />
+                        </h1>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            className="search-field"
+                            name="searchQuery"
+                            onChange={handleInputChange}
+                        />
+                        <Button
+                            disabled={isButtonDisabled}
+                            className="cyan-blue big"
+                            type="form-submit"
+                        >
+                            Search
                     </Button>
-                </form>
+                    </form>
+                </div>
+                <Footer />
             </div>
-            <Footer />
         </div>
     );
 };

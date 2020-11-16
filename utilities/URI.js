@@ -64,7 +64,7 @@ const removeSymbols = (input) => {
     var wasLastSpecial = false;
     var result = '';
 
-    for (var k = 0; k < input.length; k++) {
+    for (var k = 0; k < Math.min(input.length, 64); k++) {
         const i = input.charCodeAt(k);
 
         const isSpecial = [unicode.Symbol, unicode.Punct, unicode.Space, unicode.Other].some(e => {

@@ -6,6 +6,7 @@ const ComingSoonContentGrid = ({ title }) => {
             <section className="landing-section-box">
                 <header>
                     <h3 className="coming-soon-title">{title}</h3>
+                    <h3 className="coming-soon-alert">Work in progress!</h3>
                 </header>
                 <div className="episodes-list">
                     {Array.apply(null, Array(5)).map(item => {

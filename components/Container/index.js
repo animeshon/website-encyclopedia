@@ -64,7 +64,7 @@ export function withContainer(WrappedComponent) {
         //static getInitialProps = WrappedComponent.getInitialProps
 
         static async getInitialProps(ctx) {
-            const type = ctx.pathname.split('/')[1]
+            const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
             const data = await ExecuteQuery(ctx, {id:id}, ContainerQuery(type), (data, error) => { return data.result; });
 
@@ -81,7 +81,7 @@ export function withContainer(WrappedComponent) {
                     title: locale.EnglishAny(data.names),
                     bannerImage: image.ProfileAny(data.images),
                     profileImage: image.Cover(data.images),
-                    navigation: Navigation(type, data.id)
+                    navigation: Navigation(type, locale.EnglishAny(data.names), data.id)
                 },
                 ...componentProps
             };

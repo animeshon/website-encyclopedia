@@ -3,6 +3,12 @@
     color: lightgrey;
 }
 
+.coming-soon-alert {
+    font-size: 11px;
+    margin-left: 5px;
+    color: #ef0c419e;
+}
+
 .coming-soon-content-image {
     content:url('/images/coming-soon-content-wide.svg') !important;
     padding: 10px 0px;

@@ -74,5 +74,3 @@ export default withApollo(({ initialState }) => {
         cache: cache.restore(initialState || {}),
     });
 })(Animeshon);
-
-// kubectl port-forward dgraph-alpha-0 -n animeshon 8080:8080

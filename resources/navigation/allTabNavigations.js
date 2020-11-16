@@ -1,33 +1,35 @@
-export const AnimeNavigation = id => [
+import * as uri from '@/utilities/URI';
+
+export const AnimeNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/anime/[id]',
-        as: `/anime/${id}`,
+        as: uri.Rewrite('Anime', name, id)
     },
     {
         label: 'Episodes',
         href: '/anime/[id]/episodes',
-        as: `/anime/${id}/episodes`,
+        as: uri.Rewrite('Anime', name, id, 'episodes')
     },
     {
         label: 'Characters',
         href: '/anime/[id]/characters',
-        as: `/anime/${id}/characters`,
+        as: uri.Rewrite('Anime', name, id, 'characters')
     },
     {
         label: 'Companies',
         href: '/anime/[id]/companies',
-        as: `/anime/${id}/companies`,
+        as: uri.Rewrite('Anime', name, id, 'companies')
     },
     {
         label: 'Staff',
         href: '/anime/[id]/staff',
-        as: `/anime/${id}/staff`,
+        as: uri.Rewrite('Anime', name, id, 'staff')
     },
     {
         label: 'Cast',
         href: '/anime/[id]/cast',
-        as: `/anime/${id}/cast`,
+        as: uri.Rewrite('Anime', name, id, 'cast')
     },
     // {
     //     label: 'Songs',
@@ -36,171 +38,179 @@ export const AnimeNavigation = id => [
     // },
 ];
 
-export const UniverseNavigation = id => [
+export const UniverseNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/universes/[id]',
-        as: `/universes/${id}`,
+        as: uri.Rewrite('Universe', name, id)
     },
     {
         label: 'Manga',
         href: '/universes/[id]/manga',
-        as: `/universes/${id}/manga`,
+        as: uri.Rewrite('Universe', name, id, 'manga')
     },
     {
         label: 'Anime',
         href: '/universes/[id]/anime',
-        as: `/universes/${id}/anime`,
+        as: uri.Rewrite('Universe', name, id, 'anime')
     },
     {
         label: 'Light Novel',
         href: '/universes/[id]/light-novel',
-        as: `/universes/${id}/light-novel`,
+        as: uri.Rewrite('Universe', name, id, 'light-novel')
     },
     {
         label: 'Visual Novel',
         href: '/universes/[id]/visual-novel',
-        as: `/universes/${id}/visual-novel`,
-    },
-    {
-        label: 'Games',
-        href: '/universes/[id]/games',
-        as: `/universes/${id}/games`,
-    },
+        as: uri.Rewrite('Universe', name, id, 'visual-novel')
+    }
 ];
 
-export const MangaNavigation = id => [
+export const MangaNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/manga/[id]',
-        as: `/manga/${id}`,
+        as: uri.Rewrite('Manga', name, id)
     },
     {
         label: 'Volumes',
         href: '/manga/[id]/volumes',
-        as: `/manga/${id}/volumes`,
+        as: uri.Rewrite('Manga', name, id, 'volumes')
     },
     {
         label: 'Chapters',
         href: '/manga/[id]/chapters',
-        as: `/manga/${id}/chapters`,
+        as: uri.Rewrite('Manga', name, id, 'chapters')
     },
     {
         label: 'Characters',
         href: '/manga/[id]/characters',
-        as: `/manga/${id}/characters`,
+        as: uri.Rewrite('Manga', name, id, 'characters')
     },
     {
         label: 'Companies',
         href: '/manga/[id]/companies',
-        as: `/manga/${id}/companies`,
+        as: uri.Rewrite('Manga', name, id, 'companies')
     },
     {
         label: 'Staff',
         href: '/manga/[id]/staff',
-        as: `/manga/${id}/staff`,
+        as: uri.Rewrite('Manga', name, id, 'staff')
     },
 ];
 
-export const DoujinshiNavigation = id => [
+export const DoujinshiNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/doujinshi/[id]',
-        as: `/doujinshi/${id}`,
+        as: uri.Rewrite('Doujinshi', name, id)
     },
     {
         label: 'Volumes',
         href: '/doujinshi/[id]/volumes',
-        as: `/doujinshi/${id}/volumes`,
+        as: uri.Rewrite('Doujinshi', name, id, 'volumes')
     },
     {
         label: 'Chapters',
         href: '/doujinshi/[id]/chapters',
-        as: `/doujinshi/${id}/chapters`,
+        as: uri.Rewrite('Doujinshi', name, id, 'chapters')
     },
     {
         label: 'Characters',
         href: '/doujinshi/[id]/characters',
-        as: `/doujinshi/${id}/characters`,
+        as: uri.Rewrite('Doujinshi', name, id, 'characters')
     },
     {
         label: 'Companies',
         href: '/doujinshi/[id]/companies',
-        as: `/doujinshi/${id}/companies`,
+        as: uri.Rewrite('Doujinshi', name, id, 'companies')
     },
     {
         label: 'Staff',
         href: '/doujinshi/[id]/staff',
-        as: `/doujinshi/${id}/staff`,
+        as: uri.Rewrite('Doujinshi', name, id, 'staff')
     },
 ];
 
-export const LightNovelNavigation = id => [
+export const LightNovelNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/light-novels/[id]',
-        as: `/light-novels/${id}`,
+        as: uri.Rewrite('Light_Novel', name, id)
     },
 ];
 
-export const VisualNovelNavigation = id => [
+export const VisualNovelNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/visual-novels/[id]',
-        as: `/visual-novels/${id}`,
+        as: uri.Rewrite('Visual_Novel', name, id)
     },
 ];
 
-export const CharacterNavigation = id => [
+export const CharacterNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/characters/[id]',
-        as: `/characters/${id}`,
+        as: uri.Rewrite('Character', name, id)
     },
     {
         label: 'Appearences',
         href: '/characters/[id]/appearences',
-        as: `/characters/${id}/appearences`,
+        as: uri.Rewrite('Character', name, id, 'appearences')
     },
     {
         label: 'Voice Actors',
         href: '/characters/[id]/voice-actors',
-        as: `/characters/${id}/voice-actors`,
+        as: uri.Rewrite('Character', name, id, 'voice-actors')
     },
     {
         label: 'Pictures',
         href: '/characters/[id]/pictures',
-        as: `/characters/${id}/pictures`,
+        as: uri.Rewrite('Character', name, id, 'pictures')
     },
 ];
 
-export const PeopleNavigation = id => [
+export const PeopleNavigation = (name, id) => [
     {
         label: 'Biography',
         href: '/people/[id]',
-        as: `/people/${id}`,
+        as: uri.Rewrite('Person', name, id)
     },
     {
         label: 'Productions',
         href: '/people/[id]/productions',
-        as: `/people/${id}/productions`,
+        as: uri.Rewrite('Person', name, id, 'productions')
     },
     {
         label: 'Organizations',
         href: '/people/[id]/organizations',
-        as: `/people/${id}/organizations`,
+        as: uri.Rewrite('Person', name, id, 'organizations')
     },
 ];
 
-export const CompanyNavigation = id => [
+export const CompanyNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/organizations/[id]',
-        as: `/organizations/${id}`,
+        as: uri.Rewrite('Organization', name, id)
     },
 ];
 
-const Navigation = (type, id) => {
+export const CircleNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: '/circles/[id]',
+        as: uri.Rewrite('Circle', name, id)
+    },
+    {
+        label: 'Members',
+        href: '/circles/[id]/members',
+        as: uri.Rewrite('Circle', name, id, 'members')
+    },
+];
+
+const Navigation = (type, name, id) => {
     const typeToNavigation = {
         "anime": AnimeNavigation,
         "manga": MangaNavigation,
@@ -213,7 +223,7 @@ const Navigation = (type, id) => {
         "characters": CharacterNavigation,
         "organizations": CompanyNavigation,
         // "magazines": magazine,
-        // "circles": circle,
+        "circles": CircleNavigation,
         // "conventions": convention,
         "people": PeopleNavigation,
         "universes": UniverseNavigation,
@@ -221,10 +231,12 @@ const Navigation = (type, id) => {
         // TODO children volume / chapters / episode
         // ! Volume? Visual Novel Release? Music Collections?
     }
+
     if (typeToNavigation[type] === undefined) {
         return undefined;
     }
-    return typeToNavigation[type](id)
+
+    return typeToNavigation[type](name, id)
   };
 
   export default Navigation
