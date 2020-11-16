@@ -39,7 +39,12 @@ export const withImage = (images, types, formats, fallback = null) => {
             continue;
         }
 
-        return images[i].image.files[0].publicUri;
+        // Take the first image available, no matter the format or type.
+        for (var j = 0; j < images.length; j++) {
+            if (images[i].image.files[j]) {
+                return images[i].image.files[j].publicUri;
+            }
+        }
     }
 
     if (fallback) {

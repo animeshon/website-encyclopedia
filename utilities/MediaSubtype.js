@@ -22,7 +22,7 @@ export const withSubType = (type, subtype) => {
                 case "SPECIAL":
                     return "Special";
                 case "TV":
-                    return "Tv";
+                    return "TV";
                 case "WEB":
                     return "Web Anime";
             }

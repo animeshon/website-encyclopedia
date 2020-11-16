@@ -5,7 +5,7 @@ export const withQuery = async (ctx, id, queryFn, returnFn) => {
 
     const client = ctx.apolloClient;
     const res = await client.query({
-        query: queryFn(id.substring(0, 12)),
+        query: queryFn(id),
     });
 
     return returnFn(res.data);

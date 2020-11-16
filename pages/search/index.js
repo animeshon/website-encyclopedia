@@ -17,6 +17,7 @@ import { withProfileImageAny } from 'utilities/Image';
 import { withPremiereAny } from 'utilities/Premiere';
 import { withType } from 'utilities/MediaType';
 import { withSubType } from 'utilities/MediaSubtype';
+import { Rewrite } from 'utilities/URI';
 
 const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
@@ -44,8 +45,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                                 className={`search-result anime ${primary}-result`}
                             >
                                 <Link
-                                    href="/[id]"
-                                    as={`/${item.id}_${kebabCase(item.title)}`}
+                                    href={`${Rewrite(item.media, item.title, item.id)}`}
                                 >
                                     <div className="search-result__row">
                                         {item.profileImage && (

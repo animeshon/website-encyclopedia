@@ -17,6 +17,7 @@ import { withQuery } from 'utilities/Query';
 import { withProfileImageAny, withCoverImage } from 'utilities/Image';
 import { withAgeRating } from 'utilities/AgeRating';
 import { withJapaneseSeasonAny } from 'utilities/Season';
+import * as uri from 'utilities/URI';
 
 const Anime = ({
     anime_id,
@@ -55,10 +56,7 @@ const Anime = ({
                             <h3>Characters</h3>
                             <span />
                             {characters.length > 1 && (
-                                <Link
-                                    href="/anime/[anime_id]/characters"
-                                    as={`/anime/${anime_id}/characters`}
-                                >
+                                <Link href={uri.Rewrite('Anime', title, anime_id, 'characters')}>
                                     <a className="view-all-link">View all</a>
                                 </Link>
                             )}
@@ -84,7 +82,7 @@ const Anime = ({
                             <h3>Canonical Franchise</h3>
                             <span />
                             {canonicals.length > 1 && (
-                                <Link href="" as="">
+                            <Link href={uri.Rewrite('Canonical', title, anime_id)}>
                                     <a className="view-all-link">View all</a>
                                 </Link>
                             )}
@@ -107,11 +105,7 @@ const Anime = ({
 
 const renderCharacters = items => {
     return items.map(item => (
-        <li key={item.id}>
-            <Link
-                href="/characters/[character_id]"
-                as={`/characters/${item.id}_${kebabCase(`${item.name}`)}`}
-            >
+        <li key={item.id}><Link href={uri.Rewrite('Character', item.name, item.id)}>
                 <a>
                     <div className="cover">
                         <img src={item.image} />
@@ -126,10 +120,7 @@ const renderCharacters = items => {
 const renderCanonicals = items => {
     return items.map(item => (
         <li key={item.id}>
-            <Link
-                href={`/${item.type}/[${item.type}_id]`}
-                as={`/${item.type}/${item.id}_${kebabCase(item.product_name)}`}
-            >
+            <Link href={uri.Rewrite('Canonical', item.name, item.id, item.type)}>
                 <a>
                     <div className="cover">
                         <img src={item.cover_url} />
