@@ -2,7 +2,7 @@ import React from 'react';
 
 import getAnimeSummary from '@/queries/anime/Summary';
 
-import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
+import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
 import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
@@ -36,7 +36,7 @@ const Anime = ({
                 <header>
                     <h3>Details</h3>
                 </header>
-                <AnimeDetailsBox obj={details} />
+                <DetailsCard items={details} />
             </aside>
         </div>
     );
@@ -44,7 +44,7 @@ const Anime = ({
 
 Anime.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id:id }, getAnimeSummary(), (data, err) => { return data.result; });
+    const data = await ExecuteQuery(ctx, { id: id }, getAnimeSummary(), (data, err) => { return data.result; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -56,13 +56,15 @@ Anime.getInitialProps = async ctx => {
     });
 
     const genres = (data.genres || []).map(genre => {
-        return genre.names[0].text;
+        return { text: genre.names[0].text };
     });
 
-    const universe = data.partOfCanonicals?.partOfUniverses ? {
-        id: data.partOfCanonicals.partOfUniverses.id,
-        name: locale.EnglishAny(data.partOfCanonicals.partOfUniverses.names),
-    } : undefined;
+    const universes = (data.partOfCanonicals?.partOfUniverses || []).map(universe => {
+        return {
+            href: uri.Rewrite('Universe', locale.EnglishAny(universe.names), universe.id),
+            text: locale.EnglishAny(universe.names),
+        }
+    });
 
     return {
         type: 'Anime',
@@ -70,18 +72,24 @@ Anime.getInitialProps = async ctx => {
         characters: characters,
         canonicals: undefined, // TODO: data.partOfCanonicals
         id: data.id,
-        details: {
-            englishTitle: locale.English(data.names),
-            japaneseTitle: locale.Japanese(data.names),
-            romajiTitle: locale.Romaji(data.names),
-            media: data.type,
-            episodeCount: data.episodes?.length,
-            status: data.status?.toLowerCase(),
-            season: season.JapanAny(data.runnings),
-            ageRating: AgeRating(data.ageRatings, ['USA']),
-            genres,
-            universe,
-        }
+        details: [
+            [
+                { key: 'English', value: locale.English(data.names) },
+                { key: 'Japanese', value: locale.Japanese(data.names) },
+                { key: 'Romaji', value: locale.Romaji(data.names) },
+            ],
+            [
+                { key: 'Media', value: data.type },
+                { key: 'Episodes', value: data.episodes?.length },
+                { key: 'Status', value: data.status?.toLowerCase() },
+                { key: 'Season', value: season.JapanAny(data.runnings) },
+                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+            ],
+            [
+                { key: 'Genres', value: genres },
+                { key: 'Universes', value: universes },
+            ]
+        ]
     };
 };
 
