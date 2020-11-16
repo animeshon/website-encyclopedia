@@ -4,7 +4,7 @@ import Link from 'next/link';
 import CardImage from '@/components/Card/Image';
 import Button from '@/components/Button';
 
-import * as uri from 'utilities/URI';
+import * as uri from '@/utilities/URI';
 
 const CharacterRole = (role) => {
     switch (role) {

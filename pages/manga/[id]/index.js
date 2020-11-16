@@ -9,11 +9,12 @@ import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
 
 import getMangaSummary from '@/queries/manga/Summary';
 
-import { withEnglishLocaleAny, withEnglishLocale, withRomajiLocale, withJapaneseLocale, withLatinLocaleAny } from 'utilities/Localization';
-import { withQuery } from 'utilities/Query';
-import { withProfileImageAny, withCoverImage } from 'utilities/Image';
-import { withAgeRating } from 'utilities/AgeRating';
-import * as uri from 'utilities/URI';
+import * as locale from '@/utilities/Localization';
+import * as image from '@/utilities/Image';
+import { ExecuteQuery } from '@/utilities/Query';
+import { AgeRating } from '@/utilities/AgeRating';
+
+import * as uri from '@/utilities/URI';
 
 const renderCharacters = items => {
     return items.map(item => (
@@ -129,14 +130,14 @@ const Manga = ({
 
 Manga.getInitialProps = async ctx => {
     const { manga_id } = ctx.query;
-    const data = await withQuery(ctx, manga_id, getMangaSummary, function (data) { return data.queryManga[0]; });
+    const data = await ExecuteQuery(ctx, manga_id, getMangaSummary, function (data) { return data.queryManga[0]; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
-            name: withLatinLocaleAny(names),
-            image: withProfileImageAny(images),
+            name: locale.LatinAny(names),
+            image: image.ProfileAny(images),
         };
     });
 
@@ -146,28 +147,28 @@ Manga.getInitialProps = async ctx => {
 
     const universe = data.partOfCanonicals?.partOfUniverses ? {
         id: data.partOfCanonicals.partOfUniverses.id,
-        name: withEnglishLocaleAny(data.partOfCanonicals.partOfUniverses.names),
+        name: locale.EnglishAny(data.partOfCanonicals.partOfUniverses.names),
     } : undefined;
 
     return {
         manga_id:       data.id,
-        title:          withEnglishLocaleAny(data.names),
-        description:    withEnglishLocale(data.descriptions),
-        bannerImage:    withProfileImageAny(data.images),
-        profileImage:   withCoverImage(data.images),
+        title:          locale.EnglishAny(data.names),
+        description:    locale.English(data.descriptions),
+        bannerImage:    image.ProfileAny(data.images),
+        profileImage:   image.Cover(data.images),
         characters:     characters,
         canonicals:     undefined, // TODO: data.partOfCanonicals
         details: {
-            englishTitle:       withEnglishLocale(data.names),
-            japaneseTitle:      withJapaneseLocale(data.names),
-            romajiTitle:        withRomajiLocale(data.names),
+            englishTitle:       locale.English(data.names),
+            japaneseTitle:      locale.Japanese(data.names),
+            romajiTitle:        locale.Romaji(data.names),
             media:              data.type,
             chapterCount:       data.chapters?.length,
             volumeCount:        data.volumes?.length,
             status:             data.status?.toLowerCase(),
             date_start:         undefined, // TODO
             date_end:           undefined, // TODO
-            ageRating:          withAgeRating(data.ageRatings, ['USA']),
+            ageRating:          AgeRating(data.ageRatings, ['USA']),
             genres,
             universe,
         },

@@ -1,4 +1,4 @@
-export const withPremiereAny = (release, runnings) => {
+export const PremiereAny = (release, runnings) => {
     if (release !== undefined) {
         const fromT = new Date(release);
         const nowT = new Date();
@@ -12,10 +12,10 @@ export const withPremiereAny = (release, runnings) => {
         return fromT.getFullYear();
     }
 
-    return withPremiere(runnings, ['JPN'], [{countries: ['USA']}, {}])
+    return Premiere(runnings, ['JPN'], [{countries: ['USA']}, {}])
 };
 
-export const withPremiere = (runnings, countries, fallback = null) => {
+export const Premiere = (runnings, countries, fallback = null) => {
     if (!runnings) {
         return undefined;
     }
@@ -54,7 +54,7 @@ export const withPremiere = (runnings, countries, fallback = null) => {
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return withPremiere(runnings, _fallback.countries, fallback);
+            return Premiere(runnings, _fallback.countries, fallback);
         }
     }
 

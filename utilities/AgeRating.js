@@ -1,4 +1,4 @@
-export const withAgeRating = (values, countries, fallback = null, displayAge = true) => {
+export const AgeRating = (values, countries, fallback = null, displayAge = true) => {
     if (!values || values.length == 0) {
         return undefined;
     }
@@ -23,7 +23,7 @@ export const withAgeRating = (values, countries, fallback = null, displayAge = t
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return withImage(values, _fallback.countries, fallback, displayAge);
+            return AgeRating(values, _fallback.countries, fallback, displayAge);
         }
     }
 

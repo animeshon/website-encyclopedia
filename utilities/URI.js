@@ -1,4 +1,4 @@
-import * as unicode from 'utilities/Unicode';
+import * as unicode from '@/utilities/Unicode';
 
 export const Rewrite = (__typename, name, id, path = null) => {
     switch (__typename) {

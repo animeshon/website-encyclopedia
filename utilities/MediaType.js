@@ -1,4 +1,4 @@
-export const withType = (type) => {
+export const Type = (type) => {
     // TODO internationalization
    switch (type) {
         case "Anime":

@@ -1,4 +1,4 @@
-export const withQuery = async (ctx, id, queryFn, returnFn) => {
+export const ExecuteQuery = async (ctx, id, queryFn, returnFn) => {
     if (!id || !queryFn || !returnFn) {
         return undefined;
     }

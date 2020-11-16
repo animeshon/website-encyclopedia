@@ -1,8 +1,8 @@
-export const withJapaneseSeasonAny = (runnings) => {
-    return withSeason(runnings, ['JPN'], [{countries: ['USA']}, {}])
+export const JapanAny = (runnings) => {
+    return Season(runnings, ['JPN'], [{countries: ['USA']}, {}])
 };
 
-export const withSeason = (runnings, countries, fallback = null) => {
+export const Season = (runnings, countries, fallback = null) => {
     if (!runnings) {
         return undefined;
     }
@@ -62,7 +62,7 @@ export const withSeason = (runnings, countries, fallback = null) => {
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return withSeason(runnings, _fallback.countries, fallback);
+            return Season(runnings, _fallback.countries, fallback);
         }
     }
 

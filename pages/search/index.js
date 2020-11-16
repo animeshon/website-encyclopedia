@@ -12,12 +12,12 @@ import Footer from '@/components/Footer';
 
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { withEnglishLocaleAny, withEnglishLocale } from 'utilities/Localization';
-import { withProfileImageAny } from 'utilities/Image';
-import { withPremiereAny } from 'utilities/Premiere';
-import { withType } from 'utilities/MediaType';
-import { withSubType } from 'utilities/MediaSubtype';
-import { Rewrite } from 'utilities/URI';
+import * as locale from '@/utilities/Localization';
+import * as image from '@/utilities/Image';
+import { PremiereAny } from '@/utilities/Premiere';
+import { Type } from '@/utilities/MediaType';
+import { Subtype } from '@/utilities/MediaSubtype';
+import { Rewrite } from '@/utilities/URI';
 
 const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
@@ -169,16 +169,16 @@ const SearchQuery = async (client, searchTerm, pages, filter) => {
 
         return {
             id:             data.id,
-            title:          withEnglishLocaleAny(data.names),
-            description:    withEnglishLocale(data.descriptions),
-            profileImage:   withProfileImageAny(data.images),
-            media:          withType(data.__typename),
-            type:           withSubType(data.__typename, data.type),
-            premiere:       withPremiereAny(data.releaseDate, data.runnings),
+            title:          locale.EnglishAny(data.names),
+            description:    locale.English(data.descriptions),
+            profileImage:   image.ProfileAny(data.images),
+            media:          Type(data.__typename),
+            type:           Subtype(data.__typename, data.type),
+            premiere:       PremiereAny(data.releaseDate, data.runnings),
             children:  undefined, // TODO: add children to query for all content which have releases, chapter or episodes
             parent: data.content ? {
-                title:          withEnglishLocaleAny(data.content.names),
-                media:          withType(data.content.__typename),
+                title:          locale.EnglishAny(data.content.names),
+                media:          Type(data.content.__typename),
             } : undefined,
         };
     });

@@ -1,4 +1,4 @@
-export const withSubType = (type, subtype) => {
+export const Subtype = (type, subtype) => {
     // TODO internationalization
     if (subtype === "OTHER") {
         return "Other";

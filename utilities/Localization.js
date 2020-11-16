@@ -44,31 +44,31 @@ export const fallbackScriptAny = [
     },
 ];
 
-export const withLatinLocaleAny = (values) => {
-    return withLocale(values, [], ['Latn'], [], fallbackScriptAny)
+export const LatinAny = (values) => {
+    return Locale(values, [], ['Latn'], [], fallbackScriptAny)
 };
 
-export const withJapaneseLocale = (values) => {
-    return withLocale(values, ['jpn'], ['Jpan'])
+export const Japanese = (values) => {
+    return Locale(values, ['jpn'], ['Jpan'])
 };
 
-export const withRomajiLocale = (values) => {
-    return withLocale(values, ['jpn'], ['Latn'])
+export const Romaji = (values) => {
+    return Locale(values, ['jpn'], ['Latn'])
 };
 
-export const withEnglishLocale = (values) => {
-    return withLocale(values, ['eng'], ['Latn'])
+export const English = (values) => {
+    return Locale(values, ['eng'], ['Latn'])
 };
 
-export const withJapaneseLocaleAny = (values) => {
-    return withLocale(values, ['jpn'], ['Jpan'], [], fallbackLatinAny)
+export const JapaneseAny = (values) => {
+    return Locale(values, ['jpn'], ['Jpan'], [], fallbackLatinAny)
 };
 
-export const withEnglishLocaleAny = (values) => {
-    return withLocale(values, ['eng'], ['Latn'], [], fallbackLatinAny)
+export const EnglishAny = (values) => {
+    return Locale(values, ['eng'], ['Latn'], [], fallbackLatinAny)
 };
 
-export const withLocale = (values, languages = [], scripts = [], countries = [], fallback = null) => {
+export const Locale = (values, languages = [], scripts = [], countries = [], fallback = null) => {
     if (!values || values.length == 0) {
         return undefined;
     }
@@ -107,7 +107,7 @@ export const withLocale = (values, languages = [], scripts = [], countries = [],
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return withLocale(values, _fallback.languages, _fallback.scripts, _fallback.countries, fallback);
+            return Locale(values, _fallback.languages, _fallback.scripts, _fallback.countries, fallback);
         }
     }
 
