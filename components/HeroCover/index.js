@@ -6,7 +6,7 @@ const Default = ({ children }) => {
     return isNotMobile ? children : null;
 };
 
-const HeroCover = ({ entityTitle, profileImage, altText = 'hero cover pic' }) => {
+const HeroCover = ({ entityTitle, breadcrumb = [], profileImage, altText = 'hero cover pic' }) => {
     return (
         <div className="hero-cover">
             {profileImage && (
@@ -21,7 +21,7 @@ const HeroCover = ({ entityTitle, profileImage, altText = 'hero cover pic' }) =>
             )}
             <Default>
                 <div className="hero-cover__title">
-                    <EntityTitle title={entityTitle} />
+                    <EntityTitle title={entityTitle} breadcrumb={breadcrumb} />
                 </div>
             </Default>
         </div>

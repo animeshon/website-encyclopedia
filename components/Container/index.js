@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
 
 import HeroCover from '@/components/HeroCover';
 import ProductCover from '@/components/ProductCover';
@@ -22,6 +23,9 @@ const Mobile = ({ children }) => {
 };
 
 const Container = ({ container, children }) => {
+    const { route } = useRouter();
+    const selectedLabel = container.navigation.filter(i => route === i.href)[0].label
+
     return (
         <div className="any">
             <Header isSearchAvailable />
@@ -29,6 +33,7 @@ const Container = ({ container, children }) => {
                 entityTitle={container.title}
                 altText={container.title}
                 profileImage={container.profileImage}
+                breadcrumb={[container.type, container.title, selectedLabel]}
             />
             <TabNavigation items={container.navigation} selected={container.selected} />
             <div className="any-landing container">
@@ -72,6 +77,7 @@ export function withContainer(WrappedComponent) {
             return {
                 container: {
                     id: data.id,
+                    type: data.__typename,
                     title: locale.EnglishAny(data.names),
                     bannerImage: image.ProfileAny(data.images),
                     profileImage: image.Cover(data.images),

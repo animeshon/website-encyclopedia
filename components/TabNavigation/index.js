@@ -5,8 +5,7 @@ import Link from 'next/link';
 
 const TabNavigation = ({ items = [] }) => {
     const [isMobileMenu, setIsMobileMenu] = useState(false);
-    const router = useRouter();
-    const { route } = router;
+    const { route } = useRouter();
 
     const handleMobileMenu = condition => {
         setIsMobileMenu(condition);
