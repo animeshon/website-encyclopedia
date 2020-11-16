@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-
-import { LanguageContext } from '@/ctx/languages';
+import React from 'react';
 
 import getAnimeSummary from '@/queries/anime/Summary';
 
@@ -8,7 +6,7 @@ import { AnimeDetailsBox } from '@/components/_AnimeDetailsBox';
 import Container from '@/components/Container';
 import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
-import SummaryTimeline from '@/components/SummaryTimeline';
+// import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
 
 import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
@@ -28,8 +26,6 @@ const Anime = ({
     details,
     canonicals,
 }) => {
-    const { language } = useContext(LanguageContext);
-
     return (
         <Container container={container}>
             <main className="landing__description">

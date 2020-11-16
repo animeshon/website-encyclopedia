@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getMangaSummary from '@/queries/manga/Summary';
+import getDoujinshiSummary from '@/queries/doujinshi/Summary';
 
 import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
 import Container from '@/components/Container';
@@ -9,14 +9,14 @@ import SummaryCharacter from '@/components/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
 
-import { MangaNavigation } from '@/resources/navigation/allTabNavigations';
+import { DoujinshiNavigation } from '@/resources/navigation/allTabNavigations';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
 
-const Manga = ({
+const Doujinshi = ({
     type,
     container,
     title,
@@ -43,9 +43,9 @@ const Manga = ({
     );
 };
 
-Manga.getInitialProps = async ctx => {
+Doujinshi.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, id, getMangaSummary, function (data) { return data.queryManga[0]; });
+    const data = await ExecuteQuery(ctx, id, getDoujinshiSummary, function (data) { return data.queryDoujinshi[0]; });
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -66,7 +66,7 @@ Manga.getInitialProps = async ctx => {
     } : undefined;
 
     return {
-        type: 'Manga',
+        type: 'Doujinshi',
         description: locale.English(data.descriptions),
         characters: characters,
         canonicals: undefined, // TODO: data.partOfCanonicals
@@ -89,10 +89,10 @@ Manga.getInitialProps = async ctx => {
             title: locale.EnglishAny(data.names),
             bannerImage: image.ProfileAny(data.images),
             profileImage: image.Cover(data.images),
-            navigation: MangaNavigation(data.id),
+            navigation: DoujinshiNavigation(data.id),
             selected: "Summary"
         },
     };
 };
 
-export default Manga;
+export default Doujinshi;

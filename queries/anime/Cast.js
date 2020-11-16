@@ -19,8 +19,10 @@ const getAnimeCast = id => gql`
       localization {
         language {
           code
+          alpha2
         }
         country {
+          code
           alpha2
         }
       }

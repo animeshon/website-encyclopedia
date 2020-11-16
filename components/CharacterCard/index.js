@@ -19,8 +19,8 @@ const CharacterRole = (role) => {
     return undefined;
 };
 
-const CharacterCard = ({ item }) => {
-    const href = uri.Rewrite('Character', item.name, item.id);
+const CharacterCard = ({ character }) => {
+    const href = uri.Rewrite('Character', character.name, character.id);
 
     return (
         <div className="card">
@@ -28,8 +28,8 @@ const CharacterCard = ({ item }) => {
                 <a>
                     <CardImage
                         type='character'
-                        picture={item.image}
-                        altText={item.name}
+                        picture={character.image}
+                        altText={character.name}
                     />
                 </a>
             </Link>
@@ -37,14 +37,14 @@ const CharacterCard = ({ item }) => {
             <div className="card__info">
                 <Link href={href}>
                     <a>
-                        <h4>{item.name}</h4>
+                        <h4>{character.name}</h4>
                     </a>
                 </Link>
-                {item.japaneseName && (
-                    <p className="card__jap-name">{item.japaneseName}</p>
+                {character.japaneseName && (
+                    <p className="card__jap-name">{character.japaneseName}</p>
                 )}
-                {CharacterRole(item.role) && (
-                    <p className="card__role">{`${CharacterRole(item.role)}`}</p>
+                {CharacterRole(character.role) && (
+                    <p className="card__role">{`${CharacterRole(character.role)}`}</p>
                 )}
                 <Button
                     className="cherry-red medium"
@@ -57,6 +57,5 @@ const CharacterCard = ({ item }) => {
         </div>
     );
 };
-
 
 export default CharacterCard;

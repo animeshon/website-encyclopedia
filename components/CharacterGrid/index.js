@@ -13,7 +13,7 @@ const CharacterGrid = ({ container, characters }) => {
                     </header>
                     <div className="grid-halves">
                         {characters && characters.length ? characters.map(item => {
-                            return (<CharacterCard item={item} key={item.id} />);
+                            return (<CharacterCard character={item} key={item.id} />);
                         }) : 'There is currently no information about characters available.'}
                     </div>
                 </section>
