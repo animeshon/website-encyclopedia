@@ -17,15 +17,19 @@ MangaCharacters.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, { id:id }, getMangaCharacters(), (data, err) => { return data.result; });
 
-    const characters = (data.starring || []).map(i => {
+    const characters = new Object();
+    (data.starring || []).forEach(i => {
         const { id, images, names } = i.character;
-        return {
+        if (characters[i.relation] === undefined) {
+            characters[i.relation] = [];
+        }
+        characters[i.relation].push({
             id,
             name: locale.LatinAny(names),
-            japaneseName: locale.Japanese(data.names),
+            japaneseName: locale.Japanese(names),
             image: image.ProfileAny(images),
             role: i.relation,
-        };
+        });
     });
 
     return {
