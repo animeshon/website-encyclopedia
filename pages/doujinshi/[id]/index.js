@@ -2,7 +2,7 @@ import React from 'react';
 
 import getDoujinshiSummary from '@/queries/doujinshi/Summary';
 
-import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
+import DetailsCard from '@/components/DetailsCard';
 import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
@@ -36,7 +36,7 @@ const Doujinshi = ({
                 <header>
                     <h3>Details</h3>
                 </header>
-                <MangaDetailsBox obj={details} pageType="manga-landing" />
+                <DetailsCard items={details} />
             </aside>
         </div>
     );
@@ -56,33 +56,40 @@ Doujinshi.getInitialProps = async ctx => {
     });
 
     const genres = (data.genres || []).map(genre => {
-        return genre.names[0].text;
+        return { text: genre.names[0].text };
     });
 
-    const universe = data.partOfCanonicals?.partOfUniverses ? {
-        id: data.partOfCanonicals.partOfUniverses.id,
-        name: locale.EnglishAny(data.partOfCanonicals.partOfUniverses.names),
-    } : undefined;
+    const universes = (data.partOfCanonicals?.partOfUniverses || []).map(universe => {
+        return {
+            href: uri.Rewrite('Universe', locale.EnglishAny(universe.names), universe.id),
+            text: locale.EnglishAny(universe.names),
+        }
+    });
 
     return {
         type: 'Doujinshi',
         description: locale.English(data.descriptions),
         characters: characters,
         canonicals: undefined, // TODO: data.partOfCanonicals
-        details: {
-            englishTitle:       locale.English(data.names),
-            japaneseTitle:      locale.Japanese(data.names),
-            romajiTitle:        locale.Romaji(data.names),
-            media:              data.type,
-            chapterCount:       data.chapters?.length,
-            volumeCount:        data.volumes?.length,
-            status:             data.status?.toLowerCase(),
-            date_start:         undefined, // TODO
-            date_end:           undefined, // TODO
-            ageRating:          AgeRating(data.ageRatings, ['USA']),
-            genres,
-            universe,
-        }
+        details: [
+            [
+                { key: 'English', value: locale.English(data.names) },
+                { key: 'Japanese', value: locale.Japanese(data.names) },
+                { key: 'Romaji', value: locale.Romaji(data.names) },
+            ],
+            [
+                { key: 'Media', value: data.type },
+                { key: 'Chapters', value: data.chapters?.length },
+                { key: 'Volumes', value: data.volumes?.length },
+                { key: 'Status', value: data.status?.toLowerCase() },
+                { key: 'Published', value: undefined }, // TODO: <---------------------------
+                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+            ],
+            [
+                { key: 'Genres', value: genres },
+                { key: 'Universes', value: universes },
+            ]
+        ]
     };
 };
 
