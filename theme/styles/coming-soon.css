@@ -4,8 +4,9 @@
 }
 
 .coming-soon-alert {
-    margin-left: 20px;
-    color: #ef0c4183;
+    font-size: 11px;
+    margin-left: 5px;
+    color: #ef0c419e;
 }
 
 .coming-soon-content-image {

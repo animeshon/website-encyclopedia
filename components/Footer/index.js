@@ -35,8 +35,13 @@ const Footer = ({ contextualClass }) => {
                             <a>Contacts</a>
                         </Link>
                     </li>
+                    <li>
+                        <Link href="https://github.com/animeshon/website-encyclopedia">
+                            <a>GitHub</a>
+                        </Link>
+                    </li>
                 </ul>
-                <p>&copy; Copyright 2020 Animeshon.com - All Rights Reserved</p>
+                <p>Made with ❤️ by Animeshon | Copyright &copy; 2020</p>
             </div>
         </footer>
     );
