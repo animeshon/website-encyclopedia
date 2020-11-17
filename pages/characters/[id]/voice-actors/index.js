@@ -4,6 +4,8 @@ import withContainer from '@/components/Container';
 
 import getVoiceActors from '@/queries/character/VoiceActors';
 
+import {CardImageGender} from '@/components/Card/Image';
+
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
@@ -28,15 +30,12 @@ const Gender = (role) => {
 const VoiceActorCard = ({ voiceActor }) => {
     return (
         <article className="voice-actor">
-            {/* <CardImage
-                type={'people'}
+            <CardImageGender
                 sex={voiceActor.gender}
                 picture={voiceActor.image}
                 altText={voiceActor.name}
-            /> */}
-            {voiceActor.image && (<figure>
-                <img src={voiceActor.image} alt={voiceActor.name} />
-            </figure>)}
+                className={""}
+            />
             <div className="voice-actor__descriptions">
                 <header>
                     <h4>

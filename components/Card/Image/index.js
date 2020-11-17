@@ -1,15 +1,20 @@
-const CardImage = ({ picture, altText, sex, type }) => {
+import React from 'react';
+
+export const CardImageGender = ({ picture, sex, altText, className = "card__image" }) => {
+    const image = picture === '' || picture === undefined
+        ? sex === 'FEMALE'
+            ? '/images/user-female-default.png'
+            : '/images/user-male-default.png'
+        : picture;
+    return (<CardImage picture={image} altText={altText} className={className} />);
+};
+
+const CardImage = ({ picture, fallback, altText, className = "" }) => {
     const image =
-        picture === '' || picture === undefined
-            ? type === 'people'
-                ? sex === 'female'
-                    ? '/images/user-female-default.png'
-                    : '/images/user-male-default.png'
-                : 'https://cdn.onlinewebfonts.com/svg/img_242128.png'
-            : picture;
+        picture === '' || picture === undefined ? fallback : picture
 
     return (
-        <figure className="card__image">
+        <figure className={className}>
             <img src={image} alt={altText} />
         </figure>
     );

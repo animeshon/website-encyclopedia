@@ -5,7 +5,7 @@ import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
-import CardImage from '@/components/Card/Image';
+import {CardImageGender} from '@/components/Card/Image';
 
 const renderCharacters = items => {
     const linkTo = '/characters/';
@@ -20,8 +20,7 @@ const renderCharacters = items => {
             <div key={item.id} className="card">
                 <Link {...linkProps}>
                     <a>
-                        <CardImage
-                            type={item.type}
+                        <CardImageGender
                             sex={item.sex}
                             picture={item.profile_picture}
                             altText={`${item.fname} ${item.lname}`}

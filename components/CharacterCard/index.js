@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import CardImage from '@/components/Card/Image';
+import {CardImageGender} from '@/components/Card/Image';
 import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
@@ -26,8 +26,7 @@ const CharacterCard = ({ character }) => {
         <div className="card">
             <Link href={href}>
                 <a>
-                    <CardImage
-                        type='character'
+                    <CardImageGender
                         picture={character.image}
                         altText={character.name}
                     />
