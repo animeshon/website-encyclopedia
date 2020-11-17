@@ -38,6 +38,7 @@ AnimeCast.getInitialProps = async ctx => {
             nationality: FromAlpha2([nationality])[0]?.code,
             character: {
                 id: voiced.id,
+                type: voiced.__typename,
                 name: locale.LatinAny(voiced.names),
                 image: image.ProfileAny(voiced.images),
                 // TODO: Maybe we should add the character role?

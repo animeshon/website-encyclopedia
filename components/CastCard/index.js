@@ -47,7 +47,7 @@ const CastCard = ({ person, character, nationality }) => {
                 <Button
                     className="cherry-red medium character-button-ref"
                     type="next-link"
-                    href={href}
+                    href={character.type == "Character" ? uri.Rewrite('Character', character.name, character.id) : href}
                 >
                     <span className="character-image">
                         <img

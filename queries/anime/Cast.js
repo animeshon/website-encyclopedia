@@ -50,6 +50,7 @@ const getAnimeCast = () => gql`
         }
       }
       voiced {
+        __typename
         ... on VoiceOver {
           id
         }
