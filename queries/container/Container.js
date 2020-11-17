@@ -18,6 +18,17 @@ const anime = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -36,6 +47,17 @@ const manga = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -74,6 +96,17 @@ const doujinshi = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -92,6 +125,17 @@ const lightNovel = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -130,6 +174,17 @@ const visualNovel = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -148,6 +203,17 @@ const track = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -186,6 +252,17 @@ const chapter = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -204,6 +281,17 @@ const episode = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -242,6 +330,17 @@ const character = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -260,6 +359,17 @@ const organization = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -298,6 +408,17 @@ const person = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -316,6 +437,17 @@ const magazine = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {
@@ -354,6 +486,17 @@ const circle = () => gql`
         }
       }
     }
+    descriptions {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
     images {
       type
       image {
@@ -372,6 +515,17 @@ const convention = () => gql`
     id
     __typename
     names {
+      text
+      localization {
+        language {
+          code
+        }
+        script {
+          code
+        }
+      }
+    }
+    descriptions {
       text
       localization {
         language {

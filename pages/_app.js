@@ -70,7 +70,7 @@ const cache = new InMemoryCache({ fragmentMatcher });
 
 export default withApollo(({ initialState }) => {
     return new ApolloClient({
-        uri: 'http://127.0.0.1:8080/graphql',
+        uri: process.env.GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql',
         cache: cache.restore(initialState || {}),
     });
 })(Animeshon);

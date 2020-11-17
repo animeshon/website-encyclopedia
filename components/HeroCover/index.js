@@ -6,14 +6,14 @@ const Default = ({ children }) => {
     return isNotMobile ? children : null;
 };
 
-const HeroCover = ({ entityTitle, breadcrumb = [], profileImage, altText = 'hero cover pic' }) => {
+const HeroCover = ({ title, breadcrumb = [], bannerImage, altText }) => {
     return (
         <div className="hero-cover">
-            {profileImage && (
+            {bannerImage && (
                 <>
                     <img
                         className="hero-cover__image"
-                        src={profileImage}
+                        src={bannerImage}
                         alt={altText}
                     />
                     <div className="hero-cover__shade" />
@@ -21,7 +21,7 @@ const HeroCover = ({ entityTitle, breadcrumb = [], profileImage, altText = 'hero
             )}
             <Default>
                 <div className="hero-cover__title">
-                    <EntityTitle title={entityTitle} breadcrumb={breadcrumb} />
+                    <EntityTitle title={title} breadcrumb={breadcrumb} />
                 </div>
             </Default>
         </div>

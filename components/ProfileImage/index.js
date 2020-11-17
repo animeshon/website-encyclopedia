@@ -1,11 +1,11 @@
-const ProductCover = ({ bannerImage, altText }) => {
+const ProfileImage = ({ profileImage, altText }) => {
     return (
         <div className="product-cover">
             <figure className="product-cover__image">
-                <img src={bannerImage} alt={altText} />
+                <img src={profileImage} alt={altText} />
             </figure>
         </div>
     );
 };
 
-export default ProductCover;
+export default ProfileImage;
