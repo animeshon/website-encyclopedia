@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
 
-const CharacterRole = (role) => {
+export const CharacterRole = (role) => {
     switch (role) {
         case "MAIN":
             return "Main Character";

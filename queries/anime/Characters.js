@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getAnimeCharacters = () => gql`
+const getCharacters = () => gql`
   query details($id: String!) {
     result : getAnime(id:$id) {
     id
@@ -31,4 +31,4 @@ const getAnimeCharacters = () => gql`
 }
 `;
 
-export default getAnimeCharacters;
+export default getCharacters;
