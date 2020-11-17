@@ -1235,7 +1235,6 @@ ul.grid-halves {
 .appearences__item-contents header p {
     margin: 0;
     font-size: 14px;
-    font-weight: bold;
 }
 .appearences__item-contents aside {
     justify-self: flex-end;
