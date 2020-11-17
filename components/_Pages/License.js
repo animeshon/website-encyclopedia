@@ -30,7 +30,7 @@ const License = () => {
             </section>
             <br/>
             <section>
-                <h1>Takedown Notices</h1>
+                <h2>Takedown Notices</h2>
                 <p>For any takedown request related to data or content hosted on our service please send an email to <strong>legal@animeshon.com</strong>.</p>
             </section>
         </div>

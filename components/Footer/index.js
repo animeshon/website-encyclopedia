@@ -10,24 +10,23 @@ const Footer = ({ contextualClass }) => {
             <div className="internal-space">
                 <ul>
                     <li>
-                        <Link href="/animeshon/[page]" as="/animeshon/about">
-                            <a>About</a>
+                        <Link href="https://animeshon.com">
+                            <a target="_blank">About</a>
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            href="/animeshon/[page]"
-                            as="/animeshon/privacy-policy"
-                        >
-                            <a>Privacy</a>
+                        <Link href="https://www.iubenda.com/privacy-policy/48776658">
+                            <a target="_blank">Privacy Policy</a>
                         </Link>
                     </li>
                     <li>
-                        <Link
-                            href="/animeshon/[page]"
-                            as="/animeshon/terms-and-conditions"
-                        >
-                            <a>Terms</a>
+                        <Link href="https://www.iubenda.com/privacy-policy/48776658/cookie-policy">
+                            <a target="_blank">Cookie Policy</a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="https://www.iubenda.com/terms-and-conditions/48776658">
+                            <a target="_blank">Terms and Conditions</a>
                         </Link>
                     </li>
                     <li>
