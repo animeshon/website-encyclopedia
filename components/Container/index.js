@@ -54,7 +54,7 @@ const Container = ({ container, seo, children }) => {
 
                 {/* Social Media & SEO */}
                 <meta property="og:site_name" content="Animeshon Encyclopedia"></meta>
-                <meta property="og:title" content={`${seo.title} | ${seo.type}`} />
+                <meta property="og:title" content={`${seo.title} - ${selectedLabel} | ${seo.type}`} />
                 {seo.description ? (<meta property="og:description" content={seo.description} />) : undefined}
                 {seo.image ? (<meta property="og:image" content={seo.image} />) : undefined}
                 {url ? <meta property="og:url" content={url} /> : undefined }
