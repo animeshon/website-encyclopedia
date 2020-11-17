@@ -9,24 +9,24 @@ const Footer = ({ contextualClass }) => {
         >
             <div className="internal-space">
                 <ul>
-                    <li>
+                    <li className="no-xs">
                         <Link href="https://animeshon.com">
                             <a target="_blank">About</a>
                         </Link>
                     </li>
                     <li>
                         <Link href="https://www.iubenda.com/privacy-policy/48776658">
-                            <a target="_blank">Privacy Policy</a>
+                            <a target="_blank">Privacy</a>
                         </Link>
                     </li>
                     <li>
                         <Link href="https://www.iubenda.com/privacy-policy/48776658/cookie-policy">
-                            <a target="_blank">Cookie Policy</a>
+                            <a target="_blank">Cookie</a>
                         </Link>
                     </li>
                     <li>
                         <Link href="https://www.iubenda.com/terms-and-conditions/48776658">
-                            <a target="_blank">Terms and Conditions</a>
+                            <a target="_blank">Terms</a>
                         </Link>
                     </li>
                     <li>
@@ -39,7 +39,7 @@ const Footer = ({ contextualClass }) => {
                             <a>License</a>
                         </Link>
                     </li>
-                    <li>
+                    <li className="no-xs">
                         <Link href="https://github.com/animeshon/website-encyclopedia">
                             <a target="_blank">GitHub</a>
                         </Link>
