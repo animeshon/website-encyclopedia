@@ -189,8 +189,7 @@ b {
 
 /* Top Hero image */
 .hero-cover {
-    /* TODO height attribute should be reset to 315px once a banner image is present */
-    height: 130px;
+    height: 315px;
     background-color: #000;
     overflow: hidden;
     margin: 0;
@@ -202,8 +201,6 @@ b {
 }
 
 .hero-cover__image {
-    /* TODO display: none should be removed once the banner image would be present */
-    display: none;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -212,8 +209,6 @@ b {
 }
 
 .hero-cover__shade {
-    /* TODO display: none should be removed once the banner image would be present */
-    display: none;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1741,13 +1736,22 @@ ul.grid-halves {
     line-height: 0.5;
 }
 .search-result__breadcrumb span {
-    font-size: 11px;
+    font-size: 12px;
     color: #7f7f7f;
+}
+
+.search-result__breadcrumb.white-text span {
+    font-weight: 600;
+    color: #f7f7f7;
+}
+.search-result__breadcrumb.white-text span::after {
+    border-left: 3px solid #f7f7f7;
+    border-bottom: 3px solid #f7f7f7;
 }
 
 .search-result__breadcrumb span::after {
     content: ' ';
-    margin: 0 6px 0 4px;
+    margin: 0 6px 1px 4px;
     width: 0;
     height: 0;
     transform: rotate(-135deg);

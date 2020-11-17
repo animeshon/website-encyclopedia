@@ -12,7 +12,7 @@ export const Type = (type) => {
         case "VisualNovel":
             return "Visual Novel";
         case "Song":
-            return "Song";
+            return "Track";
         case "Episode":
             return "Episode";
         case "Chapter":
@@ -20,13 +20,13 @@ export const Type = (type) => {
         case "Universe":
             return "Universe";
         case "Canonical":
-            return "Canonical";
+            return "Canonical Franchise";
         case "Volume":
             return "Volume";
         case "Episode":
             return "Episode";
         case "MusicCollection":
-            return "Music Coollection";
+            return "Music Record";
         case "Character":
             return "Character";
         case "Organization":

@@ -3,7 +3,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import HeroCover from '@/components/HeroCover';
+import BannerImage from '@/components/BannerImage';
 import ProfileImage from '@/components/ProfileImage';
 import TabNavigation from '@/components/TabNavigation';
 import EntityTitle from '@/components/EntityTitle';
@@ -28,6 +28,7 @@ const Mobile = ({ children }) => {
 const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;
 
 const Truncate = (text, max) => {
+    if (!text) { return undefined }
     return (text.length > max) ? text.substr(0, max - 1) + '…' : text;
 };
 
@@ -74,7 +75,7 @@ const Container = ({ container, seo, children }) => {
             </Head>
             <div className="any">
                 <Header isSearchAvailable />
-                <HeroCover
+                <BannerImage
                     title={container.title}
                     altText={container.title}
                     bannerImage={container.bannerImage}

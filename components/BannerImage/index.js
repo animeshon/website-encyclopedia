@@ -6,19 +6,15 @@ const Default = ({ children }) => {
     return isNotMobile ? children : null;
 };
 
-const HeroCover = ({ title, breadcrumb = [], bannerImage, altText }) => {
+const BannerImage = ({ title, breadcrumb = [], bannerImage, altText }) => {
     return (
         <div className="hero-cover">
-            {bannerImage && (
-                <>
-                    <img
-                        className="hero-cover__image"
-                        src={bannerImage}
-                        alt={altText}
-                    />
-                    <div className="hero-cover__shade" />
-                </>
-            )}
+            <img
+                className="hero-cover__image"
+                src={bannerImage ? bannerImage : `/images/random-banner-${title.length % 4}.jpg`}
+                alt={altText}
+            />
+            <div className="hero-cover__shade" />
             <Default>
                 <div className="hero-cover__title">
                     <EntityTitle title={title} breadcrumb={breadcrumb} />
@@ -28,4 +24,4 @@ const HeroCover = ({ title, breadcrumb = [], bannerImage, altText }) => {
     );
 };
 
-export default HeroCover;
+export default BannerImage;
