@@ -2,11 +2,14 @@ import { useState } from 'react';
 
 import CustomInput from '@/components/Input';
 
-const Search = () => {
+const Search = ({placeholder, action = undefined, style = "search__field"}) => {
     const [searchValue, setSearchsearchValue] = useState('');
 
-    const handleOnChange = () => {
+    const handleOnChange = (e) => {
         setSearchsearchValue(e.target.value);
+        if (action !== undefined) {
+            action(e.target.value)
+        }
     };
 
     return (
@@ -15,8 +18,9 @@ const Search = () => {
                 name="search__field"
                 onChangeAction={handleOnChange}
                 type="text"
-                className="search__field"
+                className={style}
                 value={searchValue}
+                placeholder={placeholder}
             />
         </div>
     );

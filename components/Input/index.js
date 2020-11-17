@@ -3,6 +3,7 @@ const CustomInput = ({
     value = '',
     onChangeAction = () => {},
     className,
+    placeholder
 }) => {
     return (
         <input
@@ -10,6 +11,7 @@ const CustomInput = ({
             type={type}
             value={value}
             onChange={onChangeAction}
+            placeholder={placeholder}
         />
     );
 };
