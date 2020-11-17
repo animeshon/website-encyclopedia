@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import CharacterCard, { CharacterRole } from '@/components/CharacterCard';
 import AppearanceCard from '@/components/AppearanceCard';
 import ExpandableSection from '@/components/ExpandableSection';
 

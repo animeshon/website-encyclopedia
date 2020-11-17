@@ -15,9 +15,7 @@ const Pictures = ({ images }) => {
                 <header>
                     <h3>Pictures</h3>
                 </header>
-                {images && images.length ?
-                    (<ImageGrid images={images} className={"picture__masonry"} />)
-                    : 'There is currently no picture available.'}
+                <ImageGrid images={images} className={"picture__masonry"} />)
             </section>
         </main>
     );

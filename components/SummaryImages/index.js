@@ -16,11 +16,7 @@ const SummaryImages = ({ images, href }) => {
                     </Link>
                 )}
             </header>
-            {images && images.length ? 
-                (<ImageGrid images={images.slice(0, SUMMARY_IMAGES_MAX_NUM)} className={"picture__masonry_home"}/>)
-             : 'There is currently no picture available.'}
-
-            
+            <ImageGrid images={(images || []).slice(0, SUMMARY_IMAGES_MAX_NUM)} className={"picture__masonry_home"}/>
         </section>
     );
 };
