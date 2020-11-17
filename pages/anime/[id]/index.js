@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getAnimeSummary from '@/queries/anime/Summary';
+import getSummary from '@/queries/anime/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
@@ -44,8 +44,8 @@ const Anime = ({
 
 Anime.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getAnimeSummary(), (data, err) => { return data.result; });
-
+    const data = await ExecuteQuery(ctx, { id: id }, getSummary(), (data, err) => { return data.result; });
+    
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {

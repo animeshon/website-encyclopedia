@@ -1,258 +1,170 @@
+import React from 'react';
+
+import withContainer from '@/components/Container';
+
+import getVoiceActors from '@/queries/character/VoiceActors';
+
+import CardImage from '@/components/Card/Image';
+
+import * as locale from '@/utilities/Localization';
+import * as image from '@/utilities/Image';
+import * as season from '@/utilities/Season';
+import * as uri from '@/utilities/URI';
+import { Type } from '@/utilities/MediaType';
+import { Subtype } from '@/utilities/MediaSubtype';
+import { ExecuteQuery } from '@/utilities/Query';
+
+
 import Link from 'next/link';
 import { kebabCase } from 'lodash';
 
-import { CharacterNavigation } from '@/resources/navigation/allTabNavigations';
-
-import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
 
-const renderVoiceActors = items => {
-    return items.map(item => {
-        const { fname, lname, nationality, picture, productions, id } = item;
-        return (
-            <article className="voice-actor">
-                <figure>
-                    <img src={picture} alt={`${fname} ${lname}`} />
-                </figure>
-                <div className="voice-actor__descriptions">
-                    <header>
-                        <h4>
-                            {fname.en} {lname.en}
-                        </h4>
-                        {fname.jp && lname.jp && (
-                            <h5>
-                                {fname.jp}
-                                {lname.jp}
-                            </h5>
-                        )}
-                        <p className="appearences__media-type">
-                            <span
-                                className={`fp fp-sm custom-fp ${nationality}`}
-                            />
-                            Female
-                        </p>
-                    </header>
-                    <Button
-                        className="cherry-red medium"
-                        as={`/people/${id}_${kebabCase(
-                            `${fname.en}-${lname.en}`,
-                        )}/`}
-                        href="/people/[people_id]"
-                        type="next-link"
-                    >
-                        More
-                    </Button>
-                </div>
-                <aside>
-                    {productions.map(production => {
-                        const { name, list } = production;
-                        return (
-                            <>
-                                <h6>
-                                    Productions <span>({name.en})</span>
-                                </h6>
-                                {list.map(i => {
-                                    const { name, id, type } = i;
-                                    return (
-                                        <p>
-                                            <Link
-                                                href={`/${type}/[${type}_id]`}
-                                                as={`/${type}/${id}_${kebabCase(
-                                                    name.en,
-                                                )}`}
-                                            >
-                                                <a>{name.en}</a>
-                                            </Link>
-                                        </p>
-                                    );
-                                })}
-                            </>
-                        );
-                    })}
-                </aside>
-            </article>
-        );
-    });
+const Gender = (role) => {
+    switch (role) {
+        case "MALE":
+            return "Male";
+        case "FEMALE":
+            return "Female";
+    }
+
+    return undefined;
 };
 
-const CharacterVoiceActors = ({
-    voice_actors,
-    character_id,
-    character_name,
-    profileImage,
-    profileImageAltText,
-    bannerImage,
-    bannerImageAltText,
-}) => {
+const VoiceActorCard = ({ voiceActor }) => {
     return (
-        <AnyWrapper
-            id={character_id}
-            bannerImage={bannerImage}
-            profileImage={profileImage}
-            bannerImageAltText={bannerImageAltText}
-            profileImageAltText={profileImageAltText}
-            anyNav={CharacterNavigation}
-            title={character_name}
-            selectedMenu="Voice Actors"
-        >
-            <main className="landing__description landing__100">
-                <section className="landing-section-box">
-                    <header>
-                        <h3>Voice Actors</h3>
-                    </header>
-                </section>
-                <div className="grid-halves">
-                    {voice_actors && renderVoiceActors(voice_actors)}
-                </div>
-            </main>
-        </AnyWrapper>
+        <article className="voice-actor">
+            {/* <CardImage
+                type={'people'}
+                sex={voiceActor.gender}
+                picture={voiceActor.image}
+                altText={voiceActor.name}
+            /> */}
+            {voiceActor.image && (<figure>
+                <img src={voiceActor.image} alt={voiceActor.name} />
+            </figure>)}
+            <div className="voice-actor__descriptions">
+                <header>
+                    <h4>
+                        {voiceActor.name}
+                    </h4>
+                    {voiceActor.japaneseName && (
+                        <h5> {voiceActor.japaneseName} </h5>
+                    )}
+                    <p className="appearences__media-type">
+                        {voiceActor.nationality && (<span
+                            className={`fp fp-sm custom-fp ${voiceActor.nationality == 'en' ? 'gb': voiceActor.nationality}`}
+                        />)}
+                        {Gender(voiceActor.gender) && (
+                            <h5> {Gender(voiceActor.gender)} </h5>
+                        )}
+                    </p>
+                </header>
+                <Button
+                    className="cherry-red medium"
+                    href={uri.Rewrite('Person', voiceActor.name, voiceActor.id)}
+                    type="next-link"
+                >
+                    More
+                    </Button>
+            </div>
+            <aside>
+                {voiceActor.productions.map(production => {
+                    return (
+                        <p>
+                            <Link href={uri.Rewrite(production.type, production.name, production.id)} >
+                                <a>{production.name}</a>
+                            </Link>
+                        </p>
+                    );
+                })}
+            </aside>
+        </article>
     );
 };
 
-CharacterVoiceActors.getInitialProps = async ctx => {
-    const { character_id } = ctx.query;
-    const profileImage =
-        'http://2.bp.blogspot.com/-IlqVBmHSO7c/UQk4sPRMVsI/AAAAAAAAAiI/TQm72CS8kls/s1600/Monkey+D.+Luffy+2.jpg';
-    const profileImageAltText = 'Monkey D. Luffy Hero';
-    const bannerImage =
-        'https://s-media-cache-ak0.pinimg.com/originals/0a/fb/46/0afb465b38987240997ed8d3cb054c64.png';
-    const bannerImageAltText = 'Monkey D. Luffy Cover';
-    const character_name = 'Monkey D. Luffy';
+const MapVoiceActors = (voiceActors) => {
+    let mapVoiceActors = {};
+    voiceActors.forEach(v => {
+        if (!mapVoiceActors.hasOwnProperty(v.actor.id)) {
+            mapVoiceActors[v.actor.id] = {
+                name: v.actor.name,
+                japaneseName: v.actor.japaneseName,
+                nationality: v.nationality,
+                gender: v.actor.gender,
+                image: v.actor.image,
+                productions: [],
+            };
+        }
+        mapVoiceActors[v.actor.id].productions.push({
+            id: v.content.id,
+            type: v.content.type,
+            name: v.content.name,
+            japaneseName: v.content.japaneseName,
+            isPrimary: v.isPrimary,
+        });
+    });
+    return mapVoiceActors;
+}
 
-    const voice_actors = [
-        {
-            fname: {
-                en: 'Takano',
-                jp: '高乃',
+const VoiceActors = ({ voiceActors }) => {
+    const mapVoiceActors = MapVoiceActors(voiceActors);
+    const keys = Object.keys(mapVoiceActors);
+    return (
+        <main className="landing__description landing__100">
+            <section className="landing-section-box">
+                <header>
+                    <h3>Voice Actors</h3>
+                </header>
+            </section>
+            <div className="grid-halves">
+             { keys && keys.length ? keys.map(k => {
+                 return (<VoiceActorCard key={k} voiceActor={mapVoiceActors[k]}/>)
+             }): 'There is currently no appearance information available.'}
+            </div>
+        </main>
+    );
+};
+
+VoiceActors.getInitialProps = async ctx => {
+    const { id } = ctx.query;
+    const data = await ExecuteQuery(ctx, { id: id }, getVoiceActors(), (data, err) => { return data.result; });
+
+    const voiceActors = (data.voices || []).map(i => {
+        const { isPrimary, localization, actor, content } = i;
+
+        // TODO: Vastly improve the logic here.
+        // Try to fetch country alpha-2, fallback to language alpha-2.
+        var nationality = undefined;
+        if (localization?.country?.alpha2) {
+            nationality = localization.country.alpha2;
+        } 
+        if (nationality === undefined && localization?.language?.alpha2) {
+            nationality = localization.language.alpha2;
+        }
+
+        return {
+            isPrimary: isPrimary,
+            nationality: nationality?.toLowerCase(),
+            actor: {
+                id: actor.id,
+                image: image.ProfileAny(actor.images),
+                name: locale.LatinAny(actor.names),
+                japaneseName: locale.Japanese(actor.names),
+                gender: actor.gender,
             },
-            lname: {
-                en: 'Urara',
-                jp: '麗',
-            },
-            sex: 'female',
-            nationality: 'jp',
-            id: 'f56027273eb6490d9ab82a2645e25d9a',
-            picture:
-                'https://cdn.myanimelist.net/images/voiceactors/3/17121.jpg',
-            productions: [
-                {
-                    name: {
-                        en: 'One Piece',
-                        jp: 'ワンピース',
-                    },
-                    list: [
-                        {
-                            name: {
-                                en: 'One Piece: Taose! Kaizoku Ganzack',
-                                jp: 'One Piece: Taose! Kaizoku Ganzack',
-                            },
-                            id: 'f56027273eb6490d9ab82a2645e25d9a',
-                            type: 'anime',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            fname: {
-                en: 'Tanaka',
-                jp: '田中',
-            },
-            lname: {
-                en: 'Mayumi',
-                jp: '真弓',
-            },
-            sex: 'female',
-            nationality: 'jp',
-            id: '7be468a9d66643c6ae3baa0ae2dab71b',
-            picture:
-                'https://cdn.myanimelist.net/images/voiceactors/3/16623.jpg',
-            productions: [
-                {
-                    name: {
-                        en: 'One Piece',
-                        jp: 'ワンピース',
-                    },
-                    list: [
-                        {
-                            name: {
-                                en: 'Gekijouban One Piece: Stampede',
-                                jp: 'Gekijouban One Piece: Stampede',
-                            },
-                            id: '64b2f2f264534b08a06bbbb7795fa283',
-                            type: 'manga',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece',
-                                jp: 'One Piece',
-                            },
-                            id: '7be468a9d66643c6ae3baa0ae2dab71b',
-                            type: 'anime',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece (2000)',
-                                jp: 'One Piece (2000)',
-                            },
-                            id: 'b7e881ac72ca4cc487a0fc8e7c8f34b0',
-                            type: 'manga',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece 3D: Mugiwara Chase',
-                                jp: 'One Piece 3D: Mugiwara Chase',
-                            },
-                            id: 'e2a53a72bffb42e789d881d3932e8bde',
-                            type: 'manga',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece Film: Gold',
-                                jp: 'One Piece Film: Gold',
-                            },
-                            id: 'e3a6252c99a6481cae87cd9f85214031',
-                            type: 'anime',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece Film: Strong World',
-                                jp: 'One Piece Film: Strong World',
-                            },
-                            id: '0508a89641274abd900605c4d25c7cbe',
-                            type: 'manga',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece Film: Gold',
-                                jp: 'One Piece Film: Gold',
-                            },
-                            id: '36d8576be52f43bdbcc87b276619e29e',
-                            type: 'anime',
-                        },
-                        {
-                            name: {
-                                en: 'One Piece Film: Strong World - Episode 0',
-                                jp: 'One Piece Film: Strong World - Episode 0',
-                            },
-                            id: 'ac549b1d2a8c4b488cf3583669908994',
-                            type: 'anime',
-                        },
-                    ],
-                },
-            ],
-        },
-    ];
+            content: {
+                id: content.id,
+                type: content.__typename,
+                name: locale.LatinAny(content.names),
+                japaneseName: locale.Japanese(content.names),
+            }
+        };
+    });
 
     return {
-        voice_actors,
-        character_id,
-        character_name,
-        profileImage,
-        profileImageAltText,
-        bannerImage,
-        bannerImageAltText,
+        voiceActors: voiceActors,
     };
 };
 
-export default CharacterVoiceActors;
+export default withContainer(VoiceActors);

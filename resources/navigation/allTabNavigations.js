@@ -155,9 +155,9 @@ export const CharacterNavigation = (name, id) => [
         as: uri.Rewrite('Character', name, id)
     },
     {
-        label: 'Appearences',
-        href: '/characters/[id]/appearences',
-        as: uri.Rewrite('Character', name, id, 'appearences')
+        label: 'Appearances',
+        href: '/characters/[id]/appearances',
+        as: uri.Rewrite('Character', name, id, 'appearances')
     },
     {
         label: 'Voice Actors',

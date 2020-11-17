@@ -2,9 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 
 import CastCard from '@/components/CastCard';
+import Search from '@/components/Search';
 
 const CastGrid = ({ casts, nationalities }) => {
     const [country, setCountry] = useState('jp');
+    const [filter, setFilter] = useState('');
 
     const onChange = async (e) => {
         const { value } = e.currentTarget;
@@ -16,14 +18,16 @@ const CastGrid = ({ casts, nationalities }) => {
     return (
         <main className="anime-cast__description grid">
             <section className="landing-section-box">
-                <header>
+                <header className="header-with-double-filter">
                     <h3>Cast</h3>
+                    <div className="filter-container">
+                    <Search placeholder={"Search..."} action={setFilter}></Search>
 
                     {nationalities && nationalities.length ? (
-                        <select default onChange={onChange}>
+                        <select className="custom-select" default onChange={onChange}>
                             {nationalities.map(notionality => {
                                 const { code, name } = notionality;
-                                return (
+                                if (code) { return (
                                     <option
                                         key={code}
                                         value={code}
@@ -31,15 +35,16 @@ const CastGrid = ({ casts, nationalities }) => {
                                     >
                                         {name}
                                     </option>
-                                );
+                                )};
                             })}
                         </select>
                     ) : undefined}
 
+                    </div>
                 </header>
                 <div className="grid-halves">
                     {casts && casts.length ? casts.map(cast => {
-                        if (cast.nationality == country) {
+                        if (CanDisplay(cast, country, filter)) {
                             return (<CastCard
                                 key={`${cast.person.id}-${cast.character.id}`}
                                 character={cast.character}
@@ -52,5 +57,21 @@ const CastGrid = ({ casts, nationalities }) => {
         </main>
     );
 };
+
+const CanDisplay = (cast, country, filter) => {
+    if (cast.nationality != country) {
+        return false;
+    }
+    if (filter === '') {
+        return true;
+    }
+    if (cast.person.name.toLowerCase().includes(filter)) {
+        return true;
+    }
+    if (cast.person.japaneseName && cast.person.japaneseName.toLowerCase().includes(filter)) {
+        return true;
+    }
+    return false;
+}
 
 export default CastGrid;

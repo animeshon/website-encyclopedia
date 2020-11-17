@@ -17,6 +17,7 @@ import Navigation from '@/resources/navigation/allTabNavigations';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
+import * as text from '@/utilities/Text';
 
 
 const Mobile = ({ children }) => {
@@ -26,11 +27,6 @@ const Mobile = ({ children }) => {
 
 {/* https://developers.google.com/search/docs/data-types/sitelinks-searchbox */ }
 const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;
-
-const Truncate = (text, max) => {
-    if (!text) { return undefined }
-    return (text.length > max) ? text.substr(0, max - 1) + '…' : text;
-};
 
 const Container = ({ container, seo, children }) => {
     // ! TODO: The following trick seems to be not very clean.
@@ -135,8 +131,8 @@ export function withContainer(WrappedComponent) {
                 rating: undefined, // ! TODO: Valid values are ['general' 'mature' 'restricted' 'adult' '14 years' 'safe for kids'].
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
                 
-                description: Truncate(locale.EnglishAny(data.descriptions), 160),
-                title: Truncate(container.title, 32),
+                description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
+                title: text.Truncate(container.title, 32),
                 image: container.profileImage,
 
                 site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',

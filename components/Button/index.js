@@ -3,7 +3,6 @@ import Link from 'next/link';
 const Button = ({
     onClick = () => {},
     href,
-    as,
     children,
     className,
     type = 'next-link',
@@ -12,7 +11,7 @@ const Button = ({
     switch (type) {
         case 'next-link':
             return (
-                <Link as={as} href={href}>
+                <Link href={href}>
                     <a className={`btn ${className}`}>{children}</a>
                 </Link>
             );

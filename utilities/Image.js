@@ -9,6 +9,10 @@ export const Cover = (images) => {
     return Image(images, ['COVER'], ['PNG'])
 };
 
+export const All = (images) => {
+    return images.map(i => Image([i]), [], [], fallbackRegularAny)
+}
+
 export const Image = (images, types, formats, fallback = null) => {
     if (!images || images.length == 0) {
         return undefined;

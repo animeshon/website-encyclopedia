@@ -1230,7 +1230,6 @@ ul.grid-halves {
 .appearences__item-contents header p {
     margin: 0;
     font-size: 14px;
-    font-weight: bold;
 }
 .appearences__item-contents aside {
     justify-self: flex-end;
@@ -1270,7 +1269,7 @@ ul.grid-halves {
     max-height: 216px;
     min-width: 120px;
     overflow: hidden;
-    margin: 0 20px 0 0;
+    margin: 0 0 0 0;
     padding: 0;
     border-radius: 5px 0 0 5px;
 }
@@ -1305,7 +1304,7 @@ ul.grid-halves {
 }
 .voice-actor__descriptions {
     display: flex;
-    margin: 20px 20px 20px 0;
+    margin: 20px;
     flex-direction: column;
     min-width: 180px;
     max-width: 200px;
@@ -1954,3 +1953,44 @@ ul.grid-halves {
         display: none;
     }
 }
+
+.header-with-filter {
+    display: flex;
+}
+
+.landing-section-box .header-with-double-filter {
+    display: flex;
+    margin-bottom: 60px;
+}
+
+.filter-container {
+    position: absolute; 
+    right: 0;
+}
+
+.search {
+    margin: 0 0 5px 0;
+}
+
+.search__field {
+    text-indent: 5px;
+    max-width: 300px;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #cfcfcf;
+    border-radius: 0.25em;
+    outline: none;
+}
+
+.custom-select {
+    width: 100%;
+    max-width: 300px;
+    min-width: 100px;
+    border: 1px solid #cfcfcf;
+    border-radius: 0.25em;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  }
