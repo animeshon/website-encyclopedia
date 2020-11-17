@@ -1,7 +1,7 @@
 import * as unicode from '@/utilities/Unicode';
 
-export const Rewrite = (__typename, name, id, path = null) => {
-    switch (__typename) {
+export const Rewrite = (type, name, id, path = null) => {
+    switch (type) {
         case 'Anime':
             return rewrite('Anime', name, id, path);
         case 'Manga':

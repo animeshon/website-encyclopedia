@@ -18,6 +18,7 @@ import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
+import * as media from '@/utilities/MediaType';
 
 
 const Mobile = ({ children }) => {
@@ -41,7 +42,7 @@ const Container = ({ container, seo, children }) => {
     return (
         <div>
             <Head>
-                <title>{seo.title} - {selectedLabel} | {seo.type} - {seo.site}</title>
+                <title>{seo.title} - {selectedLabel} | {seo.media} - {seo.site}</title>
                 {canonical ? (<link rel="canonical" href={canonical} />) : undefined}
 
                 {/* SEO */}
@@ -51,7 +52,7 @@ const Container = ({ container, seo, children }) => {
 
                 {/* Social Media & SEO */}
                 <meta property="og:site_name" content="Animeshon Encyclopedia"></meta>
-                <meta property="og:title" content={`${seo.title} - ${selectedLabel} | ${seo.type}`} />
+                <meta property="og:title" content={`${seo.title} - ${selectedLabel} | ${seo.media}`} />
                 {seo.description ? (<meta property="og:description" content={seo.description} />) : undefined}
                 {seo.image ? (<meta property="og:image" content={seo.image} />) : undefined}
                 {url ? <meta property="og:url" content={url} /> : undefined }
@@ -127,7 +128,8 @@ export function withContainer(WrappedComponent) {
             };
 
             const seo = {
-                type: data.__typename, // ! TODO: Switch properly the type in order to show "VisualNovel" as "Visual Novel".
+                type: data.__typename,
+                media: media.Type(data.__typename),
                 rating: undefined, // ! TODO: Valid values are ['general' 'mature' 'restricted' 'adult' '14 years' 'safe for kids'].
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
                 

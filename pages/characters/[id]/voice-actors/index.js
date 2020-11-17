@@ -4,19 +4,13 @@ import withContainer from '@/components/Container';
 
 import getVoiceActors from '@/queries/character/VoiceActors';
 
-import CardImage from '@/components/Card/Image';
-
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
 import * as uri from '@/utilities/URI';
-import { Type } from '@/utilities/MediaType';
-import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery } from '@/utilities/Query';
 
 
 import Link from 'next/link';
-import { kebabCase } from 'lodash';
 
 import Button from '@/components/Button';
 

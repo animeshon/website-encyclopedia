@@ -69,7 +69,7 @@ Character.getInitialProps = async ctx => {
 
     const guiseOf = data.guiseOf ? {
         id: data.guiseOf.id,
-        type: data.guiseOf.id,
+        type: data.guiseOf.__typename,
         name: locale.LatinAny(data.guiseOf.names),
     } : undefined;
 

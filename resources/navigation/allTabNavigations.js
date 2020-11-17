@@ -136,7 +136,7 @@ export const LightNovelNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/light-novels/[id]',
-        as: uri.Rewrite('Light_Novel', name, id)
+        as: uri.Rewrite('LightNovel', name, id)
     },
 ];
 
@@ -144,7 +144,7 @@ export const VisualNovelNavigation = (name, id) => [
     {
         label: 'Summary',
         href: '/visual-novels/[id]',
-        as: uri.Rewrite('Visual_Novel', name, id)
+        as: uri.Rewrite('VisualNovel', name, id)
     },
 ];
 

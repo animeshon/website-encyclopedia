@@ -1,6 +1,4 @@
 import Link from 'next/link';
-
-import kebabCase from 'lodash/kebabCase';
 import { withRouter } from 'next/router';
 
 import { performSearch, details } from '@/queries/search/Search';
@@ -44,7 +42,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                                 className={`search-result anime ${primary}-result`}
                             >
                                 <Link
-                                    href={`${Rewrite(item.media, item.title, item.id)}`}
+                                    href={`${Rewrite(item.type, item.title, item.id)}`}
                                 >
                                     <div className="search-result__row">
                                         {item.profileImage && (
@@ -67,7 +65,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                                                 <span>{item.title}</span>
                                             </div>
                                             <h2>{item.title}</h2>
-                                            {item.type && (<strong>{item.type}</strong>)} 
+                                            {item.subtype && (<strong>{item.subtype}</strong>)} 
                                             {item.premiere && (<small>{item.premiere}</small>)}
                                             <p>{item.description}</p>
                                         </header>
@@ -122,8 +120,6 @@ Search.getInitialProps = async ctx => {
         return {queryTime:0, results:[]}
     }
 
-    const client = ctx.apolloClient;
-    
     const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
     
@@ -164,13 +160,14 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
 
         return {
             id:             data.id,
+            type:           data.__typename,
             title:          locale.EnglishAny(data.names),
             description:    locale.English(data.descriptions),
             profileImage:   image.ProfileAny(data.images),
             media:          Type(data.__typename),
-            type:           Subtype(data.__typename, data.type),
+            subtype:        Subtype(data.__typename, data.type),
             premiere:       PremiereAny(data.releaseDate, data.runnings),
-            children:  undefined, // TODO: add children to query for all content which have releases, chapter or episodes
+            children:       undefined, // TODO: add children to query for all content which have releases, chapter or episodes
             parent: data.content ? {
                 title:          locale.EnglishAny(data.content.names),
                 media:          Type(data.content.__typename),
@@ -181,39 +178,39 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
     return {results: results, hasMore: res.length > amountRequested}
 }
 
-const ChildContents = ({ episodes, animeId, animeTitle }) => {
-    return episodes.map(episode => {
-        const image = episode.images[0]
-            ? episode.images[0].image.file.publicUri
-            : undefined;
-        const name = episode.names[0].text;
-        const descirption = episode.description[0]
-            ? episode.description[0].text
-            : undefined;
-        const episodeId = episode.id;
+// const ChildContents = ({ episodes, animeId, animeTitle }) => {
+//     return episodes.map(episode => {
+//         const image = episode.images[0]
+//             ? episode.images[0].image.file.publicUri
+//             : undefined;
+//         const name = episode.names[0].text;
+//         const descirption = episode.description[0]
+//             ? episode.description[0].text
+//             : undefined;
+//         const episodeId = episode.id;
 
-        return (
-            <Link
-                key={episodeId}
-                href="/anime/[anime_id]/episodes/[episode_id]"
-                as={`/anime/${animeId}_${kebabCase(
-                    animeTitle,
-                )}/episodes/${episodeId}_${kebabCase(name)}`}
-            >
-                <div className="search-result__aside__item">
-                    {image && (
-                        <figure>
-                            <img src={image} alt="" />
-                        </figure>
-                    )}
-                    <div className="search-result__aside__texts">
-                        <h4>{name}</h4>
-                        {descirption && <p>{descirption}</p>}
-                    </div>
-                </div>
-            </Link>
-        );
-    });
-};
+//         return (
+//             <Link
+//                 key={episodeId}
+//                 href="/anime/[anime_id]/episodes/[episode_id]"
+//                 as={`/anime/${animeId}_${kebabCase(
+//                     animeTitle,
+//                 )}/episodes/${episodeId}_${kebabCase(name)}`}
+//             >
+//                 <div className="search-result__aside__item">
+//                     {image && (
+//                         <figure>
+//                             <img src={image} alt="" />
+//                         </figure>
+//                     )}
+//                     <div className="search-result__aside__texts">
+//                         <h4>{name}</h4>
+//                         {descirption && <p>{descirption}</p>}
+//                     </div>
+//                 </div>
+//             </Link>
+//         );
+//     });
+// };
 
 export default withRouter(Search);
