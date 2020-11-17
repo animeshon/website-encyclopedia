@@ -27,7 +27,7 @@ const CastGrid = ({ casts, nationalities }) => {
                         <select className="custom-select" default onChange={onChange}>
                             {nationalities.map(notionality => {
                                 const { code, name } = notionality;
-                                return (
+                                if (code) { return (
                                     <option
                                         key={code}
                                         value={code}
@@ -35,7 +35,7 @@ const CastGrid = ({ casts, nationalities }) => {
                                     >
                                         {name}
                                     </option>
-                                );
+                                )};
                             })}
                         </select>
                     ) : undefined}
