@@ -85,7 +85,7 @@ const EpisodeCharacters = ({
                         >
                             <a>&larr; Back</a>
                         </Link>
-                        <h3>Characters Appearences</h3>
+                        <h3>Characters Appearances</h3>
                     </header>
                     <div className="grid-halves">
                         {renderCharacters(characters_full_list)}

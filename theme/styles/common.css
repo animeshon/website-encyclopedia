@@ -1275,7 +1275,7 @@ ul.grid-halves {
     max-height: 216px;
     min-width: 120px;
     overflow: hidden;
-    margin: 0 20px 0 0;
+    margin: 0 0 0 0;
     padding: 0;
     border-radius: 5px 0 0 5px;
 }
@@ -1310,7 +1310,7 @@ ul.grid-halves {
 }
 .voice-actor__descriptions {
     display: flex;
-    margin: 20px 20px 20px 0;
+    margin: 20px;
     flex-direction: column;
     min-width: 180px;
     max-width: 200px;
