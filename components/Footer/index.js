@@ -36,6 +36,11 @@ const Footer = ({ contextualClass }) => {
                         </Link>
                     </li>
                     <li>
+                        <Link href="/animeshon/[page]" as="/animeshon/license">
+                            <a>License</a>
+                        </Link>
+                    </li>
+                    <li>
                         <Link href="https://github.com/animeshon/website-encyclopedia">
                             <a target="_blank">GitHub</a>
                         </Link>

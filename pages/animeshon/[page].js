@@ -6,6 +6,7 @@ import AboutAnimeshon from '@/components/_Pages/AboutAnimeshon';
 import PrivacyPolicy from '@/components/_Pages/PrivacyPolicy';
 import TermsAndConditions from '@/components/_Pages/TermsAndConditions';
 import ContactUs from '@/components/_Pages/ContactUs';
+import License from '@/components/_Pages/License';
 
 const Page = ({ router }) => {
     const {
@@ -19,6 +20,7 @@ const Page = ({ router }) => {
             {page == 'privacy-policy' && <PrivacyPolicy />}
             {page == 'terms-and-conditions' && <TermsAndConditions />}
             {page == 'contacts' && <ContactUs />}
+            {page == 'license' && <License />}
         </>
     );
 };
