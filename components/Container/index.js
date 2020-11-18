@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Cookies from 'cookies';
+import ServerCookies from 'cookies';
+import ClientCookies from 'cookie-cutter';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -147,8 +148,10 @@ export function withContainer(WrappedComponent) {
             }
 
             var isSafeSearch = true;
-            if (ctx?.req?.headers?.cookie) {
-                const cookies = new Cookies(ctx.req);
+            if (!ctx.req) {
+                isSafeSearch = ClientCookies.get('images.adult.enabled')?.toLowerCase() != "true";
+            } else if (ctx.req.headers?.cookie) {
+                const cookies = new ServerCookies(ctx.req);
                 isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
             }
 

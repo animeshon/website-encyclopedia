@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import Cookies from 'cookies';
+import ServerCookies from 'cookies';
+import ClientCookies from 'cookie-cutter';
 
 import { performSearch, details } from '@/queries/search/Search';
 
@@ -126,8 +127,10 @@ Search.getInitialProps = async ctx => {
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
 
     var isSafeSearch = true;
-    if (ctx?.req?.headers?.cookie) {
-        const cookies = new Cookies(ctx.req);
+    if (!ctx.req) {
+        isSafeSearch = ClientCookies.get('images.adult.enabled')?.toLowerCase() != "true";
+    } else if (ctx.req.headers?.cookie) {
+        const cookies = new ServerCookies(ctx.req);
         isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
     }
 
