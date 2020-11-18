@@ -11,6 +11,9 @@ const getRelated = () => gql`
         ... on Anime {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -44,6 +47,9 @@ const getRelated = () => gql`
         ... on Manga {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -77,6 +83,9 @@ const getRelated = () => gql`
         ... on Doujinshi {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -110,6 +119,9 @@ const getRelated = () => gql`
         ... on LightNovel {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -142,6 +154,9 @@ const getRelated = () => gql`
         }
         ... on VisualNovel {
           id
+          ageRatings {
+            age
+          }
           images {
             type
             image {

@@ -10,6 +10,7 @@ import SummaryMember from '@/components/SummaryMember';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Circle = ({
     type,
@@ -24,6 +25,7 @@ const Circle = ({
             <main className="landing__description">
                 <SummaryText text={description} />
                 <SummaryMember id={id} type={type} title={title} members={members} />
+                {/* TODO: Add productions for circle. */}
             </main>
             <aside className="landing__details">
                 <header>
@@ -38,13 +40,14 @@ const Circle = ({
 Circle.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
+    const isSafeSearch = SafeSearch(ctx);
 
     const members = (data.members || []).map(i => {
         const { id, images, names } = i;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch),
         };
     });
 

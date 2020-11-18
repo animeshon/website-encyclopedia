@@ -13,6 +13,7 @@ import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Related = ({ related, open }) => {
     return (
@@ -34,9 +35,10 @@ const Related = ({ related, open }) => {
 Related.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getRelated()));
+    const isSafeSearch = SafeSearch(ctx);
 
     const related = (data.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -44,7 +46,7 @@ Related.getInitialProps = async ctx => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             season: season.JapanAny(runnings),

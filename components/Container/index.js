@@ -19,6 +19,8 @@ import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import * as media from '@/utilities/MediaType';
+import * as rating from '@/utilities/AgeRating';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const ContainerContext = React.createContext(undefined);
 
@@ -30,7 +32,7 @@ const Mobile = ({ children }) => {
 {/* https://developers.google.com/search/docs/data-types/sitelinks-searchbox */ }
 const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;
 
-const Container = ({ container, seo, children }) => {
+const Container = ({ container, seo, children, isSafeSearch = true }) => {
     // ! TODO: The following trick seems to be not very clean.
     const { route, asPath } = useRouter();
     const selectedLabel = container.navigation.filter(i => route === i.href)[0].label;
@@ -72,7 +74,7 @@ const Container = ({ container, seo, children }) => {
                 <script type={"application/ld+json"} dangerouslySetInnerHTML={{ __html: GoogleSearchScript }} />
             </Head>
             <div className="any">
-                <Header isSearchAvailable />
+                <Header isSearchAvailable isSafeSearch={isSafeSearch} />
                 <BannerImage
                     title={container.title}
                     altText={container.title}
@@ -112,6 +114,7 @@ export function withContainer(WrappedComponent) {
             const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
             const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, ContainerQuery(type)));
+            const isSafeSearch = SafeSearch(ctx);
 
             // Get component’s props
             let componentProps = {}
@@ -123,19 +126,19 @@ export function withContainer(WrappedComponent) {
                 id: data.id,
                 type: data.__typename,
                 title: locale.EnglishAny(data.names),
-                bannerImage: image.Cover(data.images),
-                profileImage: image.ProfileAny(data.images),
+                bannerImage: image.Cover(data.images, isSafeSearch, data.ageRatings),
+                profileImage: image.ProfileAny(data.images, isSafeSearch, data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 
             const seo = {
                 type: data.__typename,
                 media: media.Type(data.__typename),
-                rating: undefined, // ! TODO: Valid values are ['general' 'mature' 'restricted' 'adult' '14 years' 'safe for kids'].
+                rating: rating.WebMetaTag(data.ageRatings),
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
                 
                 description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
-                title: text.Truncate(container.title, 32),
+                title: text.Truncate(container.title, 64),
                 image: container.profileImage,
 
                 site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',
@@ -143,6 +146,7 @@ export function withContainer(WrappedComponent) {
             }
 
             return {
+                isSafeSearch: isSafeSearch,
                 container: container,
                 seo: seo,
                 ...componentProps
@@ -150,10 +154,10 @@ export function withContainer(WrappedComponent) {
         }
 
         render() {
-            const { container, seo, ...passThroughProps } = this.props;
+            const { container, seo, isSafeSearch, ...passThroughProps } = this.props;
             return (
                 <ContainerContext.Provider value={container}>
-                    <Container container={container} seo={seo}>
+                    <Container container={container} seo={seo} isSafeSearch={isSafeSearch}>
                         <WrappedComponent {...passThroughProps} />
                     </Container>
                 </ContainerContext.Provider>

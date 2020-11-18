@@ -122,6 +122,7 @@ const VoiceActors = ({ voiceActors }) => {
 VoiceActors.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActors()));
+    const isSafeSearch = SafeSearch(ctx);
 
     const voiceActors = (data.voices || []).map(i => {
         const { isPrimary, localization, actor, content } = i;
@@ -141,7 +142,7 @@ VoiceActors.getInitialProps = async ctx => {
             nationality: nationality?.toLowerCase(),
             actor: {
                 id: actor.id,
-                image: image.ProfileAny(actor.images),
+                image: image.ProfileAny(actor.images, isSafeSearch),
                 name: locale.LatinAny(actor.names),
                 japaneseName: locale.Japanese(actor.names),
                 gender: actor.gender,

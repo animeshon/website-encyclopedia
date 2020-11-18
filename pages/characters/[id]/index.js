@@ -17,6 +17,7 @@ import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { PrepareKeyQuery, ExecuteQueryBatch } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Character = ({
     description,
@@ -49,6 +50,7 @@ Character.getInitialProps = async ctx => {
         PrepareKeyQuery("appearance", { id: id, first: 7 }, getAppearances()),
     ];
     const {info, appearance} = await ExecuteQueryBatch(ctx, queries);
+    const isSafeSearch = SafeSearch(ctx);
 
     const appearances = (appearance.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names } = i.content;
@@ -60,7 +62,7 @@ Character.getInitialProps = async ctx => {
             type: __typename,
             name: locale.LatinAny(names),
             japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
@@ -70,7 +72,7 @@ Character.getInitialProps = async ctx => {
         };
     });
 
-    const images = image.All(info.images);
+    const images = image.All(info.images, isSafeSearch);
 
     const guiseOf = info.guiseOf ? {
         id: info.guiseOf.id,

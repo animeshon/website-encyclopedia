@@ -19,6 +19,7 @@ import * as contentRelation from '@/utilities/ContentRelation';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Anime = ({
     description,
@@ -53,18 +54,19 @@ Anime.getInitialProps = async ctx => {
         PrepareKeyQuery("related", { id: id }, getRelated()),
     ];
     const {info, related} = await ExecuteQueryBatch(ctx, queries);
+    const isSafeSearch = SafeSearch(ctx);
     
     const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch),
         };
     });
 
     const genres = (info.genres || []).map(genre => {
-        return { text: genre.names[0].text };
+        return { text: locale.EnglishAny(genre.names) };
     });
 
     const universes = (info.partOfCanonicals?.partOfUniverses || []).map(universe => {
@@ -75,7 +77,7 @@ Anime.getInitialProps = async ctx => {
     });
 
     const relatedContent = (related.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -83,7 +85,7 @@ Anime.getInitialProps = async ctx => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             season: season.JapanAny(runnings),
@@ -108,7 +110,7 @@ Anime.getInitialProps = async ctx => {
                 { key: 'Episodes', value: info.episodes?.length },
                 { key: 'Status', value: stat.Status(info.status) },
                 { key: 'Season', value: season.JapanAny(info.runnings) },
-                { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']) },
+                { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
             ],
             [
                 { key: 'Genres', value: genres },

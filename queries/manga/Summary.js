@@ -37,6 +37,9 @@ const getSummary = () => gql`
                 publicUri
               }
             }
+            ageRatings {
+              age
+            }
           }
           names {
             text
@@ -126,6 +129,9 @@ const getSummary = () => gql`
             format
             publicUri
           }
+        }
+        ageRatings {
+          age
         }
       }
     }

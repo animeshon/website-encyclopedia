@@ -20,6 +20,7 @@ import * as contentRelation from '@/utilities/ContentRelation';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Doujinshi = ({
     description,
@@ -54,18 +55,19 @@ Doujinshi.getInitialProps = async ctx => {
         PrepareKeyQuery("related", { id: id }, getRelated()),
     ];
     const {data, related} = await ExecuteQueryBatch(ctx, queries);
+    const isSafeSearch = SafeSearch(ctx);
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch, data.ageRatings),
         };
     });
 
     const relatedContent = (related.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -73,7 +75,7 @@ Doujinshi.getInitialProps = async ctx => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             season: season.JapanAny(runnings),
@@ -83,7 +85,7 @@ Doujinshi.getInitialProps = async ctx => {
     });
 
     const genres = (data.genres || []).map(genre => {
-        return { text: genre.names[0].text };
+        return { text: locale.EnglishAny(genre.names) };
     });
 
     const universes = (data.partOfCanonicals?.partOfUniverses || []).map(universe => {
@@ -109,7 +111,7 @@ Doujinshi.getInitialProps = async ctx => {
                 { key: 'Volumes', value: data.volumes?.length },
                 { key: 'Status', value: stat.Status(data.status) },
                 { key: 'Published', value: undefined }, // TODO: <---------------------------
-                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']), flag: 'us' },
             ],
             [
                 { key: 'Genres', value: genres },

@@ -20,6 +20,9 @@ const getAppearances = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -27,6 +30,9 @@ const getAppearances = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -64,6 +70,9 @@ const getAppearances = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -71,6 +80,9 @@ const getAppearances = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -108,6 +120,9 @@ const getAppearances = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -115,6 +130,9 @@ const getAppearances = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -152,6 +170,9 @@ const getAppearances = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -159,6 +180,9 @@ const getAppearances = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -186,6 +210,9 @@ const getAppearances = () => gql`
         }
         ... on VisualNovel {
           id
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -193,6 +220,9 @@ const getAppearances = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {

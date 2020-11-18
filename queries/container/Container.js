@@ -29,6 +29,9 @@ const anime = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -36,6 +39,9 @@ const anime = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -68,6 +74,9 @@ const manga = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -75,6 +84,9 @@ const manga = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -107,6 +119,9 @@ const doujinshi = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -114,6 +129,9 @@ const doujinshi = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -146,6 +164,9 @@ const lightNovel = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -153,6 +174,9 @@ const lightNovel = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -185,6 +209,9 @@ const visualNovel = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -192,6 +219,9 @@ const visualNovel = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -232,6 +262,9 @@ const track = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -263,6 +296,9 @@ const chapter = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -270,6 +306,9 @@ const chapter = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -302,6 +341,9 @@ const episode = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -309,6 +351,9 @@ const episode = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -349,6 +394,9 @@ const character = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -387,6 +435,9 @@ const organization = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -427,6 +478,9 @@ const person = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -458,6 +512,9 @@ const magazine = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -465,6 +522,9 @@ const magazine = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -505,6 +565,9 @@ const circle = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -536,6 +599,9 @@ const convention = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -543,6 +609,9 @@ const convention = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }

@@ -7,6 +7,7 @@ import ImageGrid from '@/components/ImageGrid';
 
 import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Pictures = ({ images }) => {
     return (
@@ -15,7 +16,7 @@ const Pictures = ({ images }) => {
                 <header>
                     <h3>Pictures</h3>
                 </header>
-                <ImageGrid images={images} className={"picture__masonry"} />)
+                <ImageGrid images={images} className={"picture__masonry"} />
             </section>
         </main>
     );
@@ -24,8 +25,9 @@ const Pictures = ({ images }) => {
 Pictures.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getPictures()));
+    const isSafeSearch = SafeSearch(ctx);
 
-    const images = image.All(data.images);
+    const images = image.All(data.images, isSafeSearch);
 
     return {
         images

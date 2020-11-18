@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 const getSummary = () => gql`
   query details($id: String!) {
     result: getCharacter(id: $id) {
-      id
+    id
     names {
       text
       localization {

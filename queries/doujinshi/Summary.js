@@ -37,6 +37,9 @@ const getSummary = () => gql`
                 publicUri
               }
             }
+            ageRatings {
+              age
+            }
           }
           names {
             text
@@ -97,6 +100,9 @@ const getSummary = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
     partOfCanonicals {
       partOfUniverses {
@@ -135,6 +141,9 @@ const getSummary = () => gql`
             format
             publicUri
           }
+        }
+        ageRatings {
+          age
         }
       }
     }

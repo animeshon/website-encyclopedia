@@ -298,6 +298,27 @@ b {
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
 }
 
+.product-cover .btn {
+    top: 310px;
+    position: absolute;
+    font-weight: bold;
+    left: 65px;
+}
+    
+@media screen and (max-width: 1024px) {
+    .product-cover .btn {
+        top: 230px;
+        left: 34px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .product-cover .btn {
+        top: 210px;
+        left: 25px;
+    }
+}
+
 /* Anime / Manga / Light-Novel / Games / Visual-Novels */
 .hero-cover__title h1 {
     font-size: 30px;
@@ -2141,3 +2162,16 @@ ul.grid-halves {
     background-color: #fff;
     background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
   }
+
+/* Safe Search */
+.safe-search {
+    margin-left: 7px;
+    font-weight: bold;
+}
+.safe-search.enabled {
+    color: limegreen;
+}
+
+.safe-search.disabled {
+    color: orangered;
+}

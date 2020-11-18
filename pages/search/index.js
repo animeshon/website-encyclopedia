@@ -10,16 +10,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
+import * as rating from '@/utilities/AgeRating';
 import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
-const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
+const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeSearch }) => {
     return (
         <>
-            <Header isSearchAvailable />
+            <Header isSearchAvailable isSafeSearch={isSafeSearch} />
             <em className="results-displayer">
                 Results displayed in {(queryTime).toFixed(2)} seconds
             </em>
@@ -120,13 +122,14 @@ Search.getInitialProps = async ctx => {
         return {queryTime:0, results:[]}
     }
 
-    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
+    const isSafeSearch = SafeSearch(ctx);
+    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, [], isSafeSearch);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
-    
-    return {queryTime, results, hasMore, searchTerm, page};
+
+    return {queryTime, results, hasMore, searchTerm, page, isSafeSearch};
 };
 
-const SearchQuery = async (ctx, searchTerm, pages, filter) => {
+const SearchQuery = async (ctx, searchTerm, pages, filter, isSafeSearch) => {
     const amountRequested = 10 + pages * 10
     // get ids and types from elastic search
     const vars = {
@@ -159,7 +162,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
             type:           r.__typename,
             title:          locale.EnglishAny(r.names),
             description:    locale.English(r.descriptions),
-            profileImage:   image.ProfileAny(r.images),
+            profileImage:   image.ProfileAny(r.images, isSafeSearch, r.ageRatings),
             media:          Type(r.__typename),
             subtype:        Subtype(r.__typename, r.type),
             premiere:       PremiereAny(r.releaseDate, r.runnings),

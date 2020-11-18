@@ -170,9 +170,9 @@ export const CharacterNavigation = (name, id) => [
         as: uri.Rewrite('Character', name, id, 'appearances')
     },
     {
-        label: 'Voice Actors',
-        href: '/characters/[id]/voice-actors',
-        as: uri.Rewrite('Character', name, id, 'voice-actors')
+        label: 'Voices',
+        href: '/characters/[id]/voices',
+        as: uri.Rewrite('Character', name, id, 'voices')
     },
     {
         label: 'Pictures',
@@ -217,6 +217,11 @@ export const CircleNavigation = (name, id) => [
         label: 'Members',
         href: '/circles/[id]/members',
         as: uri.Rewrite('Circle', name, id, 'members')
+    },
+    {
+        label: 'Productions',
+        href: '/circles/[id]/productions',
+        as: uri.Rewrite('Circle', name, id, 'productions')
     },
 ];
 
