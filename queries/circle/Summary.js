@@ -48,6 +48,9 @@ const getSummary = () => gql`
             publicUri
           }
         }
+        ageRatings {
+          age
+        }
       }
     }
   }

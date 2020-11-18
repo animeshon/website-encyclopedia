@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 const getSummary = () => gql`
   query details($id: String!) {
     result: getCharacter(id: $id) {
-      id
+    id
     names {
       text
       localization {
@@ -68,6 +68,9 @@ const getSummary = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -75,6 +78,9 @@ const getSummary = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -112,6 +118,9 @@ const getSummary = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -119,6 +128,9 @@ const getSummary = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -156,6 +168,9 @@ const getSummary = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -163,6 +178,9 @@ const getSummary = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -200,6 +218,9 @@ const getSummary = () => gql`
             from
             to
           }
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -207,6 +228,9 @@ const getSummary = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {
@@ -234,6 +258,9 @@ const getSummary = () => gql`
         }
         ... on VisualNovel {
           id
+          ageRatings {
+            age
+          }
           images {
             type
             image {
@@ -241,6 +268,9 @@ const getSummary = () => gql`
                 format
                 publicUri
               }
+            }
+            ageRatings {
+              age
             }
           }
           descriptions {

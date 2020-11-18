@@ -37,6 +37,9 @@ const getMangaSummary = () => gql`
                 publicUri
               }
             }
+            ageRatings {
+              age
+            }
           }
           names {
             text
@@ -126,6 +129,9 @@ const getMangaSummary = () => gql`
             format
             publicUri
           }
+        }
+        ageRatings {
+          age
         }
       }
     }

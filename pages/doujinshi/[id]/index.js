@@ -53,7 +53,7 @@ Doujinshi.getInitialProps = async ctx => {
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images, isSafeSearch),
+            image: image.ProfileAny(images, isSafeSearch, data.ageRatings),
         };
     });
 

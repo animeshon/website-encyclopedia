@@ -3,19 +3,19 @@ import { SafeSearchImage } from '@/utilities/SafeSearch';
 export const fallbackRegular = [{ types: ['REGULAR'], formats: ['PNG'] }];
 export const fallbackRegularAny = [{ types: ['REGULAR'], formats: ['PNG'] }, { types: ['REGULAR'] }, {}];
 
-export const ProfileAny = (images, isSafeSearch = true) => {
-    return Image(images, ['PROFILE'], ['PNG'], isSafeSearch, fallbackRegularAny)
+export const ProfileAny = (images, isSafeSearch = true, ratings = null) => {
+    return Image(images, ['PROFILE'], ['PNG'], isSafeSearch, ratings, fallbackRegularAny)
 };
 
-export const Cover = (images, isSafeSearch = true) => {
-    return Image(images, ['COVER'], ['PNG'], isSafeSearch)
+export const Cover = (images, isSafeSearch = true, ratings = null) => {
+    return Image(images, ['COVER'], ['PNG'], ratings, isSafeSearch)
 };
 
-export const All = (images, isSafeSearch = true) => {
-    return images.map(i => Image([i]), [], [], isSafeSearch, fallbackRegularAny)
+export const All = (images, isSafeSearch = true, ratings = null) => {
+    return images.map(i => Image([i]), [], [], isSafeSearch, ratings, fallbackRegularAny)
 }
 
-export const Image = (images, types, formats, isSafeSearch = true, fallback = null) => {
+export const Image = (images, types, formats, isSafeSearch = true, ratings = null, fallback = null) => {
     if (!images || images.length == 0) {
         return undefined;
     }
@@ -40,7 +40,7 @@ export const Image = (images, types, formats, isSafeSearch = true, fallback = nu
                 }
 
                 const image = images[i].image.files[j].publicUri;
-                return SafeSearchImage(images[i].ageRatings, image, isSafeSearch);
+                return SafeSearchImage(images[i].ageRatings, ratings, image, isSafeSearch);
             }
 
             continue;
@@ -50,7 +50,7 @@ export const Image = (images, types, formats, isSafeSearch = true, fallback = nu
         for (var j = 0; j < images.length; j++) {
             if (images[i].image.files[j]) {
                 const image = images[i].image.files[j].publicUri;
-                return SafeSearchImage(images[i].ageRatings, image, isSafeSearch);
+                return SafeSearchImage(images[i].ageRatings, ratings, image, isSafeSearch);
             }
         }
     }
@@ -60,7 +60,7 @@ export const Image = (images, types, formats, isSafeSearch = true, fallback = nu
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return Image(images, _fallback.types, _fallback.formats, isSafeSearch, fallback);
+            return Image(images, _fallback.types, _fallback.formats, isSafeSearch, ratings, fallback);
         }
     }
 

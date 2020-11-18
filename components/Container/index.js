@@ -125,8 +125,8 @@ export function withContainer(WrappedComponent) {
                 id: data.id,
                 type: data.__typename,
                 title: locale.EnglishAny(data.names),
-                bannerImage: image.Cover(data.images, isSafeSearch),
-                profileImage: image.ProfileAny(data.images, isSafeSearch),
+                bannerImage: image.Cover(data.images, isSafeSearch, data.ageRatings),
+                profileImage: image.ProfileAny(data.images, isSafeSearch, data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 

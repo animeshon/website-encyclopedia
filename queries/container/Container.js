@@ -40,6 +40,9 @@ const anime = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -81,6 +84,9 @@ const manga = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -124,6 +130,9 @@ const doujinshi = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -165,6 +174,9 @@ const lightNovel = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -208,6 +220,9 @@ const visualNovel = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -246,6 +261,9 @@ const track = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -289,6 +307,9 @@ const chapter = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -331,6 +352,9 @@ const episode = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -369,6 +393,9 @@ const character = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -409,6 +436,9 @@ const organization = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -447,6 +477,9 @@ const person = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -490,6 +523,9 @@ const magazine = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -532,6 +568,9 @@ const circle = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -573,6 +612,9 @@ const convention = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }

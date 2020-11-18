@@ -19,8 +19,9 @@ export const SetSafeSearch = (yes) => {
     ClientCookies.set('images.adult.enabled', yes ? 'false' : 'true');
 }
 
-export const SafeSearchImage = (ratings, image, isSafeSearch) => {
-    return rating.Age(ratings) > 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : image;
+export const SafeSearchImage = (ratings, fallback, image, isSafeSearch) => {
+    const age = rating.Age(ratings) || rating.Age(fallback);
+    return age > 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : image;
 }
 
 export const IsImageCensored = (image) => {

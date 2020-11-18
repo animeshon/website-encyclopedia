@@ -48,7 +48,7 @@ Character.getInitialProps = async ctx => {
     const isSafeSearch = SafeSearch(ctx);
 
     const appearances = (data.appearance || []).map(i => {
-        const { id, __typename, status, runnings, images, descriptions, names } = i.content;
+        const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
         if (names.length === 0) {
             return;
         }
@@ -57,7 +57,7 @@ Character.getInitialProps = async ctx => {
             type: __typename,
             name: locale.LatinAny(names),
             japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images, isSafeSearch),
+            image: image.ProfileAny(images, isSafeSearch, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),

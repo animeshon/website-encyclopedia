@@ -166,7 +166,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter, isSafeSearch) => {
             type:           data.__typename,
             title:          locale.EnglishAny(data.names),
             description:    locale.English(data.descriptions),
-            profileImage:   image.ProfileAny(data.images, isSafeSearch),
+            profileImage:   image.ProfileAny(data.images, isSafeSearch, data.ageRatings),
             media:          Type(data.__typename),
             subtype:        Subtype(data.__typename, data.type),
             premiere:       PremiereAny(data.releaseDate, data.runnings),
