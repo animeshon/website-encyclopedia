@@ -10,6 +10,7 @@ import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 
 import Link from 'next/link';

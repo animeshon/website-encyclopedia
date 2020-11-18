@@ -53,7 +53,7 @@ Character.getInitialProps = async ctx => {
     const isSafeSearch = SafeSearch(ctx);
 
     const appearances = (appearance.appearance || []).map(i => {
-        const { id, __typename, status, runnings, images, descriptions, names } = i.content;
+        const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
         if (names.length === 0) {
             return;
         }
