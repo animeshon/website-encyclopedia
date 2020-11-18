@@ -239,9 +239,6 @@ const track = () => gql`
         }
       }
     }
-    ageRatings {
-      age
-    }
     images {
       type
       image {
@@ -365,9 +362,6 @@ const character = () => gql`
         }
       }
     }
-    ageRatings {
-      age
-    }
     images {
       type
       image {
@@ -407,9 +401,6 @@ const organization = () => gql`
         }
       }
     }
-    ageRatings {
-      age
-    }
     images {
       type
       image {
@@ -448,9 +439,6 @@ const person = () => gql`
           code
         }
       }
-    }
-    ageRatings {
-      age
     }
     images {
       type
