@@ -8,6 +8,7 @@ import withContainer from '@/components/Container';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const MangaCharacters = ({ characters }) => {
     return (<CharacterGrid characters={characters} />);
@@ -27,7 +28,7 @@ MangaCharacters.getInitialProps = async ctx => {
             id,
             name: locale.LatinAny(names),
             japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch),
             role: i.relation,
         });
     });

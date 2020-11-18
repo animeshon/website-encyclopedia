@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Router, { withRouter } from 'next/router';
-import cookies from 'cookie-cutter';
+
+import { SetSafeSearch } from '@/utilities/SafeSearch';
 
 const routes = [
     { href: 'https://animeshon.com/', label: 'About Animeshon' },
@@ -15,7 +16,7 @@ const routes = [
 const RenderRoutes = ({ arr, closeSidebar, page }) => {
     return arr.map(item => {
         return (
-            <li key={item.page} onClick={closeSidebar}>
+            <li key={item.href} onClick={closeSidebar}>
                 <Link href={item.href}>
                     <a className={page == item.href ? 'selected' : ''}>
                         {item.label}
@@ -34,7 +35,7 @@ const Sidebar = ({ isOpened, closeSidebar, router, isSafeSearch = true }) => {
     const onSwitchSafeSearch = e => {
         closeSidebar(e);
 
-        cookies.set('images.adult.enabled', isSafeSearch ? 'true' : 'false');
+        SetSafeSearch(!isSafeSearch);
         Router.reload();
     };
 

@@ -9,6 +9,7 @@ import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 import { FromAlpha2 } from '@/utilities/Nationality';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const AnimeCast = ({ casts, nationalities }) => {
     return (<CastGrid casts={casts} nationalities={nationalities} />);
@@ -17,6 +18,7 @@ const AnimeCast = ({ casts, nationalities }) => {
 AnimeCast.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, { id: id }, getAnimeCast(), (data, err) => { return data.result; });
+    const isSafeSearch = SafeSearch(ctx);
 
     const nationalities = [];
     const casts = (data.voiceActings || []).map(member => {
@@ -40,14 +42,14 @@ AnimeCast.getInitialProps = async ctx => {
                 id: voiced.id,
                 type: voiced.__typename,
                 name: locale.LatinAny(voiced.names),
-                image: image.ProfileAny(voiced.images),
+                image: image.ProfileAny(voiced.images, isSafeSearch),
                 // TODO: Maybe we should add the character role?
             },
             person: {
                 id: actor.id,
                 name: locale.LatinAny(actor.names),
                 japaneseName: locale.Japanese(actor.names),
-                image: image.ProfileAny(actor.images),
+                image: image.ProfileAny(actor.images, isSafeSearch),
                 // TODO: Add field 'gender'.
             }
         };

@@ -14,6 +14,7 @@ import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Doujinshi = ({
     type,
@@ -45,13 +46,14 @@ const Doujinshi = ({
 Doujinshi.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, { id:id }, getDoujinshiSummary(), (data, err) => { return data.result; });
+    const isSafeSearch = SafeSearch(ctx);
 
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch),
         };
     });
 

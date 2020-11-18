@@ -15,6 +15,7 @@ import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Character = ({
     description,
@@ -44,6 +45,7 @@ const Character = ({
 Character.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, { id: id }, getSummary(), (data, err) => { return data.result; });
+    const isSafeSearch = SafeSearch(ctx);
 
     const appearances = (data.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names } = i.content;
@@ -55,7 +57,7 @@ Character.getInitialProps = async ctx => {
             type: __typename,
             name: locale.LatinAny(names),
             japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images),
+            image: image.ProfileAny(images, isSafeSearch),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
@@ -65,7 +67,7 @@ Character.getInitialProps = async ctx => {
         };
     });
 
-    const images = image.All(data.images);
+    const images = image.All(data.images, isSafeSearch);
 
     const guiseOf = data.guiseOf ? {
         id: data.guiseOf.id,

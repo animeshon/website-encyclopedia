@@ -1,7 +1,5 @@
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import ServerCookies from 'cookies';
-import ClientCookies from 'cookie-cutter';
 
 import { performSearch, details } from '@/queries/search/Search';
 
@@ -18,6 +16,7 @@ import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
 import { ExecuteQuery, ExecuteQueryAsync } from '@/utilities/Query';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeSearch }) => {
     return (
@@ -51,7 +50,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeS
                                         {item.profileImage && (
                                             <figure className="search-result__image">
                                                 <img
-                                                    src={item.rating > 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : item.profileImage}
+                                                    src={item.profileImage}
                                                     alt={`${item.title} Cover (${item.media})`}
                                                 />
                                             </figure>
@@ -123,21 +122,14 @@ Search.getInitialProps = async ctx => {
         return {queryTime:0, results:[]}
     }
 
-    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
+    const isSafeSearch = SafeSearch(ctx);
+    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, [], isSafeSearch);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
-
-    var isSafeSearch = true;
-    if (!ctx.req) {
-        isSafeSearch = ClientCookies.get('images.adult.enabled')?.toLowerCase() != "true";
-    } else if (ctx.req.headers?.cookie) {
-        const cookies = new ServerCookies(ctx.req);
-        isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
-    }
 
     return {queryTime, results, hasMore, searchTerm, page, isSafeSearch};
 };
 
-const SearchQuery = async (ctx, searchTerm, pages, filter) => {
+const SearchQuery = async (ctx, searchTerm, pages, filter, isSafeSearch) => {
     const amountRequested = 10 + pages * 10
     // get ids and types from elastic search
     const vars = {
@@ -174,8 +166,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
             type:           data.__typename,
             title:          locale.EnglishAny(data.names),
             description:    locale.English(data.descriptions),
-            profileImage:   image.ProfileAny(data.images),
-            rating:         rating.Age(data.images) || rating.Age(data.ageRatings),
+            profileImage:   image.ProfileAny(data.images, isSafeSearch),
             media:          Type(data.__typename),
             subtype:        Subtype(data.__typename, data.type),
             premiere:       PremiereAny(data.releaseDate, data.runnings),

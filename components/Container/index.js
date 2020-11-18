@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ServerCookies from 'cookies';
-import ClientCookies from 'cookie-cutter';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -22,6 +20,7 @@ import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import * as media from '@/utilities/MediaType';
 import * as rating from '@/utilities/AgeRating';
+import { SafeSearch } from '@/utilities/SafeSearch';
 
 
 const Mobile = ({ children }) => {
@@ -87,8 +86,6 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
                         <ProfileImage
                             altText={container.title}
                             profileImage={container.profileImage}
-                            isSafeSearch={isSafeSearch}
-                            isAdultOnly={container.isAdultOnly}
                         />
                     </div>
                     <div className="product-page-offset">
@@ -116,6 +113,7 @@ export function withContainer(WrappedComponent) {
             const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
             const data = await ExecuteQuery(ctx, { id: id }, ContainerQuery(type), (data, error) => { return data.result; });
+            const isSafeSearch = SafeSearch(ctx);
 
             // Get component’s props
             let componentProps = {}
@@ -127,9 +125,8 @@ export function withContainer(WrappedComponent) {
                 id: data.id,
                 type: data.__typename,
                 title: locale.EnglishAny(data.names),
-                bannerImage: image.Cover(data.images),
-                profileImage: image.ProfileAny(data.images),
-                isAdultOnly: rating.IsAdultOnly(data.ageRatings),
+                bannerImage: image.Cover(data.images, isSafeSearch),
+                profileImage: image.ProfileAny(data.images, isSafeSearch),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 
@@ -145,14 +142,6 @@ export function withContainer(WrappedComponent) {
 
                 site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',
                 baseurl: process.env.WEBSITE_BASEURL || 'http://127.0.0.1:3000',
-            }
-
-            var isSafeSearch = true;
-            if (!ctx.req) {
-                isSafeSearch = ClientCookies.get('images.adult.enabled')?.toLowerCase() != "true";
-            } else if (ctx.req.headers?.cookie) {
-                const cookies = new ServerCookies(ctx.req);
-                isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
             }
 
             return {

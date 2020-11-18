@@ -1,19 +1,21 @@
+import { SafeSearchImage } from '@/utilities/SafeSearch';
+
 export const fallbackRegular = [{ types: ['REGULAR'], formats: ['PNG'] }];
 export const fallbackRegularAny = [{ types: ['REGULAR'], formats: ['PNG'] }, { types: ['REGULAR'] }, {}];
 
-export const ProfileAny = (images) => {
-    return Image(images, ['PROFILE'], ['PNG'], fallbackRegularAny)
+export const ProfileAny = (images, isSafeSearch = true) => {
+    return Image(images, ['PROFILE'], ['PNG'], isSafeSearch, fallbackRegularAny)
 };
 
-export const Cover = (images) => {
-    return Image(images, ['COVER'], ['PNG'])
+export const Cover = (images, isSafeSearch = true) => {
+    return Image(images, ['COVER'], ['PNG'], isSafeSearch)
 };
 
-export const All = (images) => {
-    return images.map(i => Image([i]), [], [], fallbackRegularAny)
+export const All = (images, isSafeSearch = true) => {
+    return images.map(i => Image([i]), [], [], isSafeSearch, fallbackRegularAny)
 }
 
-export const Image = (images, types, formats, fallback = null) => {
+export const Image = (images, types, formats, isSafeSearch = true, fallback = null) => {
     if (!images || images.length == 0) {
         return undefined;
     }
@@ -37,7 +39,8 @@ export const Image = (images, types, formats, fallback = null) => {
                     continue;
                 }
 
-                return images[i].image.files[j].publicUri;
+                const image = images[i].image.files[j].publicUri;
+                return SafeSearchImage(images[i].ageRatings, image, isSafeSearch);
             }
 
             continue;
@@ -46,7 +49,8 @@ export const Image = (images, types, formats, fallback = null) => {
         // Take the first image available, no matter the format or type.
         for (var j = 0; j < images.length; j++) {
             if (images[i].image.files[j]) {
-                return images[i].image.files[j].publicUri;
+                const image = images[i].image.files[j].publicUri;
+                return SafeSearchImage(images[i].ageRatings, image, isSafeSearch);
             }
         }
     }
