@@ -15,7 +15,7 @@ const Pictures = ({ images }) => {
                 <header>
                     <h3>Pictures</h3>
                 </header>
-                <ImageGrid images={images} className={"picture__masonry"} />)
+                <ImageGrid images={images} className={"picture__masonry"} />
             </section>
         </main>
     );
