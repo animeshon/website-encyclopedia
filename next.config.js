@@ -1,6 +1,7 @@
 module.exports = {
     async rewrites() {
         return [
+            // Primary <----------
             {
                 source: '/:slug-Anime-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/anime/:id/:path*',
@@ -26,8 +27,7 @@ module.exports = {
                 destination: '/tracks/:id/:path*',
             },
 
-
-            
+            // Releases <----------
             {
                 source: '/:slug-Release-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/releases/:id/:path*',
@@ -37,6 +37,12 @@ module.exports = {
                 destination: '/releases/:id/:path*',
             },
             {
+                source: '/:slug-Music_Record-:id([A-Za-z0-9-_]{12})/:path*',
+                destination: '/releases/:id/:path*',
+            },
+
+            // Secondary <----------
+            {
                 source: '/:slug-Chapter-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/chapters/:id/:path*',
             },
@@ -44,13 +50,8 @@ module.exports = {
                 source: '/:slug-Episode-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/episodes/:id/:path*',
             },
-            {
-                source: '/:slug-Music_Record-:id([A-Za-z0-9-_]{12})/:path*',
-                destination: '/music-records/:id/:path*',
-            },
 
-
-
+            // Actors & Organizations <----------
             {
                 source: '/:slug-Character-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/characters/:id/:path*',
@@ -76,8 +77,7 @@ module.exports = {
                 destination: '/conventions/:id/:path*',
             },
 
-
-
+            // Special <----------
             {
                 source: '/:slug-Universe-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/universes/:id/:path*',

@@ -24,6 +24,7 @@ const Circle = ({
             <main className="landing__description">
                 <SummaryText text={description} />
                 <SummaryMember id={id} type={type} title={title} members={members} />
+                {/* TODO: Add productions for circle. */}
             </main>
             <aside className="landing__details">
                 <header>

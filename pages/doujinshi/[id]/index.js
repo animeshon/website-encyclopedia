@@ -56,7 +56,7 @@ Doujinshi.getInitialProps = async ctx => {
     });
 
     const genres = (data.genres || []).map(genre => {
-        return { text: genre.names[0].text };
+        return { text: locale.EnglishAny(genre.names) };
     });
 
     const universes = (data.partOfCanonicals?.partOfUniverses || []).map(universe => {
