@@ -137,7 +137,7 @@ export function withContainer(WrappedComponent) {
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
                 
                 description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
-                title: text.Truncate(container.title, 32),
+                title: text.Truncate(container.title, 64),
                 image: container.profileImage,
 
                 site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',
