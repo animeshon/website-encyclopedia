@@ -50,7 +50,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeS
                                         {item.profileImage && (
                                             <figure className="search-result__image">
                                                 <img
-                                                    src={item.rating >= 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : item.profileImage}
+                                                    src={item.rating > 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : item.profileImage}
                                                     alt={`${item.title} Cover (${item.media})`}
                                                 />
                                             </figure>

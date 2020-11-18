@@ -59,7 +59,7 @@ export const Age = (values) => {
 }
 
 export const IsAdultOnly = (values) => {
-    return Age(values) >= 17;
+    return Age(values) > 17;
 }
 
 
