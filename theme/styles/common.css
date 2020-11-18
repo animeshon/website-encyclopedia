@@ -189,7 +189,7 @@ b {
 
 /* Top Hero image */
 .hero-cover {
-    height: 315px;
+    height: calc(315px + 96px);
     background-color: #000;
     overflow: hidden;
     margin: 0;
@@ -198,6 +198,7 @@ b {
     display: flex;
     align-items: center;
     position: relative;
+    padding-top: 96px;
 }
 
 .hero-cover__image {
@@ -1711,7 +1712,7 @@ ul.grid-halves {
 /* header */
 .search-header {
     z-index: 9999999;
-    position: relative;
+    position: fixed;
     height: 96px;
     background-color: #fff;
     border-bottom: 1px solid #dfdfdf;
