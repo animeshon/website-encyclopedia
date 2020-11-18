@@ -3,17 +3,18 @@ import Link from 'next/link';
 
 import * as uri from '@/utilities/URI';
 
-const SummaryCanonical = ({ title, id, canonicals }) => {
-    const href = uri.Rewrite('Canonical', title, id);
+const SummaryCanonical = ({ canonicals }) => {
+    //const container = useContainer();
+    //const href = uri.Rewrite('Canonical', title, id);
 
     return (
         <section className="landing-section-box">
             <header>
                 <h3>Canonical Franchise</h3>
                 <span />
-                    <Link href={href}>
+                    {/* <Link href={href}>
                         <a className="view-all-link">View all</a>
-                    </Link>
+                    </Link> */}
             </header>
             <ul className="adaptations-list">
                 {canonicals && canonicals.length ? canonicals.map(item => {

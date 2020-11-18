@@ -7,6 +7,7 @@ const getCharacters = () => gql`
     starring {
       relation
       character {
+        __typename
         ... on Character {
           id
           images(first: 1, filter: {type: {eq: PROFILE}}) {

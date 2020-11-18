@@ -2,6 +2,7 @@ import React from 'react';
 
 import withContainer from '@/components/Container';
 import getSummary from '@/queries/character/Summary';
+import getAppearances from '@/queries/character/Appearances';
 
 import SummaryText from '@/components/SummaryText';
 import SummaryImages from '@/components/SummaryImages';
@@ -11,10 +12,11 @@ import DetailsCard from '@/components/DetailsCard';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as season from '@/utilities/Season';
+import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
-import { ExecuteQuery } from '@/utilities/Query';
+import { PrepareKeyQuery, ExecuteQueryBatch } from '@/utilities/Query';
 
 const Character = ({
     description,
@@ -27,9 +29,8 @@ const Character = ({
         <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryImages images={images} href={hrefs.pictures}/>
-
-                <SummaryAppearance appearances={appearances} href={hrefs.appearances}/>
+                <SummaryImages images={images}/>
+                <SummaryAppearance appearances={appearances}/>
             </main>
             <aside className="landing__details">
                 <header>
@@ -43,9 +44,13 @@ const Character = ({
 
 Character.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getSummary(), (data, err) => { return data.result; });
+    const queries = [
+        PrepareKeyQuery("info", { id: id }, getSummary()),
+        PrepareKeyQuery("appearance", { id: id, first: 7 }, getAppearances()),
+    ];
+    const {info, appearance} = await ExecuteQueryBatch(ctx, queries);
 
-    const appearances = (data.appearance || []).map(i => {
+    const appearances = (appearance.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names } = i.content;
         if (names.length === 0) {
             return;
@@ -60,34 +65,30 @@ Character.getInitialProps = async ctx => {
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
             season: season.JapanAny(runnings),
-            status: status?.toLowerCase(),
+            status: stat.Status(status),
             relation: i.relation,
         };
     });
 
-    const images = image.All(data.images);
+    const images = image.All(info.images);
 
-    const guiseOf = data.guiseOf ? {
-        id: data.guiseOf.id,
-        type: data.guiseOf.__typename,
-        name: locale.LatinAny(data.guiseOf.names),
+    const guiseOf = info.guiseOf ? {
+        id: info.guiseOf.id,
+        type: info.guiseOf.__typename,
+        name: locale.LatinAny(info.guiseOf.names),
     } : undefined;
 
-    const birthday = data.birthday ? (new Date(birthday)).toLocaleDateString('en-US') : data.birthdayFallback
+    const birthday = info.birthday ? (new Date(birthday)).toLocaleDateString('en-US') : info.birthdayFallback
 
     return {
-        description: locale.English(data.descriptions),
+        description: locale.English(info.descriptions),
         images: images,
         appearances: appearances,
-        hrefs: {
-            pictures: uri.Rewrite('Character', locale.LatinAny(data.names), id, "pictures"),
-            appearances: uri.Rewrite('Character', locale.LatinAny(data.names), id, "appearances"),
-        },
         details: [
             [
-                { key: 'English', value: locale.English(data.names) },
-                { key: 'Japanese', value: locale.Japanese(data.names) },
-                { key: 'Romaji', value: locale.Romaji(data.names) },
+                { key: 'English', value: locale.English(info.names) },
+                { key: 'Japanese', value: locale.Japanese(info.names) },
+                { key: 'Romaji', value: locale.Romaji(info.names) },
             ],
             [
                 { key: 'Birthday', value: birthday != '' ? birthday : undefined },

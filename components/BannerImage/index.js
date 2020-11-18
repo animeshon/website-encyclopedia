@@ -17,7 +17,7 @@ const BannerImage = ({ title, breadcrumb = [], bannerImage, altText }) => {
             <div className="hero-cover__shade" />
             <Default>
                 <div className="hero-cover__title">
-                    <EntityTitle title={title} breadcrumb={breadcrumb} />
+                    <EntityTitle key={title} title={title} breadcrumb={breadcrumb} />
                 </div>
             </Default>
         </div>

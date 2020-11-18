@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -9,7 +9,7 @@ import TabNavigation from '@/components/TabNavigation';
 import EntityTitle from '@/components/EntityTitle';
 import Header from '@/components/Header';
 
-import { ExecuteQuery } from '@/utilities/Query';
+import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 import ContainerQuery from '@/queries/container/Container';
 import Navigation from '@/resources/navigation/allTabNavigations';
@@ -20,6 +20,7 @@ import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import * as media from '@/utilities/MediaType';
 
+const ContainerContext = React.createContext(undefined);
 
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
@@ -88,7 +89,7 @@ const Container = ({ container, seo, children }) => {
                     </div>
                     <div className="product-page-offset">
                         <Mobile>
-                            <EntityTitle title={container.title} />
+                            <EntityTitle key={container.title} title={container.title} />
                         </Mobile>
                         {children}
                     </div>
@@ -110,7 +111,7 @@ export function withContainer(WrappedComponent) {
         static async getInitialProps(ctx) {
             const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
-            const data = await ExecuteQuery(ctx, { id: id }, ContainerQuery(type), (data, error) => { return data.result; });
+            const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, ContainerQuery(type)));
 
             // Get component’s props
             let componentProps = {}
@@ -151,9 +152,11 @@ export function withContainer(WrappedComponent) {
         render() {
             const { container, seo, ...passThroughProps } = this.props;
             return (
-                <Container container={container} seo={seo}>
-                    <WrappedComponent {...passThroughProps} />
-                </Container>
+                <ContainerContext.Provider value={container}>
+                    <Container container={container} seo={seo}>
+                        <WrappedComponent {...passThroughProps} />
+                    </Container>
+                </ContainerContext.Provider>
             )
         }
     }
@@ -161,5 +164,14 @@ export function withContainer(WrappedComponent) {
     witContainer.staticMethod = WrappedComponent.staticMethod;
     return witContainer;
 }
+
+export const useContainer = () => {
+    const context = useContext(ContainerContext);
+    if (context === undefined) {
+      throw new Error('useContainer can only be used inside ContainerContext');
+    }
+    return context;
+  }
+  
 
 export default withContainer;

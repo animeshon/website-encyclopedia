@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
-const getDoujinshiCharacters = () => gql`
+const getCharacters = () => gql`
   query details($id: String!) {
     result : getDoujinshi(id:$id) {
     id
+    __typename
     names @cascade {
       text
       localization {
@@ -50,4 +51,4 @@ const getDoujinshiCharacters = () => gql`
 }
 `;
 
-export default getDoujinshiCharacters;
+export default getCharacters;

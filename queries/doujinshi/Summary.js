@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getDoujinshiSummary = () => gql`
+const getSummary = () => gql`
   query details($id: String!) {
     result : getDoujinshi(id:$id) {
     id
@@ -141,4 +141,4 @@ const getDoujinshiSummary = () => gql`
   }
 }`;
 
-export default getDoujinshiSummary;
+export default getSummary;

@@ -1,21 +1,11 @@
 import gql from 'graphql-tag';
 
-const getAnimeCast = () => gql`
+const getCast = () => gql`
   query details($id: String!) {
     result : getAnime(id:$id) {
     id
-    names @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
     voiceActings {
+      isPrimary
       localization {
         language {
           code
@@ -56,33 +46,6 @@ const getAnimeCast = () => gql`
         }
         ... on Character {
           id
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-          images(first: 1, filter: {type: {eq: PROFILE}}) {
-            type
-            image {
-              files {
-                publicUri
-              }
-            }
-          }
-        }
-      }
-    }
-    images(first: 1, filter: {type: {eq: PROFILE}}) {
-      type
-      image {
-        files {
-          publicUri
         }
       }
     }
@@ -90,4 +53,4 @@ const getAnimeCast = () => gql`
 }
 `;
 
-export default getAnimeCast;
+export default getCast;

@@ -11,7 +11,7 @@ import * as season from '@/utilities/Season';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
-import { ExecuteQuery } from '@/utilities/Query';
+import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 const Appearances = ({ appearances }) => {
     return (
@@ -32,7 +32,7 @@ const Appearances = ({ appearances }) => {
 
 Appearances.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getAppearances(), (data, err) => { return data.result; });
+    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id, first: 1000000000 }, getAppearances()));
 
     const appearances = (data.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names } = i.content;
@@ -49,7 +49,7 @@ Appearances.getInitialProps = async ctx => {
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
             season: season.JapanAny(runnings),
-            status: status?.toLowerCase(),
+            status: stat.Status(status),
             relation: i.relation,
         };
     });

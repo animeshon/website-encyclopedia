@@ -14,7 +14,7 @@ import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
-import { ExecuteQuery, ExecuteQueryAsync } from '@/utilities/Query';
+import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
 
 const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
@@ -135,7 +135,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
         offset: 0,
         filter: filter,
     }
-    const res = await ExecuteQuery(ctx, vars, performSearch(), (data, err) => { return data.querySearch.res; });
+    const res = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data.querySearch.res; }));
 
     if (res instanceof Error) {
         // TODO proper visualization of the errors
@@ -143,34 +143,30 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
     }
 
     // enqueue graphql query to get details
-    const promises = res.map(x => {
-        return ExecuteQueryAsync(ctx, {id: x.id}, details(x.type), (data, err) => { return data; })
+    const queries = res.map(x => {
+        return PrepareQuery({id: x.id}, details(x.type));
     });
     // wait
-    const resolved = await Promise.all(promises.map(p => p.catch(e => {
-        console.log('A promise failed to resolve', e);
-    })));
-    const validResults = resolved.filter(result => !(result instanceof Error));
+    const queriesResults = await ExecuteQueries(ctx, queries);
+    const validResults = queriesResults.filter(result => !(result instanceof Error));
 
     // TODO Universes
 
     // extract results
     const results = validResults.filter(function(r) {return r !== undefined}).map(r => {
-        const data = r.result;
-
         return {
-            id:             data.id,
-            type:           data.__typename,
-            title:          locale.EnglishAny(data.names),
-            description:    locale.English(data.descriptions),
-            profileImage:   image.ProfileAny(data.images),
-            media:          Type(data.__typename),
-            subtype:        Subtype(data.__typename, data.type),
-            premiere:       PremiereAny(data.releaseDate, data.runnings),
+            id:             r.id,
+            type:           r.__typename,
+            title:          locale.EnglishAny(r.names),
+            description:    locale.English(r.descriptions),
+            profileImage:   image.ProfileAny(r.images),
+            media:          Type(r.__typename),
+            subtype:        Subtype(r.__typename, r.type),
+            premiere:       PremiereAny(r.releaseDate, r.runnings),
             children:       undefined, // TODO: add children to query for all content which have releases, chapter or episodes
-            parent: data.content ? {
-                title:          locale.EnglishAny(data.content.names),
-                media:          Type(data.content.__typename),
+            parent: r.content ? {
+                title:          locale.EnglishAny(r.content.names),
+                media:          Type(r.content.__typename),
             } : undefined,
         };
     });

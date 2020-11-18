@@ -9,7 +9,7 @@ import SummaryMember from '@/components/SummaryMember';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import { ExecuteQuery } from '@/utilities/Query';
+import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 const Circle = ({
     type,
@@ -37,7 +37,7 @@ const Circle = ({
 
 Circle.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getSummary(), (data, err) => { return data.result; });
+    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
 
     const members = (data.members || []).map(i => {
         const { id, images, names } = i;

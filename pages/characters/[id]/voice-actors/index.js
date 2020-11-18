@@ -9,7 +9,7 @@ import {CardImageGender} from '@/components/Card/Image';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
-import { ExecuteQuery } from '@/utilities/Query';
+import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 
 import Link from 'next/link';
@@ -121,7 +121,7 @@ const VoiceActors = ({ voiceActors }) => {
 
 VoiceActors.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getVoiceActors(), (data, err) => { return data.result; });
+    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActors()));
 
     const voiceActors = (data.voices || []).map(i => {
         const { isPrimary, localization, actor, content } = i;

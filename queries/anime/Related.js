@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
 
-const getAppearances = () => gql`
-  query details($id: String!, $first: Int!) {
-    result: getCharacter(id: $id) {
+const getRelated = () => gql`
+  query details($id: String!) {
+    result : getAnime(id:$id) {
       id
-      appearance(first: $first) {
-      relation
-      content {
+    relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
+      type
+      object {
         __typename
         ... on Anime {
           id
@@ -26,17 +26,6 @@ const getAppearances = () => gql`
               files {
                 format
                 publicUri
-              }
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
               }
             }
           }
@@ -73,17 +62,6 @@ const getAppearances = () => gql`
               }
             }
           }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
           names {
             text
             localization {
@@ -114,17 +92,6 @@ const getAppearances = () => gql`
               files {
                 format
                 publicUri
-              }
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
               }
             }
           }
@@ -161,17 +128,6 @@ const getAppearances = () => gql`
               }
             }
           }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
           names {
             text
             localization {
@@ -195,17 +151,6 @@ const getAppearances = () => gql`
               }
             }
           }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
           names {
             text
             localization {
@@ -224,4 +169,4 @@ const getAppearances = () => gql`
 }
 `;
 
-export default getAppearances;
+export default getRelated;

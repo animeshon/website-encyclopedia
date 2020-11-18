@@ -1,11 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import AppearanceCard from '@/components/AppearanceCard';
+import * as uri from '@/utilities/URI';
+
+import { useContainer } from '@/components/Container';
 import { PruneInvalidAppearances } from '@/components/AppearanceGrid';
 
 export const SUMMARY_APPEARANCES_MAX_NUM = 6;
 
-const SummaryAppearance = ({ appearances, href }) => {
+const SummaryAppearance = ({ appearances }) => {
+    const container = useContainer();
+    const href = uri.Rewrite(container.type, container.title, container.id, 'appearances');
+
     const valid = PruneInvalidAppearances(appearances);
 
     return (

@@ -7,14 +7,19 @@ export const AnimeNavigation = (name, id) => [
         as: uri.Rewrite('Anime', name, id)
     },
     {
-        label: 'Episodes',
-        href: '/anime/[id]/episodes',
-        as: uri.Rewrite('Anime', name, id, 'episodes')
-    },
-    {
         label: 'Characters',
         href: '/anime/[id]/characters',
         as: uri.Rewrite('Anime', name, id, 'characters')
+    },
+    {
+        label: 'Related',
+        href: '/anime/[id]/related',
+        as: uri.Rewrite('Anime', name, id, 'related')
+    },
+    {
+        label: 'Episodes',
+        href: '/anime/[id]/episodes',
+        as: uri.Rewrite('Anime', name, id, 'episodes')
     },
     {
         label: 'Companies',
@@ -25,11 +30,6 @@ export const AnimeNavigation = (name, id) => [
         label: 'Staff',
         href: '/anime/[id]/staff',
         as: uri.Rewrite('Anime', name, id, 'staff')
-    },
-    {
-        label: 'Cast',
-        href: '/anime/[id]/cast',
-        as: uri.Rewrite('Anime', name, id, 'cast')
     },
     // {
     //     label: 'Songs',
@@ -73,6 +73,16 @@ export const MangaNavigation = (name, id) => [
         as: uri.Rewrite('Manga', name, id)
     },
     {
+        label: 'Characters',
+        href: '/manga/[id]/characters',
+        as: uri.Rewrite('Manga', name, id, 'characters')
+    },
+    {
+        label: 'Related',
+        href: '/manga/[id]/related',
+        as: uri.Rewrite('Manga', name, id, 'related')
+    },
+    {
         label: 'Volumes',
         href: '/manga/[id]/volumes',
         as: uri.Rewrite('Manga', name, id, 'volumes')
@@ -81,11 +91,6 @@ export const MangaNavigation = (name, id) => [
         label: 'Chapters',
         href: '/manga/[id]/chapters',
         as: uri.Rewrite('Manga', name, id, 'chapters')
-    },
-    {
-        label: 'Characters',
-        href: '/manga/[id]/characters',
-        as: uri.Rewrite('Manga', name, id, 'characters')
     },
     {
         label: 'Companies',
@@ -119,6 +124,11 @@ export const DoujinshiNavigation = (name, id) => [
         label: 'Characters',
         href: '/doujinshi/[id]/characters',
         as: uri.Rewrite('Doujinshi', name, id, 'characters')
+    },
+    {
+        label: 'Related',
+        href: '/doujinshi/[id]/related',
+        as: uri.Rewrite('Doujinshi', name, id, 'related')
     },
     {
         label: 'Companies',

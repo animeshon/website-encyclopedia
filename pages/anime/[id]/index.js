@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getSummary from '@/queries/anime/Summary';
+import getRelated from '@/queries/anime/Related';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
@@ -8,29 +9,32 @@ import SummaryText from '@/components/SummaryText';
 import SummaryCharacter from '@/components/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
+import SummaryRelated from '@/components/SummaryRelated';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as season from '@/utilities/Season';
-import { ExecuteQuery } from '@/utilities/Query';
+import * as stat from '@/utilities/ContentStatus';
+import * as contentRelation from '@/utilities/ContentRelation';
+import { Type } from '@/utilities/MediaType';
+import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
 
 const Anime = ({
-    type,
-    id,
-    title,
     description,
     characters,
     details,
     canonicals,
+    related,
 }) => {
     return (
         <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryCharacter id={id} type={type} title={title} characters={characters} />
+                <SummaryCharacter characters={characters} />
+                <SummaryRelated related={related} />
                 {/* <SummaryTimeline /> */}
-                <SummaryCanonical id={id} title={title} canonicals={canonicals} />
+                <SummaryCanonical canonicals={canonicals} />
             </main>
             <aside className="landing__details">
                 <header>
@@ -44,9 +48,13 @@ const Anime = ({
 
 Anime.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, { id: id }, getSummary(), (data, err) => { return data.result; });
+    const queries = [
+        PrepareKeyQuery("info", { id: id }, getSummary()),
+        PrepareKeyQuery("related", { id: id }, getRelated()),
+    ];
+    const {info, related} = await ExecuteQueryBatch(ctx, queries);
     
-    const characters = (data.starring || []).map(i => {
+    const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
@@ -55,35 +63,52 @@ Anime.getInitialProps = async ctx => {
         };
     });
 
-    const genres = (data.genres || []).map(genre => {
+    const genres = (info.genres || []).map(genre => {
         return { text: genre.names[0].text };
     });
 
-    const universes = (data.partOfCanonicals?.partOfUniverses || []).map(universe => {
+    const universes = (info.partOfCanonicals?.partOfUniverses || []).map(universe => {
         return {
             href: uri.Rewrite('Universe', locale.EnglishAny(universe.names), universe.id),
             text: locale.EnglishAny(universe.names),
         }
     });
 
+    const relatedContent = (related.relations || []).map(i => {
+        const { id, __typename, status, runnings, images, names } = i.object;
+        if (names.length === 0) {
+            return;
+        }
+        return {
+            id: id,
+            type: __typename,
+            name: locale.EnglishAny(names),
+            image: image.ProfileAny(images),
+            media: Type(__typename),
+            //type: Subtype(__typename, type),
+            season: season.JapanAny(runnings),
+            status: stat.Status(status),
+            relation: contentRelation.Type(i.type),
+        };
+    });
+
     return {
-        type: 'Anime',
-        description: locale.English(data.descriptions),
+        description: locale.English(info.descriptions),
         characters: characters,
-        canonicals: undefined, // TODO: data.partOfCanonicals
-        id: data.id,
+        canonicals: undefined, // TODO: info.partOfCanonicals
+        related: relatedContent,
         details: [
             [
-                { key: 'English', value: locale.English(data.names) },
-                { key: 'Japanese', value: locale.Japanese(data.names) },
-                { key: 'Romaji', value: locale.Romaji(data.names) },
+                { key: 'English', value: locale.English(info.names) },
+                { key: 'Japanese', value: locale.Japanese(info.names) },
+                { key: 'Romaji', value: locale.Romaji(info.names) },
             ],
             [
-                { key: 'Media', value: data.type },
-                { key: 'Episodes', value: data.episodes?.length },
-                { key: 'Status', value: data.status?.toLowerCase() },
-                { key: 'Season', value: season.JapanAny(data.runnings) },
-                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+                { key: 'Media', value: info.type },
+                { key: 'Episodes', value: info.episodes?.length },
+                { key: 'Status', value: stat.Status(info.status) },
+                { key: 'Season', value: season.JapanAny(info.runnings) },
+                { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']) },
             ],
             [
                 { key: 'Genres', value: genres },

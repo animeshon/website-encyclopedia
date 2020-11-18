@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
 
-const getMangaCharacters = () => gql`
+const getCharacters = () => gql`
   query details($id: String!) {
     result : getManga(id:$id) {
     id
+    __typename
     names @cascade {
       text
       localization {
@@ -50,4 +51,4 @@ const getMangaCharacters = () => gql`
 }
 `;
 
-export default getMangaCharacters;
+export default getCharacters;
