@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { withRouter } from 'next/router';
+import Cookies from 'cookies';
 
 import { performSearch, details } from '@/queries/search/Search';
 
@@ -10,16 +11,17 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
+import * as rating from '@/utilities/AgeRating';
 import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
 import { ExecuteQuery, ExecuteQueryAsync } from '@/utilities/Query';
 
-const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
+const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeSearch }) => {
     return (
         <>
-            <Header isSearchAvailable />
+            <Header isSearchAvailable isSafeSearch={isSafeSearch} />
             <em className="results-displayer">
                 Results displayed in {(queryTime).toFixed(2)} seconds
             </em>
@@ -48,7 +50,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                                         {item.profileImage && (
                                             <figure className="search-result__image">
                                                 <img
-                                                    src={item.profileImage}
+                                                    src={item.rating >= 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : item.profileImage}
                                                     alt={`${item.title} Cover (${item.media})`}
                                                 />
                                             </figure>
@@ -122,8 +124,14 @@ Search.getInitialProps = async ctx => {
 
     const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
-    
-    return {queryTime, results, hasMore, searchTerm, page};
+
+    var isSafeSearch = true;
+    if (ctx?.req?.headers?.cookie) {
+        const cookies = new Cookies(ctx.req);
+        isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
+    }
+
+    return {queryTime, results, hasMore, searchTerm, page, isSafeSearch};
 };
 
 const SearchQuery = async (ctx, searchTerm, pages, filter) => {
@@ -164,6 +172,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
             title:          locale.EnglishAny(data.names),
             description:    locale.English(data.descriptions),
             profileImage:   image.ProfileAny(data.images),
+            rating:         rating.Age(data.images) || rating.Age(data.ageRatings),
             media:          Type(data.__typename),
             subtype:        Subtype(data.__typename, data.type),
             premiere:       PremiereAny(data.releaseDate, data.runnings),

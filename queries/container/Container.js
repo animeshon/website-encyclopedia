@@ -29,6 +29,9 @@ const anime = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -67,6 +70,9 @@ const manga = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -107,6 +113,9 @@ const doujinshi = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -145,6 +154,9 @@ const lightNovel = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -185,6 +197,9 @@ const visualNovel = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -223,6 +238,9 @@ const track = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -263,6 +281,9 @@ const chapter = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -301,6 +322,9 @@ const episode = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -341,6 +365,9 @@ const character = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -379,6 +406,9 @@ const organization = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -419,6 +449,9 @@ const person = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -457,6 +490,9 @@ const magazine = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type
@@ -497,6 +533,9 @@ const circle = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -535,6 +574,9 @@ const convention = () => gql`
           code
         }
       }
+    }
+    ageRatings {
+      age
     }
     images {
       type

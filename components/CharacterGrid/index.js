@@ -29,7 +29,7 @@ const CharacterGrid = ({ characters }) => {
                     {characters ? categoryOrder.map(category => {
                         const label = CharacterRole(category)
                         if (label && characters[category] && characters[category].length) {
-                            return (<ExpandableSection label={label} identifier={category} open={open} action={openSection}>
+                            return (<ExpandableSection label={label} key={label} identifier={category} open={open} action={openSection}>
                                 {characters[category].map(item => {
                                     return (<CharacterCard character={item} key={item.id} />);
                                 })}

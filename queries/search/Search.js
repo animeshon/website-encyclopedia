@@ -45,6 +45,12 @@ const animeDetails = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
+    }
+    ageRatings {
+      age
     }
     runnings {
       from
@@ -81,6 +87,9 @@ const mangaDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -88,6 +97,9 @@ const mangaDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
     runnings {
@@ -125,6 +137,9 @@ const doujinshiDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -132,6 +147,9 @@ const doujinshiDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
     runnings {
@@ -168,6 +186,9 @@ const lightNovelDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -175,6 +196,9 @@ const lightNovelDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
     runnings {
@@ -211,6 +235,9 @@ const visualNovelDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -218,6 +245,9 @@ const visualNovelDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -258,6 +288,9 @@ const songDetails = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
     releaseDate
   }
@@ -291,6 +324,9 @@ const chapterDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -298,6 +334,9 @@ const chapterDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
     content {
@@ -373,6 +412,9 @@ const episodeDetails = () => gql`
         }
       }
     }
+    ageRatings {
+      age
+    }
     images {
       type
       image {
@@ -380,6 +422,9 @@ const episodeDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
     releaseDate
@@ -436,6 +481,9 @@ const characterDetails = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -474,6 +522,9 @@ const organizationDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -514,6 +565,9 @@ const magazineDetails = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -552,6 +606,9 @@ const circleDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }
@@ -592,6 +649,9 @@ const conventionDetails = () => gql`
           publicUri
         }
       }
+      ageRatings {
+        age
+      }
     }
   }
 }`;
@@ -630,6 +690,9 @@ const personDetails = () => gql`
           format
           publicUri
         }
+      }
+      ageRatings {
+        age
       }
     }
   }

@@ -28,9 +28,9 @@ const Animeshon = ({ pageProps, Component, apollo }) => {
     const ref = useRef(null)
 
     //Binding events for loading bar
-    Router.events.on('routeChangeStart', () => ref.current.continuousStart()); 
-    Router.events.on('routeChangeComplete', () => ref.current.complete()); 
-    Router.events.on('routeChangeError', () => ref.current.complete());
+    Router.events.on('routeChangeStart', () => ref.current?.continuousStart()); 
+    Router.events.on('routeChangeComplete', () => ref.current?.complete()); 
+    Router.events.on('routeChangeError', () => ref.current?.complete());
     
     const [search, dispatchSearch] = useReducer(searchReducer, {});
     const [language, dispatchLanguage] = useReducer(languageReducer, 'en-US');

@@ -8,7 +8,7 @@ import { useInputChange } from '@/functions/inputChange';
 
 import Sidebar from '@/components/Sidebar';
 
-const Header = ({ isSearchAvailable }) => {
+const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
     const { search, dispatchSearch } = useContext(SearchContext);
     const [sidebar, setSidebar] = useState(false);
 
@@ -86,7 +86,7 @@ const Header = ({ isSearchAvailable }) => {
                 <span />
                 <span />
             </button>
-            <Sidebar isOpened={sidebar} closeSidebar={handleSidebarOpening} />
+            <Sidebar isOpened={sidebar} closeSidebar={handleSidebarOpening} isSafeSearch={isSafeSearch} />
         </header>
     );
 };

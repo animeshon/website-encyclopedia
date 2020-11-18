@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Cookies from 'cookies';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -19,6 +20,7 @@ import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import * as media from '@/utilities/MediaType';
+import * as rating from '@/utilities/AgeRating';
 
 
 const Mobile = ({ children }) => {
@@ -29,7 +31,7 @@ const Mobile = ({ children }) => {
 {/* https://developers.google.com/search/docs/data-types/sitelinks-searchbox */ }
 const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;
 
-const Container = ({ container, seo, children }) => {
+const Container = ({ container, seo, children, isSafeSearch = true }) => {
     // ! TODO: The following trick seems to be not very clean.
     const { route, asPath } = useRouter();
     const selectedLabel = container.navigation.filter(i => route === i.href)[0].label;
@@ -71,7 +73,7 @@ const Container = ({ container, seo, children }) => {
                 <script type={"application/ld+json"} dangerouslySetInnerHTML={{ __html: GoogleSearchScript }} />
             </Head>
             <div className="any">
-                <Header isSearchAvailable />
+                <Header isSearchAvailable isSafeSearch={isSafeSearch} />
                 <BannerImage
                     title={container.title}
                     altText={container.title}
@@ -84,6 +86,8 @@ const Container = ({ container, seo, children }) => {
                         <ProfileImage
                             altText={container.title}
                             profileImage={container.profileImage}
+                            isSafeSearch={isSafeSearch}
+                            isAdultOnly={container.isAdultOnly}
                         />
                     </div>
                     <div className="product-page-offset">
@@ -124,13 +128,14 @@ export function withContainer(WrappedComponent) {
                 title: locale.EnglishAny(data.names),
                 bannerImage: image.Cover(data.images),
                 profileImage: image.ProfileAny(data.images),
+                isAdultOnly: rating.IsAdultOnly(data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 
             const seo = {
                 type: data.__typename,
                 media: media.Type(data.__typename),
-                rating: undefined, // ! TODO: Valid values are ['general' 'mature' 'restricted' 'adult' '14 years' 'safe for kids'].
+                rating: rating.WebMetaTag(data.ageRatings),
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
                 
                 description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
@@ -141,7 +146,14 @@ export function withContainer(WrappedComponent) {
                 baseurl: process.env.WEBSITE_BASEURL || 'http://127.0.0.1:3000',
             }
 
+            var isSafeSearch = true;
+            if (ctx?.req?.headers?.cookie) {
+                const cookies = new Cookies(ctx.req);
+                isSafeSearch = cookies?.get('images.adult.enabled')?.toLowerCase() != "true";
+            }
+
             return {
+                isSafeSearch: isSafeSearch,
                 container: container,
                 seo: seo,
                 ...componentProps
@@ -149,9 +161,9 @@ export function withContainer(WrappedComponent) {
         }
 
         render() {
-            const { container, seo, ...passThroughProps } = this.props;
+            const { container, seo, isSafeSearch, ...passThroughProps } = this.props;
             return (
-                <Container container={container} seo={seo}>
+                <Container container={container} seo={seo} isSafeSearch={isSafeSearch}>
                     <WrappedComponent {...passThroughProps} />
                 </Container>
             )
