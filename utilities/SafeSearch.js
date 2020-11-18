@@ -16,7 +16,7 @@ export const SafeSearch = (ctx) => {
 }
 
 export const SetSafeSearch = (yes) => {
-    ClientCookies.set('images.adult.enabled', yes ? 'false' : 'true');
+    ClientCookies.set('images.adult.enabled', yes ? 'false' : 'true', { path: '/' });
 }
 
 export const SafeSearchImage = (ratings, fallback, image, isSafeSearch) => {
