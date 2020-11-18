@@ -2,9 +2,11 @@ import Router from 'next/router';
 
 import Button from '@/components/Button';
 
-import { SetSafeSearch } from '@/utilities/SafeSearch';
+import { SetSafeSearch, IsImageCensored } from '@/utilities/SafeSearch';
 
 const ProfileImage = ({ profileImage, altText }) => {
+    const isCensored = IsImageCensored(profileImage);
+
     const onClick = e => {
         SetSafeSearch(false);
         Router.reload();

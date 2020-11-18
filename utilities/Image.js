@@ -60,7 +60,7 @@ export const Image = (images, types, formats, isSafeSearch = true, fallback = nu
 
         const _fallback = fallback.shift();
         if (_fallback) {
-            return Image(images, _fallback.types, _fallback.formats, fallback);
+            return Image(images, _fallback.types, _fallback.formats, isSafeSearch, fallback);
         }
     }
 

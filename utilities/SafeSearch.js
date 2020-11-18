@@ -22,3 +22,7 @@ export const SetSafeSearch = (yes) => {
 export const SafeSearchImage = (ratings, image, isSafeSearch) => {
     return rating.Age(ratings) > 17 && isSafeSearch ? '/images/adult-only-warning.jpg' : image;
 }
+
+export const IsImageCensored = (image) => {
+    return image == '/images/adult-only-warning.jpg';
+}
