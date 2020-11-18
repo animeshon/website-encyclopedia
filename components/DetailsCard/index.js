@@ -39,10 +39,11 @@ export const DetailsCard = ({ items }) => {
                         })
                     }
 
+                    const flag = pair.flag ? (<span className={`fp fp-sm custom-fp ${pair.flag}`} />) : undefined;
                     return (
                         <div className="details__row" key={pair.key}>
                             <div className="details__key">{pair.key}</div>
-                            <div className="details__value">{value}</div>
+                            <div className="details__value">{flag}{value}</div>
                         </div>
                     );
                 }));

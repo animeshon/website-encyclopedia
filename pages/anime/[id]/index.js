@@ -83,7 +83,7 @@ Anime.getInitialProps = async ctx => {
                 { key: 'Episodes', value: data.episodes?.length },
                 { key: 'Status', value: data.status?.toLowerCase() },
                 { key: 'Season', value: season.JapanAny(data.runnings) },
-                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']), flag: 'us' },
             ],
             [
                 { key: 'Genres', value: genres },

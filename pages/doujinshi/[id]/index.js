@@ -83,7 +83,7 @@ Doujinshi.getInitialProps = async ctx => {
                 { key: 'Volumes', value: data.volumes?.length },
                 { key: 'Status', value: data.status?.toLowerCase() },
                 { key: 'Published', value: undefined }, // TODO: <---------------------------
-                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']) },
+                { key: 'Age Rating', value: AgeRating(data.ageRatings, ['USA']), flag: 'us' },
             ],
             [
                 { key: 'Genres', value: genres },
