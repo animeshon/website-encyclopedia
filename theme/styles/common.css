@@ -209,6 +209,10 @@ b {
     z-index: 0;
 }
 
+.hero-cover__image img {
+    width: 100%;
+}
+
 .hero-cover__shade {
     position: absolute;
     bottom: 0;
@@ -1826,7 +1830,8 @@ ul.grid-halves {
 }
 
 .results-displayer {
-    margin-top: 40px;
+    padding-top: calc(40px + 96px);
+    /* margin-top: 40px; */
     max-width: 1040px;
     margin-left: 220px;
     display: block;
