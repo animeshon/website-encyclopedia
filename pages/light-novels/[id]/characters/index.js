@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getCharacters from '@/queries/manga/Characters';
+import getCharacters from '@/queries/light-novel/Characters';
 
 import CharacterGrid from '@/components/CharacterGrid';
 import { CharacterRole } from '@/components/CharacterCard';
@@ -11,13 +11,13 @@ import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 import { SafeSearch } from '@/utilities/SafeSearch';
 
-const Characters = ({ characters }) => {
+const DoujinshiCharacters = ({ characters }) => {
     return (<CharacterGrid characters={characters} />);
 };
 
-Characters.getInitialProps = async ctx => {
+DoujinshiCharacters.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id:id }, getCharacters()));
+    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getCharacters()));
     const isSafeSearch = SafeSearch(ctx);
 
     const characters = (data.starring || []).map(i => {
@@ -38,4 +38,4 @@ Characters.getInitialProps = async ctx => {
     };
 };
 
-export default withContainer(Characters);
+export default withContainer(DoujinshiCharacters);

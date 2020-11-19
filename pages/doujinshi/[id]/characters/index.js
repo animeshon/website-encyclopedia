@@ -3,7 +3,7 @@ import React from 'react';
 import getCharacters from '@/queries/doujinshi/Characters';
 
 import CharacterGrid from '@/components/CharacterGrid';
-
+import { CharacterRole } from '@/components/CharacterCard';
 import withContainer from '@/components/Container';
 
 import * as locale from '@/utilities/Localization';

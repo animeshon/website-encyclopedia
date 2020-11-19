@@ -148,6 +148,36 @@ export const LightNovelNavigation = (name, id) => [
         href: '/light-novels/[id]',
         as: uri.Rewrite('LightNovel', name, id)
     },
+    {
+        label: 'Volumes',
+        href: '/light-novels/[id]/volumes',
+        as: uri.Rewrite('LightNovel', name, id, 'volumes')
+    },
+    {
+        label: 'Chapters',
+        href: '/light-novels/[id]/chapters',
+        as: uri.Rewrite('LightNovel', name, id, 'chapters')
+    },
+    {
+        label: 'Characters',
+        href: '/light-novels/[id]/characters',
+        as: uri.Rewrite('LightNovel', name, id, 'characters')
+    },
+    {
+        label: 'Related',
+        href: '/light-novels/[id]/related',
+        as: uri.Rewrite('LightNovel', name, id, 'related')
+    },
+    {
+        label: 'Companies',
+        href: '/light-novels/[id]/companies',
+        as: uri.Rewrite('LightNovel', name, id, 'companies')
+    },
+    {
+        label: 'Staff',
+        href: '/light-novels/[id]/staff',
+        as: uri.Rewrite('LightNovel', name, id, 'staff')
+    },
 ];
 
 export const VisualNovelNavigation = (name, id) => [
