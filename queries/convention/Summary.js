@@ -28,10 +28,11 @@ const getSummary = () => gql`
     }
     from
     to
-    # Waiting for GraphQL patch of address field.
+    # TODO: Waiting for GraphQL patch of address field.
     # address {
     #   formattedAddress
     # }
+    # TODO: Add missing releases field.
   }
 }`;
 
