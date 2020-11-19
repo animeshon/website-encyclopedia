@@ -7,6 +7,19 @@ export default class AnimeshonDocument extends Document {
         return (
             <Html>
                 <Head>
+                    {/* NOTE: Anti-flicker has to be actived once we start using Google Optimize, especially for A/B testing */}
+
+                    {/* Anti-flicker snippet (recommended) */}
+                    {/* <style
+                        dangerouslySetInnerHTML={{
+                            __html: `.async-hide { opacity: 0 !important}`,
+                        }}
+                    />
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};(a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;})(window,document.documentElement,'async-hide','dataLayer',4000,{'${TRACKING_ID}':true});`,
+                        }}
+                    /> */}
                     {/* Google Tag Manager */}
                     <script
                         dangerouslySetInnerHTML={{
@@ -25,6 +38,14 @@ export default class AnimeshonDocument extends Document {
                     {/* End Google Tag Manager (noscript) */}
                     <Main />
                     <NextScript />
+                    {/* Iubenda Cookie Solution */}
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `var _iub = _iub || []; _iub.csConfiguration = {"countryDetection":true,"perPurposeConsent":true,"whitelabel":false,"lang":"en","siteId":1905535,"cookiePolicyId":48776658, consentOnContinuedBrowsing: false, "banner":{ "acceptButtonDisplay":true,"customizeButtonDisplay":true,rejectButtonDisplay: true,"position":"bottom" }};`,
+                        }}
+                    />
+                    <script type="text/javascript" src="//cdn.iubenda.com/cs/iubenda_cs.js" charset="UTF-8" async={true} />
+                    {/* End Iubenda Cookie Solution */}
                 </body>
             </Html>
         )
