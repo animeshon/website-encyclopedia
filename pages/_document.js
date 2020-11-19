@@ -1,12 +1,14 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 const TRACKING_ID = process.env.GTM_TRACKING_ID || 'GTM-NRN5LVP';
+const BASEURL = process.env.WEBSITE_BASEURL || 'http://127.0.0.1:3000';
 
 export default class AnimeshonDocument extends Document {
     render() {
         return (
             <Html>
                 <Head>
+                    <link rel="shortcut icon" href={`${BASEURL}/brand/favicon.ico`} type="image/x-icon" />
                     {/* NOTE: Anti-flicker has to be actived once we start using Google Optimize, especially for A/B testing */}
 
                     {/* Anti-flicker snippet (recommended) */}
