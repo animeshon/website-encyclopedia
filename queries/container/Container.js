@@ -599,9 +599,6 @@ const convention = () => gql`
         }
       }
     }
-    ageRatings {
-      age
-    }
     images {
       type
       image {

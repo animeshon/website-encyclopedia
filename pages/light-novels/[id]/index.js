@@ -21,7 +21,7 @@ import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
 import { SafeSearch } from '@/utilities/SafeSearch';
 
-const Doujinshi = ({
+const LightNovel = ({
     description,
     characters,
     details,
@@ -47,7 +47,7 @@ const Doujinshi = ({
     );
 };
 
-Doujinshi.getInitialProps = async ctx => {
+LightNovel.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("data", { id: id }, getSummary()),
@@ -119,4 +119,4 @@ Doujinshi.getInitialProps = async ctx => {
     };
 };
 
-export default withContainer(Doujinshi);
+export default withContainer(LightNovel);

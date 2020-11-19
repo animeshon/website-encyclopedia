@@ -255,6 +255,19 @@ export const CircleNavigation = (name, id) => [
     },
 ];
 
+export const ConventionNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: '/conventions/[id]',
+        as: uri.Rewrite('Convention', name, id)
+    },
+    {
+        label: 'Productions',
+        href: '/conventions/[id]/productions',
+        as: uri.Rewrite('Convention', name, id, 'productions')
+    },
+];
+
 const Navigation = (type, name, id) => {
     const typeToNavigation = {
         "anime": AnimeNavigation,
@@ -269,7 +282,7 @@ const Navigation = (type, name, id) => {
         "organizations": CompanyNavigation,
         // "magazines": magazine,
         "circles": CircleNavigation,
-        // "conventions": convention,
+        "conventions": ConventionNavigation,
         "people": PeopleNavigation,
         "universes": UniverseNavigation,
         // TODO Canonicals
