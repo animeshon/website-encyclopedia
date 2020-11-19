@@ -11,7 +11,6 @@ import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as time from '@/utilities/Time';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Convention = ({
     description,
@@ -36,7 +35,6 @@ const Convention = ({
 Convention.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
-    // const isSafeSearch = SafeSearch(ctx);
 
     return {
         description: locale.English(data.descriptions),

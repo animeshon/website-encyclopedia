@@ -58,7 +58,8 @@ const FilteredCahracters = (map, filter, country) => {
 const CharacterGrid = ({ characters, cast, nationalities }) => {
     const charactersMap = MapAndSort(characters, cast);
 
-    const [open, setOpen] = useState({ "MAIN": true });
+    const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"];
+    const [open, setOpen] = useState({ "MAIN": true, "SUPPORT": true, "APPEARS": true });
     const [charactersState, setSetCharacters] = useState(charactersMap);
 
     const openSection = (e, val) => {
@@ -67,8 +68,6 @@ const CharacterGrid = ({ characters, cast, nationalities }) => {
             [e.currentTarget.name]: !val,
         });
     };
-
-    const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"];
 
     const [country, setCountry] = useState('jp');
     const [filter, setFilter] = useState('');

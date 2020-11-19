@@ -1,16 +1,14 @@
+import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
-import { useState, useEffect, useContext } from 'react';
 
 import { SearchContext } from '@/ctx/search';
 
-import { useInputChange } from '@/functions/inputChange';
-
 import Sidebar from '@/components/Sidebar';
 
-const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
+const Header = ({ isSearchAvailable }) => {
     const { search, dispatchSearch } = useContext(SearchContext);
-    const [sidebar, setSidebar] = useState(false);
+    const [ sidebarOpen, setSidebar] = useState(false);
 
     useEffect(() => {
         const { q } = Router.router.query;
@@ -38,7 +36,7 @@ const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
 
             Router.push({
                 pathname: '/search',
-                query:  { q: search.search } ,
+                query: { q: search.search },
             });
         } else {
             dispatchSearch({
@@ -51,7 +49,7 @@ const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
     const handleSidebarOpening = e => {
         const target = e.currentTarget.id === 'sidebar-opener';
         if (target) {
-            setSidebar(!sidebar);
+            setSidebar(true);
         } else {
             setSidebar(false);
         }
@@ -75,8 +73,8 @@ const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
                     />
                 </form>
             ) : (
-                <div className="search-group" />
-            )}
+                    <div className="search-group" />
+                )}
             <button
                 onClick={handleSidebarOpening}
                 id="sidebar-opener"
@@ -86,7 +84,7 @@ const Header = ({ isSearchAvailable, isSafeSearch = true }) => {
                 <span />
                 <span />
             </button>
-            <Sidebar isOpened={sidebar} closeSidebar={handleSidebarOpening} isSafeSearch={isSafeSearch} />
+            <Sidebar open={sidebarOpen} closeSidebar={handleSidebarOpening} />
         </header>
     );
 };

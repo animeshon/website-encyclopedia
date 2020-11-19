@@ -27,7 +27,7 @@ const renderBuyLinks = links => {
                                 target="_blank"
                                 className="external-platform-button"
                             >
-                                <img src={link.image} alt={link.name} />
+                                <img src={link.image.uri} alt={link.name} />
                             </a>
                         );
                     })}

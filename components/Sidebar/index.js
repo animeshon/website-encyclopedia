@@ -1,7 +1,8 @@
+import React, { useContext, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import Router, { withRouter } from 'next/router';
+import { withRouter } from 'next/router';
 
-import { SetSafeSearch } from '@/utilities/SafeSearch';
+import { UserContext } from '@/ctx/user';
 
 const routes = [
     { href: 'https://animeshon.com/', label: 'About Animeshon' },
@@ -27,20 +28,52 @@ const RenderRoutes = ({ arr, closeSidebar, page }) => {
     });
 };
 
-const Sidebar = ({ isOpened, closeSidebar, router, isSafeSearch = true }) => {
-    const {
-        query: { page },
-    } = router;
+const Sidebar = ({ open, closeSidebar, router}) => {
+    const { user, dispatchUser } = useContext(UserContext);
+    const {  query: { page } } = router;
+    const ref = useRef(null);
+
+    const escapeListener = useCallback(e => {
+        if (e.key === 'Escape') {
+            closeSidebar(e)
+        }
+    }, [])
+    const clickListener = useCallback( 
+        e => {
+            console.log(`click, is open ${open}`);
+            if (!(ref?.current)?.contains(e.target)) {
+                closeSidebar(e);
+            }
+        },
+        [ref.current],
+    )
+    useEffect(() => {
+        if (open == true) {
+            // Attach the listeners on component mount.
+            document.addEventListener('click', clickListener)
+            document.addEventListener('keyup', escapeListener)
+        } else {
+            document.removeEventListener('click', clickListener)
+            document.removeEventListener('keyup', escapeListener)
+        }
+
+        // Detach the listeners on component unmount.
+        return () => {
+
+        }
+    }, [open])
 
     const onSwitchSafeSearch = e => {
         closeSidebar(e);
 
-        SetSafeSearch(!isSafeSearch);
-        Router.reload();
+        dispatchUser({
+            type: 'setSafeSearch',
+            payload: !user.safeSearch,
+        })
     };
 
     return (
-        <aside className={`sidebar${isOpened ? ' opened' : ''}`}>
+        <aside ref={ref} className={`sidebar${open ? ' opened' : ''}`}>
             <ul>
                 <RenderRoutes
                     arr={routes}
@@ -48,7 +81,7 @@ const Sidebar = ({ isOpened, closeSidebar, router, isSafeSearch = true }) => {
                     page={page}
                 />
                 <li>
-                    <button onClick={onSwitchSafeSearch}>Safe Search {isSafeSearch ?
+                    <button onClick={onSwitchSafeSearch}>Safe Search {user.safeSearch ?
                         (<span className='safe-search enabled'>ON</span>) :
                         (<span className='safe-search disabled'>OFF</span>)}</button>
                 </li>

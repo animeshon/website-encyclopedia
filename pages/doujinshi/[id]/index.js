@@ -20,7 +20,6 @@ import * as contentRelation from '@/utilities/ContentRelation';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Doujinshi = ({
     description,
@@ -55,14 +54,12 @@ Doujinshi.getInitialProps = async ctx => {
         PrepareKeyQuery("related", { id: id }, getRelated()),
     ];
     const {data, related} = await ExecuteQueryBatch(ctx, queries);
-    const isSafeSearch = SafeSearch(ctx);
-
     const characters = (data.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images, isSafeSearch, data.ageRatings),
+            image: image.ProfileAny(images, data.ageRatings),
         };
     });
 
@@ -75,7 +72,7 @@ Doujinshi.getInitialProps = async ctx => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, isSafeSearch, ageRatings),
+            image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             season: season.JapanAny(runnings),

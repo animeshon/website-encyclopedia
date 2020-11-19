@@ -4,13 +4,12 @@ import withContainer from '@/components/Container';
 
 import getVoiceActors from '@/queries/character/VoiceActors';
 
-import {CardImageGender} from '@/components/Card/Image';
+import CardImage from '@/components/Card/Image';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
 
 import Link from 'next/link';
@@ -31,9 +30,9 @@ const Gender = (role) => {
 const VoiceActorCard = ({ voiceActor }) => {
     return (
         <article className="voice-actor">
-            <CardImageGender
-                sex={voiceActor.gender}
-                picture={voiceActor.image}
+            <CardImage
+                gender={voiceActor.gender}
+                image={voiceActor.image}
                 altText={voiceActor.name}
                 className={""}
             />
@@ -65,7 +64,7 @@ const VoiceActorCard = ({ voiceActor }) => {
             <aside>
                 {voiceActor.productions.map(production => {
                     return (
-                        <p>
+                        <p key={`${voiceActor.id}-${production.id}`}>
                             <Link href={uri.Rewrite(production.type, production.name, production.id)} >
                                 <a>{production.name}</a>
                             </Link>
@@ -123,7 +122,6 @@ const VoiceActors = ({ voiceActors }) => {
 VoiceActors.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActors()));
-    const isSafeSearch = SafeSearch(ctx);
 
     const voiceActors = (data.voices || []).map(i => {
         const { isPrimary, localization, actor, content } = i;
@@ -143,7 +141,7 @@ VoiceActors.getInitialProps = async ctx => {
             nationality: nationality?.toLowerCase(),
             actor: {
                 id: actor.id,
-                image: image.ProfileAny(actor.images, isSafeSearch),
+                image: image.ProfileAny(actor.images),
                 name: locale.LatinAny(actor.names),
                 japaneseName: locale.Japanese(actor.names),
                 gender: actor.gender,

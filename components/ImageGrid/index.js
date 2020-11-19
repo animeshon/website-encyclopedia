@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SafeImage from '@/components/SafeImage';
+
 const ImageGrid = ({ images, className }) => {
     if (!images || images.length == 0) {
         return 'There is currently no picture available.';
@@ -9,7 +11,7 @@ const ImageGrid = ({ images, className }) => {
             {images.map(i => {
                 return (
                     <div key={i} className="tile">
-                        <img src={i} alt="" />
+                        <SafeImage image={i} displayButton={true} />
                     </div>
                 );
             })}

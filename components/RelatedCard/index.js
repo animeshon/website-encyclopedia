@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import SafeImage from '@/components/SafeImage';
+
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 
@@ -10,7 +12,7 @@ const Related = ({ content }) => {
     return (
         <div key={content.name} className="related__item">
             <figure className="related__item-cover">
-                <img src={content.image} />
+                <SafeImage image={content.image} />
             </figure>
             <article className="related__item-contents">
                 <header>

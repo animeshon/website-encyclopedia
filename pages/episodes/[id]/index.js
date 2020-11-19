@@ -5,7 +5,7 @@ import { AnimeNavigation } from '@/resources/navigation/allTabNavigations';
 
 import AnyWrapper from '@/components/_AnyWrapper';
 import Button from '@/components/Button';
-import {CardImageGender} from '@/components/Card/Image';
+import CardImage from '@/components/Card/Image';
 
 const renderStaff = (items, openSection, actionSection) => {
     return items.map(item => {
@@ -36,7 +36,7 @@ const renderStaff = (items, openSection, actionSection) => {
                                     <div key={i.id} className="card">
                                         <Link {...linkProps}>
                                             <a>
-                                                <CardImageGender
+                                                <CardImage
                                                     sex={i.sex}
                                                     picture={i.profilePic}
                                                     altText={`${i.fname} ${i.lname}`}
@@ -99,7 +99,7 @@ const renderCharacters = items => {
             <div key={item.id} className="card">
                 <Link {...linkProps}>
                     <a>
-                        <CardImageGender
+                        <CardImage
                             sex={item.sex}
                             picture={item.profile_picture}
                             altText={`${item.fname} ${item.lname}`}
@@ -191,7 +191,7 @@ const renderWatchLinks = links => {
                 href={link.links[country]}
                 target="_blank"
             >
-                <img src={link.image} alt={link.platform} />
+                <img src={link.image.uri} alt={link.platform} />
             </a>
         );
     });

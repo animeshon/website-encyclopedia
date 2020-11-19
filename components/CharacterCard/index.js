@@ -1,9 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
-import {CardImageGender} from '@/components/Card/Image';
-import Button from '@/components/Button';
 import CardImage from '@/components/Card/Image';
+import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
 
@@ -27,8 +26,8 @@ const CharacterCard = ({ character, cast, country = undefined }) => {
         <div className="card cast__item">
             <Link href={href}>
                 <a>
-                    <CardImageGender
-                        picture={character.image}
+                    <CardImage
+                        image={character.image}
                         altText={character.name}
                     />
                 </a>
@@ -50,16 +49,18 @@ const CharacterCard = ({ character, cast, country = undefined }) => {
                     if (CanDisplay(c, country)) {
                         const person = c.person;
                         return (<Button
+                            key={`${person.id}-${character.id}`}
                             className="cherry-red medium character-button-ref"
                             type="next-link"
                             href={uri.Rewrite('Person', person.name, person.id)}
                         >
                             <span className="character-image">
-                            <CardImageGender
-                                picture={person.image}
+                            <CardImage
+                                image={person.image}
                                 altText={person.name}
                                 className={''}
-                                sex={person.gender}
+                                gender={person.gender}
+                                forceSafe={false}
                             />
                             </span>
                             {c.nationality && (<span

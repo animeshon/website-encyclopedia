@@ -12,7 +12,6 @@ import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Appearances = ({ appearances }) => {
     return (
@@ -34,7 +33,6 @@ const Appearances = ({ appearances }) => {
 Appearances.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id, first: 1000000000 }, getAppearances()));
-    const isSafeSearch = SafeSearch(ctx);
 
     const appearances = (data.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
@@ -46,7 +44,7 @@ Appearances.getInitialProps = async ctx => {
             type: __typename,
             name: locale.EnglishAny(names),
             japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images, isSafeSearch, ageRatings),
+            image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),

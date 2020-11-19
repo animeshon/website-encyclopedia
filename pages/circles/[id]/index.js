@@ -10,7 +10,6 @@ import SummaryMember from '@/components/SummaryMember';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
 const Circle = ({
     type,
@@ -40,14 +39,13 @@ const Circle = ({
 Circle.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
-    const isSafeSearch = SafeSearch(ctx);
 
     const members = (data.members || []).map(i => {
         const { id, images, names } = i;
         return {
             id,
             name: locale.LatinAny(names),
-            image: image.ProfileAny(images, isSafeSearch),
+            image: image.ProfileAny(images),
         };
     });
 

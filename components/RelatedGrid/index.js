@@ -24,14 +24,13 @@ const MapAndSort = (array) => {
     return mapRelated;
 }
 
-const RelatedGrid = ({ related, openDefault }) => {
+const RelatedGrid = ({ related, highlighted }) => {
     const mapRelated = MapAndSort(related);
     const k = Object.keys(mapRelated);
-    const def = openDefault.filter(e => k.includes(e));
-    const keys = k.filter(e => !openDefault.includes(e));
+    const keys = highlighted.concat(k.filter(e => !highlighted.includes(e)));
 
     let state = {};
-    openDefault.forEach(o => state[o] = true);
+    keys.forEach(o => state[o] = true);
     const [open, setOpen] = useState(state);
 
     const openSection = (e, val) => {
@@ -42,20 +41,12 @@ const RelatedGrid = ({ related, openDefault }) => {
     };
 
     return (<>
-        {def.map(i => {
-            return (<ExpandableSection key={i} label={mapRelated[i].type} identifier={i} open={open} action={openSection}>
-                {mapRelated[i].items.map(item => {
-                    return (<RelatedCard key={item.id} content={item} />);
-                })}
-            </ExpandableSection>)
-        })}
-
         {keys.map(i => {
-            return (<ExpandableSection key={i} label={mapRelated[i].type} identifier={i} open={open} action={openSection}>
+            return mapRelated[i] ? (<ExpandableSection key={i} label={mapRelated[i].type} identifier={i} open={open} action={openSection}>
                 {mapRelated[i].items.map(item => {
                     return (<RelatedCard key={item.id} content={item} />);
                 })}
-            </ExpandableSection>)
+            </ExpandableSection>) : undefined;
         })}
     </>);
 };

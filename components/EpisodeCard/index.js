@@ -12,7 +12,7 @@ const EpisodeCard = ({ episode }) => {
             <Link href={href}>
                 <a>
                     <figure className="episodes-list__image">
-                        <img src={episode.image} alt={episode.name} />
+                        <img src={episode.image.uri} alt={episode.name} />
                     </figure>
                 </a>
             </Link>

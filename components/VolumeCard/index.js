@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import SafeImage from '@/components/SafeImage';
+
 import * as uri from '@/utilities/URI';
 
 const VolumeCard = ({ volume }) => {
@@ -10,7 +12,7 @@ const VolumeCard = ({ volume }) => {
         <div key={item.id} className="volume-cover">
             <Link href={href}>
                 <a>
-                    <img src={volume.image} />
+                    <SafeImage image={volume.image} />
                 </a>
             </Link>
         </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import SafeImage from '@/components/SafeImage';
+
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 
@@ -10,7 +12,7 @@ const AppearanceCard = ({ content }) => {
     return (
         <div key={content.name} className="appearences__item">
             <figure className="appearences__item-cover">
-                <img src={content.image} />
+                <SafeImage image={content.image} />
             </figure>
             <article className="appearences__item-contents">
                 <header>

@@ -1,5 +1,5 @@
 // high order libraries
-import React, { useContext, useReducer, useEffect, useRef  } from 'react';
+import React, { useContext, useReducer, useEffect, useRef } from 'react';
 import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
@@ -10,6 +10,7 @@ import introspectionQueryResultData from './../introspection/fragments.generated
 
 import { SearchContext, searchReducer } from '@/ctx/search';
 import { LanguageContext, languageReducer } from '@/ctx/languages';
+import { UserContext, userReducer, SafeSearch } from '@/ctx/user';
 
 // reset and grid css
 import '../theme/styles/reset.css';
@@ -22,18 +23,19 @@ import Router from 'next/router';
 import LoadingBar from 'react-top-loading-bar'
 
 
-const Animeshon = ({ pageProps, Component, apollo }) => {
+const Animeshon = ({ pageProps, Component, apollo, safeSearch }) => {
     // loading bar
     // ! for issues: https://github.com/klendi/react-top-loading-bar
     const ref = useRef(null)
 
     //Binding events for loading bar
-    Router.events.on('routeChangeStart', () => ref.current?.continuousStart()); 
-    Router.events.on('routeChangeComplete', () => ref.current?.complete()); 
+    Router.events.on('routeChangeStart', () => ref.current?.continuousStart());
+    Router.events.on('routeChangeComplete', () => ref.current?.complete());
     Router.events.on('routeChangeError', () => ref.current?.complete());
-    
+
     const [search, dispatchSearch] = useReducer(searchReducer, {});
     const [language, dispatchLanguage] = useReducer(languageReducer, 'en-US');
+    const [user, dispatchUser] = useReducer(userReducer, { safeSearch: safeSearch });
 
     useEffect(() => {
         const lang = navigator.language;
@@ -47,19 +49,23 @@ const Animeshon = ({ pageProps, Component, apollo }) => {
 
     return (
         <ApolloProvider client={apollo}>
-            <LanguageContext.Provider value={{ language, dispatchLanguage }}>
-                <SearchContext.Provider value={{ search, dispatchSearch }}>
-                    <LoadingBar color="#f11946" ref={ref} shadow={true} />
-                    <Component {...pageProps} />
-                </SearchContext.Provider>
-            </LanguageContext.Provider>
+            <UserContext.Provider value={{ user, dispatchUser }}>
+                <LanguageContext.Provider value={{ language, dispatchLanguage }}>
+                    <SearchContext.Provider value={{ search, dispatchSearch }}>
+                        <LoadingBar color="#f11946" ref={ref} shadow={true} />
+                        <Component {...pageProps} />
+                    </SearchContext.Provider>
+                </LanguageContext.Provider>
+            </UserContext.Provider>
         </ApolloProvider>
     );
 };
 
 Animeshon.getInitialProps = async appContext => {
     const appProps = await App.getInitialProps(appContext);
-    return { ...appProps };
+    var isSafeSearch = SafeSearch(appContext.ctx);
+
+    return { safeSearch:isSafeSearch, ...appProps };
 };
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({

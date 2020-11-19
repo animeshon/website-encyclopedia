@@ -5,6 +5,7 @@ import { performSearch, details } from '@/queries/search/Search';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import SafeImage from '@/components/SafeImage';
 
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -16,12 +17,11 @@ import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { Rewrite } from '@/utilities/URI';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
-const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeSearch }) => {
+const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
         <>
-            <Header isSearchAvailable isSafeSearch={isSafeSearch} />
+            <Header isSearchAvailable />
             <em className="results-displayer">
                 Results displayed in {(queryTime).toFixed(2)} seconds
             </em>
@@ -47,12 +47,9 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page, isSafeS
                                     href={`${Rewrite(item.type, item.title, item.id)}`}
                                 >
                                     <div className="search-result__row">
-                                        {item.profileImage && (
+                                        {item.image && (
                                             <figure className="search-result__image">
-                                                <img
-                                                    src={item.profileImage}
-                                                    alt={`${item.title} Cover (${item.media})`}
-                                                />
+                                                <SafeImage image={item.image} altText={`${item.title} Cover (${item.media})`}/>
                                             </figure>
                                         )}
                                         <header className="search-result__texts">
@@ -122,14 +119,13 @@ Search.getInitialProps = async ctx => {
         return {queryTime:0, results:[]}
     }
 
-    const isSafeSearch = SafeSearch(ctx);
-    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, [], isSafeSearch);
+    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
 
-    return {queryTime, results, hasMore, searchTerm, page, isSafeSearch};
+    return {queryTime, results, hasMore, searchTerm, page};
 };
 
-const SearchQuery = async (ctx, searchTerm, pages, filter, isSafeSearch) => {
+const SearchQuery = async (ctx, searchTerm, pages, filter) => {
     const amountRequested = 10 + pages * 10
     // get ids and types from elastic search
     const vars = {
@@ -162,7 +158,7 @@ const SearchQuery = async (ctx, searchTerm, pages, filter, isSafeSearch) => {
             type:           r.__typename,
             title:          locale.EnglishAny(r.names),
             description:    locale.English(r.descriptions),
-            profileImage:   image.ProfileAny(r.images, isSafeSearch, r.ageRatings),
+            image:          image.ProfileAny(r.images, r.ageRatings),
             media:          Type(r.__typename),
             subtype:        Subtype(r.__typename, r.type),
             premiere:       PremiereAny(r.releaseDate, r.runnings),

@@ -1,23 +1,13 @@
-import Router from 'next/router';
+import React from 'react';
 
-import Button from '@/components/Button';
+import SafeImage from '@/components/SafeImage';
 
-import { SetSafeSearch, IsImageCensored } from '@/utilities/SafeSearch';
-
-const ProfileImage = ({ profileImage, altText }) => {
-    const isCensored = IsImageCensored(profileImage);
-
-    const onClick = e => {
-        SetSafeSearch(false);
-        Router.reload();
-    };
-
+const ProfileImage = ({ image, altText }) => {
     return (
         <div className="product-cover">
             <figure className="product-cover__image">
-                <img src={profileImage ? profileImage : '/images/default-profile-picture.jpg'} alt={altText} />
+                <SafeImage image={image} altText={altText} force={true} displayButton={true}/>
             </figure>
-            {isCensored ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
         </div>
     );
 };

@@ -20,16 +20,15 @@ import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import * as media from '@/utilities/MediaType';
 import * as rating from '@/utilities/AgeRating';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
-const ContainerContext = React.createContext(undefined);
+import { ContainerContext } from '@/ctx/Container';
 
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
     return isMobile ? children : null;
 };
 
-const Container = ({ container, seo, children, isSafeSearch = true }) => {
+const Container = ({ container, seo, children }) => {
     // ! TODO: The following trick seems to be not very clean.
     const { route, asPath } = useRouter();
     const selectedLabel = container.navigation.filter(i => route === i.href)[0].label;
@@ -54,7 +53,7 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
                 <meta property="og:site_name" content={seo.site}></meta>
                 <meta property="og:title" content={`${seo.title} - ${selectedLabel} | ${seo.media}`} />
                 {seo.description ? (<meta property="og:description" content={seo.description} />) : undefined}
-                {seo.image ? (<meta property="og:image" content={seo.image} />) : undefined}
+                {seo.image ? (<meta property="og:image" content={seo.image.uri} />) : undefined}
                 {url ? <meta property="og:url" content={url} /> : undefined }
 
                 {/* Twitter */}
@@ -67,11 +66,11 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
                 {/* <meta property="fb:app_id" content="your_app_id" /> */}
             </Head>
             <div className="any">
-                <Header isSearchAvailable isSafeSearch={isSafeSearch} />
+                <Header isSearchAvailable />
                 <BannerImage
                     title={container.title}
                     altText={container.title}
-                    bannerImage={container.bannerImage}
+                    image={container.banner}
                     breadcrumb={[container.type, container.title, selectedLabel]}
                 />
                 <TabNavigation items={container.navigation} selected={container.selected} />
@@ -79,7 +78,7 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
                     <div className="any-landing__cover">
                         <ProfileImage
                             altText={container.title}
-                            profileImage={container.profileImage}
+                            image={container.image}
                         />
                     </div>
                     <div className="product-page-offset">
@@ -96,7 +95,7 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
 
 // HOC best practice https://it.reactjs.org/docs/higher-order-components.html
 export function withContainer(WrappedComponent) {
-    class witContainer extends Component {
+    class withContainer extends Component {
         constructor(props) {
             super(props)
         }
@@ -107,7 +106,6 @@ export function withContainer(WrappedComponent) {
             const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
             const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, ContainerQuery(type)));
-            const isSafeSearch = SafeSearch(ctx);
 
             // Get component’s props
             let componentProps = {}
@@ -118,9 +116,10 @@ export function withContainer(WrappedComponent) {
             const container = {
                 id: data.id,
                 type: data.__typename,
+                adult: rating.IsAdultOnly(data.ageRatings),
                 title: locale.EnglishAny(data.names),
-                bannerImage: image.Cover(data.images, isSafeSearch, data.ageRatings),
-                profileImage: image.ProfileAny(data.images, isSafeSearch, data.ageRatings),
+                banner: image.Cover(data.images, false, data.ageRatings),
+                image: image.ProfileAny(data.images, false, data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 
@@ -132,14 +131,13 @@ export function withContainer(WrappedComponent) {
                 
                 description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
                 title: text.Truncate(container.title, 64),
-                image: container.profileImage,
+                image: container.image,
 
                 site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',
                 baseurl: process.env.WEBSITE_BASEURL || 'http://127.0.0.1:3000',
             }
 
             return {
-                isSafeSearch: isSafeSearch,
                 container: container,
                 seo: seo,
                 ...componentProps
@@ -147,10 +145,10 @@ export function withContainer(WrappedComponent) {
         }
 
         render() {
-            const { container, seo, isSafeSearch, ...passThroughProps } = this.props;
+            const { container, seo, ...passThroughProps } = this.props;
             return (
                 <ContainerContext.Provider value={container}>
-                    <Container container={container} seo={seo} isSafeSearch={isSafeSearch}>
+                    <Container container={container} seo={seo} >
                         <WrappedComponent {...passThroughProps} />
                     </Container>
                 </ContainerContext.Provider>
@@ -158,8 +156,8 @@ export function withContainer(WrappedComponent) {
         }
     }
 
-    witContainer.staticMethod = WrappedComponent.staticMethod;
-    return witContainer;
+    withContainer.staticMethod = WrappedComponent.staticMethod;
+    return withContainer;
 }
 
 export const useContainer = () => {

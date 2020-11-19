@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import SafeImage from '@/components/SafeImage';
+
 import * as uri from '@/utilities/URI';
 
 const PersonPreview = ({ item }) => {
@@ -10,7 +12,7 @@ const PersonPreview = ({ item }) => {
             <Link href={href}>
                 <a>
                     <div className="cover">
-                        <img src={item.image} />
+                        <SafeImage image={item.image} force={false} />
                     </div>
                     <span>{item.name}</span>
                 </a>

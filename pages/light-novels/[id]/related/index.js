@@ -12,9 +12,8 @@ import * as contentRelation from '@/utilities/ContentRelation';
 import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
-import { SafeSearch } from '@/utilities/SafeSearch';
 
-const Related = ({ related, open }) => {
+const Related = ({ related, highlighted }) => {
     return (
         <main className="landing__description">
             <section className="landing-section-box">
@@ -24,7 +23,7 @@ const Related = ({ related, open }) => {
             </section>
             <div className="related grid-halves">
             { related && related.length ?
-                (<RelatedGrid related={related} openDefault={open} />)
+                (<RelatedGrid related={related} highlighted={highlighted} />)
                 : 'There is currently no related content available.'}
             </div>
         </main>
@@ -34,7 +33,6 @@ const Related = ({ related, open }) => {
 Related.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getRelated()));
-    const isSafeSearch = SafeSearch(ctx);
 
     const related = (data.relations || []).map(i => {
         const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
@@ -45,7 +43,7 @@ Related.getInitialProps = async ctx => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, isSafeSearch, ageRatings),
+            image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             season: season.JapanAny(runnings),
@@ -54,10 +52,10 @@ Related.getInitialProps = async ctx => {
             relationType: i.type,
         };
     });
-    const open = ["ADAPTATION", "BASE", "PREQUEL", "SEQUEL"];
+    const highlighted = ["ADAPTATION", "BASE", "PREQUEL", "SEQUEL"];
     return {
         related: related,
-        open: open,
+        highlighted: highlighted,
     };
 };
 
