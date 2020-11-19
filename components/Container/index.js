@@ -29,9 +29,6 @@ const Mobile = ({ children }) => {
     return isMobile ? children : null;
 };
 
-{/* https://developers.google.com/search/docs/data-types/sitelinks-searchbox */ }
-const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;
-
 const Container = ({ container, seo, children, isSafeSearch = true }) => {
     // ! TODO: The following trick seems to be not very clean.
     const { route, asPath } = useRouter();
@@ -68,10 +65,6 @@ const Container = ({ container, seo, children, isSafeSearch = true }) => {
 
                 {/* Facebook */}
                 {/* <meta property="fb:app_id" content="your_app_id" /> */}
-
-                {/* Google */}
-                <meta name="google" content="nositelinkssearchbox" />
-                <script type={"application/ld+json"} dangerouslySetInnerHTML={{ __html: GoogleSearchScript }} />
             </Head>
             <div className="any">
                 <Header isSearchAvailable isSafeSearch={isSafeSearch} />
