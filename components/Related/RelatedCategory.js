@@ -1,6 +1,6 @@
 import React from 'react';
 
-import RelatedCard from '@/components/RelatedCard';
+import RelatedGrid from '@/components/Related/RelatedGrid';
 import ExpandableSection from '@/components/ExpandableSection';
 
 const MapAndSort = (array) => {
@@ -22,7 +22,7 @@ const MapAndSort = (array) => {
     return mapRelated;
 }
 
-const RelatedGrid = ({ related, highlighted }) => {
+const RelatedCategory = ({ related, highlighted }) => {
     const mapRelated = MapAndSort(related);
     const k = Object.keys(mapRelated);
     const keys = highlighted.concat(k.filter(e => !highlighted.includes(e)));
@@ -30,12 +30,10 @@ const RelatedGrid = ({ related, highlighted }) => {
     return (<>
         {keys.map(i => {
             return mapRelated[i] ? (<ExpandableSection key={i} label={mapRelated[i].type}>
-                {mapRelated[i].items.map(item => {
-                    return (<RelatedCard key={item.id} content={item} />);
-                })}
+                <RelatedGrid related={mapRelated[i].items} />
             </ExpandableSection>) : undefined;
         })}
     </>);
 };
 
-export default RelatedGrid;
+export default RelatedCategory;

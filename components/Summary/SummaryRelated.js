@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import RelatedCard from '@/components/RelatedCard';
+import RelatedGrid from '@/components/Related/RelatedGrid';
 import { useContainer } from '@/components/Container';
 
 import * as uri from '@/utilities/URI';
@@ -10,6 +10,8 @@ export const SUMMARY_RELATED_MAX_NUM = 4;
 const SummaryRelated = ({ related }) => {
     const container = useContainer();
     const href = uri.Rewrite(container.type, container.title, container.id, 'related');
+    related = related.slice(0, SUMMARY_RELATED_MAX_NUM);
+    console.log(related)
 
     return (
         <section className="landing-section-box">
@@ -24,9 +26,8 @@ const SummaryRelated = ({ related }) => {
             </header>
             <div className="related grid-halves">
                 {related && related.length ?
-                    related.slice(0, SUMMARY_RELATED_MAX_NUM).map(r => {
-                        return (<RelatedCard key={r.id} content={r} />)
-                    }) : 'There is currently no related content available.'}
+                    <RelatedGrid related={related} />
+                    : 'There is currently no related content available.'}
             </div>
         </section>
     );
