@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getSummary = () => gql`
+export const getSummary = () => gql`
   query details($id: String!) {
     result : getDoujinshi(id:$id) {
     id

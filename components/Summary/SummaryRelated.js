@@ -11,7 +11,6 @@ const SummaryRelated = ({ related }) => {
     const container = useContainer();
     const href = uri.Rewrite(container.type, container.title, container.id, 'related');
     related = related.slice(0, SUMMARY_RELATED_MAX_NUM);
-    console.log(related)
 
     return (
         <section className="landing-section-box">
