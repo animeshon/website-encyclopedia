@@ -5,11 +5,11 @@ import getRelated from '@/queries/anime/Related';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
-import SummaryText from '@/components/SummaryText';
-import SummaryCharacter from '@/components/Character/SummaryCharacter';
-// import SummaryTimeline from '@/components/SummaryTimeline';
-import SummaryCanonical from '@/components/SummaryCanonical';
-import SummaryRelated from '@/components/SummaryRelated';
+import SummaryText from '@/components/Summary/SummaryText';
+import SummaryCharacter from '@/components/Summary/SummaryCharacter';
+// import SummaryTimeline from '@/components/Summary/SummaryTimeline';
+import SummaryCanonical from '@/components/Summary/SummaryCanonical';
+import SummaryRelated from '@/components/Summary/SummaryRelated';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';

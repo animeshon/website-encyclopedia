@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-import CharacterPreview from '@/components/CharacterPreview';
+import CharacterPreview from '@/components/Character/CharacterPreview';
 import { useContainer } from '@/components/Container';
 
 import * as uri from '@/utilities/URI';

@@ -4,8 +4,8 @@ import getSummary from '@/queries/convention/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
-import SummaryText from '@/components/SummaryText';
-import SummaryMember from '@/components/SummaryMember';
+import SummaryText from '@/components/Summary/SummaryText';
+import SummaryMember from '@/components/Summary/SummaryMember';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';

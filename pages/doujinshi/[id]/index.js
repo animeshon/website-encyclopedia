@@ -4,11 +4,11 @@ import getSummary from '@/queries/doujinshi/Summary';
 import getRelated from '@/queries/doujinshi/Related';
 
 import DetailsCard from '@/components/DetailsCard';
-import SummaryText from '@/components/SummaryText';
-import SummaryCharacter from '@/components/Character/SummaryCharacter';
-// import SummaryTimeline from '@/components/SummaryTimeline';
-import SummaryCanonical from '@/components/SummaryCanonical';
-import SummaryRelated from '@/components/SummaryRelated';
+import SummaryText from '@/components/Summary/SummaryText';
+import SummaryCharacter from '@/components/Summary/SummaryCharacter';
+// import SummaryTimeline from '@/components/Summary/SummaryTimeline';
+import SummaryCanonical from '@/components/Summary/SummaryCanonical';
+import SummaryRelated from '@/components/Summary/SummaryRelated';
 
 import withContainer from '@/components/Container';
 

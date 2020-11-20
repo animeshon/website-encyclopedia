@@ -4,9 +4,9 @@ import withContainer from '@/components/Container';
 import getSummary from '@/queries/character/Summary';
 import getAppearances from '@/queries/character/Appearances';
 
-import SummaryText from '@/components/SummaryText';
-import SummaryImages from '@/components/SummaryImages';
-import SummaryAppearance from '@/components/SummaryAppearance';
+import SummaryText from '@/components/Summary/SummaryText';
+import SummaryImages from '@/components/Summary/SummaryImages';
+import SummaryAppearance from '@/components/Summary/SummaryAppearance';
 import DetailsCard from '@/components/DetailsCard';
 
 import * as locale from '@/utilities/Localization';
