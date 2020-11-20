@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Search from '@/components/Search';
-import CharacterCard from '@/components/CharacterCard';
+import  CharacterCard  from '@/components/Character/CharacterCard';
 import ExpandableSection from '@/components/ExpandableSection';
 
 const MapAndSort = (chars, casts) => {
@@ -61,11 +61,14 @@ const FilteredCahracters = (map, filter, country) => {
 }
 
 const CharacterGrid = ({ characters, cast, nationalities }) => {
+    const [country, setCountry] = useState('jp');
+    const [filter, setFilter] = useState('');
+    
     const charactersMap = MapAndSort(characters, cast);
 
     const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"];
     const [open, setOpen] = useState({ "MAIN": true, "SUPPORT": true, "APPEARS": true });
-    const [charactersState, setSetCharacters] = useState(charactersMap);
+    const [charactersState, setSetCharacters] = useState(FilteredCahracters(charactersMap, filter, country));
 
     const openSection = (e, val) => {
         setOpen({
@@ -73,9 +76,6 @@ const CharacterGrid = ({ characters, cast, nationalities }) => {
             [e.currentTarget.name]: !val,
         });
     };
-
-    const [country, setCountry] = useState('jp');
-    const [filter, setFilter] = useState('');
 
     const onCountryChange = async (e) => {
         const { value } = e.currentTarget;

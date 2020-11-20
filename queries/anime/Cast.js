@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getCast = () => gql`
+export const getCast = () => gql`
   query details($id: String!) {
     result : getAnime(id:$id) {
     id

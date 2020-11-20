@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getCharacters = () => gql`
+export const getCharacters = () => gql`
   query details($id: String!) {
     result : getLightNovel(id:$id) {
     id

@@ -5,7 +5,7 @@ import getRelated from '@/queries/manga/Related';
 
 import DetailsCard from '@/components/DetailsCard';
 import SummaryText from '@/components/SummaryText';
-import SummaryCharacter from '@/components/SummaryCharacter';
+import SummaryCharacter from '@/components/Character/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
 import SummaryRelated from '@/components/SummaryRelated';

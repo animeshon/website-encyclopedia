@@ -6,7 +6,7 @@ import getRelated from '@/queries/anime/Related';
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
 import SummaryText from '@/components/SummaryText';
-import SummaryCharacter from '@/components/SummaryCharacter';
+import SummaryCharacter from '@/components/Character/SummaryCharacter';
 // import SummaryTimeline from '@/components/SummaryTimeline';
 import SummaryCanonical from '@/components/SummaryCanonical';
 import SummaryRelated from '@/components/SummaryRelated';
@@ -52,8 +52,8 @@ Anime.getInitialProps = async ctx => {
         PrepareKeyQuery("info", { id: id }, getSummary()),
         PrepareKeyQuery("related", { id: id }, getRelated()),
     ];
-    const {info, related} = await ExecuteQueryBatch(ctx, queries);
-    
+    const { info, related } = await ExecuteQueryBatch(ctx, queries);
+
     const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;
         return {

@@ -103,8 +103,8 @@ export function withContainer(WrappedComponent) {
         //static getInitialProps = WrappedComponent.getInitialProps
 
         static async getInitialProps(ctx) {
-            const type = ctx.pathname.split('/')[1];
             const { id } = ctx.query;
+            const type = uri.GuessType(ctx);
             const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, ContainerQuery(type)));
 
             // Get component’s props

@@ -87,3 +87,6 @@ const removeSymbols = (input) => {
     return result;
 };
 
+export const GuessType = (ctx) => {
+    return ctx.pathname.split('/')[1];
+}
