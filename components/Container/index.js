@@ -118,8 +118,8 @@ export function withContainer(WrappedComponent) {
                 type: data.__typename,
                 adult: rating.IsAdultOnly(data.ageRatings),
                 title: locale.EnglishAny(data.names),
-                banner: image.Cover(data.images, false, data.ageRatings),
-                image: image.ProfileAny(data.images, false, data.ageRatings),
+                banner: image.Cover(data.images, data.ageRatings),
+                image: image.ProfileAny(data.images, data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             };
 

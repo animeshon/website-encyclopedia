@@ -46,7 +46,7 @@ export const Age = (values) => {
             rating = Age(values[i].ageRatings);
         }
 
-        if (!rating) {
+        if (!rating === undefined) {
             continue;
         }
 
