@@ -40,7 +40,7 @@ const Sidebar = ({ open, closeSidebar, router}) => {
     }, [])
     const clickListener = useCallback( 
         e => {
-            console.log(`click, is open ${open}`);
+
             if (!(ref?.current)?.contains(e.target)) {
                 closeSidebar(e);
             }

@@ -41,16 +41,21 @@ const CanDisplay = (item, filter, country) => {
 
 
 const FilteredCahracters = (map, filter, country) => {
-    if (filter === '') {
-        return map;
-    }
-
     let newCharacter = {};
     Object.keys(map).map(i => {
-        newCharacter[i] = {
-            role: map[i].role,
-            items: map[i].items.filter(c => CanDisplay(c, filter, country)),
-        };
+        if (filter === '') {
+            newCharacter = map;
+        } else {
+            // filter cards, checking if the whole card match the filter
+            newCharacter[i] = {
+                role: map[i].role,
+                items: map[i].items.filter(c => CanDisplay(c, filter, country)),
+            };
+        }
+        // filter che voice actors according to the country
+        newCharacter[i].items ? newCharacter[i].items.map(item => {
+            item.cast ? item.cast = item.cast.filter(c => c.nationality == country) : undefined;
+        }) : undefined;
     });
     return newCharacter;
 }
@@ -75,13 +80,15 @@ const CharacterGrid = ({ characters, cast, nationalities }) => {
     const onCountryChange = async (e) => {
         const { value } = e.currentTarget;
         setCountry(value);
-        setSetCharacters(FilteredCahracters(charactersMap, filter, value));
     };
 
     const onFilterChange = (value) => {
-        setSetCharacters(FilteredCahracters(charactersMap, value, country));
         setFilter(value);
     };
+
+    useEffect(() => {
+        setSetCharacters(FilteredCahracters(charactersMap, filter, country));
+    }, [country, filter]);
 
     const NotFound = 'There is currently no information about characters available.';
 
@@ -91,19 +98,15 @@ const CharacterGrid = ({ characters, cast, nationalities }) => {
                 <header className="header-with-double-filter">
                     <h3>Characters</h3>
                     <div className="filter-container">
-                        <Search placeholder={"Search..."} action={onFilterChange}></Search>
+                        <Search placeholder={"Search..."} action={onFilterChange} delay={300}></Search>
 
                         {nationalities && nationalities.length ? (
-                            <select className="custom-select" default onChange={onCountryChange}>
+                            <select className="custom-select" value={country} onChange={onCountryChange}>
                                 {nationalities.map(notionality => {
                                     const { code, name } = notionality;
                                     if (code) {
                                         return (
-                                            <option
-                                                key={code}
-                                                value={code}
-                                                selected={code == country}
-                                            >
+                                            <option key={code} value={code}>
                                                 {name}
                                             </option>
                                         )
@@ -137,8 +140,7 @@ const CharacterGrid = ({ characters, cast, nationalities }) => {
                                     return (<CharacterCard
                                         key={item.character.id}
                                         character={item.character}
-                                        cast={item.cast}
-                                        country={country} />
+                                        cast={item.cast}/>
                                     );
                                 })}</>
                             )

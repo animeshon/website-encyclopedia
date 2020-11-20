@@ -6,7 +6,7 @@ import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
 
-const CharacterCard = ({ character, cast, country = undefined }) => {
+const CharacterCard = ({ character, cast }) => {
     const href = uri.Rewrite('Character', character.name, character.id);
 
     return (
@@ -22,26 +22,25 @@ const CharacterCard = ({ character, cast, country = undefined }) => {
 
             <div className="card__info cast__item-contents">
                 <header>
-                <Link href={href}>
-                    <a>
-                        <h4>{character.name}</h4>
-                    </a>
-                </Link>
-                {character.role && (
-                    <p className="card__role">{`${character.role}`}</p>
-                )}
+                    <Link href={href}>
+                        <a>
+                            <h4>{character.name}</h4>
+                        </a>
+                    </Link>
+                    {character.role && (
+                        <p className="card__role">{`${character.role}`}</p>
+                    )}
                 </header>
 
                 {cast ? cast.map(c => {
-                    if (CanDisplay(c, country)) {
-                        const person = c.person;
-                        return (<Button
-                            key={`${person.id}-${character.id}`}
-                            className="cherry-red medium character-button-ref"
-                            type="next-link"
-                            href={uri.Rewrite('Person', person.name, person.id)}
-                        >
-                            <span className="character-image">
+                    const person = c.person;
+                    return (<Button
+                        key={`${person.id}-${character.id}`}
+                        className="cherry-red medium character-button-ref"
+                        type="next-link"
+                        href={uri.Rewrite('Person', person.name, person.id)}
+                    >
+                        <span className="character-image">
                             <CardImage
                                 image={person.image}
                                 altText={person.name}
@@ -49,31 +48,21 @@ const CharacterCard = ({ character, cast, country = undefined }) => {
                                 gender={person.gender}
                                 forceSafe={false}
                             />
-                            </span>
-                            {c.nationality && (<span
-                                className={`fp fp-sm custom-fp ${c.nationality == 'en' ? 'gb': c.nationality}`}
-                            />)}
+                        </span>
+                        {c.nationality && (<span
+                            className={`fp fp-sm custom-fp ${c.nationality == 'en' ? 'gb' : c.nationality}`}
+                        />)}
 
-                            <span className="character-name">
-                                {person.name}
-                            </span>
-                            {/* TODO Primary */}
-                        </Button>)
-                    }})
-                : null } 
+                        <span className="character-name">
+                            {person.name}
+                        </span>
+                        {/* TODO Primary */}
+                    </Button>)
+                })
+                    : null}
             </div>
         </div>
     );
 };
-
-const CanDisplay = (cast, country) => {
-    if (undefined == country) {
-        return true
-    }
-    if (cast.nationality != country) {
-        return false;
-    }
-    return true;
-}
 
 export default CharacterCard;
