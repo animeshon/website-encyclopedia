@@ -12,15 +12,15 @@ const SummaryCanonical = ({ canonicals }) => {
             <header>
                 <h3>Canonical Franchise</h3>
                 <span />
-                    {/* <Link href={href}>
+                {/* <Link href={href}>
                         <a className="view-all-link">View all</a>
                     </Link> */}
             </header>
-            <ul className="adaptations-list">
-                {canonicals && canonicals.length ? canonicals.map(item => {
+            {canonicals && canonicals.length ? <ul className="adaptations-list">
+                {canonicals.map(item => {
                     return (<CanonicalPreview key={item.id} item={item} />);
-                }) : 'There is currently no information about canonical franchise available.'}
-            </ul>
+                })}
+            </ul> : 'There is currently no information about canonical franchise available.'}
         </section>
     );
 };

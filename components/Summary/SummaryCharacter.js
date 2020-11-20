@@ -19,11 +19,11 @@ const SummaryCharacter = ({ characters }) => {
                     <a className="view-all-link">View all</a>
                 </Link>
             </header>
-            <ul className="characters-list">
-                {characters && characters.length ? characters.map(item => {
+            {characters && characters.length ? <ul className="characters-list">
+                {characters.map(item => {
                     return (<CharacterPreview key={item.id} item={item} />);
-                }) : 'There is currently no information about characters available.'}
-            </ul>
+                })}
+            </ul> : 'There is currently no information about characters available.'}
         </section>
     );
 };

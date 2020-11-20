@@ -17,11 +17,9 @@ const SummaryRelated = ({ related }) => {
             <header>
                 <h3>Related</h3>
                 <span />
-                {related && related.length > SUMMARY_RELATED_MAX_NUM && (
-                    <Link href={href}>
-                        <a className="view-all-link">View all</a>
-                    </Link>
-                )}
+                <Link href={href}>
+                    <a className="view-all-link">View all</a>
+                </Link>
             </header>
             <div className="related grid-halves">
                 {related && related.length ?

@@ -18,15 +18,13 @@ const SummaryAppearance = ({ appearances }) => {
             <header>
                 <h3>Appearances</h3>
                 <span />
-                {appearances && appearances.length > SUMMARY_APPEARANCES_MAX_NUM && (
-                    <Link href={href}>
-                        <a className="view-all-link">View all</a>
-                    </Link>
-                )}
+                <Link href={href}>
+                    <a className="view-all-link">View all</a>
+                </Link>
             </header>
             <div className="appearences grid-halves">
                 {valid.length ? <AppearanceGrid appearances={valid} />
-                 : 'There is currently no appearance information available.'}
+                    : 'There is currently no appearance information available.'}
             </div>
 
         </section>
