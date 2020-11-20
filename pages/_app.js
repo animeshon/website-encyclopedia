@@ -8,9 +8,9 @@ import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from './../introspection/fragments.generated.json';
 
-import { SearchContext, searchReducer } from '@/ctx/search';
-import { LanguageContext, languageReducer } from '@/ctx/languages';
-import { UserContext, userReducer, SafeSearch } from '@/ctx/user';
+import { SearchContext, searchReducer } from '@/ctx/Search';
+import { LanguageContext, languageReducer } from '@/ctx/Languages';
+import { UserContext, userReducer, SafeSearch } from '@/ctx/User';
 
 // reset and grid css
 import '../theme/styles/reset.css';
