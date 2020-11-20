@@ -2,7 +2,8 @@ import React from 'react';
 
 import GetRelated from '@/queries/GetRelated';
 
-import RelatedGrid from '@/components/Related/RelatedCategory';
+import RelatedGrid from '@/components/Related/RelatedGrid';
+import ExpandableSection from '@/components/ExpandableSection';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -14,7 +15,31 @@ import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
+const MapAndSort = (array) => {
+    const mapRelated = {};
+    (array || []).forEach(i => {
+        if (mapRelated[i.relationType] === undefined) {
+            mapRelated[i.relationType] = {
+                type: i.relation,
+                items: [],
+            };
+        }
+        mapRelated[i.relationType].items.push(i);
+    });
+
+    Object.keys(mapRelated).map(i => {
+        (mapRelated[i].items || []).sort((x, y) => { return x.name < y.name ? -1 : x.name > y.name; });
+    });
+
+    return mapRelated;
+}
+
+
 const RelatedPage = ({ related, highlighted }) => {
+    const mapRelated = MapAndSort(related);
+    const k = Object.keys(mapRelated);
+    const keys = highlighted.concat(k.filter(e => !highlighted.includes(e)));
+
     return (
         <main className="landing__description">
             <section className="landing-section-box">
@@ -22,8 +47,11 @@ const RelatedPage = ({ related, highlighted }) => {
                     <h3>Related</h3>
                 </header>
             </section>
-            { related && related.length ?
-                (<RelatedGrid related={related} highlighted={highlighted} />)
+            { related && related.length ? keys.map(i => {
+                return mapRelated[i] ? (<ExpandableSection key={i} label={mapRelated[i].type}>
+                    <RelatedGrid related={mapRelated[i].items} />
+                </ExpandableSection>) : undefined;
+            })
                 : 'There is currently no related content available.'}
         </main>
     );

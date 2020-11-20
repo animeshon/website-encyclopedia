@@ -5,6 +5,7 @@ import GetCast from '@/queries/GetCast';
 
 import CharacterGrid from '@/components/Character/CharacterGrid';
 import CharacterCard from '@/components/Character/CharacterCard';
+import ExpandableSection from '@/components/ExpandableSection';
 import Search from '@/components/Search';
 
 import { Role } from '@/utilities/CharacterRole';
@@ -124,16 +125,14 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
                         const chars = charactersState[c] ? charactersState[c] : undefined;
                         if (filter == '') {
                             if (chars?.items?.length > 0) {
-                                return (<CharacterGrid key={`grid-${c}`} characters={chars} category={c} />)
+                                return (
+                                    <ExpandableSection key={c} label={chars.role} >
+                                        <CharacterGrid characters={chars.items} />
+                                    </ExpandableSection>
+                                )
                             }
                         } else {
-                            return (<>{chars?.items?.map(item => {
-                                return (<CharacterCard
-                                    key={item.character.id}
-                                    character={item.character}
-                                    cast={item.cast} />
-                                );
-                            })}</>)
+                            return (<CharacterGrid characters={chars?.items} />)
                         }
                     }) : NotFound}
                 </div>
