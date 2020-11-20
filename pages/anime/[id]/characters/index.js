@@ -4,9 +4,9 @@ import getCharacters from '@/queries/anime/Characters';
 import getCast from '@/queries/anime/Cast';
 
 import CharacterGrid from '@/components/CharacterGrid';
-import { CharacterRole } from '@/components/CharacterCard';
 import withContainer from '@/components/Container';
 
+import { Role } from '@/utilities/CharacterRole';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import { FromAlpha2 } from '@/utilities/Nationality';
@@ -35,7 +35,7 @@ Characters.getInitialProps = async ctx => {
             name: locale.LatinAny(names),
             japaneseName: locale.Japanese(names),
             image: image.ProfileAny(images),
-            role: CharacterRole(i.relation),
+            role: Role(i.relation),
             relation: i.relation,
         }
     });

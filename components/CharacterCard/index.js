@@ -6,19 +6,6 @@ import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
 
-export const CharacterRole = (role) => {
-    switch (role) {
-        case "MAIN":
-            return "Main Character";
-        case "SUPPORT":
-            return "Support Character";
-        case "APPEARS":
-            return "Appearance";
-    }
-
-    return undefined;
-};
-
 const CharacterCard = ({ character, cast, country = undefined }) => {
     const href = uri.Rewrite('Character', character.name, character.id);
 
