@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { withRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 
-import { SearchContext } from '@/ctx/search';
+import { SearchContext } from '@/ctx/Search';
 
 import { useInputChange } from '@/functions/inputChange';
 

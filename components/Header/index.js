@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 
-import { SearchContext } from '@/ctx/search';
+import { SearchContext } from '@/ctx/Search';
 
 import Sidebar from '@/components/Sidebar';
 

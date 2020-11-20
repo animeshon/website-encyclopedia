@@ -2,7 +2,7 @@ import React, { useContext, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
 
-import { UserContext } from '@/ctx/user';
+import { UserContext } from '@/ctx/User';
 
 const routes = [
     { href: 'https://animeshon.com/', label: 'About Animeshon' },

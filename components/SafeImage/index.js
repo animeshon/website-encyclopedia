@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { UserContext } from '@/ctx/user';
+import { UserContext } from '@/ctx/User';
 import { useContainer } from '@/components/Container';
 
 import  Button from '@/components/Button';
