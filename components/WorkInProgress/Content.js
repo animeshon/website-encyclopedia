@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ComingSoonContentGrid = ({ title }) => {
+const WorkInProgressContentGrid = ({ title }) => {
     return (
         <main className="anime-episodes__description grid">
             <section className="landing-section-box">
@@ -10,7 +10,7 @@ const ComingSoonContentGrid = ({ title }) => {
                 </header>
                 <div className="episodes-list">
                     {Array.apply(null, Array(5)).map(item => {
-                        return (<img className="coming-soon-content-image" alt="coming soon image"/>);
+                        return (<img key={item} className="coming-soon-content-image" alt="coming soon image"/>);
                     })}
                 </div>
             </section>
@@ -18,4 +18,4 @@ const ComingSoonContentGrid = ({ title }) => {
     );
 };
 
-export default ComingSoonContentGrid;
+export default WorkInProgressContentGrid;

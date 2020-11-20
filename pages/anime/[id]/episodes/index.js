@@ -1,11 +1,11 @@
 import React from 'react';
 
 import withContainer from '@/components/Container';
-import ComingSoonContentGrid from '@/components/ComingSoonGrid/Content';
+import WorkInProgressContentGrid from '@/components/WorkInProgress/Content';
 
 const Episodes = ({episodes}) => {
     return (
-        <ComingSoonContentGrid title={"Episodes"} />
+        <WorkInProgressContentGrid title={"Episodes"} />
     );
 };
 
