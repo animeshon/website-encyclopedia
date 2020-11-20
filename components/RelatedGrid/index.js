@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import RelatedCard from '@/components/RelatedCard';
 import ExpandableSection from '@/components/ExpandableSection';
-
-import { Type } from '@/utilities/MediaType';
 
 const MapAndSort = (array) => {
     const mapRelated = {};
@@ -29,20 +27,9 @@ const RelatedGrid = ({ related, highlighted }) => {
     const k = Object.keys(mapRelated);
     const keys = highlighted.concat(k.filter(e => !highlighted.includes(e)));
 
-    let state = {};
-    keys.forEach(o => state[o] = true);
-    const [open, setOpen] = useState(state);
-
-    const openSection = (e, val) => {
-        setOpen({
-            ...open,
-            [e.currentTarget.name]: !val,
-        });
-    };
-
     return (<>
         {keys.map(i => {
-            return mapRelated[i] ? (<ExpandableSection key={i} label={mapRelated[i].type} identifier={i} open={open} action={openSection}>
+            return mapRelated[i] ? (<ExpandableSection key={i} label={mapRelated[i].type}>
                 {mapRelated[i].items.map(item => {
                     return (<RelatedCard key={item.id} content={item} />);
                 })}

@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const ExpandableSection = ({ label, identifier, open, action, children }) => {
+const ExpandableSection = ({ label, openDefault = true, children }) => {
+    const [open, setOpen] = useState(openDefault);
+
     return (
-        <section key={identifier} className="expandable-section">
+        <section key={label} className="expandable-section">
             <h4>
-                <button name={identifier} onClick={e => action(e, open[identifier])} >
+                <button name={label} onClick={() => setOpen(!open)} >
                     <span className="label">
                         {label}
                     </span>
                     <span className="line" />
-                    <span className={`toggler ${open[identifier] ? 'opened' : 'closed' }`} />
+                    <span className={`toggler ${open ? 'opened' : 'closed' }`} />
                 </button>
             </h4>
-            <div className={`staff-members-holder ${open[identifier] ? 'opened' : 'closed'}`} >
+            <div className={`staff-members-holder ${open ? 'opened' : 'closed'}`} >
                 { children }
             </div>
         </section>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import AppearanceCard from '@/components/AppearanceCard';
 import ExpandableSection from '@/components/ExpandableSection';
@@ -30,18 +30,9 @@ const AppearanceGrid = ({ appearances }) => {
     const mapAppearances = MapAndSort(appearances);
     const keys = Object.keys(mapAppearances);
 
-    const [open, setOpen] = useState({ [keys[0]]: true });
-
-    const openSection = (e, val) => {
-        setOpen({
-            ...open,
-            [e.currentTarget.name]: !val,
-        });
-    };
-
     return (<div>
         {keys.map(i => {
-            return (<ExpandableSection key={i} label={i} identifier={Type(i)} open={open} action={openSection}>
+            return (<ExpandableSection key={i} label={Type(i)}>
                 {mapAppearances[i].map(item => {
                     return (<AppearanceCard key={item.id} content={item} />);
                 })}
