@@ -10,7 +10,7 @@ export const Cover = (images, ratings = null) => {
 };
 
 export const All = (images, ratings = null) => {
-    return images.map(i => Image(i, [], [], ratings, fallbackRegularAny));
+    return images.map(i => Image([i], [], [], ratings, fallbackRegularAny));
 }
 
 // Returns an Image object
