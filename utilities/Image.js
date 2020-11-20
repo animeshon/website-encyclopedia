@@ -44,7 +44,7 @@ export const Image = (images, types, formats, ratings = null, fallback = null) =
                 // if the image do not has it own rating
                 return {
                     uri: images[i].image.files[j].publicUri, 
-                    ratings: images[i].ageRatings ? images[i].ageRatings : ratings
+                    ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
                 };
             }
 
@@ -59,7 +59,7 @@ export const Image = (images, types, formats, ratings = null, fallback = null) =
                 // if the image do not has it own rating
                 return {
                     uri: images[i].image.files[j].publicUri, 
-                    ratings: images[i].ageRatings ? images[i].ageRatings : ratings
+                    ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
                 };
             }
         }
