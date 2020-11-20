@@ -1,6 +1,6 @@
 import React from 'react';
 
-import VolumeCard from '@/components/VolumeCard';
+import VolumeCard from '@/components/Volume/VolumeCard';
 
 const VolumeGrid = ({ volumes }) => {
     return (

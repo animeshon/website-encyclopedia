@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ChapterCard from '@/components/ChapterCard';
+import ChapterCard from '@/components/Chapter/ChapterCard';
 
 const ChapterGrid = ({ chapters }) => {
     return (
