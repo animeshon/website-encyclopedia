@@ -36,9 +36,6 @@ export default class AnimeshonDocument extends Document {
                     <meta name="google" content="nositelinkssearchbox" />
                     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: GoogleSearchScript }} />
                     {/* End Google Searchbox */}
-                    {/* Google Survey */}
-                    <script async={true} defer={true} src="//survey.g.doubleclick.net/async_survey?site=izdkrxttcx5fm4ctz5nya5ws6m" />
-                    {/* End Google Survey */}
                 </Head>
                 <body>
                     {/* Google Tag Manager (noscript) */}
