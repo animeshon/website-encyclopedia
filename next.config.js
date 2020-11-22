@@ -1,5 +1,5 @@
 module.exports = {
-    basePath: process.env.WEBSITE_BASEPATH || '/',
+    basePath: process.env.NEXTJS_BASEPATH || '',
     async rewrites() {
         return [
             // Primary <----------
