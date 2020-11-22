@@ -10,20 +10,20 @@
 }
 
 .coming-soon-content-image {
-    content:url('/images/coming-soon-content-wide.svg') !important;
+    content:url('../../public/images/coming-soon-content-wide.svg') !important;
     padding: 10px 0px;
     border-bottom: 1px dashed lightgray;
 } 
 
 @media screen and (max-width: 940px) {   
     .coming-soon-content-image {
-        content:url('/images/coming-soon-content-tablet.svg') !important;
+        content:url('../../public/images/coming-soon-content-tablet.svg') !important;
     } 
 }
 
 @media screen and (max-width: 630px) {   
     .coming-soon-content-image {
-        content:url('/images/coming-soon-content-mobile.svg') !important;
+        content:url('../../public/images/coming-soon-content-mobile.svg') !important;
     } 
 }
 

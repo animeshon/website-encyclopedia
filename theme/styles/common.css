@@ -1,36 +1,36 @@
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-Light.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-Light.ttf') format('truetype');
     font-style: normal;
     font-weight: 300;
 }
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-LightItalic.ttf') format('truetype');
     font-style: italic;
     font-weight: 300;
 }
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-Regular.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-Regular.ttf') format('truetype');
     font-style: normal;
     font-weight: 400;
 }
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-Italic.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-Italic.ttf') format('truetype');
     font-style: italic;
     font-weight: 400;
 }
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-Bold.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-Bold.ttf') format('truetype');
     font-style: normal;
     font-weight: 800;
 }
 @font-face {
     font-family: 'Roboto';
-    src: url('/fonts/roboto/Roboto-BoldItalic.ttf') format('truetype');
+    src: url('../../public/fonts/roboto/Roboto-BoldItalic.ttf') format('truetype');
     font-style: italic;
     font-weight: 800;
 }
@@ -460,7 +460,7 @@ main.landing__description {
         background-position: calc(100% - 10px) center;
         background-size: 30px;
         background-repeat: no-repeat;
-        background-image: url('/icons/structure/caret_arrow_down.png');
+        background-image: url('../../public/icons/structure/caret_arrow_down.png');
     }
 }
 
@@ -1595,7 +1595,7 @@ ul.grid-halves {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    background-image: url('/brand/animeshon-brand.svg');
+    background-image: url('../../public/brand/animeshon-brand.svg');
 }
 
 .home-search-box h1 span {
@@ -1731,7 +1731,7 @@ ul.grid-halves {
     display: block;
     width: 148px;
     height: 46px;
-    background: url('/brand/animeshon-brand-horizontal.svg');
+    background: url('../../public/brand/animeshon-brand-horizontal.svg');
     margin-right: 40px;
 }
 
