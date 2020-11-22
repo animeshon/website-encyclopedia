@@ -14,8 +14,9 @@ WORKDIR /build
 COPY --from=dependencies /build /build
 COPY . .
 
-ENV GRAPHQL_ENDPOINT "https://api.animeshon.com/graphql"
-ENV NEXTJS_BASEPATH "/e"
+ENV GRAPHQL_ENDPOINT    "https://api.animeshon.com/graphql"
+ENV NEXTJS_ASSET_PREFIX "/e"
+ENV NEXTJS_BASEPATH     "/e"
 
 RUN npm run build-fragment
 RUN npm run build

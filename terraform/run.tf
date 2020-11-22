@@ -45,7 +45,7 @@ resource "google_cloud_run_service" "encyclopedia" {
         }
 
         env {
-          name  = "NEXTJS_BASEPATH"
+          name  = "NEXTJS_ASSET_PREFIX"
           value = "/e"
         }
 
