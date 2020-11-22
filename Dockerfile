@@ -14,9 +14,16 @@ WORKDIR /build
 COPY --from=dependencies /build /build
 COPY . .
 
+# ! TODO: Figure out which ones are required at build-time and which ones at runtime.
+# ! TODO: Pass the variables as build args coming from the CI instead of hardcoding them.
 ENV GRAPHQL_ENDPOINT    "https://api.animeshon.com/graphql"
 ENV NEXTJS_ASSET_PREFIX "/e"
 ENV NEXTJS_BASEPATH     "/e"
+ENV HOST                "animeshon.com"
+ENV WEBSITE_NAME        "Animeshon Encyclopedia"
+ENV WEBSITE_BASEURL     "https://animeshon.com/e"
+ENV GTM_TRACKING_ID     "GTM-NRN5LVP"
+ENV NODE_ENV            "production"
 
 RUN npm run build-fragment
 RUN npm run build
