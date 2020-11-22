@@ -1,4 +1,5 @@
 module.exports = {
+    basePath: process.env.WEBSITE_BASEPATH || '/',
     async rewrites() {
         return [
             // Primary <----------
