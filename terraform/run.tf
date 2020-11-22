@@ -45,6 +45,11 @@ resource "google_cloud_run_service" "encyclopedia" {
         }
 
         env {
+          name  = "NEXTJS_BASEPATH"
+          value = "/e"
+        }
+
+        env {
           name  = "GRAPHQL_ENDPOINT"
           value = "https://api.animeshon.com/graphql"
         }
