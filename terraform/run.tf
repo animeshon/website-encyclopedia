@@ -31,7 +31,32 @@ resource "google_cloud_run_service" "encyclopedia" {
 
         env {
           name  = "HOST"
-          value = "encyclopedia.animeshon.com"
+          value = "animeshon.com"
+        }
+
+        env {
+          name  = "WEBSITE_NAME"
+          value = "Animeshon Encyclopedia"
+        }
+
+        env {
+          name  = "WEBSITE_BASEURL"
+          value = "https://animeshon.com/e"
+        }
+
+        env {
+          name  = "GRAPHQL_ENDPOINT"
+          value = "https://api.animeshon.com/graphql"
+        }
+
+        env {
+          name  = "GTM_TRACKING_ID"
+          value = "GTM-NRN5LVP"
+        }
+
+        env {
+          name  = "NODE_ENV"
+          value = "production"
         }
 
         resources {
@@ -47,21 +72,6 @@ resource "google_cloud_run_service" "encyclopedia" {
   traffic {
     percent         = 100
     latest_revision = true
-  }
-}
-
-# Configure the domain name mapping for the instance to encyclopedia.animeshon.com.
-resource "google_cloud_run_domain_mapping" "encyclopedia" {
-  project  = google_cloud_run_service.encyclopedia.project
-  location = google_cloud_run_service.encyclopedia.location
-  name     = "encyclopedia.animeshon.com"
-
-  metadata {
-    namespace = local.project_id
-  }
-
-  spec {
-    route_name = google_cloud_run_service.encyclopedia.name
   }
 }
 
