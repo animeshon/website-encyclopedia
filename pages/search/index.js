@@ -24,10 +24,9 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
             <Header isSearchAvailable />
             <em className="results-displayer">
                 Results displayed in {(queryTime).toFixed(2)} seconds
-            </em>
-            <div className="results-container">
+            </em><div className="results-container">
                 <div className="left-column">
-                <InfiniteScroll
+            {results && results.length ? (<InfiniteScroll
                     dataLength={results.length}
                     next={() => router.push({
                         pathname: '/search',
@@ -96,7 +95,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
                             </article>
                         );
                     })}
-                </InfiniteScroll>
+                </InfiniteScroll>) : (<>No result was found for the search term <strong>{searchTerm}</strong>.</>)}
                 </div>
                 <div className="right-column">
                     {/* TODO Universes */}
@@ -134,9 +133,9 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
         offset: 0,
         filter: filter,
     }
-    const res = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data.querySearch.res; }));
+    const res = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch?.res; }));
 
-    if (res instanceof Error) {
+    if (!res || res instanceof Error) {
         // TODO proper visualization of the errors
         return {results: [], hasMore: false}
     }
