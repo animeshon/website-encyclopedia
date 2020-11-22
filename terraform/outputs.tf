@@ -1,6 +1,6 @@
-output "network_endpoint_group_id" {
-  value = data.google_compute_region_network_endpoint_group.encyclopedia.id
+output "backend_service_id" {
+  value = google_compute_backend_service.encyclopedia.id
 }
-output "network_endpoint_group_name" {
-  value = data.google_compute_region_network_endpoint_group.encyclopedia.name
+output "backend_service_name" {
+  value = google_compute_backend_service.encyclopedia.name
 }
