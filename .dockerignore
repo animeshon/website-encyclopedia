@@ -4,9 +4,11 @@
 .git
 .gitignore
 /_backup
+/.github
 /.next
 /helm
 /nginx
 /node_modules
+/terraform
 Dockerfile
 README.md
