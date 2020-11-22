@@ -1,7 +1,7 @@
 {
-  "name": "animeshon_enciclopedia",
+  "name": "animeshon_encyclopedia",
   "version": "0.0.1",
-  "description": "Enciclopedia project with Nextjs and Modern Reactjs",
+  "description": "Animeshon Encyclopedia with NextJS and ReactJS",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -9,6 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:production": "next start -p $PORT",
     "build-fragment": "node introspection/generate.js"
   },
   "eslintConfig": {

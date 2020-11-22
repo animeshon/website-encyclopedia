@@ -3,6 +3,8 @@
 .dockerignore
 .git
 .gitignore
+/_backup
+/.next
 /helm
 /nginx
 /node_modules

@@ -1,0 +1,60 @@
+name: Production CI
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID_TIER_0 }}
+  GCR_CREDENTIALS: ${{ secrets.GCR_GENERAL_TIER_0_CREDENTIALS }}
+  TF_WORKSPACE: tier-0
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone the repository code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker images to Google Cloud Registry
+      uses: docker/build-push-action@v1
+      with:
+        username: _json_key
+        password: ${{ env.GCR_CREDENTIALS }}
+        registry: gcr.io
+        repository: ${{ env.PROJECT_ID }}/animeshon-com-e
+        tags: latest,${{ github.sha }}
+        tag_with_ref: true
+        tag_with_sha: true
+
+  provision:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clone the repository code
+      uses: actions/checkout@v2
+
+    - name: Setup the Terraform CLI
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_CREDENTIALS }}
+
+    - name: Initialize the Terraform working directory
+      working-directory: ./terraform
+      id: init
+      run: terraform init
+
+    - name: Setup Terraform variables
+      working-directory: ./terraform
+      id: vars
+      run: |-
+        cat > pipeline.auto.tfvars <<EOF
+        image_tag = "${{ github.sha }}"
+        EOF
+
+    - name: Apply the Terraform execution plan
+      working-directory: ./terraform
+      id: plan
+      run: terraform apply -auto-approve -no-color
