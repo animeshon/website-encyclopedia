@@ -15,7 +15,7 @@ export default class AnimeshonDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <link rel="shortcut icon" href={`${BASEURL}/brand/favicon.ico`} type="image/x-icon" />
+                    <link rel="icon" href={`${BASEURL}/brand/favicon.ico`} type="image/x-icon" />
                     {/* NOTE: Anti-flicker has to be actived once we start using Google Optimize, especially for A/B testing */}
 
                     {/* Anti-flicker snippet (recommended) */}
