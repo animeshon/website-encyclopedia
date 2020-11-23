@@ -30,32 +30,27 @@ resource "google_cloud_run_service" "encyclopedia" {
         image = format("gcr.io/gcp-animeshon-general/animeshon-com-e:%s", var.image_tag)
 
         env {
-          name  = "HOST"
+          name  = "NEXT_PUBLIC_HOST"
           value = "animeshon.com"
         }
 
         env {
-          name  = "WEBSITE_NAME"
+          name  = "NEXT_PUBLIC_WEBSITE_NAME"
           value = "Animeshon Encyclopedia"
         }
 
         env {
-          name  = "WEBSITE_BASEURL"
-          value = "https://animeshon.com/e"
-        }
-
-        env {
-          name  = "NEXTJS_ASSET_PREFIX"
+          name  = "NEXT_PUBLIC_ASSET_PREFIX"
           value = "/e"
         }
 
         env {
-          name  = "GRAPHQL_ENDPOINT"
+          name  = "NEXT_PUBLIC_GRAPHQL_ENDPOINT"
           value = "https://api.animeshon.com/graphql"
         }
 
         env {
-          name  = "GTM_TRACKING_ID"
+          name  = "NEXT_PUBLIC_TAG_MANAGER_ID"
           value = "GTM-NRN5LVP"
         }
 

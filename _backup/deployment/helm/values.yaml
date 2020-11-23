@@ -1,14 +1,4 @@
 fullnameOverride: "encyclopedia-frontend"
 
 nextjs:
-  env:
-  - name: WEBSITE_NAME
-    value: Animeshon Encyclopedia
-  - name: WEBSITE_BASEURL
-    value: https://animeshon.com/e
-  - name: GRAPHQL_ENDPOINT
-    value: https://api.animeshon.com/graphql
-  - name: GTM_TRACKING_ID
-    value: GTM-NRN5LVP
-#   - name: NODE_ENV
-#     value: "production"
+  env: [] # TODO

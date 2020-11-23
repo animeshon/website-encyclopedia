@@ -133,8 +133,8 @@ export function withContainer(WrappedComponent) {
                 title: text.Truncate(container.title, 64),
                 image: container.image,
 
-                site: process.env.WEBSITE_NAME || 'Animeshon Encyclopedia',
-                baseurl: process.env.WEBSITE_BASEURL || 'http://127.0.0.1:3000',
+                site: process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia',
+                baseurl: process.env.NEXT_PUBLIC_ASSET_PREFIX || '',
             }
 
             return {
