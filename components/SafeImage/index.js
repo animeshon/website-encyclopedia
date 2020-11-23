@@ -7,7 +7,7 @@ import Button from '@/components/Button';
 import { Age } from '@/utilities/AgeRating';
 
 const censor = (image, force, container) => {
-    const age = Age(image.ratings);
+    const age = image ? Age(image.ratings) : undefined;
     return age !== undefined ? age > 17 : (force && container.adult);
 }
 
