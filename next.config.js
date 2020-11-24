@@ -4,92 +4,146 @@ const assetPrefix = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 module.exports = {
     basePath: basePath,
     assetPrefix: assetPrefix,
+
     async rewrites() {
         return [
+            // ! TODO: This workaround is unfortunately necessary due to https://github.com/vercel/next.js/discussions/16958.
+            // ! NOTE: Path rewrite has been temporarily disabled in the "Cloud Load Balancing" configuration due to this issue.
+            {
+                source: '/search/:path*',
+                destination: '/search/:path*',
+            },
+            {
+                source: '/animeshon/:path*',
+                destination: '/animeshon/:path*',
+            },
+            {
+                source: '/',
+                destination: '/',
+            },
+
             // Primary <----------
             {
-                source: basePath + '/:slug-Anime-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Anime-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/anime/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Manga-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Manga-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/manga/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Doujinshi-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Doujinshi-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/doujinshi/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Light_Novel-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Light_Novel-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/light-novels/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Visual_Novel-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Visual_Novel-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/visual-novels/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Track-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Track-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/tracks/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
 
             // Releases <----------
             {
-                source: basePath + '/:slug-Release-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Release-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/releases/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Volume-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Volume-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/releases/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Music_Record-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Music_Record-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/releases/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
 
             // Secondary <----------
             {
-                source: basePath + '/:slug-Chapter-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Chapter-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/chapters/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Episode-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Episode-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/episodes/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
 
             // Actors & Organizations <----------
             {
-                source: basePath + '/:slug-Character-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Character-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/characters/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Organization-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Organization-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/organizations/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Person-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Person-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/people/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Magazine-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Magazine-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/magazines/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Circle-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Circle-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/circles/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Convention-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Convention-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/conventions/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
 
             // Special <----------
             {
-                source: basePath + '/:slug-Universe-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Universe-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/universes/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
             {
-                source: basePath + '/:slug-Canonical_Franchise-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Canonical_Franchise-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/canonicals/:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
             },
         ]
     },
