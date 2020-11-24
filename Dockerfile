@@ -17,9 +17,9 @@ COPY . .
 # ! TODO: Figure out which ones are required at build-time and which ones at runtime.
 # ! TODO: Pass the variables as build args coming from the CI instead of hardcoding them.
 ENV NEXT_PUBLIC_GRAPHQL_ENDPOINT    "https://api.animeshon.com/graphql"
+ENV NEXT_PUBLIC_HOST                "https://animeshon.com"
 ENV NEXT_PUBLIC_ASSET_PREFIX        "/e"
 ENV NEXT_PUBLIC_BASEPATH            "/e"
-ENV NEXT_PUBLIC_HOST                "animeshon.com"
 ENV NEXT_PUBLIC_WEBSITE_NAME        "Animeshon Encyclopedia"
 ENV NEXT_PUBLIC_TAG_MANAGER_ID      "GTM-NRN5LVP"
 

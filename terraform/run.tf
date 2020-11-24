@@ -31,7 +31,7 @@ resource "google_cloud_run_service" "encyclopedia" {
 
         env {
           name  = "NEXT_PUBLIC_HOST"
-          value = "animeshon.com"
+          value = "https://animeshon.com"
         }
 
         env {
