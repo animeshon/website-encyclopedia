@@ -57,7 +57,7 @@ const Header = ({ isSearchAvailable }) => {
 
     return (
         <header className="search-header">
-            <Link href="/" as="/">
+            <Link href="/">
                 <h1 className="brand">
                     <span>Search Manga and Anime</span>
                 </h1>

@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 const TAG_MANAGER_ID = process.env.NEXT_PUBLIC_TAG_MANAGER_ID || 'GTM-NRN5LVP';
-const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || 'http://127.0.0.1:3000';
+const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
 {/* https://developers.google.com/search/docs/data-types/sitelinks-searchbox */ }
 const GoogleSearchScript = `{"@context":"https://schema.org","@type":"WebSite","url":"https://animeshon.com/","potentialAction":{"@type":"SearchAction","target":"https://animeshon.com/e/search?q={search_term_string}","query-input":"required name=search_term_string"}}`;

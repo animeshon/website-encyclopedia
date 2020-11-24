@@ -3,37 +3,37 @@ import * as uri from '@/utilities/URI';
 export const AnimeNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/anime/[id]',
+        href: `/anime/[id]?id=${id}`,
         as: uri.Rewrite('Anime', name, id)
     },
     {
         label: 'Characters',
-        href: '/anime/[id]/characters',
+        href: `/anime/[id]/characters?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'characters')
     },
     {
         label: 'Related',
-        href: '/anime/[id]/related',
+        href: `/anime/[id]/related?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'related')
     },
     {
         label: 'Episodes',
-        href: '/anime/[id]/episodes',
+        href: `/anime/[id]/episodes?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'episodes')
     },
     {
         label: 'Companies',
-        href: '/anime/[id]/companies',
+        href: `/anime/[id]/companies?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'companies')
     },
     {
         label: 'Staff',
-        href: '/anime/[id]/staff',
+        href: `/anime/[id]/staff?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'staff')
     },
     // {
     //     label: 'Songs',
-    //     href: '/anime/[id]/songs',
+    //     href: `/anime/[id]/songs?id=${id}`,
     //     as: `/anime/${id}/songs`,
     // },
 ];
@@ -41,27 +41,27 @@ export const AnimeNavigation = (name, id) => [
 export const UniverseNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/universes/[id]',
+        href: `/universes/[id]?id=${id}`,
         as: uri.Rewrite('Universe', name, id)
     },
     {
         label: 'Manga',
-        href: '/universes/[id]/manga',
+        href: `/universes/[id]/manga?id=${id}`,
         as: uri.Rewrite('Universe', name, id, 'manga')
     },
     {
         label: 'Anime',
-        href: '/universes/[id]/anime',
+        href: `/universes/[id]/anime?id=${id}`,
         as: uri.Rewrite('Universe', name, id, 'anime')
     },
     {
         label: 'Light Novel',
-        href: '/universes/[id]/light-novel',
+        href: `/universes/[id]/light-novel?id=${id}`,
         as: uri.Rewrite('Universe', name, id, 'light-novel')
     },
     {
         label: 'Visual Novel',
-        href: '/universes/[id]/visual-novel',
+        href: `/universes/[id]/visual-novel?id=${id}`,
         as: uri.Rewrite('Universe', name, id, 'visual-novel')
     }
 ];
@@ -69,37 +69,37 @@ export const UniverseNavigation = (name, id) => [
 export const MangaNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/manga/[id]',
+        href: `/manga/[id]?id=${id}`,
         as: uri.Rewrite('Manga', name, id)
     },
     {
         label: 'Characters',
-        href: '/manga/[id]/characters',
+        href: `/manga/[id]/characters?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'characters')
     },
     {
         label: 'Related',
-        href: '/manga/[id]/related',
+        href: `/manga/[id]/related?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'related')
     },
     {
         label: 'Volumes',
-        href: '/manga/[id]/volumes',
+        href: `/manga/[id]/volumes?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'volumes')
     },
     {
         label: 'Chapters',
-        href: '/manga/[id]/chapters',
+        href: `/manga/[id]/chapters?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'chapters')
     },
     {
         label: 'Companies',
-        href: '/manga/[id]/companies',
+        href: `/manga/[id]/companies?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'companies')
     },
     {
         label: 'Staff',
-        href: '/manga/[id]/staff',
+        href: `/manga/[id]/staff?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'staff')
     },
 ];
@@ -107,37 +107,37 @@ export const MangaNavigation = (name, id) => [
 export const DoujinshiNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/doujinshi/[id]',
+        href: `/doujinshi/[id]?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id)
     },
     {
         label: 'Volumes',
-        href: '/doujinshi/[id]/volumes',
+        href: `/doujinshi/[id]/volumes?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'volumes')
     },
     {
         label: 'Chapters',
-        href: '/doujinshi/[id]/chapters',
+        href: `/doujinshi/[id]/chapters?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'chapters')
     },
     {
         label: 'Characters',
-        href: '/doujinshi/[id]/characters',
+        href: `/doujinshi/[id]/characters?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'characters')
     },
     {
         label: 'Related',
-        href: '/doujinshi/[id]/related',
+        href: `/doujinshi/[id]/related?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'related')
     },
     {
         label: 'Companies',
-        href: '/doujinshi/[id]/companies',
+        href: `/doujinshi/[id]/companies?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'companies')
     },
     {
         label: 'Staff',
-        href: '/doujinshi/[id]/staff',
+        href: `/doujinshi/[id]/staff?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'staff')
     },
 ];
@@ -145,37 +145,37 @@ export const DoujinshiNavigation = (name, id) => [
 export const LightNovelNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/light-novels/[id]',
+        href: `/light-novels/[id]?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id)
     },
     {
         label: 'Volumes',
-        href: '/light-novels/[id]/volumes',
+        href: `/light-novels/[id]/volumes?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'volumes')
     },
     {
         label: 'Chapters',
-        href: '/light-novels/[id]/chapters',
+        href: `/light-novels/[id]/chapters?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'chapters')
     },
     {
         label: 'Characters',
-        href: '/light-novels/[id]/characters',
+        href: `/light-novels/[id]/characters?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'characters')
     },
     {
         label: 'Related',
-        href: '/light-novels/[id]/related',
+        href: `/light-novels/[id]/related?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'related')
     },
     {
         label: 'Companies',
-        href: '/light-novels/[id]/companies',
+        href: `/light-novels/[id]/companies?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'companies')
     },
     {
         label: 'Staff',
-        href: '/light-novels/[id]/staff',
+        href: `/light-novels/[id]/staff?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'staff')
     },
 ];
@@ -183,7 +183,7 @@ export const LightNovelNavigation = (name, id) => [
 export const VisualNovelNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/visual-novels/[id]',
+        href: `/visual-novels/[id]?id=${id}`,
         as: uri.Rewrite('VisualNovel', name, id)
     },
 ];
@@ -191,22 +191,22 @@ export const VisualNovelNavigation = (name, id) => [
 export const CharacterNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/characters/[id]',
+        href: `/characters/[id]?id=${id}`,
         as: uri.Rewrite('Character', name, id)
     },
     {
         label: 'Appearances',
-        href: '/characters/[id]/appearances',
+        href: `/characters/[id]/appearances?id=${id}`,
         as: uri.Rewrite('Character', name, id, 'appearances')
     },
     {
         label: 'Voices',
-        href: '/characters/[id]/voices',
+        href: `/characters/[id]/voices?id=${id}`,
         as: uri.Rewrite('Character', name, id, 'voices')
     },
     {
         label: 'Pictures',
-        href: '/characters/[id]/pictures',
+        href: `/characters/[id]/pictures?id=${id}`,
         as: uri.Rewrite('Character', name, id, 'pictures')
     },
 ];
@@ -214,17 +214,17 @@ export const CharacterNavigation = (name, id) => [
 export const PeopleNavigation = (name, id) => [
     {
         label: 'Biography',
-        href: '/people/[id]',
+        href: `/people/[id]?id=${id}`,
         as: uri.Rewrite('Person', name, id)
     },
     {
         label: 'Productions',
-        href: '/people/[id]/productions',
+        href: `/people/[id]/productions?id=${id}`,
         as: uri.Rewrite('Person', name, id, 'productions')
     },
     {
         label: 'Organizations',
-        href: '/people/[id]/organizations',
+        href: `/people/[id]/organizations?id=${id}`,
         as: uri.Rewrite('Person', name, id, 'organizations')
     },
 ];
@@ -232,7 +232,7 @@ export const PeopleNavigation = (name, id) => [
 export const CompanyNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/organizations/[id]',
+        href: `/organizations/[id]?id=${id}`,
         as: uri.Rewrite('Organization', name, id)
     },
 ];
@@ -240,17 +240,17 @@ export const CompanyNavigation = (name, id) => [
 export const CircleNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/circles/[id]',
+        href: `/circles/[id]?id=${id}`,
         as: uri.Rewrite('Circle', name, id)
     },
     {
         label: 'Members',
-        href: '/circles/[id]/members',
+        href: `/circles/[id]/members?id=${id}`,
         as: uri.Rewrite('Circle', name, id, 'members')
     },
     {
         label: 'Productions',
-        href: '/circles/[id]/productions',
+        href: `/circles/[id]/productions?id=${id}`,
         as: uri.Rewrite('Circle', name, id, 'productions')
     },
 ];
@@ -258,12 +258,12 @@ export const CircleNavigation = (name, id) => [
 export const ConventionNavigation = (name, id) => [
     {
         label: 'Summary',
-        href: '/conventions/[id]',
+        href: `/conventions/[id]?id=${id}`,
         as: uri.Rewrite('Convention', name, id)
     },
     {
         label: 'Productions',
-        href: '/conventions/[id]/productions',
+        href: `/conventions/[id]/productions?id=${id}`,
         as: uri.Rewrite('Convention', name, id, 'productions')
     },
 ];

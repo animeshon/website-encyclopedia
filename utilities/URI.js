@@ -1,5 +1,8 @@
 import * as unicode from '@/utilities/Unicode';
 
+const BASEPATH = process.env.NEXT_PUBLIC_BASEPATH || '';
+const HOST = process.env.NEXT_PUBLIC_HOST || 'http://127.0.0.1:3000';
+
 export const Rewrite = (type, name, id, path = null) => {
     switch (type) {
         case 'Anime':
@@ -90,3 +93,11 @@ const removeSymbols = (input) => {
 export const GuessType = (ctx) => {
     return ctx.pathname.split('/')[1];
 }
+
+export const AbsoluteURI = (uri) => {
+    return HOST + BASEPATH + uri;
+};
+
+export const CanonicalURI = (pathname, id) => {
+    return AbsoluteURI(pathname.replace('[id]', id));
+};

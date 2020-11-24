@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 
 import Link from 'next/link';
 
-const TabNavigation = ({ items = [] }) => {
+const BASEPATH = process.env.NEXT_PUBLIC_BASEPATH || '';
+
+const TabNavigation = ({ items = [], selected }) => {
     const [isMobileMenu, setIsMobileMenu] = useState(false);
-    const { route } = useRouter();
 
     const handleMobileMenu = condition => {
         setIsMobileMenu(condition);
@@ -13,13 +14,13 @@ const TabNavigation = ({ items = [] }) => {
 
     const renderTabs = () =>
         items.map((item, index) => {
-            const selectedItem = route === item.href;
+            const isSelected = selected === item.label;
 
             return (
                 <li
                     key={index}
                     className={`tab-navigation__list-item${
-                        selectedItem === true ? ' selected' : ''
+                        isSelected ? ' selected' : ''
                     }`}
                 >
                     <Link href={item.href} as={item.as}>
@@ -29,15 +30,13 @@ const TabNavigation = ({ items = [] }) => {
             );
         });
     
-    const selectedLabel = items.filter(i => route === i.href)[0].label
-
     return (
         <div className="tab-navigation">
             <button
                 onClick={() => handleMobileMenu(true)}
                 className="tab-navigation__mobile"
             >
-                {selectedLabel}
+                {selected}
             </button>
             <div className="internal-grid">
                 <ul

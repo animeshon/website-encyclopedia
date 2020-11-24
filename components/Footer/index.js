@@ -30,12 +30,12 @@ const Footer = ({ contextualClass }) => {
                         </Link>
                     </li>
                     <li>
-                        <Link href="/animeshon/[page]" as="/animeshon/contacts">
+                        <Link href="/animeshon/[page]?page=contacts" as="/animeshon/contacts">
                             <a>Contacts</a>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/animeshon/[page]" as="/animeshon/license">
+                        <Link href="/animeshon/[page]?page=license" as="/animeshon/license">
                             <a>License</a>
                         </Link>
                     </li>

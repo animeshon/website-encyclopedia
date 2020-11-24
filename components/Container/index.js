@@ -23,6 +23,8 @@ import * as rating from '@/utilities/AgeRating';
 
 import { ContainerContext } from '@/ctx/Container';
 
+const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
+
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });
     return isMobile ? children : null;
@@ -30,13 +32,18 @@ const Mobile = ({ children }) => {
 
 const Container = ({ container, seo, children }) => {
     // ! TODO: The following trick seems to be not very clean.
-    const { route, asPath } = useRouter();
-    const selectedLabel = container.navigation.filter(i => route === i.href)[0].label;
+    // ! NOTE: asPath returns different values for the client-side and server-side.
+    const { pathname, query } = useRouter();
+
+    const subpath = pathname.split('/').slice(3).join('/');
+    const path = uri.Rewrite(container.type, container.title, container.id, subpath);
 
     // ! TODO: The following code isn't really reliable and should be refactored.
-    const path = asPath.split('/').slice(3).join('/');
-    const url = seo.baseurl + uri.Rewrite(container.type, container.title, container.id, path);
-    const canonical = seo.baseurl + asPath.split('/').slice(0, 3).join('/');
+    // ! Additionally, it only works client-side (selectedLabel is undefined in the server-side).
+    const selectedLabel = container.navigation.filter(i => path === i.as)[0]?.label;
+
+    const url = uri.AbsoluteURI(path);
+    const canonical = uri.CanonicalURI(pathname, query.id);
 
     return (
         <div>
@@ -73,7 +80,7 @@ const Container = ({ container, seo, children }) => {
                     image={container.banner}
                     breadcrumb={[container.type, container.title, selectedLabel]}
                 />
-                <TabNavigation items={container.navigation} selected={container.selected} />
+                <TabNavigation items={container.navigation} selected={selectedLabel} />
                 <div className="any-landing container">
                     <div className="any-landing__cover">
                         <ProfileImage
@@ -133,8 +140,7 @@ export function withContainer(WrappedComponent) {
                 title: text.Truncate(container.title, 64),
                 image: container.image,
 
-                site: process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia',
-                baseurl: process.env.NEXT_PUBLIC_ASSET_PREFIX || '',
+                site: WEBSITE_NAME,
             }
 
             return {
