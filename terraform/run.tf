@@ -40,6 +40,11 @@ resource "google_cloud_run_service" "encyclopedia" {
         }
 
         env {
+          name  = "NEXT_PUBLIC_BASEPATH"
+          value = "/e"
+        }
+
+        env {
           name  = "NEXT_PUBLIC_ASSET_PREFIX"
           value = "/e"
         }
