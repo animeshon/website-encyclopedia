@@ -3,14 +3,14 @@ import React from 'react';
 import withContainer from '@/components/Container';
 import WorkInProgressContentGrid from '@/components/WorkInProgress/Content';
 
-const Chpaters = ({ chapters }) => {
+const Chapters = ({ chapters }) => {
     return (
-        <WorkInProgressContentGrid title={"Chpaters"} />
+        <WorkInProgressContentGrid title={"Chapters"} />
     );
 };
 
-Chpaters.getInitialProps = async ctx => {
+Chapters.getInitialProps = async ctx => {
     return {};
 };
 
-export default withContainer(Chpaters);
+export default withContainer(Chapters);
