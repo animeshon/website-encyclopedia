@@ -262,9 +262,9 @@ export const ConventionNavigation = (name, id) => [
         as: uri.Rewrite('Convention', name, id)
     },
     {
-        label: 'Productions',
-        href: `/conventions/[id]/productions?id=${id}`,
-        as: uri.Rewrite('Convention', name, id, 'productions')
+        label: 'Releases',
+        href: `/conventions/[id]/releases?id=${id}`,
+        as: uri.Rewrite('Convention', name, id, 'releases')
     },
 ];
 

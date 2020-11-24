@@ -5,7 +5,7 @@ import WorkInProgressStaffGrid from '@/components/WorkInProgress/Staff';
 
 const Staff = ({people}) => {
     return (
-        <WorkInProgressStaffGrid title={"Productions"} />
+        <WorkInProgressStaffGrid title={"Releases"} />
     );
 };
 
