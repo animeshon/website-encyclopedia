@@ -1,0 +1,27 @@
+.results_displayer {
+    padding-top: 40px;
+    /* margin-top: 40px; */
+    max-width: 1040px;
+    margin-left: 220px;
+    display: block;
+    margin-bottom: 40px;
+    font-size: 13px;
+    color: #7f7f7f;
+    font-weight: 300;
+}
+
+@media screen and (max-width: 1280px) {
+    .results_displayer {
+        margin-left: 33px;
+        max-width: 1040px;
+    }
+}
+
+@media screen and (max-width: 940px) {
+    .results_displayer {
+        margin-left: 33px;
+        margin-right: 33px;
+        max-width: calc(100% - 66px);
+        width: calc(100% - 66px);
+    }
+}
