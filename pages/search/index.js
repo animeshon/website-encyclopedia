@@ -22,6 +22,7 @@ const Search = ({ router, queryTime, results, hasMore, searchTerm, page }) => {
     return (
         <>
             <Header isSearchAvailable />
+            <div className="header_padder"/>
             <em className="results-displayer">
                 Results displayed in {(queryTime).toFixed(2)} seconds
             </em><div className="results-container">

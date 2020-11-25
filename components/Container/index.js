@@ -74,6 +74,7 @@ const Container = ({ container, seo, children }) => {
             </Head>
             <div className="any">
                 <Header isSearchAvailable />
+                <div className="header_padder"/>
                 <BannerImage
                     title={container.title}
                     altText={container.title}

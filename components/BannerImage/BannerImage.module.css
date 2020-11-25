@@ -1,6 +1,6 @@
 /* Top Hero image */
 .hero_cover {
-    height: calc(315px + 96px);
+    height: 315px;
     background-color: #000;
     overflow: hidden;
     margin: 0;
@@ -9,7 +9,6 @@
     display: flex;
     align-items: center;
     position: relative;
-    padding-top: 96px;
 }
 
 .hero_cover__image {

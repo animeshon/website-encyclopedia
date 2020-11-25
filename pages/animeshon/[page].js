@@ -14,6 +14,7 @@ const Page = ({ router }) => {
     return (
         <>
             <Header isSearchAvailable={false} />
+            <div className="header_padder"/>
             {page == 'contacts' && <ContactUs />}
             {page == 'license' && <License />}
             {/* <Footer /> */}

@@ -65,6 +65,11 @@ footer {
     height: 100vh;
 }
 
+/* header padder */
+.header_padder {
+    min-height: 96px;
+}
+
 /* common pages typography */
 .text-container {
     padding: 30px 35px;
@@ -1086,7 +1091,7 @@ ul.grid-halves {
 }
 
 .results-displayer {
-    padding-top: calc(40px + 96px);
+    padding-top: 40px;
     /* margin-top: 40px; */
     max-width: 1040px;
     margin-left: 220px;
