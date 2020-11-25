@@ -13,7 +13,6 @@ const CharacterCard = ({ character, cast }) => {
 
     return (
         <div className={styles.cast__item}>
-        {/* <div className="card cast__item"> */}
             <Link href={href}>
                 <a>
                     <CardImage
@@ -24,7 +23,6 @@ const CharacterCard = ({ character, cast }) => {
             </Link>
 
             <div className={styles.cast__item_contents}>
-            {/* <div className="card__info cast__item-contents"> */}
                 <header>
                     <Link href={href}>
                         <a>
