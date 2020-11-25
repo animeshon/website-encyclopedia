@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import EntityTitle from '@/components//EntityTitle';
 import SafeImage from '@/components/SafeImage';
 
+import styles from './BannerImage.module.css';
+
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
 const Default = ({ children }) => {
@@ -13,14 +15,14 @@ const Default = ({ children }) => {
 
 const BannerImage = ({ title, breadcrumb = [], image, altText }) => {
     return (
-        <div className="hero-cover">
-            <div className="hero-cover__image">
+        <div className={styles.hero_cover}>
+            <div className={styles.hero_cover__image}>
                 {image ? <SafeImage image={image} altText={altText} /> : 
                  <img src={`${ASSET_PREFIX}/images/random-banner-${title.length % 4}.jpg`} alt={altText} />}
             </div>
-            <div className="hero-cover__shade" />
+            <div className={styles.hero_cover__shade} />
             <Default>
-                <div className="hero-cover__title">
+                <div className={styles.hero_cover__title}>
                     <EntityTitle key={title} title={title} breadcrumb={breadcrumb} />
                 </div>
             </Default>

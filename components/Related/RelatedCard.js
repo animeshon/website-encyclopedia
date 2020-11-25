@@ -6,15 +6,17 @@ import SafeImage from '@/components/SafeImage';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 
+import styles from './RelatedCard.module.css';
+
 const Related = ({ content }) => {
     const href = uri.Rewrite(content.type, content.name, content.id);
 
     return (
-        <div key={content.name} className="related__item">
-            <figure className="related__item-cover">
+        <div key={content.name} className={styles.related__item}>
+            <figure className={styles.related__item_cover}>
                 <SafeImage image={content.image} />
             </figure>
-            <article className="related__item-contents">
+            <article className={styles.related__item_contents}>
                 <header>
                     <p>{content.relation}</p>
                     <Link href={href}>

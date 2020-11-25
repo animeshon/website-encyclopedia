@@ -6,11 +6,14 @@ import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
 
+import styles from './CharacterCard.module.css';
+
 const CharacterCard = ({ character, cast }) => {
     const href = uri.Rewrite('Character', character.name, character.id);
 
     return (
-        <div className="card cast__item">
+        <div className={styles.cast__item}>
+        {/* <div className="card cast__item"> */}
             <Link href={href}>
                 <a>
                     <CardImage
@@ -20,7 +23,8 @@ const CharacterCard = ({ character, cast }) => {
                 </a>
             </Link>
 
-            <div className="card__info cast__item-contents">
+            <div className={styles.cast__item_contents}>
+            {/* <div className="card__info cast__item-contents"> */}
                 <header>
                     <Link href={href}>
                         <a>

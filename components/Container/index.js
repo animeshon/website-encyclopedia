@@ -7,7 +7,7 @@ import BannerImage from '@/components/BannerImage';
 import ProfileImage from '@/components/ProfileImage';
 import TabNavigation from '@/components/TabNavigation';
 import EntityTitle from '@/components/EntityTitle';
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 

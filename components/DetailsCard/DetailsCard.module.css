@@ -1,0 +1,43 @@
+
+/* Details Box */
+.details__table {
+    margin-top: 20px;
+}
+.details__row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    line-height: 1.5;
+    font-size: 14px;
+}
+.details__row:last-child {
+    margin-bottom: 0;
+}
+.details__key {
+    font-weight: 700;
+    width: 110px;
+    margin-right: 10px;
+}
+.details__value {
+    font-weight: 300;
+    width: 100%;
+    color: #6e6e6e;
+    text-transform: capitalize;
+    white-space: pre-wrap;
+}
+.details__value ul {
+    list-style: none;
+}
+.details__value p {
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.details__value p:last-child {
+    margin-bottom: 0;
+}
+.details__breaker {
+    margin: 20px 0;
+    border: none;
+    border-bottom: 1px dotted #cfcfcf;
+}

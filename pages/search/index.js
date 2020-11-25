@@ -3,7 +3,7 @@ import { withRouter } from 'next/router';
 
 import { performSearch, details } from '@/queries/search/Search';
 
-import Header from '@/components/Header';
+import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer';
 import SafeImage from '@/components/SafeImage';
 

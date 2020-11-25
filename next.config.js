@@ -5,6 +5,10 @@ module.exports = {
     basePath: basePath,
     assetPrefix: assetPrefix,
 
+    images: {
+        domains: ['cdn.i.animeshon.com'],
+    },
+
     async rewrites() {
         return [
             // ! TODO: This workaround is unfortunately necessary due to https://github.com/vercel/next.js/discussions/16958.

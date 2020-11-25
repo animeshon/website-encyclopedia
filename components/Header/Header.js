@@ -4,7 +4,9 @@ import Router from 'next/router';
 
 import { SearchContext } from '@/ctx/Search';
 
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/components/Header/Sidebar';
+
+import styles from './Header.module.css';
 
 const Header = ({ isSearchAvailable }) => {
     const { search, dispatchSearch } = useContext(SearchContext);
@@ -56,29 +58,29 @@ const Header = ({ isSearchAvailable }) => {
     };
 
     return (
-        <header className="search-header">
+        <header className={styles.search_header}>
             <Link href="/">
-                <h1 className="brand">
+                <h1 className={styles.brand}>
                     <span>Search Manga and Anime</span>
                 </h1>
             </Link>
             {isSearchAvailable ? (
-                <form onSubmit={handleQuerySubmit} className="search-group">
+                <form onSubmit={handleQuerySubmit} className={styles.search_group}>
                     <input
                         type="text"
-                        className="search-input"
+                        className={styles.search_input}
                         name="searchQuery"
                         value={search.search}
                         onChange={handleInputChange}
                     />
                 </form>
             ) : (
-                    <div className="search-group" />
+                    <div className={styles.search_group} />
                 )}
             <button
                 onClick={handleSidebarOpening}
                 id="sidebar-opener"
-                className="hamburger-icon"
+                className={styles.hamburger_icon}
             >
                 <span />
                 <span />

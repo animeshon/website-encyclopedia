@@ -1,0 +1,65 @@
+.expandable_section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.expandable_section h4 {
+    width: 100%;
+}
+.expandable_section h4 button {
+    border: none;
+    appearance: none;
+    cursor: pointer;
+    display: flex;
+    text-transform: capitalize;
+    width: 100%;
+    padding: 0;
+    outline: none;
+    background-color: transparent;
+}
+.expandable_section h4 .label {
+    flex: none;
+    font-weight: 700;
+}
+.expandable_section h4 .line {
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid #dfdfdf;
+    position: relative;
+    top: -3px;
+    margin-left: 12px;
+    align-self: flex-end;
+}
+
+.expandable_section h4 .toggler {
+    border-left: 2px solid #bfbfbf;
+    border-bottom: 2px solid #bfbfbf;
+    transition: transform 300ms ease-in-out;
+    transform: rotate(135deg) translateX(8px) translateY(-2px);
+    height: 0px;
+    width: 0px;
+    margin: 0 0 0 20px;
+    padding: 6px;
+    position: relative;
+    top: 4px;
+}
+
+.expanded_section {
+    overflow: hidden;
+    transition: 300ms ease-in-out;
+    display: flex;
+    flex-wrap: wrap;
+}
+.expanded_section.opened {
+    margin-top: 25px;
+    height: auto;
+}
+.expanded_section.closed {
+    margin-top: 0;
+    height: 0;
+}
+
+.expandable_section h4 .toggler.opened {
+    transform: rotate(-45deg) translateX(0px) translateY(-6px);
+}

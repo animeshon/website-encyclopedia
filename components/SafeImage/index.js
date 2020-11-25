@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import Image from 'next/image'
 import { UserContext } from '@/ctx/User';
 import { useContainer } from '@/components/Container';
 

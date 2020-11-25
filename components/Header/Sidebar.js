@@ -4,6 +4,8 @@ import { withRouter } from 'next/router';
 
 import { UserContext } from '@/ctx/User';
 
+import styles from './Header.module.css';
+
 const routes = [
     { href: 'https://animeshon.com/', label: 'About Animeshon' },
     { href: 'https://www.iubenda.com/privacy-policy/48776658', label: 'Privacy Policy' },
@@ -73,7 +75,7 @@ const Sidebar = ({ open, closeSidebar, router}) => {
     };
 
     return (
-        <aside ref={ref} className={`sidebar${open ? ' opened' : ''}`}>
+        <aside ref={ref} className={`${styles.sidebar} ${open ? styles.opened : ''}`}>
             <ul>
                 <RenderRoutes
                     arr={routes}
@@ -82,8 +84,8 @@ const Sidebar = ({ open, closeSidebar, router}) => {
                 />
                 <li>
                     <button onClick={onSwitchSafeSearch}>Safe Search {user.safeSearch ?
-                        (<span className='safe-search enabled'>ON</span>) :
-                        (<span className='safe-search disabled'>OFF</span>)}</button>
+                        (<span className={`${styles.safe_search} ${styles.enabled}`}>ON</span>) :
+                        (<span className={`${styles.safe_search} ${styles.disabled}`}>OFF</span>)}</button>
                 </li>
             </ul>
         </aside>

@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import styles from './DetailsCard.module.css';
+
 // NOTE: The following are all possible formats:
 
 // [[{key: 'Key', value: 'Value'}]]
@@ -10,11 +12,11 @@ export const DetailsCard = ({ items }) => {
     var counter = 0;
 
     return (
-        <div className="details__table">
+        <div className={styles.details__table}>
             {items.map(item => {
                 var blocks = [];
                 if (counter) {
-                    blocks.push(<hr className="details__breaker" key={JSON.stringify(item)} />);
+                    blocks.push(<hr className={styles.details__breaker} key={JSON.stringify(item)} />);
                 }
                 counter = 0;
 
@@ -41,9 +43,9 @@ export const DetailsCard = ({ items }) => {
 
                     const flag = pair.flag ? (<span className={`fp fp-sm custom-fp ${pair.flag}`} />) : undefined;
                     return (
-                        <div className="details__row" key={pair.key}>
-                            <div className="details__key">{pair.key}</div>
-                            <div className="details__value">{flag}{value}</div>
+                        <div className={styles.details__row} key={pair.key}>
+                            <div className={styles.details__key}>{pair.key}</div>
+                            <div className={styles.details__value}>{flag}{value}</div>
                         </div>
                     );
                 }));

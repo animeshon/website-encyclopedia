@@ -1,0 +1,126 @@
+/* Characters Voice Actors */
+.voice_actor {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #cfcfcf;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.voice_actor figure {
+    max-width: 150px;
+    height: 216px;
+    min-width: 120px;
+    overflow: hidden;
+    margin: 0 20px 0 0;
+    padding: 0;
+    border-radius: 5px 0 0 5px;
+}
+.voice_actor figure img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.voice_actor__descriptions header h4 {
+    color: #1e7492;
+    font-weight: 400;
+}
+.voice_actor__descriptions header h5 {
+    color: #656565;
+    font-weight: 200;
+}
+
+.voice_actor__descriptions header h4,
+.voice_actor__descriptions header h5 {
+    margin-bottom: 8px;
+}
+
+.voice_actor__descriptions header p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.voice_actor aside {
+    flex: 1;
+}
+.voice_actor__descriptions {
+    display: flex;
+    margin: 20px 20px 20px 0;
+    flex-direction: column;
+    min-width: 180px;
+    max-width: 200px;
+    max-height: 196px;
+    justify-content: space-between;
+}
+.voice_actor aside {
+    margin: 20px 20px 20px 0;
+    padding-left: 20px;
+    border-left: 1px dotted #ddd;
+    width: 100%;
+    min-width: 200px;
+}
+
+.voice_actor aside h6 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.voice_actor aside h6 span {
+    font-weight: 500;
+}
+
+.voice_actor aside p {
+    line-height: 1.6;
+    font-size: 14px;
+    margin: 3px 0 3px;
+    display: block;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.voice_actor aside .more_trigger {
+    list-style: none;
+}
+.voice_actor aside .more_trigger button {
+    border: none;
+    appearance: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ef0c40;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 930px) {
+    .voice_actor aside {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 635px) {
+    .voice_actor__descriptions {
+        flex: 1;
+        min-width: unset;
+        max-width: unset;
+    }
+    .voice_actor aside {
+        margin: 0 20px 20px 20px;
+        padding-left: 0;
+        padding-top: 20px;
+        border: none;
+        border-top: 1px dotted #cfcfcf;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .voice_actor figure {
+        max-width: 100px;
+    }
+    .voice_actor aside {
+        min-width: 270px;
+    }
+}

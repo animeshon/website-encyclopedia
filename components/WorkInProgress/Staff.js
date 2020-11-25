@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './WorkInProgress.module.css';
 
 const WorkInProgressStaffCard = ({ w1, w2, w3, w4 }) => {
     return (
@@ -8,16 +9,16 @@ const WorkInProgressStaffCard = ({ w1, w2, w3, w4 }) => {
             </figure>
             <div className="card__info">
                 <p className="card__jap-name" >
-                    <div className="coming-soon-staff-title" style={{width : w1}}/>
+                    <div className={styles.coming_soon_staff_title} style={{width : w1}}/>
                 </p>
                 <p className="card__jap-name">
-                    <div className="coming-soon-staff-title" style={{width : w2}}/>
+                    <div className={styles.coming_soon_staff_title} style={{width : w2}}/>
                 </p>
                 <p className="card__role">
-                    <div className="coming-soon-staff-small" style={{width : w3}}/>
+                    <div className={styles.coming_soon_staff_small} style={{width : w3}}/>
                 </p>
                 <p className="card__role">
-                    <div className="coming-soon-staff-small" style={{width : w4}}/>
+                    <div className={styles.coming_soon_staff_small} style={{width : w4}}/>
                 </p>
             </div>
         </div>
@@ -30,8 +31,8 @@ const WorkInProgressStaffGrid = ({ title }) => {
         <main className="anime-episodes__description grid">
             <section className="landing-section-box">
                 <header>
-                    <h3 className="coming-soon-title">{title}</h3>
-                    <h3 className="coming-soon-alert">Work in progress!</h3>
+                    <h3 className={styles.coming_soon_title}>{title}</h3>
+                    <h3 className={styles.coming_soon_alert}>Work in progress!</h3>
                 </header>
 
                 {Array.apply(null, Array(3)).map(item => {
@@ -39,7 +40,7 @@ const WorkInProgressStaffGrid = ({ title }) => {
                         <h4>
                             <button>
                                 <span className="label">
-                                    <div className="coming-soon-staff-header"></div>
+                                    <div className={styles.coming_soon_staff_header}></div>
                                 </span>
                                 <span className="line" />
                                 <span

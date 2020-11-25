@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+
+import styles from './TabNavigation.module.css';
 
 import Link from 'next/link';
 
@@ -19,9 +20,8 @@ const TabNavigation = ({ items = [], selected }) => {
             return (
                 <li
                     key={index}
-                    className={`tab-navigation__list-item${
-                        isSelected ? ' selected' : ''
-                    }`}
+                    className={`${styles.tab_navigation__list_item} 
+                    ${isSelected ? styles.selected : ''}`}
                 >
                     <Link href={item.href} as={item.as}>
                         <a>{item.label}</a>
@@ -29,26 +29,26 @@ const TabNavigation = ({ items = [], selected }) => {
                 </li>
             );
         });
-    
+
     return (
-        <div className="tab-navigation">
+        <div className={styles.tab_navigation}>
             <button
                 onClick={() => handleMobileMenu(true)}
-                className="tab-navigation__mobile"
+                className={styles.tab_navigation__mobile}
             >
                 {selected}
             </button>
             <div className="internal-grid">
                 <ul
-                    className={`tab-navigation__list${
-                        isMobileMenu ? ' opened' : ''
-                    }`}
+                    className={`${styles.tab_navigation__list} 
+                    ${isMobileMenu ? styles.opened : ''}
+                    `}
                 >
                     {renderTabs()}
                 </ul>
             </div>
             <div
-                className={`overlay${isMobileMenu ? ' visible' : 'invisible'}`}
+                className={`${styles.overlay} ${isMobileMenu ? styles.visible : styles.invisible}`}
                 onClick={() => handleMobileMenu(false)}
             />
         </div>

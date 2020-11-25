@@ -1,80 +1,14 @@
 import React from 'react';
 
 import withContainer from '@/components/Container';
-
 import getVoiceActors from '@/queries/character/VoiceActors';
 
-import CardImage from '@/components/Card/Image';
+import VoicedCard from '@/components/Voiced/VoicedCard';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as uri from '@/utilities/URI';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
-
-import Link from 'next/link';
-
-import Button from '@/components/Button';
-
-const Gender = (role) => {
-    switch (role) {
-        case "MALE":
-            return "Male";
-        case "FEMALE":
-            return "Female";
-    }
-
-    return undefined;
-};
-
-const VoiceActorCard = ({ voiceActor }) => {
-    return (
-        <article className="voice-actor">
-            <CardImage
-                gender={voiceActor.gender}
-                image={voiceActor.image}
-                altText={voiceActor.name}
-                className={""}
-            />
-            <div className="voice-actor__descriptions">
-                <header>
-                    <h4>
-                        {voiceActor.name}
-                    </h4>
-                    {voiceActor.japaneseName && (
-                        <h5> {voiceActor.japaneseName} </h5>
-                    )}
-                    <p className="appearences__media-type">
-                        {voiceActor.nationality && (<span
-                            className={`fp fp-sm custom-fp ${voiceActor.nationality == 'en' ? 'gb': voiceActor.nationality}`}
-                        />)}
-                        {Gender(voiceActor.gender) && (
-                            <h5> {Gender(voiceActor.gender)} </h5>
-                        )}
-                    </p>
-                </header>
-                <Button
-                    className="cherry-red medium"
-                    href={uri.Rewrite('Person', voiceActor.name, voiceActor.id)}
-                    type="next-link"
-                >
-                    More
-                    </Button>
-            </div>
-            <aside>
-                {voiceActor.productions.map(production => {
-                    return (
-                        <p key={`${voiceActor.id}-${production.id}`}>
-                            <Link href={uri.Rewrite(production.type, production.name, production.id)} >
-                                <a>{production.name}</a>
-                            </Link>
-                        </p>
-                    );
-                })}
-            </aside>
-        </article>
-    );
-};
 
 const MapVoiceActors = (voiceActors) => {
     let mapVoiceActors = {};
@@ -112,7 +46,7 @@ const VoiceActors = ({ voiceActors }) => {
             </section>
             <div className="grid-halves">
              { keys && keys.length ? keys.map(k => {
-                 return (<VoiceActorCard key={k} voiceActor={mapVoiceActors[k]}/>)
+                 return (<VoicedCard key={k} voiceActor={mapVoiceActors[k]}/>)
              }): 'There is currently no appearance information available.'}
             </div>
         </main>

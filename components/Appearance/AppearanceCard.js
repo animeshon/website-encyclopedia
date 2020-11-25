@@ -6,15 +6,17 @@ import SafeImage from '@/components/SafeImage';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 
+import styles from './AppearanceCard.module.css';
+
 const AppearanceCard = ({ content }) => {
     const href = uri.Rewrite(content.type, content.name, content.id);
 
     return (
-        <div key={content.name} className="appearences__item">
-            <figure className="appearences__item-cover">
+        <div key={content.name} className={styles.appearences__item}>
+            <figure className={styles.appearences__item_cover}>
                 <SafeImage image={content.image} />
             </figure>
-            <article className="appearences__item-contents">
+            <article className={styles.appearences__item_contents}>
                 <header>
                     <Link href={href}>
                         <a>

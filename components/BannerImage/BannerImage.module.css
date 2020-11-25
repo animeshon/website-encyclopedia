@@ -1,0 +1,84 @@
+/* Top Hero image */
+.hero_cover {
+    height: calc(315px + 96px);
+    background-color: #000;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-top: 96px;
+}
+
+.hero_cover__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 0;
+}
+
+.hero_cover__image img {
+    width: 100%;
+}
+
+.hero_cover__shade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 210px;
+    margin: auto;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.77),
+        rgba(0, 0, 0, 0.7),
+        rgba(0, 0, 0, 0.63),
+        rgba(0, 0, 0, 0.56),
+        rgba(0, 0, 0, 0.49),
+        rgba(0, 0, 0, 0.42),
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.28),
+        rgba(0, 0, 0, 0.21),
+        rgba(0, 0, 0, 0.14),
+        rgba(0, 0, 0, 0.07),
+        rgba(0, 0, 0, 0)
+    );
+    z-index: 0;
+}
+.hero_cover__title {
+    position: absolute;
+    z-index: 10;
+    bottom: 20px;
+    width: 100%;
+    max-width: 1440px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    padding-left: 295px;
+    color: #fff;
+    letter-spacing: 0.05em;
+}
+
+@media screen and (max-width: 1024px) {
+    .hero_cover__title {
+        padding-left: 235px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero_cover {
+        height: 230px;
+    }
+    .hero_cover__title {
+        display: none;
+    }
+}
+
+/* Anime / Manga / Light-Novel / Games / Visual-Novels */
+.hero_cover__title h1 {
+    font-size: 30px;
+}
