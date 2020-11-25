@@ -14,6 +14,9 @@ const censor = (image, force, container) => {
     return age !== undefined ? age > 17 : (force && container.adult);
 }
 
+// TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
+// https://nextjs.org/docs/api-reference/next/image
+
 const SafeImage = ({ image, altText, force = true, displayButton = false }) => {
     const { user, dispatchUser } = useContext(UserContext);
     const container = useContainer();
