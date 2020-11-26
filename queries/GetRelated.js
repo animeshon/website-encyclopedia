@@ -3,6 +3,7 @@ import * as anime from '@/queries/anime/Related';
 import * as manga from '@/queries/manga/Related';
 import * as lightNovel from '@/queries/light-novel/Related';
 import * as doujinshi from '@/queries/doujinshi/Related';
+import * as visualNovel from '@/queries/visual-novel/Related';
 
 // ! keep synced with first element of the url in nex.config.js
 // TODO remove after dgraph resolves resolution of fragments on interfaces
@@ -15,6 +16,7 @@ const GetRelated = (type) => {
         "manga": manga.getRelated,
         "light-novels": lightNovel.getRelated,
         "doujinshi": doujinshi.getRelated,
+        "visual-novels": visualNovel.getRelated,
     }
     if (typeToQuery[type] === undefined) {
         return undefined;

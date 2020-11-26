@@ -20,6 +20,7 @@ import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
+import { Length } from '@/utilities/VisualNovelLength';
 
 const ContentPage = ({
     description,
@@ -95,6 +96,8 @@ ContentPage.getInitialProps = async ctx => {
         };
     });
 
+    const length = info.__typename == "VisualNovel" ? Length(info.length) : undefined;
+
     return {
         description: locale.English(info.descriptions),
         characters: characters,
@@ -113,6 +116,7 @@ ContentPage.getInitialProps = async ctx => {
                 { key: 'Episodes', value: info.episodes?.length },
                 { key: 'Status', value: stat.Status(info.status) },
                 { key: 'Season', value: season.JapanAny(info.runnings) },
+                { key: 'Length', value: length },
                 { key: 'Published', value: undefined }, // TODO: <---------------------------
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
             ],

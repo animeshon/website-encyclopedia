@@ -1,5 +1,6 @@
 
 import * as anime from '@/queries/anime/Cast';
+import * as visualNovel from '@/queries/visual-novel/Cast';
 
 // ! keep synced with first element of the url in nex.config.js
 // TODO remove after dgraph resolves resolution of fragments on interfaces
@@ -9,6 +10,7 @@ import * as anime from '@/queries/anime/Cast';
 const GetCast = (type) => {
     const typeToQuery = {
         "anime": anime.getCast,
+        "visual-novels": visualNovel.getCast,
     }
     if (typeToQuery[type] === undefined) {
         return undefined;

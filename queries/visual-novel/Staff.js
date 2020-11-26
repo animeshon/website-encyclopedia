@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 const getStaff = id => gql`
 {
-  queryAnime(filter: {id: {eq: "${id}"}}) {
+  queryVisualNovel(filter: {id: {eq: "${id}"}}) {
     id
     names @cascade {
       text

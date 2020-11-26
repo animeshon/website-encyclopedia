@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-const getStaff = id => gql`
+const getOrganizations = id => gql`
 {
-  queryAnime(filter: {id: {eq: "${id}"}}) {
+  queryVisualNovel(filter: {id: {eq: "${id}"}}) {
     id
     names @cascade {
       text
@@ -21,14 +21,14 @@ const getStaff = id => gql`
           code
         }
         country {
-          code
+          alpha2
         }
       }
       collaborator {
-        ... on Organization {
+        ... on Person {
           id
         }
-        ... on Person {
+        ... on Organization {
           id
           images(first: 1, filter: {type: {eq: PROFILE}}) {
             image {
@@ -58,8 +58,16 @@ const getStaff = id => gql`
         ... on FreeTextRole {
           id
           tag
-          names {
+          names @cascade {
             text
+            localization {
+              language(filter: {code: {eq: "eng"}}) {
+                code
+              }
+              script {
+                code
+              }
+            }
           }
         }
       }
@@ -74,6 +82,7 @@ const getStaff = id => gql`
     }
   }
 }
+
 `;
 
-export default getStaff;
+export default getOrganizations;

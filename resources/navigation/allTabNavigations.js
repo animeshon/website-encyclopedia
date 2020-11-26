@@ -186,6 +186,26 @@ export const VisualNovelNavigation = (name, id) => [
         href: `/visual-novels/[id]?id=${id}`,
         as: uri.Rewrite('VisualNovel', name, id)
     },
+    {
+        label: 'Characters',
+        href: `/visual-novels/[id]/characters?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'characters')
+    },
+    {
+        label: 'Related',
+        href: `/visual-novels/[id]/related?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'related')
+    },
+    {
+        label: 'Companies',
+        href: `/visual-novels/[id]/companies?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'companies')
+    },
+    {
+        label: 'Staff',
+        href: `/visual-novels/[id]/staff?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'staff')
+    },
 ];
 
 export const CharacterNavigation = (name, id) => [

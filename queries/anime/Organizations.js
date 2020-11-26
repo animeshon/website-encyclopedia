@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-const getAnimeOrganizations = id => gql`
+const getOrganizations = id => gql`
 {
   queryAnime(filter: {id: {eq: "${id}"}}) {
     id
@@ -85,4 +85,4 @@ const getAnimeOrganizations = id => gql`
 
 `;
 
-export default getAnimeOrganizations;
+export default getOrganizations;
