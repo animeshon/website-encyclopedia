@@ -222,6 +222,34 @@ footer {
 }
 
 /* Generic Product / Person / Character Image */
+
+.product__breadcrumb {
+    margin-bottom: 10px;
+    line-height: 0.5;
+}
+.product__breadcrumb span {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f7f7f7;
+}
+
+.product__breadcrumb span::after {
+    content: ' ';
+    margin: 0 6px 1px 4px;
+    width: 0;
+    height: 0;
+    transform: rotate(-135deg);
+    display: inline-block;
+    border-left: 3px solid #f7f7f7;
+    border-bottom: 3px solid #f7f7f7;
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+
+.product__breadcrumb span:last-child::after {
+    display: none;
+}
+
 .product-cover {
     min-height: 25px;
 }
