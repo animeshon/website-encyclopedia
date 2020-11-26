@@ -83,7 +83,7 @@ VoiceActors.getInitialProps = async ctx => {
             content: {
                 id: content.id,
                 type: content.__typename,
-                name: locale.LatinAny(content.names),
+                name: locale.EnglishAny(content.names),
                 japaneseName: locale.Japanese(content.names),
             }
         };
