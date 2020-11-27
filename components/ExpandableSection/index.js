@@ -9,11 +9,11 @@ const ExpandableSection = ({ label, openDefault = true, children }) => {
         <section key={label} className={styles.expandable_section}>
             <h4>
                 <button name={label} onClick={() => setOpen(!open)} >
-                    <span className="label">
+                    <span className={styles.label}>
                         {label}
                     </span>
-                    <span className="line" />
-                    <span className={`toggler ${open ? 'opened' : 'closed' }`} />
+                    <span className={styles.line} />
+                    <span className={`${styles.toggler} ${open ? styles.opened : styles.closed }`} />
                 </button>
             </h4>
             <div className={`${styles.expanded_section} ${open ? styles.opened : styles.closed}`} >
