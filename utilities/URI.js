@@ -39,6 +39,8 @@ export const Rewrite = (type, name, id, path = null) => {
             return rewrite('Circle', name, id, path);
         case 'Convention':
             return rewrite('Convention', name, id, path);
+        case 'Magazine':
+            return rewrite('Magazine', name, id, path);
         
         case 'Universe':
             return rewrite('Universe', name, id, path);

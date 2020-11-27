@@ -7,6 +7,7 @@ import CharacterGrid from '@/components/Character/CharacterGrid';
 import CharacterCard from '@/components/Character/CharacterCard';
 import ExpandableSection from '@/components/ExpandableSection';
 import Search from '@/components/Search';
+import Flag from '@/components/Flag';
 
 import { Role } from '@/utilities/CharacterRole';
 import * as locale from '@/utilities/Localization';

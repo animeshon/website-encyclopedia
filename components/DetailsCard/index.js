@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import styles from './DetailsCard.module.css';
+import Flag from '@/components/Flag';
 
 // NOTE: The following are all possible formats:
 
@@ -41,7 +42,7 @@ export const DetailsCard = ({ items }) => {
                         })
                     }
 
-                    const flag = pair.flag ? (<span className={`fp fp-sm custom-fp ${pair.flag}`} />) : undefined;
+                    const flag = pair.flag ? <Flag nationality={pair.flag}/> : undefined;
                     return (
                         <div className={styles.details__row} key={pair.key}>
                             <div className={styles.details__key}>{pair.key}</div>

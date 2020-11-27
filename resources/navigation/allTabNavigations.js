@@ -22,11 +22,6 @@ export const AnimeNavigation = (name, id) => [
         as: uri.Rewrite('Anime', name, id, 'episodes')
     },
     {
-        label: 'Companies',
-        href: `/anime/[id]/companies?id=${id}`,
-        as: uri.Rewrite('Anime', name, id, 'companies')
-    },
-    {
         label: 'Staff',
         href: `/anime/[id]/staff?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'staff')
@@ -93,11 +88,6 @@ export const MangaNavigation = (name, id) => [
         as: uri.Rewrite('Manga', name, id, 'chapters')
     },
     {
-        label: 'Companies',
-        href: `/manga/[id]/companies?id=${id}`,
-        as: uri.Rewrite('Manga', name, id, 'companies')
-    },
-    {
         label: 'Staff',
         href: `/manga/[id]/staff?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'staff')
@@ -129,11 +119,6 @@ export const DoujinshiNavigation = (name, id) => [
         label: 'Related',
         href: `/doujinshi/[id]/related?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'related')
-    },
-    {
-        label: 'Companies',
-        href: `/doujinshi/[id]/companies?id=${id}`,
-        as: uri.Rewrite('Doujinshi', name, id, 'companies')
     },
     {
         label: 'Staff',
@@ -169,11 +154,6 @@ export const LightNovelNavigation = (name, id) => [
         as: uri.Rewrite('LightNovel', name, id, 'related')
     },
     {
-        label: 'Companies',
-        href: `/light-novels/[id]/companies?id=${id}`,
-        as: uri.Rewrite('LightNovel', name, id, 'companies')
-    },
-    {
         label: 'Staff',
         href: `/light-novels/[id]/staff?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'staff')
@@ -195,11 +175,6 @@ export const VisualNovelNavigation = (name, id) => [
         label: 'Related',
         href: `/visual-novels/[id]/related?id=${id}`,
         as: uri.Rewrite('VisualNovel', name, id, 'related')
-    },
-    {
-        label: 'Companies',
-        href: `/visual-novels/[id]/companies?id=${id}`,
-        as: uri.Rewrite('VisualNovel', name, id, 'companies')
     },
     {
         label: 'Staff',

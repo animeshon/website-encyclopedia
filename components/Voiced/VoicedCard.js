@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import CardImage from '@/components/Card/Image';
+import Flag from '@/components/Flag';
 
 import * as uri from '@/utilities/URI';
 import { Gender } from '@/utilities/Gender';
@@ -66,9 +67,7 @@ const VoicedCard = ({ subject }) => {
                         <b> {media.Type(subject.type)} </b>
                     )}
                     <p>
-                        {subject.nationality && (<span
-                            className={`fp fp-sm custom-fp ${subject.nationality == 'en' ? 'gb' : subject.nationality}`}
-                        />)}
+                        <Flag nationality={subject.nationality}/>
                         {Gender(subject.gender) && (
                             <h5> {Gender(subject.gender)} </h5>
                         )}

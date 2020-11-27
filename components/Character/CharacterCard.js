@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import CardImage from '@/components/Card/Image';
 import Button from '@/components/Button';
+import Flag from '@/components/Flag';
 
 import * as uri from '@/utilities/URI';
 
@@ -51,10 +52,8 @@ const CharacterCard = ({ character, cast }) => {
                                 forceSafe={false}
                             />
                         </span>
-                        {c.nationality && (<span
-                            className={`fp fp-sm custom-fp ${c.nationality == 'en' ? 'gb' : c.nationality}`}
-                        />)}
-
+                        <Flag nationality={c.nationality}/>
+                        
                         <span className="character-name">
                             {person.name}
                         </span>

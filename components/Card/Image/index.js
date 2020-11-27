@@ -1,9 +1,11 @@
 import React from 'react';
 import SafeImage from '@/components/SafeImage';
 
+import styles from './CardImage.module.css';
+
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
-export const CardImage = ({ image, gender, altText, forceSafe = true, className = "card__image" }) => {
+export const CardImage = ({ image, gender, altText, forceSafe = true, className = styles.card__image }) => {
     const fallback = image === '' || image === undefined
         ? gender === 'FEMALE'
             ? `${ASSET_PREFIX}/images/user-female-default.png`
