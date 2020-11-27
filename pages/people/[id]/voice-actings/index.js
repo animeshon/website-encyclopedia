@@ -37,7 +37,9 @@ const MapVoiceActings = (voiceActings) => {
 
 const VoiceActings = ({ voiceActings }) => {
     const mapVoiceActings = MapVoiceActings(voiceActings);
-    const keys = Object.keys(mapVoiceActings);
+    const keys = Object.keys(mapVoiceActings).sort((x, y) => { return mapVoiceActings[x].name < mapVoiceActings[y].name ? 
+        -1 : mapVoiceActings[x].name > mapVoiceActings[y].name; });
+
     return (
         <main className="landing__description landing__100">
             <section className="landing-section-box">
@@ -48,7 +50,7 @@ const VoiceActings = ({ voiceActings }) => {
             <div className="grid-halves">
              { keys && keys.length ? keys.map(k => {
                  return (<VoicedCard key={k} subject={mapVoiceActings[k]}/>)
-             }): 'There is currently no appearance information available.'}
+             }): 'There is currently no voice acting information available.'}
             </div>
         </main>
     );
