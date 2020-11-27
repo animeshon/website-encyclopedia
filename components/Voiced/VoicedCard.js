@@ -1,69 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import CardImage from '@/components/Card/Image';
-import Button from '@/components/Button';
 
 import * as uri from '@/utilities/URI';
+import { Gender } from '@/utilities/Gender';
+import * as media from '@/utilities/MediaType';
 
 import Link from 'next/link';
 
 import styles from './VoicedCard.module.css';
 
-const Gender = (role) => {
-    switch (role) {
-        case "MALE":
-            return "Male";
-        case "FEMALE":
-            return "Female";
+// TODO divide production in different types
+
+const VoicedCard = ({ subject }) => {
+    const [expanded, setExpanded] = useState(false);
+    const [height, setHeight] = useState(0)
+    const ref = useRef(null)
+
+    const expand = (flag) => {
+        if (flag) {
+            ref.current.classList.remove(styles.collapsed);
+        } else {
+            ref.current.classList.add(styles.collapsed);
+        }
+        setExpanded(flag);
+    };
+
+    function handleExpand(e) {
+        e.preventDefault();
+        expand(!expanded);
     }
 
-    return undefined;
-};
+    useEffect(() => {
+        setHeight(ref.current.clientHeight);
+        if (ref.current.clientHeight > 176) {
+            expand(false);
+        }
+    }, []);
 
-const VoicedCard = ({ voiceActor }) => {
+    const hrefSubject = uri.Rewrite(subject.type, subject.name, subject.id);
+
     return (
-        <article className={styles.voice_actor}>
-            <CardImage
-                gender={voiceActor.gender}
-                image={voiceActor.image}
-                altText={voiceActor.name}
-                className={""}
-            />
-            <div className={styles.voice_actor__descriptions}>
+        <article className={styles.voice_card}>
+            <Link href={subject.type != "VoiceOver" ? hrefSubject : undefined}>
+                <a>
+                    <CardImage
+                        gender={subject.gender}
+                        image={subject.image}
+                        altText={subject.name}
+                        className={""}
+                    />
+                </a>
+            </Link>
+            <div className={styles.voice_card__descriptions}>
                 <header>
-                    <h4>
-                        {voiceActor.name}
-                    </h4>
-                    {voiceActor.japaneseName && (
-                        <h5> {voiceActor.japaneseName} </h5>
+                    <Link href={subject.type != "VoiceOver" ? hrefSubject : undefined}>
+                        <a>
+                            <h4>{subject.name}</h4>
+                        </a>
+                    </Link>
+                    {subject.japaneseName && (
+                        <h5> {subject.japaneseName} </h5>
+                    )}
+                    {subject.type && (
+                        <b> {media.Type(subject.type)} </b>
                     )}
                     <p>
-                        {voiceActor.nationality && (<span
-                            className={`fp fp-sm custom-fp ${voiceActor.nationality == 'en' ? 'gb': voiceActor.nationality}`}
+                        {subject.nationality && (<span
+                            className={`fp fp-sm custom-fp ${subject.nationality == 'en' ? 'gb' : subject.nationality}`}
                         />)}
-                        {Gender(voiceActor.gender) && (
-                            <h5> {Gender(voiceActor.gender)} </h5>
+                        {Gender(subject.gender) && (
+                            <h5> {Gender(subject.gender)} </h5>
                         )}
                     </p>
                 </header>
-                <Button
-                    className="cherry-red medium"
-                    href={uri.Rewrite('Person', voiceActor.name, voiceActor.id)}
-                    type="next-link"
-                >
-                    More
-                    </Button>
             </div>
             <aside>
-                {voiceActor.productions.map(production => {
-                    return (
-                        <p key={`${voiceActor.id}-${production.id}`}>
-                            <Link href={uri.Rewrite(production.type, production.name, production.id)} >
-                                <a>{production.name}</a>
-                            </Link>
-                        </p>
-                    );
-                })}
+                <div ref={ref} className={styles.expandable}>
+                    {subject.productions.map(production => {
+                        return (
+                            <p key={`${subject.id}-${production.id}`}>
+                                <Link href={uri.Rewrite(production.type, production.name, production.id)} >
+                                    <a>{production.name}</a>
+                                </Link>
+                            </p>
+                        );
+                    })}
+                </div>
+
+                {height > 176 ? <div className={styles.more_trigger}>
+                    <p onClick={handleExpand}>{expanded ? 'less...' : 'more...'}</p>
+                </div> : undefined}
             </aside>
         </article>
     );

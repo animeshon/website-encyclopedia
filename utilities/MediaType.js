@@ -39,6 +39,8 @@ export const Type = (type) => {
             return "Convention";
         case "Person":
             return "Person";
+        case "VoiceOver":
+            return "Voice Over";
    }
    return undefined
 };

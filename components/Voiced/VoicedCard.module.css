@@ -1,77 +1,83 @@
 /* Characters Voice Actors */
-.voice_actor {
+.voice_card {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #cfcfcf;
+    border-bottom: 1px dotted #bfbfbf;
     border-radius: 5px;
     width: 100%;
     margin-bottom: 24px;
 }
 
-.voice_actor figure {
-    max-width: 150px;
+.voice_card figure {
+    width: 150px;
     height: 216px;
     min-width: 120px;
     overflow: hidden;
     margin: 0 20px 0 0;
     padding: 0;
-    border-radius: 5px 0 0 5px;
+    /* border-radius: 5px 0 0 5px; */
 }
-.voice_actor figure img {
+.voice_card figure img {
     object-fit: cover;
     height: 100%;
     width: 100%;
 }
 
-.voice_actor__descriptions header h4 {
+.voice_card__descriptions header h4 {
     color: #1e7492;
     font-weight: 400;
 }
-.voice_actor__descriptions header h5 {
+.voice_card__descriptions header h5 {
     color: #656565;
     font-weight: 200;
 }
 
-.voice_actor__descriptions header h4,
-.voice_actor__descriptions header h5 {
+.voice_card__descriptions header h4,
+.voice_card__descriptions header h5 {
     margin-bottom: 8px;
 }
 
-.voice_actor__descriptions header p {
+.voice_card__descriptions header p {
     margin: 0;
     font-size: 14px;
     font-weight: 500;
 }
 
-.voice_actor aside {
+.voice_card aside {
     flex: 1;
 }
-.voice_actor__descriptions {
+.voice_card__descriptions {
     display: flex;
     margin: 20px 20px 20px 0;
     flex-direction: column;
-    min-width: 180px;
-    max-width: 200px;
+    width: 180px;
     max-height: 196px;
     justify-content: space-between;
 }
-.voice_actor aside {
+.voice_card aside {
     margin: 20px 20px 20px 0;
     padding-left: 20px;
     border-left: 1px dotted #ddd;
     width: 100%;
     min-width: 200px;
 }
+.voice_card aside .expandable {
+    overflow: hidden;
+}
 
-.voice_actor aside h6 {
+.voice_card aside .expandable.collapsed {
+    max-height: 154px;
+}
+
+.voice_card aside h6 {
     font-size: 14px;
     margin-bottom: 10px;
 }
-.voice_actor aside h6 span {
+.voice_card aside h6 span {
     font-weight: 500;
 }
 
-.voice_actor aside p {
+.voice_card aside p {
     line-height: 1.6;
     font-size: 14px;
     margin: 3px 0 3px;
@@ -81,10 +87,10 @@
     white-space: nowrap;
     overflow: hidden;
 }
-.voice_actor aside .more_trigger {
+.voice_card aside .more_trigger {
     list-style: none;
 }
-.voice_actor aside .more_trigger button {
+.voice_card aside .more_trigger p {
     border: none;
     appearance: none;
     background: none;
@@ -97,17 +103,21 @@
 }
 
 @media screen and (max-width: 930px) {
-    .voice_actor aside {
+    .voice_card {
+        border: 1px solid #cfcfcf;
+    }
+
+    .voice_card aside {
         width: 100%;
     }
 }
 @media screen and (max-width: 635px) {
-    .voice_actor__descriptions {
+    .voice_card__descriptions {
         flex: 1;
         min-width: unset;
         max-width: unset;
     }
-    .voice_actor aside {
+    .voice_card aside {
         margin: 0 20px 20px 20px;
         padding-left: 0;
         padding-top: 20px;
@@ -117,10 +127,10 @@
 }
 
 @media screen and (max-width: 550px) {
-    .voice_actor figure {
+    .voice_card figure {
         max-width: 100px;
     }
-    .voice_actor aside {
+    .voice_card aside {
         min-width: 270px;
     }
 }

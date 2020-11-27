@@ -1,7 +1,7 @@
 import React from 'react';
 
 import withContainer from '@/components/Container';
-import getVoiceActors from '@/queries/character/VoiceActors';
+import getVoiceActings from '@/queries/person/VoiceActings';
 
 import VoicedCard from '@/components/Voiced/VoicedCard';
 
@@ -10,22 +10,21 @@ import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 
-const MapVoiceActors = (voiceActors) => {
-    let mapVoiceActors = {};
-    voiceActors.forEach(v => {
-        if (!mapVoiceActors.hasOwnProperty(v.actor.id)) {
-            mapVoiceActors[v.actor.id] = {
-                id: v.actor.id,
-                type: v.actor.type,
-                name: v.actor.name,
-                japaneseName: v.actor.japaneseName,
+const MapVoiceActings = (voiceActings) => {
+    let mapVoiceActings = {};
+    voiceActings.forEach(v => {
+        if (!mapVoiceActings.hasOwnProperty(v.voiced.id)) {
+            mapVoiceActings[v.voiced.id] = {
+                id: v.voiced.id,
+                type: v.voiced.type,
+                name: v.voiced.name,
+                japaneseName: v.voiced.japaneseName,
                 nationality: v.nationality,
-                gender: v.actor.gender,
-                image: v.actor.image,
+                image: v.voiced.image,
                 productions: [],
             };
         }
-        mapVoiceActors[v.actor.id].productions.push({
+        mapVoiceActings[v.voiced.id].productions.push({
             id: v.content.id,
             type: v.content.type,
             name: v.content.name,
@@ -33,37 +32,34 @@ const MapVoiceActors = (voiceActors) => {
             isPrimary: v.isPrimary,
         });
     });
-
-    return mapVoiceActors;
+    return mapVoiceActings;
 }
 
-const VoiceActors = ({ voiceActors }) => {
-    const mapVoiceActors = MapVoiceActors(voiceActors);
-    const keys = Object.keys(mapVoiceActors).sort((x, y) => { return mapVoiceActors[x].nationality > mapVoiceActors[y].nationality ? 
-        -1 : mapVoiceActors[x].nationality < mapVoiceActors[y].nationality; });
-
+const VoiceActings = ({ voiceActings }) => {
+    const mapVoiceActings = MapVoiceActings(voiceActings);
+    const keys = Object.keys(mapVoiceActings);
     return (
         <main className="landing__description landing__100">
             <section className="landing-section-box">
                 <header>
-                    <h3>Voice Actors</h3>
+                    <h3>Voice Actings</h3>
                 </header>
             </section>
             <div className="grid-halves">
              { keys && keys.length ? keys.map(k => {
-                 return (<VoicedCard key={k} subject={mapVoiceActors[k]}/>)
+                 return (<VoicedCard key={k} subject={mapVoiceActings[k]}/>)
              }): 'There is currently no appearance information available.'}
             </div>
         </main>
     );
 };
 
-VoiceActors.getInitialProps = async ctx => {
+VoiceActings.getInitialProps = async ctx => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActors()));
+    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActings()));
 
-    const voiceActors = (data.voices || []).map(i => {
-        const { isPrimary, localization, actor, content } = i;
+    const voiceActings = (data.voiceActings || []).map(i => {
+        const { isPrimary, localization, voiced, content } = i;
 
         // TODO: Vastly improve the logic here.
         // Try to fetch country alpha-2, fallback to language alpha-2.
@@ -78,13 +74,12 @@ VoiceActors.getInitialProps = async ctx => {
         return {
             isPrimary: isPrimary,
             nationality: nationality?.toLowerCase(),
-            actor: {
-                id: actor.id,
-                type: actor.__typename,
-                image: image.ProfileAny(actor.images),
-                name: locale.LatinAny(actor.names),
-                japaneseName: locale.Japanese(actor.names),
-                gender: actor.gender,
+            voiced: {
+                id: voiced.id,
+                type: voiced.__typename,
+                image: image.ProfileAny(voiced.images),
+                name: locale.LatinAny(voiced.names),
+                japaneseName: locale.Japanese(voiced.names),
             },
             content: {
                 id: content.id,
@@ -96,8 +91,8 @@ VoiceActors.getInitialProps = async ctx => {
     });
 
     return {
-        voiceActors: voiceActors,
+        voiceActings: voiceActings,
     };
 };
 
-export default withContainer(VoiceActors);
+export default withContainer(VoiceActings);

@@ -17,6 +17,7 @@ const getVoiceActors = () => gql`
         }
       }
       actor {
+        __typename
         gender
         id
         names {

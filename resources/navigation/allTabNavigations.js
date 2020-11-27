@@ -238,14 +238,14 @@ export const PeopleNavigation = (name, id) => [
         as: uri.Rewrite('Person', name, id)
     },
     {
+        label: 'Voice Actings',
+        href: `/people/[id]/voice-actings?id=${id}`,
+        as: uri.Rewrite('Person', name, id, 'voice-actings')
+    },
+    {
         label: 'Productions',
         href: `/people/[id]/productions?id=${id}`,
         as: uri.Rewrite('Person', name, id, 'productions')
-    },
-    {
-        label: 'Organizations',
-        href: `/people/[id]/organizations?id=${id}`,
-        as: uri.Rewrite('Person', name, id, 'organizations')
     },
 ];
 

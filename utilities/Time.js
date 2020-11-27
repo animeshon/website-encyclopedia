@@ -31,3 +31,7 @@ export const FormatNoYear = (from, to) => {
 
     return `${EnglishDateNoYear(from)}\n${EnglishDateNoYear(to)}`;
 };
+
+export const EnglishDate = (date) => {
+    return date.getLocaleDateString('en-US');
+};
