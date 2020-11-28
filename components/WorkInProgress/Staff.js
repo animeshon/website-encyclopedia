@@ -1,23 +1,25 @@
 import React from 'react';
 import styles from './WorkInProgress.module.css';
+import stylesCard from '@/components/Card/Info/CardInfo.module.css';
+import stylesExpandable from '@/components/ExpandableSection/ExpandableSection.module.css';
 
 const WorkInProgressStaffCard = ({ w1, w2, w3, w4 }) => {
     return (
 
-        <div className="card">
-            <figure className="card__image">
+        <div className={stylesCard.card}>
+            <figure className={stylesCard.card__image}>
             </figure>
-            <div className="card__info">
-                <p className="card__jap-name" >
+            <div className={stylesCard.card__info}>
+                <p className={stylesCard.card__jap-name}>
                     <div className={styles.coming_soon_staff_title} style={{width : w1}}/>
                 </p>
-                <p className="card__jap-name">
+                <p className={stylesCard.card__jap-name}>
                     <div className={styles.coming_soon_staff_title} style={{width : w2}}/>
                 </p>
-                <p className="card__role">
+                <p className={stylesCard.card__role}>
                     <div className={styles.coming_soon_staff_small} style={{width : w3}}/>
                 </p>
-                <p className="card__role">
+                <p className={stylesCard.card__role}>
                     <div className={styles.coming_soon_staff_small} style={{width : w4}}/>
                 </p>
             </div>
@@ -36,15 +38,15 @@ const WorkInProgressStaffGrid = ({ title }) => {
                 </header>
 
                 {Array.apply(null, Array(3)).map(item => {
-                    return (<section key={"section".concat(item)} className="expandable-section">
+                    return (<section key={"section".concat(item)} className={stylesExpandable.expandable_section}>
                         <h4>
                             <button>
-                                <span className="label">
+                                <span className={stylesExpandable.label}>
                                     <div className={styles.coming_soon_staff_header}></div>
                                 </span>
-                                <span className="line" />
+                                <span className={stylesExpandable.line} />
                                 <span
-                                    className={`toggler opened`}
+                                    className={`${stylesExpandable.toggler} ${stylesExpandable.opened}`}
                                 ></span>
                             </button>
                         </h4>
