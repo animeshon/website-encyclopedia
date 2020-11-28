@@ -230,6 +230,24 @@ export const CompanyNavigation = (name, id) => [
         href: `/organizations/[id]?id=${id}`,
         as: uri.Rewrite('Organization', name, id)
     },
+    {
+        label: 'Productions',
+        href: `/organizations/[id]/productions?id=${id}`,
+        as: uri.Rewrite('Organization', name, id, 'productions')
+    },
+];
+
+export const MagazineNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: `/magazines/[id]?id=${id}`,
+        as: uri.Rewrite('Magazine', name, id)
+    },
+    {
+        label: 'Productions',
+        href: `/magazines/[id]/productions?id=${id}`,
+        as: uri.Rewrite('Magazine', name, id, 'productions')
+    },
 ];
 
 export const CircleNavigation = (name, id) => [
@@ -275,7 +293,7 @@ const Navigation = (type, name, id) => {
         // "chapters": chapter,
         "characters": CharacterNavigation,
         "organizations": CompanyNavigation,
-        // "magazines": magazine,
+        "magazines": MagazineNavigation,
         "circles": CircleNavigation,
         "conventions": ConventionNavigation,
         "people": PeopleNavigation,

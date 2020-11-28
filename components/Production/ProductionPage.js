@@ -71,12 +71,13 @@ ProductionPage.getInitialProps = async ctx => {
     ];
     const { typedProduction } = await ExecuteQueryBatch(ctx, queries);
     // enqueue graphql query to get details
-    const prodQueries = typedProduction.collaborations?.map(x => {
+    // for now we harcode a limit to the production
+    const MAX_PRODUCTION = 100;
+    const prodQueries = typedProduction.collaborations?.slice(0, MAX_PRODUCTION).map(x => {
         return PrepareQuery({ id: x.id, content: true, collaborator: false }, getCollaboration());
     });
     // wait
     const collaborations = await ExecuteQueries(ctx, prodQueries);
-    console.log(collaborations)
 
     const productions = (collaborations || []).map(i => {
         const { role, content, localization } = i;

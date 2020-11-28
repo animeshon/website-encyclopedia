@@ -512,9 +512,6 @@ const magazine = () => gql`
         }
       }
     }
-    ageRatings {
-      age
-    }
     images {
       type
       image {

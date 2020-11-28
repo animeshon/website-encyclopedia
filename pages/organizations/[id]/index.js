@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getSummary from '@/queries/circle/Summary';
+import getSummary from '@/queries/organization/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
@@ -8,21 +8,19 @@ import SummaryText from '@/components/Summary/SummaryText';
 import SummaryMember from '@/components/Summary/SummaryMember';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
+import * as contentFocus from '@/utilities/ContentFocus';
 import * as time from '@/utilities/Time';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
-const Circle = ({
+const Organization = ({
     description,
-    members,
     details,
 }) => {
     return (
         <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryMember members={members} />
-                {/* TODO: Add productions for circle. */}
+                {/* TODO: Add productions for organization. */}
             </main>
             <aside className="landing__details">
                 <header>
@@ -34,22 +32,12 @@ const Circle = ({
     );
 };
 
-Circle.getInitialProps = async ctx => {
+Organization.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
 
-    const members = (data.members || []).map(i => {
-        const { id, images, names } = i;
-        return {
-            id,
-            name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
-        };
-    });
-
     return {
         description: locale.English(data.descriptions),
-        members: members,
         details: [
             [
                 { key: 'English', value: locale.English(data.names) },
@@ -58,10 +46,10 @@ Circle.getInitialProps = async ctx => {
             ],
             [
                 { key: 'Foundation', value: time.EnglishDate(data.foundation) },
-                { key: 'Members', value: data.members?.length },
+                { key: 'Content Focus', value: contentFocus.Focus(data.contentFocus) },
             ]
         ]
     };
 };
 
-export default withContainer(Circle);
+export default withContainer(Organization);

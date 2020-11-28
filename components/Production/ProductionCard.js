@@ -45,7 +45,7 @@ const ProductionCard = ({ production }) => {
                         {order.map(o => {
                             const collaborations = production.roles[o] ? production.roles[o] : [];
                             return collaborations.map(r => {
-                                return (<p>{r.name}</p>)
+                                return (<p key={r.id}>{r.name}</p>)
                             })
                         })}
                     </CollapsableSection>

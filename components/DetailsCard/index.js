@@ -33,7 +33,7 @@ export const DetailsCard = ({ items }) => {
 
                         value = pair.value.map(value => {
                             if (!value.text) { return undefined } else { counter++ }
-                            return value.href ? (<p><Link href={value.href}><a>{value.text}</a></Link></p>) : (<p>{value.text}</p>);
+                            return (<p key={JSON.stringify(value)}> {value.href ? <Link href={value.href}><a>{value.text}</a></Link> : value.text} </p>);
                         })
                     }
 

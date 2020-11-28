@@ -1,12 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { useContainer } from '@/components/Container';
+
 import PersonPreview from '@/components/PersonPreview';
 
 import * as uri from '@/utilities/URI';
 
-const SummaryMember = ({ type, title, id, members }) => {
-    const href = uri.Rewrite(type, title, id, 'members');
+const SummaryMember = ({ members }) => {
+    const container = useContainer();
+    const href = uri.Rewrite(container.type, container.title, container.id, 'members');
 
     return (
         <section className="landing-section-box">

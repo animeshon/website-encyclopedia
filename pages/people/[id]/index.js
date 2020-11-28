@@ -96,7 +96,7 @@ PersonPage.getInitialProps = async ctx => {
                 { key: 'Romaji', value: locale.Romaji(info.names) },
             ],
             [
-                { key: 'Birthday', value: info.birthday ? time.EnglishDate(new Date(info.birthday)) : undefined },
+                { key: 'Birthday', value: time.EnglishDate(info.birthday) },
                 // TODO hometown
                 // TODO birthplace
                 { key: 'Gender', value: gender.Gender(info.gender) },

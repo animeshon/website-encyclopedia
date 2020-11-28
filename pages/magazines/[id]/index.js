@@ -1,28 +1,24 @@
 import React from 'react';
 
-import getSummary from '@/queries/circle/Summary';
+import getSummary from '@/queries/magazine/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
-import SummaryMember from '@/components/Summary/SummaryMember';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as time from '@/utilities/Time';
+import * as audienceTarget from '@/utilities/AudienceTarget';
+import * as season from '@/utilities/Season';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
-const Circle = ({
+const Magazine = ({
     description,
-    members,
     details,
 }) => {
     return (
         <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryMember members={members} />
-                {/* TODO: Add productions for circle. */}
             </main>
             <aside className="landing__details">
                 <header>
@@ -34,22 +30,12 @@ const Circle = ({
     );
 };
 
-Circle.getInitialProps = async ctx => {
+Magazine.getInitialProps = async ctx => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
 
-    const members = (data.members || []).map(i => {
-        const { id, images, names } = i;
-        return {
-            id,
-            name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
-        };
-    });
-
     return {
         description: locale.English(data.descriptions),
-        members: members,
         details: [
             [
                 { key: 'English', value: locale.English(data.names) },
@@ -57,11 +43,11 @@ Circle.getInitialProps = async ctx => {
                 { key: 'Romaji', value: locale.Romaji(data.names) },
             ],
             [
-                { key: 'Foundation', value: time.EnglishDate(data.foundation) },
-                { key: 'Members', value: data.members?.length },
+                { key: 'Running', value: season.JapanAny(data.runnings) },
+                { key: 'Audience Target', value: audienceTarget.Target(data.audienceTarget) },
             ]
         ]
     };
 };
 
-export default withContainer(Circle);
+export default withContainer(Magazine);
