@@ -2,6 +2,10 @@ import React, { Component, useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import {
+    FacebookShareButton, TwitterShareButton, PinterestShareButton, RedditShareButton, TelegramShareButton, WhatsappShareButton, LineShareButton,
+    TwitterIcon, FacebookIcon, PinterestIcon, RedditIcon, TelegramIcon, WhatsappIcon, LineIcon
+} from 'react-share';
 
 import BannerImage from '@/components/BannerImage';
 import ProfileImage from '@/components/ProfileImage';
@@ -22,6 +26,8 @@ import * as media from '@/utilities/MediaType';
 import * as rating from '@/utilities/AgeRating';
 
 import { ContainerContext } from '@/ctx/Container';
+
+import styles from './Container.module.css';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
 
@@ -45,6 +51,11 @@ const Container = ({ container, seo, children }) => {
     const url = uri.AbsoluteURI(path);
     const canonical = uri.CanonicalURI(pathname, query.id);
 
+    const title = `${seo.title} - ${selectedLabel} | ${seo.media}`;
+    const shareTitle = `${seo.site} | ${title}`
+    const description = seo.description ? seo.description : undefined;
+    const hashtags = ['animeshon', `${seo.media}`];
+
     return (
         <div>
             <Head>
@@ -53,15 +64,15 @@ const Container = ({ container, seo, children }) => {
 
                 {/* SEO */}
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                {seo.description ? (<meta name="description" content={seo.description} />) : undefined}
+                {description ? (<meta name="description" content={description} />) : undefined}
                 {seo.rating ? (<meta name="rating" content={seo.rating} />) : undefined}
 
                 {/* Social Media & SEO */}
                 <meta property="og:site_name" content={seo.site}></meta>
-                <meta property="og:title" content={`${seo.title} - ${selectedLabel} | ${seo.media}`} />
-                {seo.description ? (<meta property="og:description" content={seo.description} />) : undefined}
+                <meta property="og:title" content={title} />
+                {description ? (<meta property="og:description" content={description} />) : undefined}
                 {seo.image ? (<meta property="og:image" content={seo.image.uri} />) : undefined}
-                {url ? <meta property="og:url" content={url} /> : undefined }
+                {url ? <meta property="og:url" content={url} /> : undefined}
 
                 {/* Twitter */}
                 <meta name="twitter:card" content={seo.image ? 'summary_large_image' : 'summary'} />
@@ -74,7 +85,7 @@ const Container = ({ container, seo, children }) => {
             </Head>
             <div className="any">
                 <Header isSearchAvailable />
-                <div className="header_padder"/>
+                <div className="header_padder" />
                 <BannerImage
                     title={container.title}
                     altText={container.title}
@@ -88,6 +99,19 @@ const Container = ({ container, seo, children }) => {
                             altText={container.title}
                             image={container.image}
                         />
+                        <div className={styles.share_buttons}>
+                            <FacebookShareButton url={canonical} hashtags={hashtags}><FacebookIcon size={32} round={true} /></FacebookShareButton>
+                            <TwitterShareButton url={canonical} title={shareTitle} hashtags={hashtags} ><TwitterIcon size={32} round={true} /></TwitterShareButton>
+                            <LineShareButton url={canonical} title={shareTitle}><LineIcon size={32} round={true} /></LineShareButton>
+
+                            {seo.image ? (<PinterestShareButton url={canonical} media={seo.image.uri} description={description} >
+                                <PinterestIcon size={32} round={true} />
+                            </PinterestShareButton>) : undefined}
+
+                            <RedditShareButton url={canonical} title={shareTitle}><RedditIcon size={32} round={true} /></RedditShareButton>
+                            <TelegramShareButton url={canonical} title={shareTitle}><TelegramIcon size={32} round={true} /></TelegramShareButton>
+                            <WhatsappShareButton url={canonical} title={shareTitle}><WhatsappIcon size={32} round={true} /></WhatsappShareButton>
+                        </div>
                     </div>
                     <div className="product-page-offset">
                         <Mobile>
@@ -136,7 +160,7 @@ export function withContainer(WrappedComponent) {
                 media: media.Type(data.__typename),
                 rating: rating.WebMetaTag(data.ageRatings),
                 twitter: undefined, // TODO: This is a nice to have features, but not that useful.
-                
+
                 description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
                 title: text.Truncate(container.title, 64),
                 image: container.image,
@@ -170,10 +194,10 @@ export function withContainer(WrappedComponent) {
 export const useContainer = () => {
     const context = useContext(ContainerContext);
     if (context === undefined) {
-      throw new Error('useContainer can only be used inside ContainerContext');
+        throw new Error('useContainer can only be used inside ContainerContext');
     }
     return context;
-  }
-  
+}
+
 
 export default withContainer;

@@ -275,6 +275,14 @@ footer {
     font-weight: bold;
     left: 65px;
 }
+
+@media screen and (max-width: 768px) {
+    .product-cover {
+        width: 180px;
+        float: left;
+        margin-right: 20px;
+    }
+}
     
 @media screen and (max-width: 1024px) {
     .product-cover .btn {
