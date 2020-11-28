@@ -72,7 +72,7 @@ StaffPage.getInitialProps = async ctx => {
 
     // enqueue graphql query to get details
     const charQueries = typedRoles.staff?.map(x => {
-        return PrepareQuery({ id: x.id }, getCollaboration());
+        return PrepareQuery({ id: x.id, content: false, collaborator: true }, getCollaboration());
     });
     // wait
     const collaborations = await ExecuteQueries(ctx, charQueries);
