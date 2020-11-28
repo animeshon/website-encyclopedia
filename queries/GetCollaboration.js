@@ -27,9 +27,11 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
     localization {
       language {
         code
+        alpha2
       }
-      script {
+      country {
         code
+        alpha2
       }
     }
     collaborator @include(if: $collaborator) {

@@ -42,7 +42,6 @@ const CardInfo = ({ info }) => {
                 )}
                 <Flag nationality={info.nationality}/>
 
-
                 {info.caption &&
                     <p className={styles.card__role}>{info.caption}</p>}
             </div>
