@@ -1,10 +1,11 @@
 import React from 'react';
 
+import { GetTypedStaff } from '@/queries/GetStaff';
+import getCollaboration from '@/queries/GetCollaboration';
 import GetContentSummary from '@/queries/GetContentSummary';
 import GetRelated from '@/queries/GetRelated';
 
 import DetailsCard from '@/components/DetailsCard';
-import withContainer from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryCharacter from '@/components/Summary/SummaryCharacter';
 // import SummaryTimeline from '@/components/Summary/SummaryTimeline';
@@ -17,8 +18,9 @@ import * as season from '@/utilities/Season';
 import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
+import * as roles from '@/utilities/TypedRole';
 import { Type } from '@/utilities/MediaType';
-import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
+import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
 import { Length } from '@/utilities/VisualNovelLength';
 
@@ -36,7 +38,7 @@ const ContentPage = ({
                 <SummaryCharacter characters={characters} />
                 <SummaryRelated related={related} />
                 {/* <SummaryTimeline /> */}
-                <SummaryCanonical canonicals={canonicals} />
+                {/* <SummaryCanonical canonicals={canonicals} /> */}
             </main>
             <aside className="landing__details">
                 <header>
@@ -55,8 +57,58 @@ ContentPage.getInitialProps = async ctx => {
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),
         PrepareKeyQuery("related", { id: id }, GetRelated(type)),
+        PrepareKeyQuery("typedRoles", { id: id }, GetTypedStaff(type)),
     ];
-    const { info, related } = await ExecuteQueryBatch(ctx, queries);
+    const { info, related, typedRoles } = await ExecuteQueryBatch(ctx, queries);
+
+    // enqueue graphql query to get details
+    const staffQueries = [];
+    typedRoles.staff?.forEach(x => {
+        if (!x.role.type || !["AUTHOR", 
+        "DIRECTION", 
+        "GAME_DEVELOPMENT", 
+        "MUSIC_COMPOSITION", 
+        "PRODUCTION", 
+        "STORY", 
+        "ILLUSTRATION", 
+        "STUDIO", 
+        "VOCAL"].includes(x.role.type)) {
+            return;
+        }
+        staffQueries.push(PrepareQuery({ id: x.id, content: false, collaborator: true }, getCollaboration()));
+    });
+    // wait
+    const staff = await ExecuteQueries(ctx, staffQueries);
+
+    // build proper collaboration map
+    const MapStaff = (staff) => {
+        let mapStaff = {};
+        staff.forEach(v => {
+            if (!mapStaff.hasOwnProperty(v.role.id)) {
+                mapStaff[v.role.id] = {
+                    role: v.role,
+                    staff: [],
+                };
+            }
+            mapStaff[v.role.id].staff.push(v.collaborator);
+        });
+
+        const arrayStaff = Object.keys(mapStaff).map(s => {
+            return {
+                key: roles.Role(mapStaff[s].role.type),
+                value: mapStaff[s].staff.map(collaborator => {
+                    return {
+                        text: locale.EnglishAny(collaborator.names),
+                        href: uri.Rewrite(collaborator.__typename, locale.EnglishAny(collaborator.names), collaborator.id),
+                    }
+                })
+            }
+        })
+    
+        return arrayStaff;
+    }
+
+    const collaborations = MapStaff(staff);
 
     const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;
@@ -123,7 +175,8 @@ ContentPage.getInitialProps = async ctx => {
             [
                 { key: 'Genres', value: genres },
                 { key: 'Universes', value: universes },
-            ]
+            ],
+            collaborations,
         ]
     };
 };

@@ -10,35 +10,30 @@ import Flag from '@/components/Flag';
 // [[{key: 'Key', value: [{text: 'Value', href: 'Link'}, {text: 'Value'}]}]]
 
 export const DetailsCard = ({ items }) => {
-    var counter = 0;
+    var lastBlockCount = 0;
 
     return (
         <div className={styles.details__table}>
             {items.map(item => {
                 var blocks = [];
-                if (counter) {
+                var counter = 0;
+
+                if (lastBlockCount) {
                     blocks.push(<hr className={styles.details__breaker} key={JSON.stringify(item)} />);
                 }
-                counter = 0;
 
                 blocks.push(item.map(pair => {
                     var value = undefined;
                     if (!Array.isArray(pair.value)) {
                         if (!pair.value) { return undefined } else { counter++ }
 
-
                         value = pair.href ? (<Link href={pair.href}><a>{pair.value}</a></Link>) : pair.value;
                     } else {
                         if (!pair.value.length) { return undefined } else { counter++ }
 
-                        var isFirst = true;
                         value = pair.value.map(value => {
                             if (!value.text) { return undefined } else { counter++ }
-
-                            const text = isFirst ? value.text : `, ${value.text}`;
-                            isFirst = false;
-
-                            return value.href ? (<Link href={value.href}><a>{text}</a></Link>) : text;
+                            return value.href ? (<p><Link href={value.href}><a>{value.text}</a></Link></p>) : (<p>{value.text}</p>);
                         })
                     }
 
@@ -52,6 +47,7 @@ export const DetailsCard = ({ items }) => {
                 }));
 
                 if (counter) {
+                    lastBlockCount = counter;
                     return blocks;
                 }
             })}
