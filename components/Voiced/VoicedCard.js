@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
 import CardImage from '@/components/Card/Image';
 import Flag from '@/components/Flag';
+import CollapsableSection from '@/components/CollapsableSection';
 
 import * as uri from '@/utilities/URI';
 import { Gender } from '@/utilities/Gender';
@@ -14,31 +15,6 @@ import styles from './VoicedCard.module.css';
 // TODO divide production in different types
 
 const VoicedCard = ({ subject }) => {
-    const [expanded, setExpanded] = useState(false);
-    const [height, setHeight] = useState(0)
-    const ref = useRef(null)
-
-    const expand = (flag) => {
-        if (flag) {
-            ref.current.classList.remove(styles.collapsed);
-        } else {
-            ref.current.classList.add(styles.collapsed);
-        }
-        setExpanded(flag);
-    };
-
-    function handleExpand(e) {
-        e.preventDefault();
-        expand(!expanded);
-    }
-
-    useEffect(() => {
-        setHeight(ref.current.clientHeight);
-        if (ref.current.clientHeight > 176) {
-            expand(false);
-        }
-    }, []);
-
     const hrefSubject = uri.Rewrite(subject.type, subject.name, subject.id);
 
     return (
@@ -67,7 +43,7 @@ const VoicedCard = ({ subject }) => {
                         <b> {media.Type(subject.type)} </b>
                     )}
                     <p>
-                        <Flag nationality={subject.nationality}/>
+                        <Flag nationality={subject.nationality} />
                         {Gender(subject.gender) && (
                             <h5> {Gender(subject.gender)} </h5>
                         )}
@@ -75,7 +51,7 @@ const VoicedCard = ({ subject }) => {
                 </header>
             </div>
             <aside>
-                <div ref={ref} className={styles.expandable}>
+                <CollapsableSection maxHeight={176} collapsedClass={styles.collapsed} moreClass={styles.more_trigger} mainClass={styles.expandable}>
                     {subject.productions.map(production => {
                         return (
                             <p key={`${subject.id}-${production.id}`}>
@@ -85,11 +61,7 @@ const VoicedCard = ({ subject }) => {
                             </p>
                         );
                     })}
-                </div>
-
-                {height > 176 ? <div className={styles.more_trigger}>
-                    <p onClick={handleExpand}>{expanded ? 'less...' : 'more...'}</p>
-                </div> : undefined}
+                </CollapsableSection>
             </aside>
         </article>
     );
