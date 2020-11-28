@@ -17,11 +17,11 @@ const SummaryMember = ({ type, title, id, members }) => {
                     <a className="view-all-link">View all</a>
                 </Link>
             </header>
-            <ul className="characters-list">
-                {members && members.length ? members.map(item => {
+            {members && members.length ? <ul className="characters-list">
+                {members.map(item => {
                     return (<PersonPreview key={item.id} item={item} />);
-                }) : 'There is currently no information about members available.'}
-            </ul>
+                })}
+            </ul> : 'There is currently no information about members available.'}
         </section>
     );
 };
