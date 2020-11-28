@@ -35,6 +35,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
     collaborator @include(if: $collaborator) {
       __typename
       ... on Circle {
+        id
         images {
           type
           image {
@@ -59,6 +60,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
         }
       }
       ... on Organization {
+        id
         images {
           type
           image {
@@ -83,6 +85,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
         }
       }
       ... on Person {
+        id
         images {
           type
           image {
@@ -107,6 +110,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
         }
       }
       ... on Magazine {
+        id
         images {
           type
           image {
