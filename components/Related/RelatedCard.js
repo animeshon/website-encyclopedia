@@ -12,7 +12,7 @@ const Related = ({ content }) => {
     const href = uri.Rewrite(content.type, content.name, content.id);
 
     return (
-        <div key={content.name} className={styles.related__item}>
+        <div key={content.id} className={styles.related__item}>
             <figure className={styles.related__item_cover}>
                 <SafeImage image={content.image} />
             </figure>
