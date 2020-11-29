@@ -3,8 +3,8 @@ import { useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import {
-    FacebookShareButton, TwitterShareButton, PinterestShareButton, RedditShareButton, TelegramShareButton, WhatsappShareButton, LineShareButton,
-    TwitterIcon, FacebookIcon, PinterestIcon, RedditIcon, TelegramIcon, WhatsappIcon, LineIcon
+    FacebookShareButton, TwitterShareButton, RedditShareButton, TelegramShareButton, WhatsappShareButton, LineShareButton,
+    TwitterIcon, FacebookIcon, RedditIcon, TelegramIcon, WhatsappIcon, LineIcon
 } from 'react-share';
 
 import BannerImage from '@/components/BannerImage';
@@ -103,11 +103,6 @@ const Container = ({ container, seo, children }) => {
                             <FacebookShareButton url={canonical} hashtags={hashtags}><FacebookIcon size={32} round={true} /></FacebookShareButton>
                             <TwitterShareButton url={canonical} title={shareTitle} hashtags={hashtags} ><TwitterIcon size={32} round={true} /></TwitterShareButton>
                             <LineShareButton url={canonical} title={shareTitle}><LineIcon size={32} round={true} /></LineShareButton>
-
-                            {seo.image ? (<PinterestShareButton url={canonical} media={seo.image.uri} description={description} >
-                                <PinterestIcon size={32} round={true} />
-                            </PinterestShareButton>) : undefined}
-
                             <RedditShareButton url={canonical} title={shareTitle}><RedditIcon size={32} round={true} /></RedditShareButton>
                             <TelegramShareButton url={canonical} title={shareTitle}><TelegramIcon size={32} round={true} /></TelegramShareButton>
                             <WhatsappShareButton url={canonical} title={shareTitle}><WhatsappIcon size={32} round={true} /></WhatsappShareButton>
