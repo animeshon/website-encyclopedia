@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { withRouter } from 'next/router';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 
 import { SearchContext } from '@/ctx/Search';
 
@@ -13,8 +13,10 @@ import Footer from '@/components/Footer';
 const Home = ({ router }) => {
     const { push } = router;
     const { search, dispatchSearch } = useContext(SearchContext);
+    const searchInput = useRef(null)
 
     useEffect(() => {
+        searchInput.current.focus();
         dispatchSearch({
             type: 'performNewSearch',
             payload: '',
@@ -70,6 +72,7 @@ const Home = ({ router }) => {
                             className="search-field"
                             name="searchQuery"
                             onChange={handleInputChange}
+                            ref={searchInput}
                         />
                         <Button
                             disabled={isButtonDisabled}
