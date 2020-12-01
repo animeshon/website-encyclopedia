@@ -70,7 +70,7 @@ const Header = ({ isSearchAvailable }) => {
                         type="text"
                         className={styles.search_input}
                         name="searchQuery"
-                        value={search.search}
+                        value={search.search || ''}
                         onChange={handleInputChange}
                     />
                 </form>
