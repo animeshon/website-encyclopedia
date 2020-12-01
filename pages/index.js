@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import Head from 'next/head';
 import { withRouter } from 'next/router';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 
 import { SearchContext } from '@/ctx/Search';
-
-import { useInputChange } from '@/functions/inputChange';
 
 import Button from '@/components/Button';
 import Footer from '@/components/Footer';
