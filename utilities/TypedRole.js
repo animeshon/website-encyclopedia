@@ -22,7 +22,7 @@ export const Role = (type) => {
     case "MUSIC_COMPOSITION":
         return "Music Composition";
     case "PRODUCTION":
-        return "Music Production";
+        return "Production";
     case "PUBLISHING":
         return "Publishing";
     case "SCRIPT":
