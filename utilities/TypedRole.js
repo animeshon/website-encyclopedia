@@ -1,10 +1,10 @@
 export const Role = (type) => {
     // TODO internationalization
    switch (type) {
+    case "ART_DIRECTION":
+        return "Art Direction";
     case "AUTHOR":
         return "Author";
-    case "BROADCAST":
-        return "Broadcaster";
     case "CHARACTER_DESIGN":
         return "Character Design";
     case "DIRECTION":
@@ -33,7 +33,7 @@ export const Role = (type) => {
         return "Story";
     case "STUDIO":
         return "Studios";
-    case "VOCAL":
+    case "VOCALIST":
         return "Vocalist";
    }
    return undefined

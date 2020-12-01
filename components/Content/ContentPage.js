@@ -64,7 +64,9 @@ ContentPage.getInitialProps = async ctx => {
     // enqueue graphql query to get details
     const staffQueries = [];
     typedRoles.staff?.forEach(x => {
-        if (!x.role.type || !["AUTHOR", 
+        if (!x.role.type || ![
+        "ART_DIRECTION", 
+        "AUTHOR", 
         "DIRECTION", 
         "GAME_DEVELOPMENT", 
         "MUSIC_COMPOSITION", 
@@ -72,7 +74,7 @@ ContentPage.getInitialProps = async ctx => {
         "STORY", 
         "ILLUSTRATION", 
         "STUDIO", 
-        "VOCAL"].includes(x.role.type)) {
+        "VOCALIST"].includes(x.role.type)) {
             return;
         }
         staffQueries.push(PrepareQuery({ id: x.id, content: false, collaborator: true }, getCollaboration()));
