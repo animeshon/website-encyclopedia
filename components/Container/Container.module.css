@@ -10,7 +10,7 @@
 @media screen and (max-width: 768px) {
     .share_buttons {
         float: left;
-        margin-top: 100px;
+        margin-top: unset;
         width: calc(100% - 200px);
         border-top: unset;
     }
