@@ -230,4 +230,7 @@
     .search_result__aside__item:last-child {
         display: none;
     }
+    .search_result__breadcrumb {
+        line-height: 1;
+    }
 }
