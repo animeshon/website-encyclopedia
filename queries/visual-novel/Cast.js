@@ -34,6 +34,7 @@ export const getCast = () => gql`
           type
           image {
             files {
+              format
               publicUri
             }
           }

@@ -22,7 +22,7 @@ const getURIByFormat = (image, reqFormat) => {
         if (!format || format != reqFormat) {
             continue;
         }
-        return images.files[j].publicUri;
+        return image.files[j].publicUri;
     }
     return undefined;
 } 
@@ -35,11 +35,11 @@ const censor = (image, force, container) => {
 // TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
 // https://nextjs.org/docs/api-reference/next/image
 
-const SafeImage = ({ image, altText, force = true, displayButton = false }) => {
+const SafeImage = ({ image, altText, force = true, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
     const { user, dispatchUser } = useContext(UserContext);
     const container = useContainer();
     const isCensored = user.safeSearch && censor(image, force, container);
-    const img = image ? getURIByFormat(image, 'PNG') : `${ASSET_PREFIX}/images/default-profile-picture.jpg`;
+    const img = image ? getURIByFormat(image, 'PNG') : fallback;
     const webP = image ? getURIByFormat(image, 'WEBP') : undefined
 
     const onClick = e => {
@@ -52,7 +52,7 @@ const SafeImage = ({ image, altText, force = true, displayButton = false }) => {
         {/* if censored, display censored image */}
         {isCensored ? <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} /> : undefined}
         {/* WEBP */}
-        {webP ? <source srcset="img/awesomeWebPImage.webp" type="image/webp" alt={altText}/> : undefined}
+        {webP ? <source srcset={webP} type="image/webp" alt={altText}/> : undefined}
         {/* default (PNG) */}
         <img src={img} alt={altText}/>
         {/* if censored and can show button, show button */}

@@ -42,6 +42,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
           type
           image {
             files {
+              format
               publicUri
             }
           }
@@ -67,6 +68,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
           type
           image {
             files {
+              format
               publicUri
             }
           }
@@ -92,6 +94,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
           type
           image {
             files {
+              format
               publicUri
             }
           }
@@ -117,6 +120,7 @@ query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
           type
           image {
             files {
+              format
               publicUri
             }
           }

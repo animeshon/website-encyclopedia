@@ -34,6 +34,7 @@ export const getSummary = () => gql`
               type
               image {
                 files {
+                  format
                   publicUri
                 }
               }

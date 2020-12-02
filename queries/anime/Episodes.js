@@ -61,6 +61,7 @@ const getAnimeEpisodes = id => gql`
         type
         image {
           files {
+            format
             publicUri
           }
         }
@@ -70,6 +71,7 @@ const getAnimeEpisodes = id => gql`
       type
       image {
         files {
+          format
           publicUri
         }
       }

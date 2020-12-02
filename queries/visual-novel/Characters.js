@@ -13,6 +13,7 @@ export const getCharacters = () => gql`
           images(first: 1, filter: {type: {eq: PROFILE}}) {
             image {
               files {
+                format
                 publicUri
               }
             }

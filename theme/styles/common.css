@@ -264,10 +264,13 @@ footer {
     background-color: #fff;
     border-radius: 5px;
 }
-.product-cover__image img {
+.product-cover__image picture {
     width: 100%;
     border-radius: 5px;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+}
+.product-cover__image picture img {
+    width: 100%;
 }
 
 .product-cover .btn {

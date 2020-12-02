@@ -35,6 +35,7 @@ const getVoiceActors = () => gql`
           type
           image {
             files {
+              format
               publicUri
             }
           }

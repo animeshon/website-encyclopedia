@@ -35,6 +35,7 @@ export const getVoiceActings = () => gql`
             type
             image {
               files {
+                format
                 publicUri
               }
             }
