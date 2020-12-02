@@ -1065,7 +1065,12 @@ ul.grid-halves {
 }
 
 @media screen and (max-width: 940px) {
-
+    .results-container {
+        margin-left: 33px;
+        margin-right: 33px;
+        max-width: calc(100% - 66px);
+        width: calc(100% - 66px);
+    }
     .results-container .left-column,
     .results-container .right-column {
         max-width: 100%;
