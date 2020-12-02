@@ -43,7 +43,6 @@ const Search = ({ queryTime, results, hasMore, page }) => {
                 {seo.canonical ? (<link rel="canonical" href={seo.canonical} />) : undefined}
 
                 {/* SEO */}
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 {seo.description ? (<meta name="description" content={seo.description} />) : undefined}
 
                 {/* Social Media & SEO */}

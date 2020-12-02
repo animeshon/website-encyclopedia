@@ -63,7 +63,6 @@ const Container = ({ container, seo, children }) => {
                 {canonical ? (<link rel="canonical" href={canonical} />) : undefined}
 
                 {/* SEO */}
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 {description ? (<meta name="description" content={description} />) : undefined}
                 {seo.rating ? (<meta name="rating" content={seo.rating} />) : undefined}
 

@@ -50,7 +50,6 @@ const Home = ({ router }) => {
             <Head>
                 <title>Animeshon Encyclopedia</title>
                 <meta name="description" content="The Animeshon Encyclopedia is the largest collection of Anime, Manga, Doujinshi, Light Novels, and Visual Novels on the planet with over 70 million indexed records." />
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className="home">
                 <div className="home-header">

@@ -1,5 +1,6 @@
 // high order libraries
 import React, { useContext, useReducer, useEffect, useRef } from 'react';
+import Head from 'next/head';
 import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
@@ -51,6 +52,9 @@ const Animeshon = ({ pageProps, Component, apollo, safeSearch }) => {
             <UserContext.Provider value={{ user, dispatchUser }}>
                 <LanguageContext.Provider value={{ language, dispatchLanguage }}>
                     <SearchContext.Provider value={{ search, dispatchSearch }}>
+                        <Head>
+                            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                        </Head>
                         <LoadingBar color="#f11946" ref={ref} shadow={true} />
                         <Component {...pageProps} />
                     </SearchContext.Provider>
@@ -64,7 +68,7 @@ Animeshon.getInitialProps = async appContext => {
     const appProps = await App.getInitialProps(appContext);
     var isSafeSearch = SafeSearch(appContext.ctx);
 
-    return { safeSearch:isSafeSearch, ...appProps };
+    return { safeSearch: isSafeSearch, ...appProps };
 };
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({

@@ -9,7 +9,6 @@ const License = () => {
         <div>
             <Head>
                 <title>{Page} - {Website}</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <div className="text-container">
                 <h1>License</h1>
