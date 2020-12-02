@@ -1071,6 +1071,9 @@ ul.grid-halves {
         max-width: calc(100% - 66px);
         width: calc(100% - 66px);
     }
+    .results-container {
+        flex-direction: column;
+    }
     .results-container .left-column,
     .results-container .right-column {
         max-width: 100%;
