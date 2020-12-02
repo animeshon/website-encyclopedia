@@ -924,9 +924,11 @@ ul.grid-halves {
     height: 58px;
     border: 1px solid transparent;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 29px;
     outline: none;
     text-indent: 20px;
+    -webkit-appearance: none;
 }
 .home-search-box .btn {
     margin: 40px auto 150px;
