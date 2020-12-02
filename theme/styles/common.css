@@ -981,6 +981,13 @@ ul.grid-halves {
 }
 
 @media screen and (max-width: 768px) {
+    .search-footer .internal-space {
+        max-width: 768px;
+        margin-left: 0px;
+    }
+}
+
+@media screen and (max-width: 768px) {
     .home-search-box {
         height: calc(100vh - 170px);
     }
@@ -1076,7 +1083,6 @@ ul.grid-halves {
     }
     .results-container .left-column,
     .results-container .right-column {
-        max-width: 100%;
         width: 100%;
     }
     .results-container .left-column {
@@ -1091,7 +1097,6 @@ ul.grid-halves {
     .results-container {
         margin-left: 33px;
         margin-right: 33px;
-        max-width: 100%;
         width: 100%;
     }
 }
