@@ -34,7 +34,7 @@ export const Image = (images, types, formats, ratings = null, fallback = null) =
 
         // Take the first image available, no matter the type.
         return {
-            uri: images[i].image.files, 
+            files: images[i].image.files, 
             ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
         };
     }

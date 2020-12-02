@@ -13,6 +13,9 @@ const getURIByFormat = (image, reqFormat) => {
     if (image === undefined || image === null) {
         return undefined;
     }
+    if (image.files === undefined || image.files === null) {
+        return undefined;
+    }
 
     for (var j = 0; j < image.files.length; j++) {
         const format = image.files[j].format;
