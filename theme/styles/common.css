@@ -398,8 +398,8 @@ main.landing__description {
     justify-items: center;
 }
 
-.characters-list li .cover img,
-.adaptations-list li .cover img {
+.characters-list li .cover figure img,
+.adaptations-list li .cover figure img {
     object-fit: cover;
     position: relative;
     height: 100%;
@@ -469,7 +469,7 @@ main.landing__description {
     .adaptations-list li .cover {
         min-height: 170px;
     }
-    .characters-list li .cover img {
+    .characters-list li .cover figure img {
         min-height: 119px;
     }
 }
@@ -787,8 +787,8 @@ ul.grid-halves {
     background-color: #000;
     border: 1px solid #cfcfcf;
 }
-.picture__masonry .tile:hover img,
-.picture__masonry_home .tile:hover img {
+.picture__masonry .tile:hover figure img,
+.picture__masonry_home .tile:hover figure img {
     opacity: 0.6;
 }
 
