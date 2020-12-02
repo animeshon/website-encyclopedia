@@ -13,8 +13,7 @@ export const CardImage = ({ image, gender, altText, forceSafe = true, className 
         : undefined;
         
     return (<figure className={className}>
-        {image && <SafeImage image={image} altText={altText} force={forceSafe}/>}
-        {fallback && <img src={fallback} alt={altText}/>}
+        <SafeImage image={image} altText={altText} force={forceSafe} fallback={fallback}/>
     </figure>);
 };
 

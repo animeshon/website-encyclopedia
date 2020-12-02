@@ -13,9 +13,7 @@ const AppearanceCard = ({ content }) => {
 
     return (
         <div key={content.name} className={styles.appearences__item}>
-            <figure className={styles.appearences__item_cover}>
-                <SafeImage image={content.image} />
-            </figure>
+            <SafeImage image={content.image} className={styles.appearences__item_cover} />
             <article className={styles.appearences__item_contents}>
                 <header>
                     <Link href={href}>

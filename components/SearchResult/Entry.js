@@ -16,9 +16,7 @@ const Entry = ({ item, primary }) => {
             <Link href={itemHref}>
                 <div className={styles.search_result__row}>
                     {item.image && (
-                        <figure className={styles.search_result__image}>
-                            <SafeImage image={item.image} altText={`${item.title} Cover (${item.media})`} />
-                        </figure>
+                        <SafeImage image={item.image} altText={`${item.title} Cover (${item.media})`} className={styles.search_result__image} />
                     )}
                     <header className={styles.search_result__texts}>
                         <div className={styles.search_result__breadcrumb}>

@@ -17,11 +17,11 @@ const censor = (image, force, container) => {
 // TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
 // https://nextjs.org/docs/api-reference/next/image
 
-const SafeImage = ({ image, altText, force = true, displayButton = false }) => {
+const SafeImage = ({ image, altText, force = true, displayButton = false, className, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg`}) => {
     const { user, dispatchUser } = useContext(UserContext);
     const container = useContainer();
     const isCensored = user.safeSearch && censor(image, force, container);
-    const img = image ? image.uri : `${ASSET_PREFIX}/images/default-profile-picture.jpg`;
+    const img = image ? image.uri : fallback;
 
     const onClick = e => {
         dispatchUser({
@@ -29,10 +29,12 @@ const SafeImage = ({ image, altText, force = true, displayButton = false }) => {
             payload: false,
         })
     };
-    return (<>
-        <img src={isCensored ? `${ASSET_PREFIX}/images/adult-only-warning.jpg` : img} alt={altText} />
-        {isCensored && displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
-    </>)
+    return (
+        <figure className={className}>
+            <img src={isCensored ? `${ASSET_PREFIX}/images/adult-only-warning.jpg` : img} alt={altText} />
+            {isCensored && displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
+        </figure>
+    )
 }
 
 export default SafeImage;

@@ -3,12 +3,14 @@ import styles from './WorkInProgress.module.css';
 import stylesCard from '@/components/Card/Info/CardInfo.module.css';
 import stylesExpandable from '@/components/ExpandableSection/ExpandableSection.module.css';
 
+import SafeImage from '@/components/SafeImage';
+
 const WorkInProgressStaffCard = ({ w1, w2, w3, w4 }) => {
     return (
 
         <div className={stylesCard.card}>
-            <figure className={stylesCard.card__image}>
-            </figure>
+            <SafeImage className={stylesCard.card__image} fallback={undefined}>
+            </SafeImage>
             <div className={stylesCard.card__info}>
                 <p className={stylesCard.card__jap-name}>
                     <div className={styles.coming_soon_staff_title} style={{width : w1}}/>
