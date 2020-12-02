@@ -24,6 +24,7 @@
     padding: 0;
     margin: 0 20px 0 0;
     max-width: 100px;
+    max-height: calc(100px * 1.4);
     overflow: hidden;
     border-radius: 5px;
 }

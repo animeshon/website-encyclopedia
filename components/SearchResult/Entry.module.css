@@ -150,6 +150,7 @@
 .search_result__aside__item figure {
     min-width: 100px;
     max-width: 100px;
+    max-height: 130px;
     margin: 0 18px 0 0;
     background-color: #fff;
     overflow: hidden;
