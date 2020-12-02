@@ -79,6 +79,9 @@
 
 .search_result__texts {
     margin-left: 10px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .search_result__texts h2 {
@@ -108,6 +111,9 @@
     -moz-box-orient: vertical;
     box-orient: vertical;
     overflow: hidden;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .search_result__texts strong {
