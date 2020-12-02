@@ -31,7 +31,8 @@
 
 .search_result__image {
     margin: 0 8px 0 18px;
-    width: 85px;
+    min-width: 85px;
+    max-width: 85px;
     /*min-height: 130px;*/
     max-height: 130px;
     background-color: #fff;
