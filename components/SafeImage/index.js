@@ -22,8 +22,9 @@ const getURIByFormat = (image, reqFormat) => {
         if (!format || format != reqFormat) {
             continue;
         }
-        return images[i].image.files[j].publicUri;
+        return images.files[j].publicUri;
     }
+    return undefined;
 } 
 
 const censor = (image, force, container) => {
