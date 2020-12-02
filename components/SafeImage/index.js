@@ -53,19 +53,19 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
     };
     return (
         <LazyLoad offset={300} once={true}>
-        {isCensored ? <picture>
-            {/* if censored, display censored image */}
-            <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText}  />
-            {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
-        </picture> :
-            <picture>
-                {/* WEBP */}
-                {webP ? <source srcSet={webP} type="image/webp" alt={altText} /> : undefined}
-                {/* default (PNG) */}
-                
-                <img src={img} alt={altText} />
-            </picture>}
-            </LazyLoad >
+            {isCensored ? <picture>
+                {/* if censored, display censored image */}
+                <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />
+                {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
+            </picture> :
+                <picture>
+                    {/* WEBP */}
+                    {webP ? <source srcSet={webP} type="image/webp" alt={altText} /> : undefined}
+                    {/* default (PNG) */}
+
+                    <img src={img} alt={altText} />
+                </picture>}
+        </LazyLoad >
     )
 }
 
