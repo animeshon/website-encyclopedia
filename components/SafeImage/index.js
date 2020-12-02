@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import Image from 'next/image'
-import 'lazysizes';
-// import a plugin
-import 'lazysizes/plugins/parent-fit/ls.parent-fit';
 
+import LazyLoad from 'react-lazyload';
 
 import { UserContext } from '@/ctx/User';
 import { useContainer } from '@/components/Container';
@@ -54,17 +52,20 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
         })
     };
     return (
-        isCensored ? <picture>
+        <LazyLoad offset={300} once={true}>
+        {isCensored ? <picture>
             {/* if censored, display censored image */}
-            <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} className="lazyload" />
+            <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText}  />
             {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
         </picture> :
             <picture>
                 {/* WEBP */}
-                {webP ? <source srcset={webP} type="image/webp" alt={altText} /> : undefined}
+                {webP ? <source srcSet={webP} type="image/webp" alt={altText} /> : undefined}
                 {/* default (PNG) */}
-                <img src={img} alt={altText} className="lazyload" />
-            </picture>
+                
+                <img src={img} alt={altText} />
+            </picture>}
+            </LazyLoad >
     )
 }
 
