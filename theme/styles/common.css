@@ -1057,6 +1057,37 @@ ul.grid-halves {
     padding-left: 10px;
 }
 
+@media screen and (max-width: 1280px) {
+    .results-container {
+        margin-left: 33px;
+        max-width: 1040px;
+    }
+}
+
+@media screen and (max-width: 940px) {
+
+    .results-container .left-column,
+    .results-container .right-column {
+        max-width: 100%;
+        width: 100%;
+    }
+    .results-container .left-column {
+        padding-right: 0;
+    }
+    .results-container .right-column {
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 499px) {
+    .results-container {
+        margin-left: 33px;
+        margin-right: 33px;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
 .header-with-filter {
     display: flex;
 }
