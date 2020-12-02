@@ -1,5 +1,10 @@
 import React, { useContext } from 'react';
 import Image from 'next/image'
+import 'lazysizes';
+// import a plugin
+import 'lazysizes/plugins/parent-fit/ls.parent-fit';
+
+
 import { UserContext } from '@/ctx/User';
 import { useContainer } from '@/components/Container';
 
@@ -25,7 +30,7 @@ const getURIByFormat = (image, reqFormat) => {
         return image.files[j].publicUri;
     }
     return undefined;
-} 
+}
 
 const censor = (image, force, container) => {
     const age = image ? Age(image.ratings) : undefined;
@@ -48,16 +53,19 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
             payload: false,
         })
     };
-    return (<picture>
-        {/* if censored, display censored image */}
-        {isCensored ? <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} /> : undefined}
-        {/* WEBP */}
-        {webP ? <source srcset={webP} type="image/webp" alt={altText}/> : undefined}
-        {/* default (PNG) */}
-        <img src={img} alt={altText}/>
-        {/* if censored and can show button, show button */}
-        {isCensored && displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
-    </picture>)
+    return (
+        isCensored ? <picture>
+            {/* if censored, display censored image */}
+            <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} className="lazyload" />
+            {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
+        </picture> :
+            <picture>
+                {/* WEBP */}
+                {webP ? <source srcset={webP} type="image/webp" alt={altText} /> : undefined}
+                {/* default (PNG) */}
+                <img src={img} alt={altText} className="lazyload" />
+            </picture>
+    )
 }
 
 export default SafeImage;
