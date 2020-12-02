@@ -58,7 +58,7 @@ Character.getInitialProps = async ctx => {
         return {
             id: id,
             type: __typename,
-            name: locale.LatinAny(names),
+            name: locale.EnglishAny(names),
             japaneseName: locale.Japanese(names),
             image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
