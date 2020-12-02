@@ -6,12 +6,14 @@ import * as uri from '@/utilities/URI';
 const EpisodeCard = ({ episode }) => {
     const href = uri.Rewrite('Episode', episode.name, episode.id);
     const releaseDate = new Date(episode).toLocaleDateString('en-US')
-
+    
     return (
         <div key={id} className="episodes-list__box">
             <Link href={href}>
                 <a>
-                    <img src={episode.image.uri} alt={episode.name} className="episodes-list__image" />
+                    <figure className="episodes-list__image">
+                        <img src={episode.image.uri} alt={episode.name} />
+                    </figure>
                 </a>
             </Link>
             <div className="episode-details">

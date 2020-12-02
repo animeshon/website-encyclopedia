@@ -13,7 +13,9 @@ const Related = ({ content }) => {
 
     return (
         <div key={content.id} className={styles.related__item}>
-            <SafeImage image={content.image} className={styles.related__item_cover} />
+            <figure className={styles.related__item_cover}>
+                <SafeImage image={content.image} />
+            </figure>
             <article className={styles.related__item_contents}>
                 <header>
                     <p>{content.relation}</p>

@@ -32,37 +32,11 @@ export const Image = (images, types, formats, ratings = null, fallback = null) =
             }
         }
 
-        if (formats && formats.length != 0) {
-            for (var j = 0; j < images[i].image.files.length; j++) {
-                const format = images[i].image.files[j].format;
-                if (!format || !formats.includes(format)) {
-                    continue;
-                }
-
-                // we return an object {uri, ratings} in order to process the image later on
-                // also we add the ratings of the "wrapper" content (anime, manga, ...) if any,
-                // if the image do not has it own rating
-                return {
-                    uri: images[i].image.files[j].publicUri, 
-                    ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
-                };
-            }
-
-            continue;
-        }
-
-        // Take the first image available, no matter the format or type.
-        for (var j = 0; j < images.length; j++) {
-            if (images[i].image.files[j]) {
-                // we return an object {uri, ratings} in order to process the image later on
-                // also we add the ratings of the "wrapper" content (anime, manga, ...) if any,
-                // if the image do not has it own rating
-                return {
-                    uri: images[i].image.files[j].publicUri, 
-                    ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
-                };
-            }
-        }
+        // Take the first image available, no matter the type.
+        return {
+            uri: images[i].image.files, 
+            ratings: images[i].ageRatings?.length ? images[i].ageRatings : ratings
+        };
     }
 
     if (fallback) {

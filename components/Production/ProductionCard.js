@@ -16,7 +16,9 @@ const ProductionCard = ({ production }) => {
         <div key={production.id} className={styles.related__item}>
             <Link href={href}>
                 <a>
-                    <SafeImage image={production.image} className={styles.related__item_cover} />
+                    <figure className={styles.related__item_cover}>
+                        <SafeImage image={production.image} />
+                    </figure>
                 </a>
             </Link>
             <article className={styles.related__item_contents}>
