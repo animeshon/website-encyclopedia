@@ -19,18 +19,20 @@ const ResultDisplayer = ({ results, hasMore, searchTerm, page }) => {
     return (
         <>
             {results && results.length ? 
-            (<InfiniteScroll
-                dataLength={results.length}
-                next={moreResults}
-                hasMore={hasMore}
-                scrollThreshold={0.7}
-                useWindow={false}
-            >
+            // (<InfiniteScroll
+            //     dataLength={results.length}
+            //     next={moreResults}
+            //     hasMore={hasMore}
+            //     scrollThreshold={0.7}
+            //     useWindow={false}
+            // >
+            <>
                 {results.map((item, index) => {
                     const primary = index <= 3 ? true : false;
                     return (<Entry item={item} primary={primary} key={item.id} />);
                 })}
-            </InfiniteScroll>) : (<>No result was found for the search term <strong>{searchTerm}</strong>.</>)}
+                </>
+            /*</InfiniteScroll>)*/ : (<>No result was found for the search term <strong>{searchTerm}</strong>.</>)}
         </>
     );
 };
