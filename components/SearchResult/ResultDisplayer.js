@@ -24,6 +24,7 @@ const ResultDisplayer = ({ results, hasMore, searchTerm, page }) => {
                 next={moreResults}
                 hasMore={hasMore}
                 scrollThreshold={0.7}
+                useWindow={false}
             >
                 {results.map((item, index) => {
                     const primary = index <= 3 ? true : false;
