@@ -4,7 +4,7 @@ import Head from 'next/head';
 import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from './../introspection/fragments.generated.json';
