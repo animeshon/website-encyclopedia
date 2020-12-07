@@ -14,13 +14,14 @@
 .hero_cover__image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     position: relative;
     z-index: 0;
 }
 
 .hero_cover__image img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .hero_cover__shade {
