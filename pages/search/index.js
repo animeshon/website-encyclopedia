@@ -129,7 +129,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
         minScore: 10,
     }
     const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch; }));
-    const res = qs.res;
+    const res = qs?.res;
 
     if (!res || res instanceof Error) {
         // TODO proper visualization of the errors
