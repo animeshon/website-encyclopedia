@@ -18,6 +18,7 @@ import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
 import * as roles from '@/utilities/TypedRole';
+import * as time from '@/utilities/Time';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
@@ -164,6 +165,7 @@ ContentPage.getInitialProps = async ctx => {
                 { key: 'Season', value: season.JapanAny(info.runnings) },
                 { key: 'Length', value: length },
                 { key: 'Published', value: undefined }, // TODO: <---------------------------
+                { key: 'Released', value: time.EnglishDate(info.releaseDate) }, 
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
             ],
             [

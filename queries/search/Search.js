@@ -239,6 +239,7 @@ const visualNovelDetails = () => gql`
     ageRatings {
       age
     }
+    releaseDate
     images {
       type
       image {
@@ -340,6 +341,7 @@ const chapterDetails = () => gql`
         age
       }
     }
+    releaseDate
     content {
       __typename
       ... on Manga {

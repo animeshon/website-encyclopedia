@@ -57,8 +57,7 @@ export const getSummary = () => gql`
         }
       }
       length
-      # TODO uncomment after new sync
-      # releaseDate
+      releaseDate
       ageRatings {
         country {
           code
