@@ -5,7 +5,9 @@ export const SearchContext = React.createContext({});
 export const searchReducer = (state, action) => {
     switch (action.type) {
         case 'performNewSearch':
-            return { ...state, search: action.payload };
+            return { ...state, search: action.payload, filter: undefined };
+        case 'applyFilter':
+            return { ...state, filter: action.payload };
         default:
             return { ...state };
     }

@@ -3,10 +3,10 @@
 import React from 'react';
 import styles from './ResultMetrics.module.css';
 
-const ResultMetrics = ({ queryTime }) => {
+const ResultMetrics = ({ results, total, queryTime }) => {
     return (
         <em className={styles.results_displayer}>
-            Results displayed in {(queryTime).toFixed(2)} seconds
+            {results} of {total} results displayed in {(queryTime).toFixed(2)} seconds
         </em>
     );
 };

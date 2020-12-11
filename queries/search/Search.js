@@ -1,11 +1,12 @@
 import { gql } from '@apollo/client';
 
-export const performSearch = () => gql` query search($search: String!, $first: Int!, $offset: Int!, $filter: [SearchFilterType!]) {
-    querySearch(queryTerm:$search, first: $first, offset: $offset, filter: $filter) {
+export const performSearch = () => gql` query search($search: String!, $first: Int!, $offset: Int!, $filter: [SearchFilterType!], $minScore: Int = 0) {
+    querySearch(queryTerm:$search, first: $first, offset: $offset, filter: $filter, minScore: $minScore) {
         res : results {
             id
             type
         }
+        resultTotal
     }
 }`;
 

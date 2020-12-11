@@ -1,0 +1,82 @@
+.filter {
+    border-bottom: 1px solid #dfdfdf;
+    margin-bottom: 32px;
+}
+
+.filter header {
+    margin-bottom: 0px;
+}
+
+.filter h4 {
+    text-transform: uppercase;
+    padding: 0 5px;
+}
+
+.filter header button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    display: inline-flex;
+    padding: 0;
+}
+
+.filter_container {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    -ms-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+}
+
+.filter_container.close {
+    display: none;
+}
+
+.filter_container.open {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+.filter_group.wide {
+    padding: 0 32px 0 0;
+}
+
+.filter_group {
+    -ms-flex: 1 1 1e-9px;
+    -webkit-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 1e-9px;
+    flex-basis: 1e-9px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+}
+
+.filter_group h5 {
+    border-bottom: 1px solid #dfdfdf;
+    margin: 5px 0;
+    padding: 10px 0;
+    font-weight: 500;
+    letter-spacing: 0.007px;
+    text-transform: uppercase;
+    min-height: 36px;
+}
+
+.filter_group a {
+    cursor: pointer;
+    margin: 5px 0;
+    color: #3a3a3a;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.filter_group a.selected {
+    font-weight: bold;
+}

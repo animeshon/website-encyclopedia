@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState,useEffect } from 'react';
 import Head from 'next/head';
 import { withRouter, useRouter } from 'next/router';
+import { useApolloClient } from '@apollo/client';
 
 import { SearchContext } from '@/ctx/Search';
 
@@ -10,6 +11,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer';
 import ResultMetrics from '@/components/SearchResult/ResultMetrics';
 import ResultDisplayer from '@/components/SearchResult/ResultDisplayer';
+import ResultFilter from '@/components/SearchResult/ResultFilter';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -21,9 +23,19 @@ import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
 
-const Search = ({ queryTime, results, hasMore, page }) => {
+const Search = ({ queryTime, results, total }) => {
     const { search } = useContext(SearchContext);
     const router = useRouter();
+    const fakeCtx = { apolloClient: useApolloClient() };
+
+    const [hasMore, setMore] = useState(false);
+    const [resultsComulative, setResults] = useState([]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+        setResults(results);
+        setMore(results.length < total);
+    }, [results])
 
     const url = uri.AbsoluteURI(router.pathname);
 
@@ -34,6 +46,15 @@ const Search = ({ queryTime, results, hasMore, page }) => {
         canonical: undefined,
         url: url,
         image: '../../public/brand/animeshon-brand-horizontal-small.svg',
+    };
+
+    const moreResults = async () => {
+        const filter = search.filter ? [search.filter] : [];
+        const { results, total, queryTime } = await SearchQuery(fakeCtx, search.search, 20, resultsComulative.length, filter);
+        const comb =
+            resultsComulative.concat(results);
+        setResults(comb);
+        setMore(comb.length < total);
     };
 
     return (
@@ -64,10 +85,14 @@ const Search = ({ queryTime, results, hasMore, page }) => {
 
             <Header isSearchAvailable />
             <div className="header_padder" />
-            <ResultMetrics queryTime={queryTime} />
+            <ResultMetrics results={resultsComulative.length} total={total} queryTime={queryTime} />
             <div className="results-container">
                 <div className="left-column">
-                    <ResultDisplayer results={results} searchTerm={search.search} hasMore={hasMore} page={page} />
+
+                    <ResultFilter/>
+
+                    <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} />
+
                 </div>
                 <div className="right-column">
                     {/* TODO Universes */}
@@ -79,37 +104,36 @@ const Search = ({ queryTime, results, hasMore, page }) => {
 }
 
 Search.getInitialProps = async ctx => {
-    const startTime = Date.now();
-
     const searchTerm = ctx.query.q;
-    // max 10 + 90 results
-    const page = Math.min(ctx.query.p !== undefined ? ctx.query.p : 0, 9);
+    const filterType = ctx.query.ft;
 
     // No query, no results
     if (searchTerm === undefined) {
-        return { queryTime: 0, results: [] }
+        return { results: [], total: 0, queryTime: 0 }
     }
 
-    const { results, hasMore } = await SearchQuery(ctx, searchTerm, page, []);
-    const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
+    const { results, total, queryTime } = await SearchQuery(ctx, searchTerm, 20, 0, filterType ? [filterType] : []);
 
-    return { queryTime, results, hasMore, page };
+    return { queryTime, results, total };
 };
 
-const SearchQuery = async (ctx, searchTerm, pages, filter) => {
-    const amountRequested = 10 + pages * 10
+const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
+    const startTime = Date.now();
+
     // get ids and types from elastic search
     const vars = {
         search: searchTerm,
-        first: amountRequested + 1,
-        offset: 0,
+        first: first,
+        offset: offset,
         filter: filter,
+        minScore: 10,
     }
-    const res = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch?.res; }));
+    const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch; }));
+    const res = qs.res;
 
     if (!res || res instanceof Error) {
         // TODO proper visualization of the errors
-        return { results: [], hasMore: false }
+        return { results: [], total: 0, queryTime: 0 }
     }
 
     // enqueue graphql query to get details
@@ -141,7 +165,9 @@ const SearchQuery = async (ctx, searchTerm, pages, filter) => {
         };
     });
 
-    return { results: results, hasMore: res.length > amountRequested }
+    const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
+
+    return { results: results, total: qs.resultTotal, queryTime: queryTime }
 }
 
 export default withRouter(Search);
