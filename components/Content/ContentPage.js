@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { GetTypedStaff } from '@/queries/GetStaff';
-import getCollaboration from '@/queries/GetCollaboration';
 import GetContentSummary from '@/queries/GetContentSummary';
 import GetRelated from '@/queries/GetRelated';
 
@@ -57,35 +56,28 @@ ContentPage.getInitialProps = async ctx => {
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),
         PrepareKeyQuery("related", { id: id }, GetRelated(type)),
-        PrepareKeyQuery("typedRoles", { id: id }, GetTypedStaff(type)),
+        PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
     const { info, related, typedRoles } = await ExecuteQueryBatch(ctx, queries);
-
-    // enqueue graphql query to get details
-    const staffQueries = [];
-    typedRoles.staff?.forEach(x => {
-        if (!x.role.type || ![
-        "ART_DIRECTION", 
-        "AUTHOR", 
-        "DIRECTION", 
-        "GAME_DEVELOPMENT", 
-        "MUSIC_COMPOSITION", 
-        "PRODUCTION", 
-        "STORY", 
-        "ILLUSTRATION", 
-        "STUDIO", 
-        "VOCALIST"].includes(x.role.type)) {
-            return;
-        }
-        staffQueries.push(PrepareQuery({ id: x.id, content: false, collaborator: true }, getCollaboration()));
-    });
-    // wait
-    const staff = await ExecuteQueries(ctx, staffQueries);
 
     // build proper collaboration map
     const MapStaff = (staff) => {
         let mapStaff = {};
         staff.forEach(v => {
+            if (!v.role.type || ![
+                "ART_DIRECTION",
+                "AUTHOR",
+                "DIRECTION",
+                "GAME_DEVELOPMENT",
+                "MUSIC_COMPOSITION",
+                "PRODUCTION",
+                "STORY",
+                "ILLUSTRATION",
+                "STUDIO",
+                "VOCALIST"].includes(v.role.type)) {
+                return;
+            }
+
             if (!mapStaff.hasOwnProperty(v.role.id)) {
                 mapStaff[v.role.id] = {
                     role: v.role,
@@ -106,11 +98,11 @@ ContentPage.getInitialProps = async ctx => {
                 })
             }
         })
-    
+
         return arrayStaff;
     }
 
-    const collaborations = MapStaff(staff);
+    const collaborations = MapStaff(typedRoles.staff);
 
     const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;

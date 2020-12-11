@@ -1,28 +1,31 @@
 import { gql } from '@apollo/client';
 
-const getAppearances = () => gql`
-  query details($id: String!, $first: Int!) {
-    result: getCharacter(id: $id) {
+const Collaboration = {};
+
+Collaboration.Fragments = {
+  typed: gql`
+    fragment CollaborationTyped on Collaboration {
       id
-      appearance(first: $first) {
-      relation
-      content {
-        __typename
-        ... on Anime {
+      role @cascade {
+        ... on TypedRole {
           id
-          status
-          runnings {
-            localization {
-              country {
-                code
-              }
-            }
-            from
-            to
-          }
-          ageRatings {
-            age
-          }
+          type
+        }
+      }
+      localization {
+        language {
+          code
+          alpha2
+        }
+        country {
+          code
+          alpha2
+        }
+      }
+      collaborator @include(if: $collaborator) {
+        __typename
+        ... on Circle {
+          id
           images {
             type
             image {
@@ -35,7 +38,7 @@ const getAppearances = () => gql`
               age
             }
           }
-          descriptions {
+          names {
             text
             localization {
               language {
@@ -43,6 +46,113 @@ const getAppearances = () => gql`
               }
               script {
                 code
+              }
+            }
+          }
+        }
+        ... on Organization {
+          id
+          images {
+            type
+            image {
+              files {
+                format
+                publicUri
+              }
+            }
+            ageRatings {
+              age
+            }
+          }
+          names {
+            text
+            localization {
+              language {
+                code
+              }
+              script {
+                code
+              }
+            }
+          }
+        }
+        ... on Person {
+          id
+          images {
+            type
+            image {
+              files {
+                format
+                publicUri
+              }
+            }
+            ageRatings {
+              age
+            }
+          }
+          names {
+            text
+            localization {
+              language {
+                code
+              }
+              script {
+                code
+              }
+            }
+          }
+        }
+        ... on Magazine {
+          id
+          images {
+            type
+            image {
+              files {
+                format
+                publicUri
+              }
+            }
+            ageRatings {
+              age
+            }
+          }
+          names {
+            text
+            localization {
+              language {
+                code
+              }
+              script {
+                code
+              }
+            }
+          }
+        }
+      }
+      content @include(if: $content) {
+        __typename
+        __typename
+        ... on Anime {
+          id
+          status
+          ageRatings {
+            age
+          }
+          runnings {
+            localization {
+              country {
+                code
+              }
+            }
+            from
+            to
+          }
+          images {
+            type
+            image {
+              files {
+                format
+                publicUri
               }
             }
           }
@@ -61,6 +171,9 @@ const getAppearances = () => gql`
         ... on Manga {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -70,29 +183,12 @@ const getAppearances = () => gql`
             from
             to
           }
-          ageRatings {
-            age
-          }
           images {
             type
             image {
               files {
                 format
                 publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
               }
             }
           }
@@ -111,6 +207,9 @@ const getAppearances = () => gql`
         ... on Doujinshi {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -120,29 +219,12 @@ const getAppearances = () => gql`
             from
             to
           }
-          ageRatings {
-            age
-          }
           images {
             type
             image {
               files {
                 format
                 publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
               }
             }
           }
@@ -161,6 +243,9 @@ const getAppearances = () => gql`
         ... on LightNovel {
           id
           status
+          ageRatings {
+            age
+          }
           runnings {
             localization {
               country {
@@ -170,29 +255,12 @@ const getAppearances = () => gql`
             from
             to
           }
-          ageRatings {
-            age
-          }
           images {
             type
             image {
               files {
                 format
                 publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
               }
             }
           }
@@ -221,20 +289,6 @@ const getAppearances = () => gql`
                 publicUri
               }
             }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
           }
           names {
             text
@@ -250,8 +304,7 @@ const getAppearances = () => gql`
         }
       }
     }
-  }
-}
-`;
+  `,
+};
 
-export default getAppearances;
+export default Collaboration;

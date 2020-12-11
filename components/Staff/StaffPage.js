@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { GetTypedStaff } from '@/queries/GetStaff';
-import getCollaboration from '@/queries/GetCollaboration';
 
 import ExpandableSection from '@/components/ExpandableSection';
 import StaffGrid from '@/components/Staff/StaffGrid';
@@ -66,18 +65,11 @@ StaffPage.getInitialProps = async ctx => {
     const type = uri.GuessType(ctx);
 
     const queries = [
-        PrepareKeyQuery("typedRoles", { id: id }, GetTypedStaff(type)),
+        PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
     const { typedRoles } = await ExecuteQueryBatch(ctx, queries);
 
-    // enqueue graphql query to get details
-    const charQueries = typedRoles.staff?.map(x => {
-        return PrepareQuery({ id: x.id, content: false, collaborator: true }, getCollaboration());
-    });
-    // wait
-    const collaborations = await ExecuteQueries(ctx, charQueries);
-
-    const people = (collaborations || []).map(i => {
+    const people = (typedRoles.staff || []).map(i => {
         const { role, collaborator, localization } = i;
 
         // TODO: Vastly improve the logic here.

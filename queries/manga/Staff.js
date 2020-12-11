@@ -1,17 +1,15 @@
-import gql from 'graphql-tag';
+
+import Collaboration from '@/queries/Collaboration';
+import { gql } from '@apollo/client';
 
 export const getTypedStaff = () => gql`
-  query details($id: String!) {
+  query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
     result : getManga(id:$id) {
       id
-      staff @cascade {
-        id
-        role  {
-          ...on TypedRole {
-            id
-            type
-          }
-        }
+      staff @cascade(fields: ["role"]) {
+        ...CollaborationTyped
       }
     }
-  }`;
+  }
+  ${Collaboration.Fragments.typed}
+  `;

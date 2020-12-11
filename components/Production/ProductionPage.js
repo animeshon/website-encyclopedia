@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { GetTypedProduction } from '@/queries/GetProduction';
-import getCollaboration from '@/queries/GetCollaboration';
 
 import ProductionCard from '@/components/Production/ProductionCard';
 
@@ -54,7 +53,7 @@ const ProductionPage = ({ productions }) => {
                 <div className="grid-halves">
                     {keys.length ? keys.map(c => {
                         const production = productionsMap[c];
-                        return (<ProductionCard production={production}/>)
+                        return (<ProductionCard key={production.id} production={production}/>)
                     }) : NotFound}
                 </div>
             </section>
@@ -67,19 +66,11 @@ ProductionPage.getInitialProps = async ctx => {
     const type = uri.GuessType(ctx);
 
     const queries = [
-        PrepareKeyQuery("typedProduction", { id: id }, GetTypedProduction(type)),
+        PrepareKeyQuery("typedProduction", { id: id, content: true, collaborator: false }, GetTypedProduction(type)),
     ];
     const { typedProduction } = await ExecuteQueryBatch(ctx, queries);
-    // enqueue graphql query to get details
-    // for now we harcode a limit to the production
-    const MAX_PRODUCTION = 100;
-    const prodQueries = typedProduction.collaborations?.slice(0, MAX_PRODUCTION).map(x => {
-        return PrepareQuery({ id: x.id, content: true, collaborator: false }, getCollaboration());
-    });
-    // wait
-    const collaborations = await ExecuteQueries(ctx, prodQueries);
 
-    const productions = (collaborations || []).map(i => {
+    const productions = (typedProduction.collaborations || []).map(i => {
         const { role, content, localization } = i;
 
         // TODO: Vastly improve the logic here.

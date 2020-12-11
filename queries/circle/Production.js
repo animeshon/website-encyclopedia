@@ -1,17 +1,14 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
+import Collaboration from '@/queries/Collaboration';
 
 export const getTypedProduction = () => gql`
-  query details($id: String!) {
+  query details($id: String!, $collaborator: Boolean!, $content: Boolean!) {
     result : getCircle(id:$id) {
       id
-      collaborations @cascade {
-        id
-        role  {
-          ...on TypedRole {
-            id
-            type
-          }
-        }
+      collaborations @cascade(fields: ["role"]) {
+        ...CollaborationTyped
       }
     }
-  }`;
+  }
+  ${Collaboration.Fragments.typed}
+  `;
