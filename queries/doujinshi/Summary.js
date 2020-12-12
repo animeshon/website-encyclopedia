@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 import Generic from '@/queries/Generic'
+import Core from '@/queries/Core'
 
 export const getSummary = () => gql`
   query details($id: String!) {
