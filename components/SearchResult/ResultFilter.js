@@ -59,6 +59,7 @@ const ResultFilter = () => {
                 </div>
                 <div className={`${styles.filter_group} ${styles.wide}`}>
                     <h5>Type</h5>
+                    <a onClick={(e) => applyFilter(e, "Character")} className={filter == 'Character' ? styles.selected : ''}>Character</a>
                     <a onClick={(e) => applyFilter(e, "Person")} className={filter == 'Person' ? styles.selected : ''}>Person</a>
                     <a onClick={(e) => applyFilter(e, "Organization")} className={filter == 'Organization' ? styles.selected : ''}>Organization</a>
                     <a onClick={(e) => applyFilter(e, "Circle")} className={filter == 'Circle' ? styles.selected : ''}>Circle</a>
