@@ -1,4 +1,6 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 const Collaboration = {};
 
@@ -13,131 +15,39 @@ Collaboration.Fragments = {
         }
       }
       localization {
-        language {
-          code
-          alpha2
-        }
-        country {
-          code
-          alpha2
-        }
+        ...CodeAlpha2
       }
       collaborator @include(if: $collaborator) {
         __typename
         ... on Circle {
           id
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...GenericProfileImage
+          ...GenericNames
         }
         ... on Organization {
           id
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...GenericProfileImage
+          ...GenericNames
         }
         ... on Person {
           id
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...GenericProfileImage
+          ...GenericNames
         }
         ... on Magazine {
           id
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...GenericProfileImage
+          ...GenericNames
         }
       }
       content @include(if: $content) {
         __typename
-        __typename
         ... on Anime {
           id
           status
-          ageRatings {
-            age
-          }
+          ...AgeRatingFull
+          ...GenericProfileImage
+          ...GenericNames
           runnings {
             localization {
               country {
@@ -146,34 +56,14 @@ Collaboration.Fragments = {
             }
             from
             to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
           }
         }
         ... on Manga {
           id
           status
-          ageRatings {
-            age
-          }
+          ...AgeRatingFull
+          ...GenericProfileImage
+          ...GenericNames
           runnings {
             localization {
               country {
@@ -182,34 +72,14 @@ Collaboration.Fragments = {
             }
             from
             to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
           }
         }
         ... on Doujinshi {
           id
           status
-          ageRatings {
-            age
-          }
+          ...AgeRatingFull
+          ...GenericProfileImage
+          ...GenericNames
           runnings {
             localization {
               country {
@@ -218,34 +88,14 @@ Collaboration.Fragments = {
             }
             from
             to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
           }
         }
         ... on LightNovel {
           id
           status
-          ageRatings {
-            age
-          }
+          ...AgeRatingFull
+          ...GenericProfileImage
+          ...GenericNames
           runnings {
             localization {
               country {
@@ -255,55 +105,20 @@ Collaboration.Fragments = {
             from
             to
           }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
         }
         ... on VisualNovel {
           id
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...AgeRatingFull
+          ...GenericProfileImage
+          ...GenericNames
+          releaseDate
         }
       }
     }
+    ${Generic.Fragments.names}
+    ${Generic.Fragments.profileImage}
+    ${Core.Fragments.withAgeRatingFull}
+    ${Core.Fragments.localizationCodeAlpha2}
   `,
 };
 

@@ -1,84 +1,31 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 export const getSummary = () => gql`
   query details($id: String!) {
     result : getAnime(id:$id) {
       id
-      names @cascade {
-        text
-        localization {
-          language {
-            code
-          }
-          script {
-            code
-          }
-        }
-      }
-      descriptions @cascade {
-        text
-        localization {
-          language(filter: {code: {eq: "eng"}}) {
-            code
-          }
-          script {
-            code
-          }
-        }
-      }
+      ...GenericNames
+      ...GenericDescriptions
       starring(first: 5, filter: {relation: {eq: MAIN}}) {
         character {
           ... on Character {
             id
-            images {
-              type
-              image {
-                files {
-                  format
-                  publicUri
-                }
-              }
-            ageRatings {
-              age
-            }
-            }
-            names {
-              text
-              localization {
-                language {
-                  code
-                }
-                script {
-                  code
-                }
-              }
-            }
+            ...GenericProfileImage
+            ...GenericNames
           }
         }
       }
       type
-      ageRatings {
-        country {
-          code
-        }
-        age
-        tag
-      }
+      status
+      ...AgeRatingFull
       episodes(filter: {type: {eq: REGULAR}}) {
         id
       }
-      status
       genres {
         names @cascade {
-          text
-          localization {
-            language {
-              code
-            }
-            script {
-              code
-            }
-          }
+          ...TextWithLocalization
         }
       }
       runnings {
@@ -93,17 +40,7 @@ export const getSummary = () => gql`
       partOfCanonicals {
         partOfUniverses {
           id
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
+          ...GenericNames
         }
         content {
           __typename
@@ -120,20 +57,16 @@ export const getSummary = () => gql`
             id
           }
         }
-        images {
-          type
-          image {
-            files {
-              format
-              publicUri
-            }
-          }
-          ageRatings {
-            age
-          }
-        }
+        ...GenericNames
+        ...GenericProfileImage
       }
     }
-  }`;
+  }
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.textWithLocalization}
+`;
 
 export default getSummary;

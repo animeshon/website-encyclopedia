@@ -1,4 +1,7 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
+
 
 export const performSearch = () => gql` query search($search: String!, $first: Int!, $offset: Int!, $filter: [SearchFilterType!], $minScore: Int = 0) {
     querySearch(queryTerm:$search, first: $first, offset: $offset, filter: $filter, minScore: $minScore) {
@@ -12,694 +15,264 @@ export const performSearch = () => gql` query search($search: String!, $first: I
 
 const animeDetails = () => gql`
   query details($id: String!) {
-    result : getAnime(id:$id) {
-    id
-    __typename
-    type
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
+      result : getAnime(id:$id) {
+      id
+      __typename
       type
-      image {
-        files {
-          format
-          publicUri
-        }
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      runnings {
+        from
+        to
       }
-      ageRatings {
-        age
-      }
-    }
-    ageRatings {
-      age
-    }
-    runnings {
-      from
-      to
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const mangaDetails = () => gql` 
   query details($id: String!) {
-    result : getManga(id:$id) {
-    id
-    __typename
-    type
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
+      result : getManga(id:$id) {
+      id
+      __typename
       type
-      image {
-        files {
-          format
-          publicUri
-        }
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      runnings {
+        from
+        to
       }
-      ageRatings {
-        age
-      }
-    }
-    runnings {
-      from
-      to
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const doujinshiDetails = () => gql` 
   query details($id: String!) {
-    result : getDoujinshi(id:$id) {
-    id
-    __typename
-    type
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
+      result : getDoujinshi(id:$id) {
+      id
+      __typename
       type
-      image {
-        files {
-          format
-          publicUri
-        }
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      runnings {
+        from
+        to
       }
-      ageRatings {
-        age
-      }
-    }
-    runnings {
-      from
-      to
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
+
 
 const lightNovelDetails = () => gql` 
   query details($id: String!) {
-    result : getLightNovel(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
+      result : getLightNovel(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      runnings {
+        from
+        to
       }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
-    }
-    runnings {
-      from
-      to
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
+
 
 const visualNovelDetails = () => gql` 
   query details($id: String!) {
-    result : getVisualNovel(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    releaseDate
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getVisualNovel(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      releaseDate
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const songDetails = () => gql` 
   query details($id: String!) {
-    result : getSong(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
+      result : getSong(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      releaseDate
     }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
-    }
-    releaseDate
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const chapterDetails = () => gql` 
   query details($id: String!) {
-    result : getChapter(id:$id) {
-    id
-    __typename
-    type
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
-    }
-    releaseDate
-    content {
+      result : getChapter(id:$id) {
+      id
       __typename
-      ... on Manga {
-        names {
-          text
-          localization {
-            language {
-              code
-            }
-            script {
-              code
-            }
-          }
-        }
-      }
-      ... on LightNovel {
-        names {
-          text
-          localization {
-            language {
-              code
-            }
-            script {
-              code
-            }
-          }
-        }
-      }
-      ... on Doujinshi {
-        names {
-          text
-          localization {
-            language {
-              code
-            }
-            script {
-              code
-            }
-          }
-        }
+      type
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      releaseDate
+      content {
+        __typename
+        ...GenericNames
       }
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const episodeDetails = () => gql` 
   query details($id: String!) {
-    result : getEpisode(id:$id) {
-    id
-    __typename
-    type
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
+      result : getEpisode(id:$id) {
+      id
+      __typename
       type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
-    }
-    releaseDate
-    content {
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+      releaseDate
+      content {
         __typename
-        type
-        names {
-            text
-            localization {
-                language {
-                    code
-                }
-                script {
-                    code
-                }
-            }
-        }
+        ...GenericNames
+      }
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const characterDetails = () => gql` 
   query details($id: String!) {
-    result : getCharacter(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getCharacter(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const organizationDetails = () => gql` 
   query details($id: String!) {
-    result : getOrganization(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getOrganization(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const magazineDetails = () => gql` 
   query details($id: String!) {
-    result : getMagazine(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getMagazine(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const circleDetails = () => gql` 
   query details($id: String!) {
-    result : getCircle(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getCircle(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const conventionDetails = () => gql` 
   query details($id: String!) {
-    result : getConvention(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getConvention(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const personDetails = () => gql` 
   query details($id: String!) {
-    result : getPerson(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getPerson(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
 
 const typeToQuery = {
   "Anime": animeDetails,

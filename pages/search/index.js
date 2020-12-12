@@ -126,7 +126,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
         first: first,
         offset: offset,
         filter: filter,
-        minScore: 10,
+        minScore: 1,
     }
     const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch; }));
     const res = qs?.res;

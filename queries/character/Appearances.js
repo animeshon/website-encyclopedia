@@ -1,4 +1,6 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 const getAppearances = () => gql`
   query details($id: String!, $first: Int!) {
@@ -9,249 +11,89 @@ const getAppearances = () => gql`
       content {
         __typename
         ... on Anime {
-          id
-          status
-          runnings {
-            localization {
-              country {
-                code
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            ...GenericDescriptions
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-            }
-            from
-            to
-          }
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
+              from
+              to
             }
           }
-          descriptions {
-            text
-            localization {
-              language {
-                code
+          ... on Manga {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            ...GenericDescriptions
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-              script {
-                code
-              }
+              from
+              to
             }
           }
-          names {
-            text
-            localization {
-              language {
-                code
+          ... on Doujinshi {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            ...GenericDescriptions
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-              script {
-                code
-              }
+              from
+              to
             }
           }
-        }
-        ... on Manga {
-          id
-          status
-          runnings {
-            localization {
-              country {
-                code
+          ... on LightNovel {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            ...GenericDescriptions
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-            }
-            from
-            to
-          }
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
+              from
+              to
             }
           }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-        ... on Doujinshi {
-          id
-          status
-          runnings {
-            localization {
-              country {
-                code
-              }
-            }
-            from
-            to
-          }
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-        ... on LightNovel {
-          id
-          status
-          runnings {
-            localization {
-              country {
-                code
-              }
-            }
-            from
-            to
-          }
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-        ... on VisualNovel {
-          id
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          descriptions {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
+          ... on VisualNovel {
+            id
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            ...GenericDescriptions
+            releaseDate
           }
         }
       }
     }
   }
-}
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withAgeRatingFull}
 `;
 
 export default getAppearances;

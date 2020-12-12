@@ -1,59 +1,32 @@
 import { gql } from '@apollo/client';
+import Generic from '@/queries/Generic'
 
 const getSummary = () => gql`
   query details($id: String!) {
-    result: getCharacter(id: $id) {
-    id
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    birthday
-    birthdayFallback
-    guiseOf {
+      result: getCharacter(id: $id) {
       id
-      __typename
-      names {
-        text
-        localization {
-          language {
-            code
-          }
-          script {
-            code
-          }
-        }
+      ...GenericNames
+      ...GenericDescriptions
+      birthday
+      birthdayFallback
+      guiseOf {
+        id
+        __typename
+        ...GenericNames
       }
-    }
-    images(filter: {not: {type: {eq: PROFILE}}, and: {not: {type: {eq: COVER}}}}, first: 4) {
-      type
-      image {
-        files {
-          format
-          publicUri
+      images(filter: {not: {type: {eq: PROFILE}}, and: {not: {type: {eq: COVER}}}}, first: 4) {
+        type
+        image {
+          files {
+            format
+            publicUri
+          }
         }
       }
     }
   }
-}
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
 `;
 
 export default getSummary;

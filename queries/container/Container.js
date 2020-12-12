@@ -1,615 +1,205 @@
 
 import { gql } from '@apollo/client';
-
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 const anime = () => gql`
-  query details($id: String!) {
-    result : getAnime(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+    query details($id: String!) {
+      result : getAnime(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const manga = () => gql`
   query details($id: String!) {
-    result : getManga(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getManga(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const doujinshi = () => gql`
   query details($id: String!) {
-    result : getDoujinshi(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getDoujinshi(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const lightNovel = () => gql`
   query details($id: String!) {
-    result : getLightNovel(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getLightNovel(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const visualNovel = () => gql`
   query details($id: String!) {
-    result : getVisualNovel(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getVisualNovel(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const track = () => gql`
   query details($id: String!) {
-    result : getSong(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getSong(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const chapter = () => gql`
   query details($id: String!) {
-    result : getChapter(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getChapter(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const episode = () => gql`
   query details($id: String!) {
-    result : getEpisode(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    ageRatings {
-      age
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getEpisode(id:$id) {
+      id
+      __typename
+      ...AgeRatingFull
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
+`;
 
 const character = () => gql`
   query details($id: String!) {
     result : getCharacter(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 const organization = () => gql`
   query details($id: String!) {
     result : getOrganization(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 const person = () => gql`
   query details($id: String!) {
     result : getPerson(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 const magazine = () => gql`
   query details($id: String!) {
     result : getMagazine(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 const circle = () => gql`
   query details($id: String!) {
-    result : getCircle(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      result : getCircle(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 const convention = () => gql`
   query details($id: String!) {
     result : getConvention(id:$id) {
-    id
-    __typename
-    names {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    images {
-      type
-      image {
-        files {
-          format
-          publicUri
-        }
-      }
-      ageRatings {
-        age
-      }
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+`;
 
 // ! keep synced with first element of the url in nex.config.js
 // TODO remove after dgraph resolves resolution of fragments on interfaces

@@ -1,187 +1,93 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 export const getRelated = () => gql`
   query details($id: String!) {
     result : getDoujinshi(id:$id) {
       id
-    relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
-      type
-      object {
-        __typename
-        ... on Anime {
-          id
-          status
-          ageRatings {
-            age
-          }
-          runnings {
-            localization {
-              country {
-                code
+      relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
+        type
+        object {
+          __typename
+          ... on Anime {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-            }
-            from
-            to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
+              from
+              to
             }
           }
-          names {
-            text
-            localization {
-              language {
-                code
+          ... on Manga {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-              script {
-                code
-              }
+              from
+              to
             }
           }
-        }
-        ... on Manga {
-          id
-          status
-          ageRatings {
-            age
-          }
-          runnings {
-            localization {
-              country {
-                code
+          ... on Doujinshi {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-            }
-            from
-            to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
+              from
+              to
             }
           }
-          names {
-            text
-            localization {
-              language {
-                code
+          ... on LightNovel {
+            id
+            status
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            runnings {
+              localization {
+                country {
+                  code
+                }
               }
-              script {
-                code
-              }
+              from
+              to
             }
           }
-        }
-        ... on Doujinshi {
-          id
-          status
-          ageRatings {
-            age
-          }
-          runnings {
-            localization {
-              country {
-                code
-              }
-            }
-            from
-            to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-        ... on LightNovel {
-          id
-          status
-          ageRatings {
-            age
-          }
-          runnings {
-            localization {
-              country {
-                code
-              }
-            }
-            from
-            to
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-        ... on VisualNovel {
-          id
-          ageRatings {
-            age
-          }
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
+          ... on VisualNovel {
+            id
+            ...AgeRatingFull
+            ...GenericProfileImage
+            ...GenericNames
+            releaseDate
           }
         }
       }
     }
   }
-}
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.withAgeRatingFull}
 `;
 
 export default getRelated;

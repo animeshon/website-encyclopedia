@@ -1,80 +1,44 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 export const getVoiceActings = () => gql`
   query details($id: String!) {
-  result: getPerson(id: $id) {
-    id
-    voiceActings {
-      isPrimary
-      localization {
-        language {
-          code
-          alpha2
+    result: getPerson(id: $id) {
+      id
+      voiceActings {
+        isPrimary
+        localization {
+          ...CodeAlpha2
         }
-        country {
-          code
-          alpha2
-        }
-      }
-      voiced {
-        __typename
-        ... on Character {
-          id
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
+        voiced {
+          __typename
+          ... on Character {
+            id
+            ...GenericNames
+            ...GenericProfileImage
           }
-          images(first: 1, filter: {type: {eq: PROFILE}}) {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
+          ... on VoiceOver {
+            id
+            names @cascade {
+              ...TextWithLocalization
             }
           }
         }
-        ... on VoiceOver {
-          id
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-      }
-      content {
-        __typename
-        ... on Anime {
-          id
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
+        content {
+          __typename
+          ... on Anime {
+            id
+            ...GenericNames
           }
         }
       }
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Core.Fragments.localizationCodeAlpha2}
+  ${Core.Fragments.textWithLocalization}
+`;
 
 export default getVoiceActings;

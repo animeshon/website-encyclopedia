@@ -1,55 +1,33 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 const getSummary = () => gql`
   query details($id: String!) {
     result : getMagazine(id:$id)  {
-    id
-    names @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language(filter: {code: {eq: "eng"}}) {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    runnings {
-      localization {
-        country {
-          code
-        }
-      }
-      from
-      to
-    }
-    genres {
-      names @cascade {
-        text
+      id
+      ...GenericNames
+      ...GenericDescriptions
+      runnings {
         localization {
-          language {
-            code
-          }
-          script {
+          country {
             code
           }
         }
+        from
+        to
       }
+      genres {
+        names @cascade {
+          ...TextWithLocalization
+        }
+      }
+      audienceTarget
     }
-    audienceTarget
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Core.Fragments.textWithLocalization}
+`;
 
 export default getSummary;

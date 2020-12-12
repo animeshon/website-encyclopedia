@@ -1,142 +1,73 @@
 import { gql } from '@apollo/client';
+import Core from '@/queries/Core'
+import Generic from '@/queries/Generic'
 
 export const getSummary = () => gql`
   query details($id: String!) {
     result : getManga(id:$id) {
-    id
-    names @cascade {
-      text
-      localization {
-        language {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    descriptions @cascade {
-      text
-      localization {
-        language(filter: {code: {eq: "eng"}}) {
-          code
-        }
-        script {
-          code
-        }
-      }
-    }
-    starring(first: 5, filter: {relation: {eq: MAIN}}) {
-      character {
-        ... on Character {
-          id
-          images {
-            type
-            image {
-              files {
-                format
-                publicUri
-              }
-            }
-            ageRatings {
-              age
-            }
-          }
-          names {
-            text
-            localization {
-              language {
-                code
-              }
-              script {
-                code
-              }
-            }
-          }
-        }
-      }
-    }
-    type
-    ageRatings {
-      country {
-        code
-      }
-      age
-      tag
-    }
-    chapters(filter: {type: {eq: REGULAR}}) {
       id
-    }
-    volumes {
-      id
-    }
-    # status
-    genres {
-      names @cascade {
-        text
-        localization {
-          language {
-            code
-          }
-          script {
-            code
+      ...GenericNames
+      ...GenericDescriptions
+      starring(first: 5, filter: {relation: {eq: MAIN}}) {
+        character {
+          ... on Character {
+            id
+            ...GenericProfileImage
+            ...GenericNames
           }
         }
       }
-    }
-    runnings {
-      localization {
-        country {
-          code
-        }
-      }
-      from
-      to
-    }
-    partOfCanonicals {
-      partOfUniverses {
+      ...AgeRatingFull
+      type
+      chapters(filter: {type: {eq: REGULAR}}) {
         id
-        names {
-          text
-          localization {
-            language {
-              code
-            }
-            script {
-              code
-            }
+      }
+      volumes {
+        id
+      }
+      # status
+      genres {
+        ...TextWithLocalization
+      }
+      runnings {
+        localization {
+          country {
+            code
           }
         }
+        from
+        to
       }
-      content {
-        __typename
-        ... on Doujinshi {
+      partOfCanonicals {
+        partOfUniverses {
           id
+          ...GenericNames
         }
-        ... on Manga {
-          id
-        }
-        ... on LightNovel {
-          id
-        }
-        ... on VisualNovel {
-          id
-        }
-      }
-      images {
-        type
-        image {
-          files {
-            format
-            publicUri
+        content {
+          __typename
+          ... on Doujinshi {
+            id
+          }
+          ... on Manga {
+            id
+          }
+          ... on LightNovel {
+            id
+          }
+          ... on VisualNovel {
+            id
           }
         }
-        ageRatings {
-          age
-        }
+        ...GenericNames
+        ...GenericProfileImage
       }
     }
   }
-}`;
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.profileImage}
+  ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.textWithLocalization}
+`;
 
 export default getSummary;
