@@ -23,7 +23,7 @@
     width: 100%;
     color: #6e6e6e;
     text-transform: capitalize;
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
 }
 .details__value ul {
     list-style: none;
