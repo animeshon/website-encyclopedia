@@ -8,6 +8,7 @@ const anime = () => gql`
       result : getAnime(id:$id) {
       id
       __typename
+      ...RestrictionFull
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
@@ -16,6 +17,7 @@ const anime = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
 `;
 
 const manga = () => gql`
@@ -23,6 +25,7 @@ const manga = () => gql`
       result : getManga(id:$id) {
       id
       __typename
+      ...RestrictionFull
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
@@ -31,6 +34,7 @@ const manga = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
 `;
 
 const doujinshi = () => gql`
@@ -38,6 +42,7 @@ const doujinshi = () => gql`
       result : getDoujinshi(id:$id) {
       id
       __typename
+      ...RestrictionFull
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
@@ -46,6 +51,7 @@ const doujinshi = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
 `;
 
 const lightNovel = () => gql`
@@ -53,6 +59,7 @@ const lightNovel = () => gql`
       result : getLightNovel(id:$id) {
       id
       __typename
+      ...RestrictionFull
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
@@ -61,6 +68,7 @@ const lightNovel = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
 `;
 
 const visualNovel = () => gql`
@@ -68,6 +76,7 @@ const visualNovel = () => gql`
       result : getVisualNovel(id:$id) {
       id
       __typename
+      ...RestrictionFull
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
@@ -76,6 +85,7 @@ const visualNovel = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
 `;
 
 const track = () => gql`

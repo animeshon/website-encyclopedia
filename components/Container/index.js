@@ -7,6 +7,8 @@ import {
     TwitterIcon, FacebookIcon, RedditIcon, TelegramIcon, WhatsappIcon, LineIcon
 } from 'react-share';
 
+import { BiLinkExternal } from 'react-icons/bi';
+
 import BannerImage from '@/components/BannerImage';
 import ProfileImage from '@/components/ProfileImage';
 import TabNavigation from '@/components/TabNavigation';
@@ -97,7 +99,15 @@ const Container = ({ container, seo, children }) => {
                         <ProfileImage
                             altText={container.title}
                             image={container.image}
-                        />
+                        >
+                        {container.isMinorR18Illegal && (
+                            <p className={styles.consorship}>Censorship is courtesy of the U.N.
+                            <a target="_blank" href={`https://en.wikipedia.org/wiki/Legal_status_of_fictional_pornography_depicting_minors`}><BiLinkExternal/></a>
+                            <a target="_blank" href={`https://en.wikipedia.org/wiki/Legal_status_of_fictional_pornography_depicting_minors`}><BiLinkExternal/></a>
+                            </p>
+                            
+                        )}
+                        </ProfileImage>
                         <div className={styles.share_buttons}>
                             <FacebookShareButton url={canonical} hashtags={hashtags}><FacebookIcon size={32} round={true} /></FacebookShareButton>
                             <TwitterShareButton url={canonical} title={shareTitle} hashtags={hashtags} ><TwitterIcon size={32} round={true} /></TwitterShareButton>
@@ -139,6 +149,10 @@ export function withContainer(WrappedComponent) {
                 componentProps = await WrappedComponent.getInitialProps(ctx);
             }
 
+            // check if the content contains the restrictions which marsk the contetn as illegal because of minor
+            const isMinorR18Illegal = data.restrictions.filter(r => {return r.tag == "MINOR-R18"}).length >= 1;
+            console.log(isMinorR18Illegal)
+
             const container = {
                 id: data.id,
                 type: data.__typename,
@@ -147,6 +161,7 @@ export function withContainer(WrappedComponent) {
                 banner: image.Cover(data.images, data.ageRatings),
                 image: image.ProfileAny(data.images, data.ageRatings),
                 navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
+                isMinorR18Illegal: isMinorR18Illegal
             };
 
             const seo = {

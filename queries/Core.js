@@ -13,6 +13,12 @@ Core.Fragments = {
             tag
         }
     }`,
+    withRestrictionFull: gql`
+    fragment RestrictionFull on WithRestriction {
+        restrictions {
+            tag
+        }
+    }`,
     localizationCodeAlpha2: gql`
     fragment CodeAlpha2 on Localization {
         language {

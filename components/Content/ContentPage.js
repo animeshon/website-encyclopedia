@@ -19,6 +19,7 @@ import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
 import * as roles from '@/utilities/TypedRole';
 import * as time from '@/utilities/Time';
+import * as restriction from '@/utilities/Restriction';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
@@ -167,6 +168,7 @@ ContentPage.getInitialProps = async ctx => {
                 { key: 'Published', value: undefined }, // TODO: <---------------------------
                 { key: 'Released', value: time.EnglishDate(info.releaseDate) }, 
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
+                { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => {return {text: r}; }) },
             ],
             [
                 { key: 'Genres', value: genres },

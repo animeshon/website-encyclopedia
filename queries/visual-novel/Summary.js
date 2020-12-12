@@ -20,6 +20,7 @@ export const getSummary = () => gql`
       length
       releaseDate
       ...AgeRatingFull
+      ...RestrictionFull
       status
       genres {
         names @cascade {
@@ -54,6 +55,7 @@ export const getSummary = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.profileImage}
   ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.textWithLocalization}
 `;

@@ -18,6 +18,7 @@ export const getSummary = () => gql`
         }
       }
       type
+      ...RestrictionFull
       ...AgeRatingFull
       chapters(filter: {type: {eq: REGULAR}}) {
         id
@@ -69,6 +70,7 @@ export const getSummary = () => gql`
   ${Generic.Fragments.profileImage}
   ${Generic.Fragments.descriptions}
   ${Core.Fragments.withAgeRatingFull}
+  ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.textWithLocalization}
 `;
 
