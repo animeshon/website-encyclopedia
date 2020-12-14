@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Head from 'next/head';
 import { withRouter, useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
@@ -23,7 +23,7 @@ import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
 
-const Search = ({ queryTime, results, total }) => {
+const Search = ({ queryTime, results, total, error = false }) => {
     const { search } = useContext(SearchContext);
     const router = useRouter();
     const fakeCtx = { apolloClient: useApolloClient() };
@@ -56,7 +56,6 @@ const Search = ({ queryTime, results, total }) => {
         setResults(comb);
         setMore(comb.length < total);
     };
-
     return (
         <>
             <Head>
@@ -85,13 +84,16 @@ const Search = ({ queryTime, results, total }) => {
 
             <Header isSearchAvailable />
             <div className="header_padder" />
+
             <ResultMetrics results={resultsComulative.length} total={total} queryTime={queryTime} />
             <div className="results-container">
                 <div className="left-column">
+                    {!error ? <>
+                        <ResultFilter />
 
-                    <ResultFilter/>
-
-                    <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} />
+                        <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} />
+                    </> : <p>An error has occured, please try again later</p>
+                    }
 
                 </div>
                 <div className="right-column">
@@ -112,9 +114,9 @@ Search.getInitialProps = async ctx => {
         return { results: [], total: 0, queryTime: 0 }
     }
 
-    const { results, total, queryTime } = await SearchQuery(ctx, searchTerm, 20, 0, filterType ? [filterType] : []);
+    const { results, total, queryTime, error } = await SearchQuery(ctx, searchTerm, 20, 0, filterType ? [filterType] : []);
 
-    return { queryTime, results, total };
+    return { queryTime, results, total, error };
 };
 
 const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
@@ -128,12 +130,11 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
         filter: filter,
         minScore: 1,
     }
-    const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return data?.querySearch; }));
+    const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.querySearch; }));
     const res = qs?.res;
 
-    if (!res || res instanceof Error) {
-        // TODO proper visualization of the errors
-        return { results: [], total: 0, queryTime: 0 }
+    if (qs instanceof Error || res == undefined) {
+        return { results: [], total: 0, queryTime: 0, error: true }
     }
 
     // enqueue graphql query to get details
@@ -142,12 +143,15 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
     });
     // wait
     const queriesResults = await ExecuteQueries(ctx, queries);
-    const validResults = queriesResults.filter(result => !(result instanceof Error));
+    const hasErrors = queriesResults.filter(result => (result instanceof Error)).length != 0;
+    if (hasErrors) {
+        return { results: [], total: 0, queryTime: 0, error: true }
+    }
 
     // TODO Universes
 
     // extract results
-    const results = validResults.filter(function (r) { return r !== undefined }).map(r => {
+    const results = queriesResults.filter(function (r) { return r !== undefined }).map(r => {
         return {
             id: r.id,
             type: r.__typename,
@@ -167,7 +171,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
 
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
 
-    return { results: results, total: qs.resultTotal, queryTime: queryTime }
+    return { results: results, total: qs.resultTotal, queryTime: queryTime, error: true }
 }
 
 export default withRouter(Search);

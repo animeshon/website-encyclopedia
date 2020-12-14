@@ -8,7 +8,7 @@ export const ExecuteQuery = async (ctx, q) => {
     const res = await client.query({
         query: query,
         variables: vars ? vars :{},
-    }).catch(error => {return errorFn(error)});
+    }).catch(error => {errorFn(error); return {data: undefined, error: error}});
 
     return returnFn(res.data, res.error);
 }
@@ -25,10 +25,10 @@ export const ExecuteQueryAsync = async (ctx, q) => {
         variables: vars ? vars :{},
     })
     .then(res => returnFn(res.data, res.error))
-    .catch(error => {return errorFn(error)});
+    .catch(error => {errorFn(error); return  returnFn(undefined, error)});
 }
 
-const DefaultReturnFn = (data, error) => { return data ? data.result : undefined; }
+const DefaultReturnFn = (data, error) => { return error ? error: data?.result; }
 const DefaultErrorFn = (error) => { console.log(error); return error; }
 
 // PrepareQuery prepares the query to be feed in "Execute..." function 
