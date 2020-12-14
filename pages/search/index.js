@@ -12,6 +12,7 @@ import Footer from '@/components/Footer';
 import ResultMetrics from '@/components/SearchResult/ResultMetrics';
 import ResultDisplayer from '@/components/SearchResult/ResultDisplayer';
 import ResultFilter from '@/components/SearchResult/ResultFilter';
+import FabEnciclopedia from '@/components/Fab/FabEnciclopedia';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -100,6 +101,7 @@ const Search = ({ queryTime, results, total, error = false }) => {
                     {/* TODO Universes */}
                 </div>
             </div>
+<FabEnciclopedia/>
             <Footer contextualClass="search-footer" />
         </>
     );

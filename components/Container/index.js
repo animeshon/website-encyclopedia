@@ -14,6 +14,7 @@ import ProfileImage from '@/components/ProfileImage';
 import TabNavigation from '@/components/TabNavigation';
 import EntityTitle from '@/components/EntityTitle';
 import Header from '@/components/Header/Header';
+import FabEnciclopedia from '@/components/Fab/FabEnciclopedia';
 
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
@@ -123,6 +124,7 @@ const Container = ({ container, seo, children }) => {
                         </Mobile>
                         {children}
                     </div>
+                    <FabEnciclopedia />
                 </div>
             </div>
         </div>
