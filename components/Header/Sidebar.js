@@ -5,6 +5,7 @@ import { withRouter } from 'next/router';
 import { UserContext } from '@/ctx/User';
 
 import styles from './Header.module.css';
+import stylesSide from './Sidebar.module.css';
 
 const routes = [
     { href: 'https://animeshon.com/', label: 'About Animeshon' },
@@ -30,9 +31,9 @@ const RenderRoutes = ({ arr, closeSidebar, page }) => {
     });
 };
 
-const Sidebar = ({ open, closeSidebar, router}) => {
+const Sidebar = ({ open, closeSidebar, router }) => {
     const { user, dispatchUser } = useContext(UserContext);
-    const {  query: { page } } = router;
+    const { query: { page } } = router;
     const ref = useRef(null);
 
     const escapeListener = useCallback(e => {
@@ -40,11 +41,12 @@ const Sidebar = ({ open, closeSidebar, router}) => {
             closeSidebar(e)
         }
     }, [])
-    const clickListener = useCallback( 
+    const clickListener = useCallback(
         e => {
 
             if (!(ref?.current)?.contains(e.target)) {
                 closeSidebar(e);
+                e.preventDefault();
             }
         },
         [ref.current],
@@ -75,20 +77,23 @@ const Sidebar = ({ open, closeSidebar, router}) => {
     };
 
     return (
-        <aside ref={ref} className={`${styles.sidebar} ${open ? styles.opened : ''}`}>
-            <ul>
-                <RenderRoutes
-                    arr={routes}
-                    closeSidebar={closeSidebar}
-                    page={page}
-                />
-                <li>
-                    <button onClick={onSwitchSafeSearch}>Safe Search {user.safeSearch ?
-                        (<span className={`${styles.safe_search} ${styles.enabled}`}>ON</span>) :
-                        (<span className={`${styles.safe_search} ${styles.disabled}`}>OFF</span>)}</button>
-                </li>
-            </ul>
-        </aside>
+        <div >
+            <div className={`${stylesSide.overlay} ${!open ? stylesSide.close : ''}`} />
+            <aside ref={ref} className={`${styles.sidebar} ${open ? styles.opened : ''}`}>
+                <ul>
+                    <RenderRoutes
+                        arr={routes}
+                        closeSidebar={closeSidebar}
+                        page={page}
+                    />
+                    <li>
+                        <button onClick={onSwitchSafeSearch}>Safe Search {user.safeSearch ?
+                            (<span className={`${styles.safe_search} ${styles.enabled}`}>ON</span>) :
+                            (<span className={`${styles.safe_search} ${styles.disabled}`}>OFF</span>)}</button>
+                    </li>
+                </ul>
+            </aside>
+        </div>
     );
 };
 
