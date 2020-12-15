@@ -152,8 +152,7 @@ export function withContainer(WrappedComponent) {
             }
 
             // check if the content contains the restrictions which marsk the contetn as illegal because of minor
-            const isMinorR18Illegal = data.restrictions.filter(r => {return r.tag == "MINOR-R18"}).length >= 1;
-            console.log(isMinorR18Illegal)
+            const isMinorR18Illegal = data.restrictions?.filter(r => {return r.tag == "MINOR-R18"}).length >= 1;
 
             const container = {
                 id: data.id,
