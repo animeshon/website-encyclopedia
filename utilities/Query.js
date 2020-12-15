@@ -24,7 +24,7 @@ export const ExecuteQueryAsync = async (ctx, q) => {
         query: query,
         variables: vars ? vars :{},
     })
-    .then(res => returnFn(res.data, res.error))
+    .then(res => {return returnFn(res.data, res.error)})
     .catch(error => {errorFn(error); return  returnFn(undefined, error)});
 }
 

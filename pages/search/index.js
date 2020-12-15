@@ -142,8 +142,10 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
     const queries = res.map(x => {
         return PrepareQuery({ id: x.id }, details(x.type));
     });
+
     // wait
     const queriesResults = await ExecuteQueries(ctx, queries);
+    
     const hasErrors = queriesResults.filter(result => (result instanceof Error)).length != 0;
     if (hasErrors) {
         return { results: [], total: 0, queryTime: 0, error: true }
