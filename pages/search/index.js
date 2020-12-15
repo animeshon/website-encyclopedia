@@ -101,7 +101,7 @@ const Search = ({ queryTime, results, total, error = false }) => {
                     {/* TODO Universes */}
                 </div>
             </div>
-<FabEnciclopedia/>
+            <FabEnciclopedia/>
             <Footer contextualClass="search-footer" />
         </>
     );
@@ -134,7 +134,6 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
     }
     const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.querySearch; }));
     const res = qs?.res;
-
     if (qs instanceof Error || res == undefined) {
         return { results: [], total: 0, queryTime: 0, error: true }
     }
@@ -153,7 +152,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
     // TODO Universes
 
     // extract results
-    const results = queriesResults.filter(function (r) { return r !== undefined }).map(r => {
+    const results = queriesResults.filter(function (r) { return r != undefined }).map(r => {
         return {
             id: r.id,
             type: r.__typename,
@@ -173,7 +172,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
 
     const queryTime = (Date.now() - startTime) / 1000.0; // in ms 
 
-    return { results: results, total: qs.resultTotal, queryTime: queryTime, error: true }
+    return { results: results, total: qs.resultTotal, queryTime: queryTime, error: false }
 }
 
 export default withRouter(Search);

@@ -35,19 +35,19 @@ const FabEnciclopedia = ({ }) => {
         <Fab
             alwaysShowTitle={false}
             icon={<RiStarSmileFill size={"2em"} />}
-            mainButtonStyles={{ "background-color": "#ef0c40" }}
+            mainButtonStyles={{ "backgroundColor": "#ef0c40" }}
         >
-            {scrollPosition != 0 && <Action text="Top" onClick={scrollTop} style={{ "background-color": "#ee2d5a" }}>
+            {scrollPosition != 0 && <Action text="Top" onClick={scrollTop} style={{ "backgroundColor": "#ee2d5a" }}>
                 <BiArrowToTop size={"2em"} />
             </Action>}
-            <Action text="Report a Problem" style={{ "background-color": "#ee2d5a" }}>
+            <Action text="Report a Problem" style={{ "backgroundColor": "#ee2d5a" }}>
                 <Link href={'https://forms.gle/f5z7FxGVDftVb88F6'}>
                     <a target="_blank" rel="noreferrer" className={styles.link}>
                     <MdBugReport size={"2em"} />
                     </a>
                 </Link>
             </Action>
-            <Action text="Support" style={{ "background-color": "#ee2d5a" }}>
+            <Action text="Support" style={{ "backgroundColor": "#ee2d5a" }}>
                 <Link href={'https://www.patreon.com/animeshon'}>
                     <a target="_blank" rel="noreferrer" className={styles.link}>
                         <FaPatreon size={"1em"} />
