@@ -47,7 +47,7 @@ const FabEnciclopedia = ({ }) => {
                     </a>
                 </Link>
             </Action>
-            <Action text="Support" style={{ "backgroundColor": "#ee2d5a" }}>
+            <Action text="Support Animeshon" style={{ "backgroundColor": "#ee2d5a" }}>
                 <Link href={'https://www.patreon.com/animeshon'}>
                     <a target="_blank" rel="noreferrer" className={styles.link}>
                         <FaPatreon size={"1em"} />
