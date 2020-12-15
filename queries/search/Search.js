@@ -3,7 +3,7 @@ import Core from '@/queries/Core'
 import Generic from '@/queries/Generic'
 
 
-export const performSearch = () => gql` query search($search: String!, $first: Int!, $offset: Int!, $filter: [SearchFilterType!], $minScore: Int = 0) {
+export const performSearch = () => gql` query search($search: String!, $first: SearchPaginationInt!, $offset: Int!, $filter: [SearchFilterType!], $minScore: Int = 0) {
     querySearch(queryTerm:$search, first: $first, offset: $offset, filter: $filter, minScore: $minScore) {
         res : results {
             id
