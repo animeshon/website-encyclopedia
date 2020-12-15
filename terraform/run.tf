@@ -55,6 +55,11 @@ resource "google_cloud_run_service" "encyclopedia" {
         }
 
         env {
+          name  = "INTERNAL_GRAPHQL_ENDPOINT"
+          value = "http://graphql-gateway.animeshon:80/"
+        }
+
+        env {
           name  = "NEXT_PUBLIC_TAG_MANAGER_ID"
           value = "GTM-NRN5LVP"
         }

@@ -78,8 +78,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
 const cache = new InMemoryCache({ fragmentMatcher });
 
 export default withApollo(({ initialState }) => {
+    const ssrMode = typeof window === "undefined";
+    const graphqlClientEndpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
+    const graphqlServerEndpoint = process.env.INTERNAL_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
+
+
     return new ApolloClient({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql',
+        ssrMode: ssrMode,
+        uri: ssrMode ? graphqlServerEndpoint : graphqlClientEndpoint,
         cache: cache.restore(initialState || {}),
     });
 })(Animeshon);
