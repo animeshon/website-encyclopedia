@@ -5,9 +5,8 @@ import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
 import { ApolloProvider } from '@apollo/client';
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import introspectionQueryResultData from './../introspection/fragments.generated.json';
+import { ApolloClient, InMemoryCache } from '@apollo/client';;
+import possibleTypes from './../introspection/fragments.generated.json';
 
 import { SearchContext, searchReducer } from '@/ctx/Search';
 import { LanguageContext, languageReducer } from '@/ctx/Languages';
@@ -71,11 +70,7 @@ Animeshon.getInitialProps = async appContext => {
     return { safeSearch: isSafeSearch, ...appProps };
 };
 
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData
-});
-
-const cache = new InMemoryCache({ fragmentMatcher });
+const cache = new InMemoryCache({ possibleTypes });
 
 export default withApollo(({ initialState }) => {
     const ssrMode = typeof window === "undefined";

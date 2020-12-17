@@ -20,19 +20,22 @@ fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || `http://127.0.0.1:8080/graphql
       }
     `,
   }),
-})
-  .then(result => result.json())
-  .then(result => {
-    // here we're filtering out any type information unrelated to unions or interfaces
-    const filteredData = result.data.__schema.types.filter(
-      type => type.possibleTypes !== null,
-    );
-    result.data.__schema.types = filteredData;
-    fs.writeFileSync('./introspection/fragments.generated.json', JSON.stringify(result.data), err => {
-      if (err) {
-        console.error('Error writing "fragments.generated.json" file', err);
-      } else {
-        console.log('Fragment types successfully extracted!');
-      }
-    });
+}).then(result => result.json())
+.then(result => {
+  const possibleTypes = {};
+
+  result.data.__schema.types.forEach(supertype => {
+    if (supertype.possibleTypes) {
+      possibleTypes[supertype.name] =
+        supertype.possibleTypes.map(subtype => subtype.name);
+    }
   });
+
+  fs.writeFile('./introspection/fragments.generated.json', JSON.stringify(possibleTypes), err => {
+    if (err) {
+      console.error('Error writing possibleTypes.json', err);
+    } else {
+      console.log('Fragment types successfully extracted!');
+    }
+  });
+});
