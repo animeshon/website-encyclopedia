@@ -62,6 +62,7 @@ ContentPage.getInitialProps = async ctx => {
     ];
     const { info, related, typedRoles } = await ExecuteQueryBatch(ctx, queries);
 
+    console.log(info)
     // build proper collaboration map
     const MapStaff = (staff) => {
         let mapStaff = {};

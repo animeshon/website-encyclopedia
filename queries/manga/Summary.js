@@ -28,7 +28,9 @@ export const getSummary = () => gql`
       }
       # status
       genres {
-        ...TextWithLocalization
+        names {
+          ...TextWithLocalization
+        }
       }
       runnings {
         localization {

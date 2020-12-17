@@ -23,7 +23,7 @@ export const getSummary = () => gql`
       ...RestrictionFull
       status
       genres {
-        names @cascade {
+        names {
           ...TextWithLocalization
         }
       }

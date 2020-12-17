@@ -27,7 +27,7 @@ export const getSummary = () => gql`
       }
       status
       genres {
-        names @cascade {
+        names {
           ...TextWithLocalization
         }
       }

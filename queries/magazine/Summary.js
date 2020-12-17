@@ -18,7 +18,7 @@ const getSummary = () => gql`
         to
       }
       genres {
-        names @cascade {
+        names {
           ...TextWithLocalization
         }
       }

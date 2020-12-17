@@ -13,7 +13,7 @@ Generic.Fragments = {
     ${Core.Fragments.textWithLocalization}`,
     descriptions: gql`
     fragment GenericDescriptions on Generic {
-        descriptions @cascade {
+        descriptions {
         ...TextWithLocalization
       }
     }

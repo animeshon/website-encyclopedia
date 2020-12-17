@@ -25,7 +25,7 @@ export const getSummary = () => gql`
         id
       }
       genres {
-        names @cascade {
+        names {
           ...TextWithLocalization
         }
       }
