@@ -42,8 +42,8 @@ const Search = ({ queryTime, results, total, error = false }) => {
 
     const seo = {
         siteName: WEBSITE_NAME,
-        title: `${WEBSITE_NAME} | Search results for ${search.search}`,
-        description: `The Japanese Multimedia Culture search engine`,
+        title: `${search.search} | Search with ${WEBSITE_NAME}`,
+        description: `Search results for "${search.search}" on the largest encyclopedia available online with over 30 million indexed records. Find all information you need about Anime, Manga, Doujinshi, Light Novels, and Visual Novels right now!`,
         canonical: undefined,
         url: url,
         image: '../../public/brand/animeshon-brand-horizontal-small.svg',
