@@ -14,11 +14,11 @@ import SummaryRelated from '@/components/Summary/SummaryRelated';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as season from '@/utilities/Season';
+import { PremiereAny } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
 import * as roles from '@/utilities/TypedRole';
-import * as time from '@/utilities/Time';
 import * as restriction from '@/utilities/Restriction';
 import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
@@ -165,8 +165,7 @@ ContentPage.getInitialProps = async ctx => {
                 { key: 'Status', value: stat.Status(info.status) },
                 { key: 'Season', value: season.JapanAny(info.runnings) },
                 { key: 'Length', value: length },
-                { key: 'Published', value: undefined }, // TODO: <---------------------------
-                { key: 'Released', value: time.EnglishDate(info.releaseDate) }, 
+                { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) }, 
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
                 { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => {return {text: r}; }) },
             ],

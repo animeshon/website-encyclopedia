@@ -25,13 +25,20 @@ export const Season = (runnings, countries, fallback = null) => {
         }
     
         // If there is no known end date of airing just return the starting date.
-        const to = runnings[i].to ? (new Date(runnings[i].to)) : undefined;
+        let to = runnings[i].to ? (new Date(runnings[i].to)) : undefined;
+        
         if (!to) {
             return `${from.getMonth() + 1}-${from.getFullYear()}\n???`;
         }
+
+        // if from and to coincide, it means it's an oneshot content
+        if (to.getFullYear() == 1) {
+            // 0001 year (golang's zero date) hotfix
+            to = from;
+        }
     
         // Is it a seasonal anime? Verify by checking whether the release time is less or equal to 4 months.
-        if ((from.getMonth()+from.getFullYear()*12) - (to.getMonth()+to.getFullYear()*12) <= 4) {
+        if ((from.getMonth()+from.getFullYear()*12) - (to.getMonth()+to.getFullYear()*12) <= 4 || from == to) {
             switch (from.getMonth()) {
                 case 0:
                     return `Winter ${from.getFullYear() - 1}`;
@@ -52,7 +59,7 @@ export const Season = (runnings, countries, fallback = null) => {
                     return `Winter ${from.getFullYear()}`;
             }
         }
-    
+
         // It probably is a non-seasonal anime. Return both starting and ending dates.
         return `${from.getMonth() + 1}-${from.getFullYear()}\n${to.getMonth() + 1}-${to.getFullYear()}`;
     }

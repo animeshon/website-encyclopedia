@@ -1,15 +1,7 @@
 export const PremiereAny = (release, runnings) => {
     if (release !== undefined) {
         const fromT = new Date(release);
-        const nowT = new Date();
-
-        // If title was released in the last 12 months show full date.
-        if ((nowT.getMonth() + nowT.getFullYear()*12) - (fromT.getMonth() + fromT.getFullYear()*12) < 12) {
-            return fromT.toLocaleDateString('en-US');
-        }
-
-        // Otherwise just show the year.
-        return fromT.getFullYear();
+        return fromT.toLocaleDateString('en-US');
     }
 
     return Premiere(runnings, ['JPN'], [{countries: ['USA']}, {}])
@@ -37,16 +29,7 @@ export const Premiere = (runnings, countries, fallback = null) => {
             }
         }
     
-        const fromT = new Date(from);
-        const nowT = new Date();
-
-        // If title was released in the last 12 months show full date.
-        if ((nowT.getMonth() + nowT.getFullYear()*12) - (fromT.getMonth() + fromT.getFullYear()*12) < 12) {
-            return fromT.toLocaleDateString('en-US');
-        }
-
-        // Otherwise just show the year.
-        return fromT.getFullYear();
+        return from.toLocaleDateString('en-US');
     }
 
     if (fallback) {
