@@ -10,7 +10,7 @@ resource "random_id" "encyclopedia" {
 
 resource "google_cloud_run_service" "encyclopedia" {
   project  = local.project_id
-  location = "europe-west1"
+  location = "us-central1"
   name     = "animeshon-com-e"
 
   template {
