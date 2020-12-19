@@ -9,17 +9,22 @@ resource "random_id" "encyclopedia" {
 }
 
 resource "google_cloud_run_service" "encyclopedia" {
-  project  = local.project_id
-  location = "us-central1"
+  depends_on = [google_vpc_access_connector.graphql_vpc]
+
+  project  = google_vpc_access_connector.graphql_vpc.project
+  location = google_vpc_access_connector.graphql_vpc.region
   name     = "animeshon-com-e"
 
   template {
     metadata {
       annotations = {
-        "autoscaling.knative.dev/maxScale" = "5"
-        "run.googleapis.com/client-name"   = "cloud-console"
+        "autoscaling.knative.dev/maxScale"        = "5"
+        "run.googleapis.com/launch-stage"         = "BETA"
+        "run.googleapis.com/client-name"          = "cloud-console"
+        "run.googleapis.com/vpc-access-egress"    = "all"
+        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.graphql_vpc.name
       }
-      name = format("animeshon-com-e-%s", random_id.encyclopedia.hex) 
+      name = format("animeshon-com-e-%s", random_id.encyclopedia.hex)
     }
 
     spec {
@@ -56,7 +61,7 @@ resource "google_cloud_run_service" "encyclopedia" {
 
         env {
           name  = "INTERNAL_GRAPHQL_ENDPOINT"
-          value = "http://graphql-gateway.animeshon:80/"
+          value = "https://api.animeshon.com/graphql"
         }
 
         env {

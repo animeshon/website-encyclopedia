@@ -17,7 +17,7 @@ COPY . .
 # ! TODO: Figure out which ones are required at build-time and which ones at runtime.
 # ! TODO: Pass the variables as build args coming from the CI instead of hardcoding them.
 ENV NEXT_PUBLIC_GRAPHQL_ENDPOINT    "https://api.animeshon.com/graphql"
-ENV INTERNAL_GRAPHQL_ENDPOINT       "http://graphql-gateway.animeshon:80/"
+ENV INTERNAL_GRAPHQL_ENDPOINT       "https://api.animeshon.com/graphql"
 ENV NEXT_PUBLIC_HOST                "https://animeshon.com"
 ENV NEXT_PUBLIC_ASSET_PREFIX        "/e"
 ENV NEXT_PUBLIC_BASEPATH            "/e"

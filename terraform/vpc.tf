@@ -8,7 +8,7 @@ resource "google_compute_network" "graphql_network" {
 resource "google_compute_subnetwork" "graphql_subnet" {
   name = "run--graphql-subnet"
 
-  ip_cidr_range = google_vpc_access_connector.graphql_vpc.ip_cidr_range
+  ip_cidr_range = "10.10.0.0/20"
   network       = google_vpc_access_connector.graphql_vpc.network
   region        = google_vpc_access_connector.graphql_vpc.region
 }
@@ -23,13 +23,14 @@ resource "google_compute_router" "graphql_router" {
 resource "google_vpc_access_connector" "graphql_vpc" {
   name = "run--graphql-vpc"
 
-  ip_cidr_range = "10.0.0.0/16"
-  region        = google_cloud_run_service.encyclopedia.location
-  network       = google_compute_network.graphql_network.id
+  ip_cidr_range = "10.8.0.0/28"
+  region        = "europe-west1"
+  network       = google_compute_network.graphql_network.name
 }
 
 resource "google_compute_address" "graphql_ip_address" {
-  name = "run--graphql-outbound-ip-address"
+  name   = "run--graphql-outbound-ip-address"
+  region = google_vpc_access_connector.graphql_vpc.region
 }
 
 resource "google_compute_router_nat" "graphql_router_nat" {
