@@ -11,8 +11,6 @@ export const Subtype = (type, subtype) => {
             switch (subtype) {
                 case "MOVIE":
                     return "Movie";
-                case "LIVE_ACTION":
-                    return "Live Action";
                 case "MUSIC_VIDEO":
                     return "Music Video";
                 case "ONA":
