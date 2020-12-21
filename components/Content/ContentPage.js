@@ -104,7 +104,7 @@ ContentPage.getInitialProps = async ctx => {
         return arrayStaff;
     }
 
-    const collaborations = MapStaff(typedRoles.staff);
+    const collaborations = MapStaff(typedRoles.staff || []);
 
     const characters = (info.starring || []).map(i => {
         const { id, images, names } = i.character;
