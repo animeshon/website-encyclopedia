@@ -2,9 +2,9 @@ export const Type = (type) => {
     // TODO internationalization
    switch (type) {
     case "ADAPTATION":
-        return "Adaptation";
-    case "BASE":
         return "Adapted from";
+    case "BASE":
+        return "Adaptation";
     case "SAME_SETTING":
         return "Same Settings";
     case "ALTERNATIVE_SETTING":
