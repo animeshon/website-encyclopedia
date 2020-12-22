@@ -9,7 +9,7 @@ import * as visualNovel from '@/queries/visual-novel/Characters';
 // TODO using a getMetadata + on Generic fragment for every resource.
 // https://discuss.dgraph.io/t/fragments-on-interface-not-resolving/11441/3
 
-const GetCast = (type) => {
+const GetCharacters = (type) => {
     const typeToQuery = {
         "anime": anime.getCharacters,
         "manga": manga.getCharacters,
@@ -23,4 +23,4 @@ const GetCast = (type) => {
     return typeToQuery[type]()
   };
 
-  export default GetCast
+  export default GetCharacters

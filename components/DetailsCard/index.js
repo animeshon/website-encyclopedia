@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import styles from './DetailsCard.module.css';
 import Flag from '@/components/Flag';
+import { BiLinkExternal } from 'react-icons/bi';
 
 // NOTE: The following are all possible formats:
 
@@ -27,13 +28,23 @@ export const DetailsCard = ({ items }) => {
                     if (!Array.isArray(pair.value)) {
                         if (!pair.value) { return undefined } else { counter++ }
 
-                        value = pair.href ? (<Link href={pair.href}><a>{pair.value}</a></Link>) : pair.value;
+                        value = pair.href ? (<Link href={pair.href}>
+                            <a target={pair.external ? '_blank' : '_self'}>
+                                {pair.value}
+                            </a>
+                        </Link>) : pair.value;
                     } else {
                         if (!pair.value.length) { return undefined } else { counter++ }
 
                         value = pair.value.map(value => {
                             if (!value.text) { return undefined } else { counter++ }
-                            return (<p key={JSON.stringify(value)}> {value.href ? <Link href={value.href}><a>{value.text}</a></Link> : value.text} </p>);
+                            return (<p key={JSON.stringify(value)}>
+                                {value.href ? <Link href={value.href}>
+                                    <a target={pair.external ? '_blank' : '_self'}>
+                                        {value.text}
+                                    </a>
+                                </Link> : value.text}
+                            </p>);
                         })
                     }
 

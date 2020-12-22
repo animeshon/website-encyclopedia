@@ -50,6 +50,13 @@ export const getSummary = () => gql`
         ...GenericNames
         ...GenericProfileImage
       }
+      crossrefs {
+        externalID
+        namespace
+        website {
+          formattedAddress
+        }
+      }
     }
   }
   ${Generic.Fragments.names}

@@ -145,6 +145,21 @@ ContentPage.getInitialProps = async ctx => {
     });
 
     const length = info.__typename == "VisualNovel" ? Length(info.length) : undefined;
+    const crossrefs = (info.crossrefs || []).map(i => {
+        const m = {
+            "vndb-org": "VNDB",
+            "anidb-net": "AniDB",
+            "animenewsnetwork-com": "Anime News Network",
+            "mangaupdates-com": "Baka-Updates Manga",
+            "myanimelist-net": "My Anime List",
+            "doujinshi-org": "The Doujinshi & Manga Lexicon",
+        }
+        return {
+            text: m[i.namespace],
+            href: i.website?.formattedAddress,
+            external: true,
+        }
+    });
 
     return {
         description: locale.English(info.descriptions),
@@ -165,15 +180,16 @@ ContentPage.getInitialProps = async ctx => {
                 { key: 'Status', value: stat.Status(info.status) },
                 { key: 'Season', value: season.JapanAny(info.runnings) },
                 { key: 'Length', value: length },
-                { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) }, 
+                { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) },
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
-                { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => {return {text: r}; }) },
+                { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => { return { text: r }; }) },
             ],
             [
                 { key: 'Genres', value: genres },
                 { key: 'Universes', value: universes },
             ],
             collaborations,
+            crossrefs ? [{ key: 'Source', value: crossrefs }] : null,
         ]
     };
 };
