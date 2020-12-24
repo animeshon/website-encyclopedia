@@ -6,7 +6,14 @@ module.exports = {
     assetPrefix: assetPrefix,
 
     images: {
-        domains: ['cdn.i.animeshon.com'],
+        domains: [
+            'cdn-us.animeshon.com',
+            'cdn-eu.animeshon.com',
+            'cdn-asia.animeshon.com',
+            'r.cdn-us.animeshon.com',
+            'r.cdn-eu.animeshon.com',
+            'r.cdn-asia.animeshon.com',
+        ],
     },
 
     async rewrites() {
