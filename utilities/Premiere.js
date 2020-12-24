@@ -1,5 +1,5 @@
 export const PremiereAny = (release, runnings) => {
-    if (release !== undefined) {
+    if (release) {
         const fromT = new Date(release);
         return fromT.toLocaleDateString('en-US');
     }
