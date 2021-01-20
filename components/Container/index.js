@@ -39,6 +39,25 @@ const Mobile = ({ children }) => {
     return isMobile ? children : null;
 };
 
+// !!!!!! THIS MUST GO AWAY AS SOON AS POSSIBLE.
+const getImage = (image) => {
+    if (image === undefined || image === null) {
+        return undefined;
+    }
+    if (image.files === undefined || image.files === null) {
+        return undefined;
+    }
+
+    for (var j = 0; j < image.files.length; j++) {
+        const format = image.files[j].format;
+        if (!format || format != "PNG") {
+            continue;
+        }
+        return image.files[j].publicUri;
+    }
+    return undefined;
+}
+
 const Container = ({ container, seo, children }) => {
     // ! TODO: The following trick seems to be not very clean.
     // ! NOTE: asPath returns different values for the client-side and server-side.
@@ -73,7 +92,7 @@ const Container = ({ container, seo, children }) => {
                 <meta property="og:site_name" content={seo.site}></meta>
                 <meta property="og:title" content={title} />
                 {description ? (<meta property="og:description" content={description} />) : undefined}
-                {seo.image ? (<meta property="og:image" content={seo.image.uri} />) : undefined}
+                {seo.image ? (<meta property="og:image" content={getImage(seo.image)} />) : undefined}
                 {url ? <meta property="og:url" content={url} /> : undefined}
 
                 {/* Twitter */}

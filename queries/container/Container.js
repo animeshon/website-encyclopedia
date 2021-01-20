@@ -12,9 +12,11 @@ const anime = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
@@ -29,9 +31,11 @@ const manga = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
@@ -46,9 +50,11 @@ const doujinshi = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
@@ -63,9 +69,11 @@ const lightNovel = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
@@ -80,9 +88,11 @@ const visualNovel = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
@@ -96,9 +106,11 @@ const track = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
 `;
@@ -111,9 +123,11 @@ const chapter = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
 `;
@@ -126,9 +140,11 @@ const episode = () => gql`
       ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
 `;
@@ -140,9 +156,11 @@ const character = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 
@@ -153,9 +171,11 @@ const organization = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 
@@ -166,9 +186,11 @@ const person = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 
@@ -179,9 +201,11 @@ const magazine = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 
@@ -192,9 +216,11 @@ const circle = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 
@@ -205,9 +231,11 @@ const convention = () => gql`
       __typename
       ...GenericProfileImage
       ...GenericNames
+      ...GenericDescriptions
     }
   }
   ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
 `;
 

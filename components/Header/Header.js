@@ -65,11 +65,11 @@ const Header = ({ isSearchAvailable }) => {
 
     return (
         <header className={styles.search_header}>
-            <Link href="/">
+            <a href="https://animeshon.com">
                 <h1 className={styles.brand}>
                     <span>Search Manga and Anime</span>
                 </h1>
-            </Link>
+            </a>
             {isSearchAvailable ? (
                 <form onSubmit={handleQuerySubmit} className={styles.search_group}>
                     <input
