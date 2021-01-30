@@ -156,6 +156,8 @@ const Container = ({ container, seo, children }) => {
 export function withContainerProps(getServerSidePropsFunc) {
     return async (ctx) => {
         const { id } = ctx.query;
+
+        // ! TODO use a query for a more reliable guess
         const type = uri.GuessType(ctx.resolvedUrl);
         const apolloClient = initializeApollo();
         const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery(type)));
