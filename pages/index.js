@@ -23,12 +23,6 @@ const Home = ({ router }) => {
 
     const navigateToQuery = e => {
         e.preventDefault();
-
-        dispatchSearch({
-            type: 'performNewSearch',
-            payload: search.search,
-        });
-
         push({
             pathname: '/search',
             query: { q: search.search },
@@ -37,7 +31,7 @@ const Home = ({ router }) => {
 
     const handleInputChange = e => {
         dispatchSearch({
-            type: 'performNewSearch',
+            type: 'changeSearchQuery',
             payload: e.currentTarget.value,
         });
     };

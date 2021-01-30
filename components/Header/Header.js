@@ -15,7 +15,7 @@ const Header = ({ isSearchAvailable }) => {
     useEffect(() => {
         const { q, ft } = Router.router.query;
         dispatchSearch({
-            type: 'performNewSearch',
+            type: 'changeSearchQuery',
             payload: q,
         });
         if (ft) {
@@ -28,7 +28,7 @@ const Header = ({ isSearchAvailable }) => {
 
     const handleInputChange = e => {
         dispatchSearch({
-            type: 'performNewSearch',
+            type: 'changeSearchQuery',
             payload: e.currentTarget.value,
         });
     };
@@ -39,17 +39,11 @@ const Header = ({ isSearchAvailable }) => {
         if (search.search != '') {
             dispatchSearch({
                 type: 'performNewSearch',
-                payload: search.search,
             });
 
             Router.push({
                 pathname: '/search',
                 query: { q: search.search },
-            });
-        } else {
-            dispatchSearch({
-                type: 'performNewSearch',
-                payload: search.search,
             });
         }
     };

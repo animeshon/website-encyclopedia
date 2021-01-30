@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Head from 'next/head';
 
-const Website = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
+const Website = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
 const Page = 'License';
 
 const License = () => {

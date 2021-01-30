@@ -32,7 +32,7 @@ import { ContainerContext } from '@/ctx/Container';
 
 import styles from './Container.module.css';
 
-const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
+const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
 
 const Mobile = ({ children }) => {
     const isMobile = useMediaQuery({ maxWidth: 768 });

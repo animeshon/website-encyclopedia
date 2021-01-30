@@ -74,8 +74,8 @@ const cache = new InMemoryCache({ possibleTypes });
 
 export default withApollo(({ initialState }) => {
     const ssrMode = typeof window === "undefined";
-    const graphqlClientEndpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
-    const graphqlServerEndpoint = process.env.INTERNAL_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
+    const graphqlClientEndpoint = "https://api.animeshon.com/graphql" || 'http://127.0.0.1:8080/graphql';
+    const graphqlServerEndpoint = "https://api.animeshon.com/graphql" || 'http://127.0.0.1:8080/graphql';
 
 
     return new ApolloClient({

@@ -21,7 +21,7 @@ ENV INTERNAL_GRAPHQL_ENDPOINT       "https://api.animeshon.com/graphql"
 ENV NEXT_PUBLIC_HOST                "https://animeshon.com"
 ENV NEXT_PUBLIC_ASSET_PREFIX        "/e"
 ENV NEXT_PUBLIC_BASEPATH            "/e"
-ENV NEXT_PUBLIC_WEBSITE_NAME        "Animeshon Encyclopedia"
+ENV NEXT_PUBLIC_WEBSITE_NAME        "Animeshon"
 ENV NEXT_PUBLIC_TAG_MANAGER_ID      "GTM-NRN5LVP"
 
 ENV NODE_ENV "production"

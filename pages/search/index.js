@@ -22,9 +22,9 @@ import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
 
-const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon Encyclopedia';
+const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
 
-const Search = ({ queryTime, results, total, error = false }) => {
+const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
     const { search } = useContext(SearchContext);
     const router = useRouter();
     const fakeCtx = { apolloClient: useApolloClient() };
@@ -42,8 +42,8 @@ const Search = ({ queryTime, results, total, error = false }) => {
 
     const seo = {
         siteName: WEBSITE_NAME,
-        title: `${search.search} | Search with ${WEBSITE_NAME}`,
-        description: `Search results for "${search.search}" on the largest encyclopedia available online with over 30 million indexed records. Find all information you need about Anime, Manga, Doujinshi, Light Novels, and Visual Novels right now!`,
+        title: `${searchQuery} | Search with ${WEBSITE_NAME}`,
+        description: `Search results for "${searchQuery}" on the largest encyclopedia available online with over 30 million indexed records. Find all information you need about Anime, Manga, Doujinshi, Light Novels, and Visual Novels right now!`,
         canonical: undefined,
         url: url,
         image: '../../public/brand/animeshon-brand-horizontal-small.svg',
@@ -118,7 +118,7 @@ Search.getInitialProps = async ctx => {
 
     const { results, total, queryTime, error } = await SearchQuery(ctx, searchTerm, 20, 0, filterType ? [filterType] : []);
 
-    return { queryTime, results, total, error };
+    return { searchQuery: searchTerm, queryTime, results, total, error };
 };
 
 const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
