@@ -57,10 +57,9 @@ const RelatedPage = ({ related, highlighted }) => {
     );
 };
 
-RelatedPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const type = uri.GuessType(ctx);
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, GetRelated(type)));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetRelated(type)));
 
     const related = (data.relations || []).map(i => {
         const { id, __typename, status, runnings, images, names, ageRatings } = i.object;

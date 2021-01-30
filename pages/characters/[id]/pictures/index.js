@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import getPictures from '@/queries/character/Pictures';
 
 import ImageGrid from '@/components/ImageGrid';
@@ -21,9 +21,9 @@ const Pictures = ({ images }) => {
     );
 };
 
-Pictures.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getPictures()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getPictures()));
 
     const images = image.All(data.images);
 
@@ -33,3 +33,4 @@ Pictures.getInitialProps = async ctx => {
 };
 
 export default withContainer(Pictures);
+export const getServerSideProps = withContainerProps(getProps);

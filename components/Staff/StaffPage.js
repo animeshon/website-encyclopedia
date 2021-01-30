@@ -60,14 +60,12 @@ const StaffPage = ({ people }) => {
     );
 };
 
-StaffPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const type = uri.GuessType(ctx);
-
     const queries = [
         PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
-    const { typedRoles } = await ExecuteQueryBatch(ctx, queries);
+    const { typedRoles } = await ExecuteQueryBatch(client, queries);
 
     const people = (typedRoles.staff || []).map(i => {
         const { role, collaborator, localization } = i;

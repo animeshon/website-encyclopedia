@@ -3,7 +3,7 @@ import React from 'react';
 import getSummary from '@/queries/convention/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryMember from '@/components/Summary/SummaryMember';
 
@@ -32,9 +32,9 @@ const Convention = ({
     );
 };
 
-Convention.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
 
     return {
         description: locale.English(data.descriptions),
@@ -45,8 +45,8 @@ Convention.getInitialProps = async ctx => {
                 { key: 'Romaji', value: locale.Romaji(data.names) },
             ],
             [
-                { key: 'Year', value: `${(new Date(data.from)).getFullYear()}`},
-                { key: 'Date', value: time.FormatNoYear(new Date(data.from), new Date(data.to))},
+                { key: 'Year', value: `${(new Date(data.from)).getFullYear()}` },
+                { key: 'Date', value: time.FormatNoYear(new Date(data.from), new Date(data.to)) },
                 { key: 'Address', value: data.address?.formattedAddress },
             ]
         ]
@@ -54,3 +54,4 @@ Convention.getInitialProps = async ctx => {
 };
 
 export default withContainer(Convention);
+export const getServerSideProps = withContainerProps(getProps);

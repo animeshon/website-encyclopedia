@@ -3,7 +3,7 @@ import React from 'react';
 import getSummary from '@/queries/organization/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryMember from '@/components/Summary/SummaryMember';
 
@@ -32,9 +32,9 @@ const Organization = ({
     );
 };
 
-Organization.getInitialProps = async ctx => {
+const getProps = async (ctx, client) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
 
     return {
         description: locale.English(data.descriptions),
@@ -53,3 +53,4 @@ Organization.getInitialProps = async ctx => {
 };
 
 export default withContainer(Organization);
+export const getServerSideProps = withContainerProps(getProps);

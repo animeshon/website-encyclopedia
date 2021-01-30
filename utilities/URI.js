@@ -92,8 +92,8 @@ const removeSymbols = (input) => {
     return result;
 };
 
-export const GuessType = (ctx) => {
-    return ctx.pathname.split('/')[1];
+export const GuessType = (uri) => {
+    return uri.split('/')[1];
 }
 
 export const AbsoluteURI = (uri) => {

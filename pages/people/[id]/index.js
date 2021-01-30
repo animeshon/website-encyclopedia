@@ -5,7 +5,7 @@ import ContainerQuery from '@/queries/container/Container';
 
 import DetailsCard from '@/components/DetailsCard';
 import SummaryVoiceActings from '@/components/Summary/SummaryVoiceActings';
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 
 import * as locale from '@/utilities/Localization';
@@ -40,13 +40,13 @@ const PersonPage = ({
     );
 };
 
-PersonPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
 
     const queries = [
         PrepareKeyQuery("info", { id: id }, getSummary()),
     ];
-    const { info } = await ExecuteQueryBatch(ctx, queries);
+    const { info } = await ExecuteQueryBatch(client, queries);
 
     // prune double characters
     let characters = [];
@@ -76,7 +76,7 @@ PersonPage.getInitialProps = async ctx => {
         return PrepareQuery({ id: x.id }, ContainerQuery("characters"));
     });
     // wait
-    const chars = await ExecuteQueries(ctx, charQueries);
+    const chars = await ExecuteQueries(client, charQueries);
     const voiceActings = (chars || []).map(i => {
         const { id, images, names } = i;
         return {
@@ -107,3 +107,4 @@ PersonPage.getInitialProps = async ctx => {
 };
 
 export default withContainer(PersonPage);
+export const getServerSideProps = withContainerProps(getProps);

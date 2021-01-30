@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import getSummary from '@/queries/character/Summary';
 import getAppearances from '@/queries/character/Appearances';
 
@@ -29,8 +29,8 @@ const Character = ({
         <div className="grid">
             <main className="landing__description">
                 <SummaryText text={description} />
-                <SummaryImages images={images}/>
-                <SummaryAppearance appearances={appearances}/>
+                <SummaryImages images={images} />
+                <SummaryAppearance appearances={appearances} />
             </main>
             <aside className="landing__details">
                 <header>
@@ -42,13 +42,13 @@ const Character = ({
     );
 };
 
-Character.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("info", { id: id }, getSummary()),
         PrepareKeyQuery("appearance", { id: id, first: 7 }, getAppearances()),
     ];
-    const {info, appearance} = await ExecuteQueryBatch(ctx, queries);
+    const { info, appearance } = await ExecuteQueryBatch(client, queries);
 
     const appearances = (appearance.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
@@ -99,3 +99,4 @@ Character.getInitialProps = async ctx => {
 };
 
 export default withContainer(Character);
+export const getServerSideProps = withContainerProps(getProps);

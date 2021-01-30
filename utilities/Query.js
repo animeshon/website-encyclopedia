@@ -1,10 +1,9 @@
-export const ExecuteQuery = async (ctx, q) => {
+export const ExecuteQuery = async (client, q) => {
     const { vars, query, returnFn, errorFn } = q;
     if (!query || !returnFn) {
         return undefined;
     }
 
-    const client = ctx.apolloClient;
     const res = await client.query({
         query: query,
         variables: vars ? vars :{},
@@ -12,14 +11,13 @@ export const ExecuteQuery = async (ctx, q) => {
 
     return returnFn(res.data, res.error);
 }
-export const ExecuteQueryAsync = async (ctx, q) => {
+export const ExecuteQueryAsync = async (client, q) => {
     const { vars, query, returnFn, errorFn } = q;
 
     if (!query || !returnFn) {
         return undefined;
     }
 
-    const client = ctx.apolloClient;
     return client.query({
         query: query,
         variables: vars ? vars :{},
@@ -52,9 +50,9 @@ export const PrepareKeyQuery = (key, vars, query, returnFn = DefaultReturnFn, er
 // the returned object maps each query result to the provided key
 // input: Array<{ key, vars, query, returnFn, errorFn }>
 // output: Object{key: result} 
-export const ExecuteQueryBatch = async (ctx, queries) => {
+export const ExecuteQueryBatch = async (client, queries) => {
     let results = {};
-    (await ExecuteQueries(ctx, queries)).forEach((r, i) => { 
+    (await ExecuteQueries(client, queries)).forEach((r, i) => { 
         results[queries[i]["key"]] = r;
     });
     return results;
@@ -63,9 +61,9 @@ export const ExecuteQueryBatch = async (ctx, queries) => {
 // ExecuteQueries executes a batch of query and returns an array of responses
 // input: Array<{ vars, query, returnFn, errorFn }>
 // output: Array<result> 
-export const ExecuteQueries = async (ctx, queries) => {
+export const ExecuteQueries = async (client, queries) => {
     const promises = queries.map( q => {
-        return ExecuteQueryAsync(ctx, q);
+        return ExecuteQueryAsync(client, q);
     });
     return await Promise.all(promises);
 }

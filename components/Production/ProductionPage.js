@@ -61,14 +61,13 @@ const ProductionPage = ({ productions }) => {
     );
 };
 
-ProductionPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const type = uri.GuessType(ctx);
 
     const queries = [
         PrepareKeyQuery("typedProduction", { id: id, content: true, collaborator: false }, GetTypedProduction(type)),
     ];
-    const { typedProduction } = await ExecuteQueryBatch(ctx, queries);
+    const { typedProduction } = await ExecuteQueryBatch(client, queries);
 
     const productions = (typedProduction.collaborations || []).map(i => {
         const { role, content, localization } = i;

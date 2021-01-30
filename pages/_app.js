@@ -5,8 +5,7 @@ import App from 'next/app';
 
 import withApollo from 'next-with-apollo';
 import { ApolloProvider } from '@apollo/client';
-import { ApolloClient, InMemoryCache } from '@apollo/client';;
-import possibleTypes from './../introspection/fragments.generated.json';
+import { useApollo } from "../lib/apolloClient";
 
 import { SearchContext, searchReducer } from '@/ctx/Search';
 import { LanguageContext, languageReducer } from '@/ctx/Languages';
@@ -22,7 +21,9 @@ import Router from 'next/router';
 import LoadingBar from 'react-top-loading-bar'
 
 
-const Animeshon = ({ pageProps, Component, apollo, safeSearch }) => {
+const Animeshon = ({ pageProps, Component, safeSearch }) => {
+    const apolloClient = useApollo(pageProps.initialApolloState);
+
     // loading bar
     // ! for issues: https://github.com/klendi/react-top-loading-bar
     const ref = useRef(null)
@@ -47,7 +48,7 @@ const Animeshon = ({ pageProps, Component, apollo, safeSearch }) => {
     }, [language, dispatchLanguage]);
 
     return (
-        <ApolloProvider client={apollo}>
+        <ApolloProvider client={apolloClient}>
             <UserContext.Provider value={{ user, dispatchUser }}>
                 <LanguageContext.Provider value={{ language, dispatchLanguage }}>
                     <SearchContext.Provider value={{ search, dispatchSearch }}>
@@ -70,17 +71,4 @@ Animeshon.getInitialProps = async appContext => {
     return { safeSearch: isSafeSearch, ...appProps };
 };
 
-const cache = new InMemoryCache({ possibleTypes });
-
-export default withApollo(({ initialState }) => {
-    const ssrMode = typeof window === "undefined";
-    const graphqlClientEndpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
-    const graphqlServerEndpoint = process.env.INTERNAL_GRAPHQL_ENDPOINT || 'http://127.0.0.1:8080/graphql';
-
-
-    return new ApolloClient({
-        ssrMode: ssrMode,
-        uri: ssrMode ? graphqlServerEndpoint : graphqlClientEndpoint,
-        cache: cache.restore(initialState || {}),
-    });
-})(Animeshon);
+export default Animeshon;

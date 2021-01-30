@@ -7,6 +7,7 @@ const getSummary = () => gql`
       id
       ...GenericNames
       ...GenericDescriptions
+      ...GenericProfileImage
       from
       to
       # TODO: Waiting for GraphQL patch of address field.

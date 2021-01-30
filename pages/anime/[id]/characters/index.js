@@ -1,6 +1,7 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
-import CharacterPage from '@/components/Character/CharacterPage';
+import withContainer, { withContainerProps } from '@/components/Container';
+import CharacterPage, { getProps } from '@/components/Character/CharacterPage';
 
 export default withContainer(CharacterPage);
+export const getServerSideProps = withContainerProps(getProps);

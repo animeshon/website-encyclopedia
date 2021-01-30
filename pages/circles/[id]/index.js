@@ -3,7 +3,7 @@ import React from 'react';
 import getSummary from '@/queries/circle/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryMember from '@/components/Summary/SummaryMember';
 
@@ -34,9 +34,9 @@ const Circle = ({
     );
 };
 
-Circle.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
 
     const members = (data.members || []).map(i => {
         const { id, images, names } = i;
@@ -65,3 +65,4 @@ Circle.getInitialProps = async ctx => {
 };
 
 export default withContainer(Circle);
+export const getServerSideProps = withContainerProps(getProps);

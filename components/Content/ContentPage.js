@@ -3,6 +3,7 @@ import React from 'react';
 import { GetTypedStaff } from '@/queries/GetStaff';
 import GetContentSummary from '@/queries/GetContentSummary';
 import GetRelated from '@/queries/GetRelated';
+import { initializeApollo } from "@/root/lib/apolloClient";
 
 import DetailsCard from '@/components/DetailsCard';
 import SummaryText from '@/components/Summary/SummaryText';
@@ -24,6 +25,7 @@ import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import { AgeRating } from '@/utilities/AgeRating';
 import { Length } from '@/utilities/VisualNovelLength';
+import { DeleteUndefined } from '@/root/lib/server-side';
 
 const ContentPage = ({
     description,
@@ -51,16 +53,14 @@ const ContentPage = ({
     );
 };
 
-ContentPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const type = uri.GuessType(ctx);
-
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),
         PrepareKeyQuery("related", { id: id }, GetRelated(type)),
         PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
-    const { info, related, typedRoles } = await ExecuteQueryBatch(ctx, queries);
+    const { info, related, typedRoles } = await ExecuteQueryBatch(client, queries);
 
     // build proper collaboration map
     const MapStaff = (staff) => {

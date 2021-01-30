@@ -1,6 +1,7 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
-import ContentPage from '@/components/Content/ContentPage';
+import withContainer, { withContainerProps } from '@/components/Container';
+import ContentPage, { getProps } from '@/components/Content/ContentPage';
 
 export default withContainer(ContentPage);
+export const getServerSideProps = withContainerProps(getProps);

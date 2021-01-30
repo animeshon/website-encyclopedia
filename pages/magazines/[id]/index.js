@@ -3,7 +3,7 @@ import React from 'react';
 import getSummary from '@/queries/magazine/Summary';
 
 import DetailsCard from '@/components/DetailsCard';
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 
 import * as locale from '@/utilities/Localization';
@@ -30,9 +30,9 @@ const Magazine = ({
     );
 };
 
-Magazine.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getSummary()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
 
     return {
         description: locale.English(data.descriptions),
@@ -51,3 +51,4 @@ Magazine.getInitialProps = async ctx => {
 };
 
 export default withContainer(Magazine);
+export const getServerSideProps = withContainerProps(getProps);

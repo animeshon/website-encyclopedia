@@ -1,5 +1,5 @@
 import React, { Component, useContext } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { Context, useMediaQuery } from 'react-responsive';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import {
@@ -29,6 +29,9 @@ import * as media from '@/utilities/MediaType';
 import * as rating from '@/utilities/AgeRating';
 
 import { ContainerContext } from '@/ctx/Container';
+
+import { DeleteUndefined } from '@/root/lib/server-side';
+import { initializeApollo } from "@/root/lib/apolloClient";
 
 import styles from './Container.module.css';
 
@@ -120,13 +123,13 @@ const Container = ({ container, seo, children }) => {
                             altText={container.title}
                             image={container.image}
                         >
-                        {container.isMinorR18Illegal && (
-                            <p className={styles.consorship}>Censorship is courtesy of the U.N.
-                            <a target="_blank" href={`https://en.wikipedia.org/wiki/Legal_status_of_fictional_pornography_depicting_minors`}><BiLinkExternal/></a>
-                            <a target="_blank" href={`https://www.ohchr.org/Documents/HRBodies/CRC/CRC.C.156_OPSC%20Guidelines.pdf`}><BiLinkExternal/></a>
-                            </p>
-                            
-                        )}
+                            {container.isMinorR18Illegal && (
+                                <p className={styles.consorship}>Censorship is courtesy of the U.N.
+                                    <a target="_blank" href={`https://en.wikipedia.org/wiki/Legal_status_of_fictional_pornography_depicting_minors`}><BiLinkExternal /></a>
+                                    <a target="_blank" href={`https://www.ohchr.org/Documents/HRBodies/CRC/CRC.C.156_OPSC%20Guidelines.pdf`}><BiLinkExternal /></a>
+                                </p>
+
+                            )}
                         </ProfileImage>
                         <div className={styles.share_buttons}>
                             <FacebookShareButton url={canonical} hashtags={hashtags}><FacebookIcon size={32} round={true} /></FacebookShareButton>
@@ -150,74 +153,62 @@ const Container = ({ container, seo, children }) => {
     );
 };
 
-// HOC best practice https://it.reactjs.org/docs/higher-order-components.html
-export function withContainer(WrappedComponent) {
-    class withContainer extends Component {
-        constructor(props) {
-            super(props)
+export function withContainerProps(getServerSidePropsFunc) {
+    return async (ctx) => {
+        const { id } = ctx.query;
+        const type = uri.GuessType(ctx.resolvedUrl);
+        const apolloClient = initializeApollo();
+        const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery(type)));
+
+        // Get component’s props
+        let componentProps = getServerSidePropsFunc && await getServerSidePropsFunc(ctx, apolloClient, type);
+
+        // check if the content contains the restrictions which marsk the contetn as illegal because of minor
+        const isMinorR18Illegal = data.restrictions?.filter(r => { return r.tag == "MINOR-R18" }).length >= 1;
+
+        const container = {
+            id: data.id,
+            type: data.__typename,
+            adult: rating.IsAdultOnly(data.ageRatings),
+            title: locale.EnglishAny(data.names),
+            banner: image.Cover(data.images, data.ageRatings),
+            image: image.ProfileAny(data.images, data.ageRatings),
+            navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
+            isMinorR18Illegal: isMinorR18Illegal
+        };
+
+        const seo = {
+            type: data.__typename,
+            media: media.Type(data.__typename),
+            rating: rating.WebMetaTag(data.ageRatings),
+            twitter: undefined, // TODO: This is a nice to have features, but not that useful.
+
+            description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
+            title: text.Truncate(container.title, 64),
+            image: container.image,
+
+            site: WEBSITE_NAME,
         }
-
-        //static getInitialProps = WrappedComponent.getInitialProps
-
-        static async getInitialProps(ctx) {
-            const { id } = ctx.query;
-            const type = uri.GuessType(ctx);
-            const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, ContainerQuery(type)));
-
-            // Get component’s props
-            let componentProps = {}
-            if (WrappedComponent.getInitialProps) {
-                componentProps = await WrappedComponent.getInitialProps(ctx);
-            }
-
-            // check if the content contains the restrictions which marsk the contetn as illegal because of minor
-            const isMinorR18Illegal = data.restrictions?.filter(r => {return r.tag == "MINOR-R18"}).length >= 1;
-
-            const container = {
-                id: data.id,
-                type: data.__typename,
-                adult: rating.IsAdultOnly(data.ageRatings),
-                title: locale.EnglishAny(data.names),
-                banner: image.Cover(data.images, data.ageRatings),
-                image: image.ProfileAny(data.images, data.ageRatings),
-                navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
-                isMinorR18Illegal: isMinorR18Illegal
-            };
-
-            const seo = {
-                type: data.__typename,
-                media: media.Type(data.__typename),
-                rating: rating.WebMetaTag(data.ageRatings),
-                twitter: undefined, // TODO: This is a nice to have features, but not that useful.
-
-                description: text.Truncate(locale.EnglishAny(data.descriptions), 160),
-                title: text.Truncate(container.title, 64),
-                image: container.image,
-
-                site: WEBSITE_NAME,
-            }
-
-            return {
+        return {
+            props: DeleteUndefined({
                 container: container,
                 seo: seo,
                 ...componentProps
-            };
-        }
-
-        render() {
-            const { container, seo, ...passThroughProps } = this.props;
-            return (
-                <ContainerContext.Provider value={container}>
-                    <Container container={container} seo={seo} >
-                        <WrappedComponent {...passThroughProps} />
-                    </Container>
-                </ContainerContext.Provider>
-            )
-        }
+            })
+        };
     }
+}
 
-    withContainer.staticMethod = WrappedComponent.staticMethod;
-    return withContainer;
+
+// HOC best practice https://it.reactjs.org/docs/higher-order-components.html
+const withContainer = (WrappedComponent) => {
+    return ({ container, seo, ...passThroughProps }) => {
+        return (<ContainerContext.Provider value={container}>
+            <Container container={container} seo={seo} >
+                <WrappedComponent {...passThroughProps} />
+            </Container>
+        </ContainerContext.Provider>)
+    }
 }
 
 export const useContainer = () => {

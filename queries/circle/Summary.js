@@ -7,6 +7,7 @@ const getSummary = () => gql`
       id
       ...GenericNames
       ...GenericDescriptions
+      ...GenericProfileImage
       foundation
       members {
         id

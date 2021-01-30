@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import WorkInProgressContentGrid from '@/components/WorkInProgress/Content';
 
 const Chapters = ({ chapters }) => {
@@ -9,8 +9,9 @@ const Chapters = ({ chapters }) => {
     );
 };
 
-Chapters.getInitialProps = async ctx => {
-    return {};
-};
+// Chapters.getInitialProps = async ctx => {
+//     return {};
+// };
 
 export default withContainer(Chapters);
+export const getServerSideProps = withContainerProps();

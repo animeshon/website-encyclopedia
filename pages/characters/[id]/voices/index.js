@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import getVoiceActors from '@/queries/character/VoiceActors';
 
 import VoicedCard from '@/components/Voiced/VoicedCard';
@@ -39,8 +39,10 @@ const MapVoiceActors = (voiceActors) => {
 
 const VoiceActors = ({ voiceActors }) => {
     const mapVoiceActors = MapVoiceActors(voiceActors);
-    const keys = Object.keys(mapVoiceActors).sort((x, y) => { return mapVoiceActors[x].nationality > mapVoiceActors[y].nationality ? 
-        -1 : mapVoiceActors[x].nationality < mapVoiceActors[y].nationality; });
+    const keys = Object.keys(mapVoiceActors).sort((x, y) => {
+        return mapVoiceActors[x].nationality > mapVoiceActors[y].nationality ?
+            -1 : mapVoiceActors[x].nationality < mapVoiceActors[y].nationality;
+    });
 
     return (
         <main className="landing__description landing__100">
@@ -50,17 +52,17 @@ const VoiceActors = ({ voiceActors }) => {
                 </header>
             </section>
             <div className="grid-halves">
-             { keys && keys.length ? keys.map(k => {
-                 return (<VoicedCard key={k} subject={mapVoiceActors[k]}/>)
-             }): 'There is currently no appearance information available.'}
+                {keys && keys.length ? keys.map(k => {
+                    return (<VoicedCard key={k} subject={mapVoiceActors[k]} />)
+                }) : 'There is currently no appearance information available.'}
             </div>
         </main>
     );
 };
 
-VoiceActors.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id }, getVoiceActors()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getVoiceActors()));
 
     const voiceActors = (data.voices || []).map(i => {
         const { isPrimary, localization, actor, content } = i;
@@ -70,7 +72,7 @@ VoiceActors.getInitialProps = async ctx => {
         var nationality = undefined;
         if (localization?.country?.alpha2) {
             nationality = localization.country.alpha2;
-        } 
+        }
         if (nationality === undefined && localization?.language?.alpha2) {
             nationality = localization.language.alpha2;
         }
@@ -101,3 +103,4 @@ VoiceActors.getInitialProps = async ctx => {
 };
 
 export default withContainer(VoiceActors);
+export const getServerSideProps = withContainerProps(getProps);

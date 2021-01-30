@@ -143,15 +143,13 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
     );
 };
 
-CharacterPage.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const type = uri.GuessType(ctx);
-
     const queries = [
         PrepareKeyQuery("data", { id: id }, GetCharacters(type)),
         PrepareKeyQuery("cast", { id: id }, GetCast(type)),
     ];
-    const { data, cast } = await ExecuteQueryBatch(ctx, queries);
+    const { data, cast } = await ExecuteQueryBatch(client, queries);
 
     const characters = (data?.starring || []).map(i => {
         const { id, images, names, __typename } = i.character;

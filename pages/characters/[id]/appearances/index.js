@@ -1,6 +1,6 @@
 import React from 'react';
 
-import withContainer from '@/components/Container';
+import withContainer, { withContainerProps } from '@/components/Container';
 import getAppearances from '@/queries/character/Appearances';
 
 import AppearanceGrid, { PruneInvalidAppearances } from '@/components/Appearance/AppearanceGrid';
@@ -54,9 +54,9 @@ const Appearances = ({ appearances }) => {
     );
 };
 
-Appearances.getInitialProps = async ctx => {
+export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(ctx, PrepareQuery({ id: id, first: 1000000000 }, getAppearances()));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id, first: 1000000000 }, getAppearances()));
 
     const appearances = (data.appearance || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
@@ -83,3 +83,4 @@ Appearances.getInitialProps = async ctx => {
 };
 
 export default withContainer(Appearances);
+export const getServerSideProps = withContainerProps(getProps);

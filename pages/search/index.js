@@ -1,7 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { withRouter, useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
+import { initializeApollo } from "@/root/lib/apolloClient";
+
+import LoadingBar from 'react-top-loading-bar'
 
 import { SearchContext } from '@/ctx/Search';
 
@@ -21,21 +24,26 @@ import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
+import { DeleteUndefined } from '@/root/lib/server-side';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
 
 const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
     const { search } = useContext(SearchContext);
     const router = useRouter();
-    const fakeCtx = { apolloClient: useApolloClient() };
 
-    const [hasMore, setMore] = useState(false);
-    const [resultsComulative, setResults] = useState([]);
+    const [hasMore, setMore] = useState(results.length < total);
+    const [resultsComulative, setResults] = useState(results);
+    const [isError, setError] = useState(error);
+    const apolloClient = useApolloClient();
+
+    const ref = useRef(null)
 
     useEffect(() => {
         window.scrollTo(0, 0)
         setResults(results);
         setMore(results.length < total);
+        setError(error);
     }, [results])
 
     const url = uri.AbsoluteURI(router.pathname);
@@ -50,12 +58,19 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
     };
 
     const moreResults = async () => {
+        ref.current?.continuousStart();
         const filter = search.filter ? [search.filter] : [];
-        const { results, total, queryTime } = await SearchQuery(fakeCtx, search.search, 20, resultsComulative.length, filter);
+        const { results, total, error } = await SearchQuery(apolloClient, search.search, 20, resultsComulative.length, filter);
+
+        if (error) {
+            setError(true);
+        } 
+
         const comb =
             resultsComulative.concat(results);
         setResults(comb);
         setMore(comb.length < total);
+        ref.current?.complete();
     };
     return (
         <>
@@ -82,6 +97,8 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
                 {/* Facebook */}
                 {/* <meta property="fb:app_id" content="your_app_id" /> */}
             </Head>
+            
+            <LoadingBar color="#f11946" ref={ref} shadow={true} />
 
             <Header isSearchAvailable />
             <div className="header_padder" />
@@ -89,7 +106,7 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
             <ResultMetrics results={resultsComulative.length} total={total} queryTime={queryTime} />
             <div className="results-container">
                 <div className="left-column">
-                    {!error ? <>
+                    {!isError ? <>
                         <ResultFilter />
 
                         <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} />
@@ -101,29 +118,34 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
                     {/* TODO Universes */}
                 </div>
             </div>
-            <FabEnciclopedia/>
+            <FabEnciclopedia />
             <Footer contextualClass="search-footer" />
         </>
     );
 }
 
-Search.getInitialProps = async ctx => {
+export const getServerSideProps = async (ctx) => {
     const searchTerm = ctx.query.q;
     const filterType = ctx.query.ft;
+
+    const apolloClient = initializeApollo();
 
     // No query, no results
     if (searchTerm === undefined) {
         return { results: [], total: 0, queryTime: 0 }
     }
 
-    const { results, total, queryTime, error } = await SearchQuery(ctx, searchTerm, 20, 0, filterType ? [filterType] : []);
-
-    return { searchQuery: searchTerm, queryTime, results, total, error };
+    const { results, total, queryTime, error } = await SearchQuery(apolloClient, searchTerm, 20, 0, filterType ? [filterType] : []);
+    return {
+        props: DeleteUndefined({
+            initialApolloState: apolloClient.cache.extract(),
+            searchQuery: searchTerm, queryTime, results: results, total, error
+        })
+    };
 };
 
-const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
+const SearchQuery = async (client, searchTerm, first, offset, filter) => {
     const startTime = Date.now();
-
     // get ids and types from elastic search
     const vars = {
         search: searchTerm,
@@ -132,7 +154,7 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
         filter: filter,
         minScore: 1,
     }
-    const qs = await ExecuteQuery(ctx, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.querySearch; }));
+    const qs = await ExecuteQuery(client, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.querySearch; }));
     const res = qs?.res;
     if (qs instanceof Error || res == undefined) {
         return { results: [], total: 0, queryTime: 0, error: true }
@@ -144,15 +166,14 @@ const SearchQuery = async (ctx, searchTerm, first, offset, filter) => {
     });
 
     // wait
-    const queriesResults = await ExecuteQueries(ctx, queries);
-    
+    const queriesResults = await ExecuteQueries(client, queries);
+
     const hasErrors = queriesResults.filter(result => (result instanceof Error)).length != 0;
     if (hasErrors) {
         return { results: [], total: 0, queryTime: 0, error: true }
     }
 
     // TODO Universes
-
     // extract results
     const results = queriesResults.filter(function (r) { return r != undefined }).map(r => {
         return {
