@@ -43,6 +43,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-lazyload": "^3.1.0",
     "react-responsive": "^8.0.3",
+    "react-select": "^4.0.2",
     "react-share": "^4.3.1",
     "react-tiny-fab": "^4.0.2",
     "react-top-loading-bar": "^2.0.1"

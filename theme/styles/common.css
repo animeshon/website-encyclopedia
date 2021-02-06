@@ -498,7 +498,7 @@ main.landing__description {
     align-content: center;
     justify-content: center;
     overflow: hidden;
-    width: 270px;
+    /* width: 270px; */
     height: 160px;
     margin-right: 20px;
 }
@@ -1113,11 +1113,6 @@ ul.grid-halves {
 .landing-section-box .header-with-double-filter {
     display: flex;
     margin-bottom: 60px;
-}
-
-.filter-container {
-    position: absolute; 
-    right: 0;
 }
 
 .search {

@@ -1,0 +1,81 @@
+.filter-group {
+    text-align: right;
+    margin: 15px 0;
+}
+
+.filter-group .hider {
+    margin-bottom: 15px;
+}
+
+.hider.right {
+    display: flex; 
+    justify-content: flex-end
+}
+
+.filter-group .hider button {
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.filters.visible {
+    max-height: 100vh;
+    -webkit-transition: max-height 0.25s ease-in;
+    -moz-transition: max-height 0.25s ease-in;
+    -o-transition: max-height 0.25s ease-in;
+    transition: max-height 0.25s ease-in;
+    overflow: unset;
+}
+.filters {
+    max-height: 0;
+    -webkit-transition: max-height 0.25s ease-out;
+    -moz-transition: max-height 0.25s ease-out;
+    -o-transition: max-height 0.25s ease-out;
+    transition: max-height 0.25s ease-out;
+    overflow: hidden;
+}
+
+.filters ul {
+    display: flex;
+    list-style-type: none;
+}
+
+.filters li {
+    margin-right: 10px;
+    width: calc(100% / 4);
+}
+
+.filters li:nth-last-child(1) {
+    margin-right: 0;
+}
+
+.filters.right ul {
+    display: flex; 
+    justify-content: flex-end
+}
+
+@media screen and (max-width: 1024px) {
+    .filters ul {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .filters.right ul {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .filters ul:nth-last-child(1) {
+        margin-bottom: 5px;
+    }
+    .filters li {
+        margin-right: 0;
+        width: 100%;
+    }
+    .filters li div input {
+        max-width: 100%;
+    }
+}
