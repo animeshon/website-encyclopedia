@@ -1,26 +1,23 @@
-.related__item {
+.content__item {
     display: flex;
     padding-bottom: 20px;
     margin-bottom: 20px;
     width: calc(50% - 10px);
     border-bottom: 1px dotted #bfbfbf;
 }
-.summary__box .related__item {
-    width: 100%;
-    margin-left: 0 !important;
-}
-.related__item:nth-child(2n) {
+
+.content__item:nth-child(2n) {
     margin-left: 20px;
 }
-.related__item:nth-last-child(1) {
+.content__item:nth-last-child(1) {
     border-bottom: 0;
 }
 @media screen and (min-width: 1180px) {
-    .related__item:nth-last-child(2):nth-child(odd) {
+    .content__item:nth-last-child(2):nth-child(odd) {
         border-bottom: 0;
     }
 }
-.related__item figure {
+.content__item figure {
     padding: 0;
     margin: 0 20px 0 0;
     max-width: 100px;
@@ -28,58 +25,61 @@
     overflow: hidden;
     border-radius: 5px;
 }
-.related__item figure img {
+.content__item figure img {
     object-fit: cover;
     width: 100%;
     height: 100%;
 }
-.related__item_contents {
+.content__item_contents {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.related__item_contents header {
+.content__item_contents header {
     display: flex;
     flex-direction: column;
     margin: 0;
     width: 100%;
 }
-.related__item_contents header h4,
-.related__item_contents header h5 {
+.content__item_contents header h4,
+.content__item_contents header h5 {
     margin-bottom: 8px;
 }
-.related__item_contents header h4 {
+.content__item_contents header h4 {
     color: #1e7492;
     font-weight: 400;
 }
-.related__item_contents header h5 {
+.content__item_contents header h5 {
     color: #656565;
     font-weight: 200;
 }
-.related__item_contents header p {
-    margin: 0;
-    font-size: 14px;
+.content__item_contents header p.content__item-header {
     font-weight: bold;
 }
-.related__item_contents aside {
+
+.content__item_contents header p {
+    margin: 0;
+    font-size: 14px;
+}
+.content__item_contents aside {
     justify-self: flex-end;
 }
-.related__item_contents aside p {
+.content__item_contents aside p {
     margin: 5px 0;
     font-size: 12px;
     text-transform: capitalize;
 }
-.related__item_contents aside p:last-child {
+.content__item_contents aside p:last-child {
     margin-bottom: 0;
 }
-.related__item_contents aside p span {
+.content__item_contents aside p span {
     margin: 0 10px;
     color: #cfcfcf;
 }
 
 @media screen and (max-width: 1180px) {
-    .related__item {
+    .content__item {
         width: 100%;
         margin-left: 0 !important;
     }

@@ -1,11 +1,14 @@
 import React from 'react';
 
-import RelatedCard from '@/components/Related/RelatedCard';
+import ContentCard from '@/components/Card/Content/ContentCard';
 
 const RelatedGrid = ({ related }) => {
+    const r = related.map( r => {
+        return {...r, header: r.relation}
+    })
     return (<>
-        {related?.map(item => {
-            return (<RelatedCard key={item.id} content={item} />);
+        {r.map(item => {
+            return (<ContentCard key={item.id} content={item} />);
         })}
     </>);
 };

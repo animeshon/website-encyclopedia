@@ -4,10 +4,7 @@ import ReleaseCard from '@/components/Release/ReleaseCard';
 
 const ReleaseGrid = ({ releases }) => {
     return (
-        <section className="landing-section-box">
-            <header>
-                <h3>Episodes</h3>
-            </header>
+        <section>
             <div className="release-list">
                 {releases && releases.length ? releases.map(item => {
                     return (<ReleaseCard release={item} key={item.id} />);

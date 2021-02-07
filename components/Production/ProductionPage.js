@@ -47,7 +47,7 @@ const ProductionPage = ({ productions }) => {
     return (
         <main className="anime-characters__description grid">
             <section className="landing-section-box">
-                <header className="header-with-double-filter">
+                <header>
                     <h3>Productions</h3>
                 </header>
                 <div className="grid-halves">

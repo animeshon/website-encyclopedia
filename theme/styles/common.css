@@ -322,7 +322,7 @@ main.landing__description {
     .landing__details {
         align-self: center;
         width: 100%;
-        max-width: 500px;
+        /* max-width: 500px; */
         margin: 0;
     }
 }
@@ -1104,15 +1104,6 @@ ul.grid-halves {
         margin-right: 33px;
         width: 100%;
     }
-}
-
-.header-with-filter {
-    display: flex;
-}
-
-.landing-section-box .header-with-double-filter {
-    display: flex;
-    margin-bottom: 60px;
 }
 
 .search {

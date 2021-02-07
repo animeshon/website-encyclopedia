@@ -11,10 +11,11 @@ const CanonicalPreview = ({ item }) => {
         <li>
             <Link href={href}>
                 <a>
+                    {/* <p>{item.type}</p> */}
                     <div className="cover">
                         <SafeImage image={item.image} />
                     </div>
-                    <span>{item.type}</span>
+                    <span>{item.name}</span>
                 </a>
             </Link>
         </li>

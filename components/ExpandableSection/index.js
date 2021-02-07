@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 
 import styles from './ExpandableSection.module.css';
 
-const ExpandableSection = ({ label, openDefault = true, children }) => {
+const ExpandableSection = ({ label, openDefault = true, className, children }) => {
     const [open, setOpen] = useState(openDefault);
 
     return (
-        <section key={label} className={styles.expandable_section}>
+        <section key={label} className={cn(className, styles.expandable_section)}>
             <h4>
                 <button name={label} onClick={() => setOpen(!open)} >
                     <span className={styles.label}>

@@ -1,5 +1,5 @@
 .filter-group {
-    text-align: right;
+    /* text-align: right; */
     margin: 15px 0;
 }
 
@@ -46,12 +46,16 @@
 }
 
 .filters li {
-    margin-right: 10px;
+    padding-right: 10px;
     width: calc(100% / 4);
 }
 
-.filters li:nth-last-child(1) {
-    margin-right: 0;
+.filters li p {
+    margin-bottom: 5px
+}
+
+.filters li:nth-child(4) {
+    padding-right: 0;
 }
 
 .filters.right ul {
@@ -72,7 +76,7 @@
         margin-bottom: 5px;
     }
     .filters li {
-        margin-right: 0;
+        padding-right: 0;
         width: 100%;
     }
     .filters li div input {

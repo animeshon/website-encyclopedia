@@ -11,7 +11,6 @@ import SummaryCharacter from '@/components/Summary/SummaryCharacter';
 // import SummaryTimeline from '@/components/Summary/SummaryTimeline';
 import SummaryCanonical from '@/components/Summary/SummaryCanonical';
 import SummaryRelated from '@/components/Summary/SummaryRelated';
-import ReleaseGrid from '@/components/Release/ReleaseGrid';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -41,39 +40,15 @@ const ContentPage = ({
                 <SummaryText text={description} />
                 <SummaryCharacter characters={characters} />
                 <SummaryRelated related={related} />
-                <ReleaseGrid releases={[{
-                    id: 123,
-                    name: "Fate/Stay Night - Trial Edition",
-                    image: {
-                        uri: "https://cdn-us.animeshon.com/i/N7/XK/EllrIwZB/QV-1NjhQUYQt.png"
-                    },
-                    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum`,
-                    lang: "jp",
-                    platform: ["PS1", "PS2", "PSVITA"],
-                    doujinshi: false,
-                    releaseDate: "01/11/2015",
-                    rating: "18+",
-                    releaseType: "FULL",
-                    type: "VisualNovelRelease"
-                },
-                {
-                    id: 1234,
-                    name: "Fate/Stay Night - First Press Limited Edition",
-                    image: {
-                        uri: "https://cdn-us.animeshon.com/i/N7/XK/EllrIwZB/QV-1NjhQUYQt.png"
-                    },
-                    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum`,
-                    lang: "en",
-                    platform: ["XBOX", "NDS"],
-                    doujinshi: true,
-                    releaseDate: "01/11/2005",
-                    rating: "12+",
-                    releaseType: "PATCH",
-                    type: "VisualNovelRelease"
-                }
-                ]} />
                 {/* <SummaryTimeline /> */}
-                {/* <SummaryCanonical canonicals={canonicals} /> */}
+                <SummaryCanonical canonicals={[
+                    {
+                        id: "123",
+                        name: "Naruto",
+                        type: "Canonical",
+                        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+                    }
+                ]} />
             </main>
             <aside className="landing__details">
                 <header>

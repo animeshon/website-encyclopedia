@@ -5,10 +5,7 @@
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
-.summary__box .release-details__item {
-    width: 100%;
-    margin-left: 0 !important;
-}
+
 .release-details__item:nth-last-child(1) {
     border-bottom: 0;
 }

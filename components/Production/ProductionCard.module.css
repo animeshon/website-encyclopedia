@@ -5,10 +5,7 @@
     width: calc(50% - 10px);
     border-bottom: 1px dotted #bfbfbf;
 }
-.summary__box .related__item {
-    width: 100%;
-    margin-left: 0 !important;
-}
+
 .related__item:nth-child(2n) {
     margin-left: 20px;
 }

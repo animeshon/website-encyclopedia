@@ -95,7 +95,7 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
     const nationalityOpts = nationalities.map(n => {
         return { value: n.code, label: n.name }
     })
-    
+
     useEffect(() => {
         const jp = nationalityOpts.filter(n => { return n.value == "jp" });
         if (jp.length != 0) {
@@ -109,35 +109,39 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
     return (
         <main className="anime-characters__description grid">
             <section className="landing-section-box">
-                <header className="header-with-double-filter">
+                <header>
                     <h3>Characters</h3>
                 </header>
-                <FilterGroup>
-                    <ul>
-                        <li>
-                            <Search placeholder={"Search by name..."} action={onFilterChange} delay={300} />
-                        </li>
-                        {nationalityOpts.length != 0 ? <li>
-                            <FilterSelect height={30} options={nationalityOpts} value={country} onChange={onCountryChange}/>
-                        </li> : undefined}
-                    </ul>
-                </FilterGroup>
-                <div className="grid-halves">
-                    {charactersState && Object.keys(charactersState).length ? categoryOrder.map(c => {
-                        const chars = charactersState[c] ? charactersState[c] : undefined;
-                        if (filter == '') {
-                            if (chars?.items?.length > 0) {
-                                return (
-                                    <ExpandableSection key={c} label={chars.role} >
-                                        <CharacterGrid characters={chars.items} />
-                                    </ExpandableSection>
-                                )
+                {charactersState && Object.keys(charactersState).length ? <>
+                    <FilterGroup>
+                        <ul>
+                            <li>
+                                <p>Search</p>
+                                <Search placeholder={"Search by name..."} action={onFilterChange} delay={300} />
+                            </li>
+                            {nationalityOpts.length != 0 ? <li>
+                                <p>Show Seyuu for language</p>
+                                <FilterSelect height={30} options={nationalityOpts} value={country} onChange={onCountryChange} />
+                            </li> : undefined}
+                        </ul>
+                    </FilterGroup>
+                    <div className="grid-halves">
+                        {categoryOrder.map(c => {
+                            const chars = charactersState[c] ? charactersState[c] : undefined;
+                            if (filter == '') {
+                                if (chars?.items?.length > 0) {
+                                    return (
+                                        <ExpandableSection key={c} label={chars.role} >
+                                            <CharacterGrid characters={chars.items} />
+                                        </ExpandableSection>
+                                    )
+                                }
+                            } else {
+                                return (<CharacterGrid characters={chars?.items} />)
                             }
-                        } else {
-                            return (<CharacterGrid characters={chars?.items} />)
-                        }
-                    }) : NotFound}
-                </div>
+                        })}
+                    </div>
+                </> : NotFound}
             </section>
         </main>
 
