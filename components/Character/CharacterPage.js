@@ -42,9 +42,6 @@ const CanDisplay = (item, filter, country) => {
     if (filter === '') {
         return true;
     }
-    if (item.cast.filter(c => c.nationality == country.value && c.person.name.toLowerCase().includes(filter)).length != 0) {
-        return true;
-    }
     if (item.character.name.toLowerCase().includes(filter)) {
         return true;
     }
@@ -98,9 +95,7 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
     const nationalityOpts = nationalities.map(n => {
         return { value: n.code, label: n.name }
     })
-
-    console.log(nationalityOpts)
-
+    
     useEffect(() => {
         const jp = nationalityOpts.filter(n => { return n.value == "jp" });
         if (jp.length != 0) {
