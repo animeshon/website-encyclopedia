@@ -66,6 +66,24 @@ export const UniverseNavigation = (name, id) => [
     }
 ];
 
+export const ReleasesNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: `/releases/[id]?id=${id}`,
+        as: uri.Rewrite('Release', name, id)
+    },
+    // {
+    //     label: 'Characters',
+    //     href: `/releases/[id]/characters?id=${id}`,
+    //     as: uri.Rewrite('Release', name, id, 'characters')
+    // },
+    // {
+    //     label: 'Staff',
+    //     href: `/releases/[id]/staff?id=${id}`,
+    //     as: uri.Rewrite('Release', name, id, 'staff')
+    // },
+];
+
 export const MangaNavigation = (name, id) => [
     {
         label: 'Summary',
@@ -328,6 +346,7 @@ const Navigation = (type, name, id) => {
         "conventions": ConventionNavigation,
         "people": PeopleNavigation,
         "universes": UniverseNavigation,
+        "releases": ReleasesNavigation,
         // TODO Canonicals
         // TODO children volume / chapters / episode
         // ! Volume? Visual Novel Release? Music Collections?

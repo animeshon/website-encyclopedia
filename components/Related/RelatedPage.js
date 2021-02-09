@@ -7,7 +7,7 @@ import ExpandableSection from '@/components/ExpandableSection';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
+import { ByContent } from '@/utilities/Premiere';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
@@ -62,7 +62,7 @@ export const getProps = async (ctx, client, type) => {
     const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetRelated(type)));
 
     const related = (data.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings, releaseDate } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -73,7 +73,7 @@ export const getProps = async (ctx, client, type) => {
             image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
-            season: season.JapanAny(runnings),
+            releaseDate: ByContent(__typename, releaseDate, runnings),
             status: stat.Status(status),
             relation: contentRelation.Type(i.type),
             relationType: i.type,

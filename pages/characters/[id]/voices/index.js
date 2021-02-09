@@ -54,7 +54,7 @@ const VoiceActors = ({ voiceActors }) => {
             <div className="grid-halves">
                 {keys && keys.length ? keys.map(k => {
                     return (<VoicedCard key={k} subject={mapVoiceActors[k]} />)
-                }) : 'There is currently no appearance information available.'}
+                }) : 'There is currently no appearances information available.'}
             </div>
         </main>
     );

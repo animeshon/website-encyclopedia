@@ -41,7 +41,7 @@
     "react-dom": "^16.13.1",
     "react-icons": "^4.1.0",
     "react-infinite-scroll-component": "^5.1.0",
-    "react-lazyload": "^3.1.0",
+    "react-lazy-load": "^3.1.13",
     "react-responsive": "^8.0.3",
     "react-select": "^4.0.2",
     "react-share": "^4.3.1",

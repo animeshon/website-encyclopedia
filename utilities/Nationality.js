@@ -58,9 +58,20 @@ export const FromAlpha2 = (codes) => {
                     name: 'Romanian',
                 };
             case 'kr':
+            case 'ko':
                 return {
-                    code,
+                    code: 'kr',
                     name: 'Korean',
+                };
+            case 'zh':
+                return {
+                    code: 'cn',
+                    name: 'Chinese',
+                };
+            case 'cs':
+                return {
+                    code: 'cz',
+                    name: '	Czech',
                 };
             case undefined:
                 return {

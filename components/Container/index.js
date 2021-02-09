@@ -160,7 +160,7 @@ export function withContainerProps(getServerSidePropsFunc) {
         // ! TODO use a query for a more reliable guess
         const type = uri.GuessType(ctx.resolvedUrl);
         const apolloClient = initializeApollo();
-        const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery(type)));
+        const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 
         // Get component’s props
         let componentProps = getServerSidePropsFunc && await getServerSidePropsFunc(ctx, apolloClient, type);

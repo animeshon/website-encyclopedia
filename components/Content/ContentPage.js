@@ -3,7 +3,6 @@ import React from 'react';
 import { GetTypedStaff } from '@/queries/GetStaff';
 import GetContentSummary from '@/queries/GetContentSummary';
 import GetRelated from '@/queries/GetRelated';
-import { initializeApollo } from "@/root/lib/apolloClient";
 
 import DetailsCard from '@/components/DetailsCard';
 import SummaryText from '@/components/Summary/SummaryText';
@@ -15,7 +14,7 @@ import SummaryRelated from '@/components/Summary/SummaryRelated';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as season from '@/utilities/Season';
-import { PremiereAny } from '@/utilities/Premiere';
+import { PremiereAny, ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
@@ -134,7 +133,7 @@ export const getProps = async (ctx, client, type) => {
     });
 
     const relatedContent = (related.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings, releaseDate } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -144,14 +143,12 @@ export const getProps = async (ctx, client, type) => {
             name: locale.EnglishAny(names),
             image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
-            //type: Subtype(__typename, type),
-            season: season.JapanAny(runnings),
+            releaseDate: ByContent(__typename, releaseDate, runnings),
             status: stat.Status(status),
             relation: contentRelation.Type(i.type),
         };
     });
 
-    const length = info.__typename == "VisualNovel" ? Length(info.length) : undefined;
     const crossrefs = (info.crossrefs || []).map(i => {
         const m = {
             "vndb-org": "VNDB",
@@ -186,7 +183,7 @@ export const getProps = async (ctx, client, type) => {
                 { key: 'Episodes', value: info.episodes?.length },
                 { key: 'Status', value: stat.Status(info.status) },
                 { key: 'Season', value: season.JapanAny(info.runnings) },
-                { key: 'Length', value: length },
+                { key: 'Length', value: Length(info.length) },
                 { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) },
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
                 { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => { return { text: r }; }) },

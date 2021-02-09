@@ -3,24 +3,23 @@ import Link from 'next/link';
 
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
-import { PremiereAny } from '@/utilities/Premiere';
-import { AgeRating } from '@/utilities/AgeRating';
+import * as platforms from '@/utilities/Platform';
 
 import SafeImage from '@/components/SafeImage';
+import { PremiereAny } from '@/utilities/Premiere';
 
 import styles from './ReleaseCard.module.css';
 import Flag from '@/components/Flag';
 
 const ReleaseCard = ({ release }) => {
     const href = uri.Rewrite(release.type, release.name, release.id);
-    const releaseDate = PremiereAny(release.releaseDate, undefined);
-    const ageRating = AgeRating(release.ageRatings, ['USA']);
+    const premiere = PremiereAny(release.releaseDate, undefined)
 
     return (
         <div key={release.id} className={styles["release-details__item"]}>
-            {/* <figure>
-                <SafeImage image={undefined} />
-            </figure> */}
+            <figure>
+                <SafeImage image={release.image} />
+            </figure>
             <div className={styles["release-details"]}>
                 <Link href={href}>
                     <a>
@@ -36,19 +35,37 @@ const ReleaseCard = ({ release }) => {
                     <div className={styles.justified}>
                         <header>
                             <p className={styles["strong"]}>Available on</p>
-                            <p>{release.platform.join(", ")}</p>
+                            <p>{release.platforms.map(m => platforms.Platform(m).name).join(", ")}</p>
                         </header>
                         <aside>
                             <p>
-                                {releaseDate}
+                                {premiere ? premiere : "Unknown release date"}
+                                {release.languages.length != 0 ?
+                                    <>
+                                        <span>|</span>
+                                        {release.languages.map((l, i) => {
+                                            return <Flag key={JSON.stringify([l, i])}nationality={l.code} className={styles["release-lang"]} />
+                                        })}
+                                        
+                                    </>
+                                    : undefined}
+
                                 <span>|</span>
-                                <Flag nationality={release.lang} className={styles["release-lang"]} />
-                                <span>|</span>
-                                {release.doujinshi ? "Doujinshi" : "Official"}
-                                <span>|</span>
-                                {release.releaseType}
-                                <span>|</span>
-                                {ageRating}
+                                {release.isOfficial ? "Official" : "Doujinshi"}
+
+                                {release.releaseType ?
+                                    <>
+                                        <span>|</span>
+                                        {release.releaseType.label}
+                                    </>
+                                    : undefined}
+
+                                {release.rating ?
+                                    <>
+                                        <span>|</span>
+                                        {release.rating}
+                                    </>
+                                    : undefined}
                             </p>
                         </aside>
                     </div>

@@ -24,7 +24,7 @@ const SummaryAppearance = ({ appearances }) => {
             </header>
             <div className="appearences grid-halves">
                 {valid.length ? <AppearanceGrid appearances={valid} />
-                    : 'There is currently no appearance information available.'}
+                    : 'There is currently no appearances information available.'}
             </div>
 
         </section>

@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { withRouter, useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
-import { initializeApollo } from "@/root/lib/apolloClient";
 
 import LoadingBar from 'react-top-loading-bar'
 

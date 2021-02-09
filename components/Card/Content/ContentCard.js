@@ -28,7 +28,7 @@ const ContentCard = ({ content }) => {
                 </header>
                 <aside>
                     <p>
-                        {content.season}
+                        {content.releaseDate.premiere}
                         <span>|</span>
                         {content.media}
                         <span>|</span>

@@ -11,7 +11,7 @@ import DetailsCard from '@/components/DetailsCard';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
+import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
@@ -50,8 +50,8 @@ export const getProps = async (ctx, client, type) => {
     ];
     const { info, appearance } = await ExecuteQueryBatch(client, queries);
 
-    const appearances = (appearance.appearance || []).map(i => {
-        const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
+    const appearances = (appearance.appearances || []).map(i => {
+        const { id, __typename, status, runnings, images, descriptions, releaseDate, names, ageRatings } = i.content;
         if (names.length === 0) {
             return;
         }
@@ -64,7 +64,7 @@ export const getProps = async (ctx, client, type) => {
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
-            season: season.JapanAny(runnings),
+            releaseDate: ByContent(__typename, releaseDate, runnings),
             status: stat.Status(status),
             relation: i.relation,
         };

@@ -32,7 +32,7 @@ export const getSummary = () => gql`
           id
           ...GenericNames
         }
-        content {
+        contents {
           __typename
           ... on Doujinshi {
             id

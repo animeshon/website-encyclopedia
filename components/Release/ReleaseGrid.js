@@ -7,7 +7,7 @@ const ReleaseGrid = ({ releases }) => {
         <section>
             <div className="release-list">
                 {releases && releases.length ? releases.map(item => {
-                    return (<ReleaseCard release={item} key={item.id} />);
+                    return (<ReleaseCard key={item.id} release={item} />);
                 }) : 'There is currently no information about releases available.'}
             </div>
         </section>

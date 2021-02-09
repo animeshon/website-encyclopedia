@@ -1,3 +1,12 @@
+import * as season from '@/utilities/Season';
+
+export const ByContent = (type, release, runnings) => {
+    if (type == "VisualNovel") {
+        return {season: false, premiere: PremiereAny(release, runnings)};
+    }
+    return {season: true, premiere: season.JapanAny(runnings)};
+}
+
 export const PremiereAny = (release, runnings) => {
     if (release) {
         const fromT = new Date(release);

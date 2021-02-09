@@ -2,21 +2,57 @@ import { gql } from '@apollo/client';
 import Core from '@/queries/Core'
 import Generic from '@/queries/Generic'
 
-const getAppearances = () => gql`
-  query details($id: String!, $first: Int!) {
-    result: getCharacter(id: $id) {
+export const getSummary = () => gql`
+  query details($id: String!) {
+    result : getMetadata(id:$id) {
       id
-      appearances(first: $first) {
-      relation
-      content {
-        __typename
-        ... on Anime {
+      ...on Generic {
+        ...GenericNames
+        ...GenericDescriptions
+        crossrefs {
+          externalID
+          namespace
+          website {
+            formattedAddress
+          }
+        }
+      }
+      ... on VisualNovelRelease {
+        widthResolution
+        heightResolution
+        isPatch
+        isFree
+        isDoujinshi
+        type
+        voicedDegree
+        animationStoryDegree
+        animationEroDegree
+        engine
+        languages {
+          alpha2
+        }
+        platforms
+      }
+      ... on WithRestriction {
+        ...RestrictionFull
+      }
+      ... on WithAgeRating {
+        ...AgeRatingFull
+      }
+      ... on Release {
+        contents {
+          __typename
+          ... on Metadata {
             id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
+          }
+          ...on Generic {
             ...GenericNames
             ...GenericDescriptions
+          }
+          ... on Content {
+            status
+          }
+          ... on Anime {
             runnings {
               localization {
                 country {
@@ -28,12 +64,6 @@ const getAppearances = () => gql`
             }
           }
           ... on Manga {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
-            ...GenericDescriptions
             runnings {
               localization {
                 country {
@@ -45,12 +75,6 @@ const getAppearances = () => gql`
             }
           }
           ... on Doujinshi {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
-            ...GenericDescriptions
             runnings {
               localization {
                 country {
@@ -62,12 +86,6 @@ const getAppearances = () => gql`
             }
           }
           ... on LightNovel {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
-            ...GenericDescriptions
             runnings {
               localization {
                 country {
@@ -79,21 +97,22 @@ const getAppearances = () => gql`
             }
           }
           ... on VisualNovel {
-            id
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
-            ...GenericDescriptions
             releaseDate
           }
         }
+        censorship
+        ean10
+        ean13
+        sku
+        upce
+        upca
       }
     }
   }
   ${Generic.Fragments.names}
-  ${Generic.Fragments.profileImage}
   ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.withAgeRatingFull}
 `;
 
-export default getAppearances;
+export default getSummary;

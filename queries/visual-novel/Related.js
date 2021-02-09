@@ -76,6 +76,7 @@ export const getRelated = () => gql`
           }
           ... on VisualNovel {
             id
+            status
             ...AgeRatingFull
             ...GenericProfileImage
             ...GenericNames
