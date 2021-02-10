@@ -40,14 +40,7 @@ const ContentPage = ({
                 <SummaryCharacter characters={characters} />
                 <SummaryRelated related={related} />
                 {/* <SummaryTimeline /> */}
-                <SummaryCanonical canonicals={[
-                    {
-                        id: "123",
-                        name: "Naruto",
-                        type: "Canonical",
-                        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-                    }
-                ]} />
+                {canonicals && <SummaryCanonical canonicals={canonicals} />}
             </main>
             <aside className="landing__details">
                 <header>
@@ -63,7 +56,7 @@ export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),
-        PrepareKeyQuery("related", { id: id }, GetRelated(type)),
+        PrepareKeyQuery("related", { id: id }, GetRelated()),
         PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
     const { info, related, typedRoles } = await ExecuteQueryBatch(client, queries);
@@ -125,10 +118,20 @@ export const getProps = async (ctx, client, type) => {
         return { text: locale.EnglishAny(genre.names) };
     });
 
-    const universes = (info.partOfCanonicals?.partOfUniverses || []).map(universe => {
+    const universes = (info.partOfUniverses || []).map(universe => {
         return {
             href: uri.Rewrite('Universe', locale.EnglishAny(universe.names), universe.id),
             text: locale.EnglishAny(universe.names),
+        }
+    });
+
+    const canonicals = (info.partOfCanonicals || []).map(canon => {
+        const { id, __typename, images, names, ageRatings } = canon;
+        return {
+            id: id,
+            type: __typename,
+            name: locale.EnglishAny(names),
+            image: image.ProfileAny(images, ageRatings),
         }
     });
 
@@ -168,7 +171,7 @@ export const getProps = async (ctx, client, type) => {
     return {
         description: locale.English(info.descriptions),
         characters: characters,
-        canonicals: undefined, // TODO: info.partOfCanonicals
+        canonicals: canonicals,
         related: relatedContent,
         details: [
             [

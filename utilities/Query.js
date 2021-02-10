@@ -7,9 +7,6 @@ export const ExecuteQuery = async (client, q) => {
     if (!query || !returnFn) {
         return undefined;
     }
-
-    // console.log(getGqlString(query))
-
     const res = await client.query({
         query: query,
         variables: vars ? vars : {},
@@ -23,6 +20,8 @@ export const ExecuteQueryAsync = async (client, q) => {
     if (!query || !returnFn) {
         return undefined;
     }
+
+    // console.log(getGqlString(query))
 
     return client.query({
         query: query,

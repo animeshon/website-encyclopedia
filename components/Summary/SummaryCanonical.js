@@ -13,17 +13,17 @@ const SummaryCanonical = ({ canonicals }) => {
     return (
         <section className="landing-section-box">
             <header>
-                <h3>Canonical Franchise</h3>
+                <h3>Series</h3>
                 <span />
                 <Link href={href}>
-                        <a className="view-all-link">View all</a>
-                    </Link>
+                    <a className="view-all-link">View all</a>
+                </Link>
             </header>
-            {canonicals && canonicals.length ? <ul className="adaptations-list">
-                {canonicals.map(item => {
-                    return (<CanonicalPreview key={item.id} item={item} />);
+            <ul className="adaptations-list">
+                {canonicals.map(canon => {
+                    return (<CanonicalPreview key={canon.id} canon={canon} />);
                 })}
-            </ul> : 'There is currently no information about canonical franchise available.'}
+            </ul>
         </section>
     );
 };

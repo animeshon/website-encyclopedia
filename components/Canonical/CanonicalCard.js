@@ -11,7 +11,7 @@ import * as text from '@/utilities/Text';
 import styles from './Canonical.module.css';
 
 const CanonicalCard = ({ item }) => {
-    const href = uri.Rewrite('Canonical', item.name, item.id, item.type);
+    const href = uri.Rewrite('Canonical', item.name, item.id);
 
     return (
         <div key={item.id} className={styles.canonical__item}>
@@ -31,13 +31,15 @@ const CanonicalCard = ({ item }) => {
                     <ExpandableSection label={"Contents"} openDefault={false} >
                         <aside className={styles["canonical__aside"]}>
                             <div className="grid-halves">
-                                {[].map(c => {
-                                    return (<ContentCard key={id} content={{ image, name, description, type }} />)
+                                {item.contents.map(c => {
+                                    return (<ContentCard key={c.id} content={c} />)
                                 })}
                             </div>
-                            <div className={styles["canonical__more-trigger"]}>
-                                <button>more</button>
-                            </div>
+                            <Link href={href}>
+                                <div className={styles["canonical__more-trigger"]}>
+                                    <button>more</button>
+                                </div>
+                            </Link>
                         </aside>
                     </ExpandableSection>
                 </article>

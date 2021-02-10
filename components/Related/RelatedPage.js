@@ -59,7 +59,7 @@ const RelatedPage = ({ related, highlighted }) => {
 
 export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
-    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetRelated(type)));
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetRelated()));
 
     const related = (data.relations || []).map(i => {
         const { id, __typename, status, runnings, images, names, ageRatings, releaseDate } = i.object;
