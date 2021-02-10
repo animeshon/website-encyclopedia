@@ -39,7 +39,7 @@ export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("canon", { id: id, firstContents: 4 }, Canonizable.Queries.canonicals),
-        //PrepareKeyQuery("uni", { id: id, firstContents: 4 }, Canonizable.Queries.universes),
+        PrepareKeyQuery("uni", { id: id, firstContents: 4 }, Canonizable.Queries.universes),
     ];
     const { canon, uni } = await ExecuteQueryBatch(client, queries);
 
