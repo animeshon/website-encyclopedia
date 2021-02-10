@@ -9,7 +9,7 @@ import * as uri from '@/utilities/URI';
 import styles from './CanonicalPreview.module.css';
 
 const CanonicalPreview = ({ canon }) => {
-    const href = uri.Rewrite('Canonical', canon.name, canon.id, canon.type);
+    const href = uri.Rewrite(canon.type, canon.name, canon.id);
     return (
         <li>
             <Link href={href}>

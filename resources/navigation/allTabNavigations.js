@@ -45,25 +45,43 @@ export const UniverseNavigation = (name, id) => [
         as: uri.Rewrite('Universe', name, id)
     },
     {
-        label: 'Manga',
-        href: `/universes/[id]/manga?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'manga')
+        label: 'Series',
+        href: `/universes/[id]/series?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'series')
     },
     {
-        label: 'Anime',
-        href: `/universes/[id]/anime?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'anime')
+        label: 'Official Content',
+        href: `/universes/[id]/official-content?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'official-content')
     },
     {
-        label: 'Light Novel',
-        href: `/universes/[id]/light-novel?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'light-novel')
+        label: 'Doujinshi',
+        href: `/universes/[id]/doujinshi?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'doujinshi')
+    },
+];
+
+export const CanonicalNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: `/canonicals/[id]?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id)
     },
     {
-        label: 'Visual Novel',
-        href: `/universes/[id]/visual-novel?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'visual-novel')
-    }
+        label: 'Universes',
+        href: `/canonicals/[id]/universes?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'universes')
+    },
+    {
+        label: 'Official Content',
+        href: `/canonicals/[id]/official-content?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'official-content')
+    },
+    {
+        label: 'Doujinshi',
+        href: `/canonicals/[id]/doujinshi?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'doujinshi')
+    },
 ];
 
 export const ReleasesNavigation = (name, id) => [
@@ -346,6 +364,7 @@ const Navigation = (type, name, id) => {
         "conventions": ConventionNavigation,
         "people": PeopleNavigation,
         "universes": UniverseNavigation,
+        "canonicals": CanonicalNavigation,
         "releases": ReleasesNavigation,
         // TODO Canonicals
         // TODO children volume / chapters / episode

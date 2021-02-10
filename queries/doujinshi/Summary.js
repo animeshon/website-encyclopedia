@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
-import Generic from '@/queries/Generic'
-import Core from '@/queries/Core'
+import Generic from '@/queries/Generic';
+import Core from '@/queries/Core';
+import Canonizable from '@/queries/Canonizable';
 
 export const getSummary = () => gql`
   query details($id: String!) {
@@ -41,29 +42,6 @@ export const getSummary = () => gql`
         from
         to
       }
-      partOfCanonicals {
-        partOfUniverses {
-          id
-          ...GenericNames
-        }
-        contents {
-          __typename
-          ... on Doujinshi {
-            id
-          }
-          ... on Manga {
-            id
-          }
-          ... on LightNovel {
-            id
-          }
-          ... on VisualNovel {
-            id
-          }
-        }
-        ...GenericNames
-        ...GenericProfileImage
-      }
       crossrefs {
         externalID
         namespace
@@ -71,6 +49,8 @@ export const getSummary = () => gql`
           formattedAddress
         }
       }
+      ...CanonizableUniversesSummary
+      ...CanonizableCanonicalsSummary
     }
   }
   ${Generic.Fragments.names}
@@ -79,6 +59,8 @@ export const getSummary = () => gql`
   ${Core.Fragments.withAgeRatingFull}
   ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.textWithLocalization}
+  ${Canonizable.Fragments.universesSummary}
+  ${Canonizable.Fragments.canonicalsSummary}
 `;
 
 export default getSummary;

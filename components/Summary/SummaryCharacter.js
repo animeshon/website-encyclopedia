@@ -6,7 +6,7 @@ import { useContainer } from '@/components/Container';
 
 import * as uri from '@/utilities/URI';
 
-const SummaryCharacter = ({ characters }) => {
+const SummaryCharacter = ({ characters, showMore = true }) => {
     const container = useContainer();
     const href = uri.Rewrite(container.type, container.title, container.id, 'characters');
 
@@ -15,9 +15,9 @@ const SummaryCharacter = ({ characters }) => {
             <header>
                 <h3>Characters</h3>
                 <span />
-                <Link href={href}>
+                {showMore && <Link href={href}>
                     <a className="view-all-link">View all</a>
-                </Link>
+                </Link>}
             </header>
             {characters && characters.length ? <ul className="characters-list">
                 {characters.map(item => {

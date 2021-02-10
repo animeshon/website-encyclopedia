@@ -45,7 +45,7 @@ export const Rewrite = (type, name, id, path = null) => {
         case 'Universe':
             return rewrite('Universe', name, id, path);
         case 'Canonical':
-            return rewrite('Canonical_Franchise', name, id, path);
+            return rewrite('Series', name, id, path);
 
         case 'VisualNovelRelease':
             return rewrite('Release', name, id, path);

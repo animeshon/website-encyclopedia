@@ -6,26 +6,28 @@ import CanonicalPreview from '@/components/Canonical/CanonicalPreview';
 
 import * as uri from '@/utilities/URI';
 
-const SummaryCanonical = ({ canonicals, path = 'franchise' }) => {
+const SummaryUniverse = ({ universes }) => {
     const container = useContainer();
-    const href = uri.Rewrite(container.type, container.title, container.id, path);
+    const href = uri.Rewrite(container.type, container.title, container.id, 'universes');
 
     return (
         <section className="landing-section-box">
             <header>
-                <h3>Series</h3>
+                <h3>Universe</h3>
                 <span />
                 <Link href={href}>
                     <a className="view-all-link">View all</a>
                 </Link>
             </header>
-            <ul className="adaptations-list">
-                {canonicals.map(canon => {
-                    return (<CanonicalPreview key={canon.id} canon={canon} />);
+            {universes.length ? (<ul className="adaptations-list">
+                {universes.map(canon => {
+                    return (
+                        <CanonicalPreview key={canon.id} canon={canon} />
+                    )
                 })}
-            </ul>
+            </ul>) : "This Serie is not part of any Universe."}
         </section>
     );
 };
 
-export default SummaryCanonical;
+export default SummaryUniverse;

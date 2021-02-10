@@ -8,7 +8,7 @@ const Canonizable = {};
 Canonizable.Fragments = {
     universesSummary: gql`
     fragment CanonizableUniversesSummary on Canonizable {
-        partOfUniverses {
+        partOfUniverses(first:5) {
             id
             __typename
             ...GenericNames
@@ -18,7 +18,7 @@ Canonizable.Fragments = {
     ,
     canonicalsSummary: gql`
     fragment CanonizableCanonicalsSummary on Canonizable {
-        partOfCanonicals {
+        partOfCanonicals(first:5) {
             id
             ... on Generic {
                 ...GenericProfileImage
