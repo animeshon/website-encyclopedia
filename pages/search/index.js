@@ -23,6 +23,7 @@ import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
+import { initializeApollo } from "@/root/lib/apolloClient";
 import { DeleteUndefined } from '@/root/lib/server-side';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
