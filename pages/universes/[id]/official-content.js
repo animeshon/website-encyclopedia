@@ -16,7 +16,7 @@ export const getProps = async (ctx, client, type) => {
     const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getContent()));
 
     const contents = (data.contents || []).map(i => {
-        const { id, __typename, status, runnings, images, names, ageRatings, releaseDate } = i;
+        const { id, __typename, status, runnings, images, names, descriptions, ageRatings, releaseDate } = i;
         if (names.length === 0 || __typename == "Doujinshi") {
             return;
         }
@@ -24,6 +24,7 @@ export const getProps = async (ctx, client, type) => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
+            description: locale.English(descriptions),
             image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),

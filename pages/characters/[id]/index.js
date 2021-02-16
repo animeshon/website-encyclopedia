@@ -52,7 +52,7 @@ export const getProps = async (ctx, client, type) => {
 
     const appearances = (appearance.appearances || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, releaseDate, names, ageRatings } = i.content;
-        if (names.length === 0) {
+        if (undefined == names || names.length === 0) {
             return;
         }
         return {
@@ -68,7 +68,7 @@ export const getProps = async (ctx, client, type) => {
             status: stat.Status(status),
             relation: i.relation,
         };
-    });
+    }).filter(a => {return a != undefined});
 
     const images = image.All(info.images);
 

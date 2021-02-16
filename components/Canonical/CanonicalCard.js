@@ -11,7 +11,7 @@ import * as text from '@/utilities/Text';
 import styles from './Canonical.module.css';
 
 const CanonicalCard = ({ item }) => {
-    const href = uri.Rewrite('Canonical', item.name, item.id);
+    const href = uri.Rewrite(item.type, item.name, item.id);
 
     return (
         <div key={item.id} className={styles.canonical__item}>
