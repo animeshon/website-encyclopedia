@@ -11,6 +11,7 @@ const ContainerQuery = () => {
           __typename
           ... on Generic {
             ...GenericProfileImage
+            ...GenericCoverImage
             ...GenericNames
             ...GenericDescriptions
           }
@@ -25,6 +26,7 @@ const ContainerQuery = () => {
       ${Generic.Fragments.names}
       ${Generic.Fragments.descriptions}
       ${Generic.Fragments.profileImage}
+      ${Generic.Fragments.coverImage}
       ${Core.Fragments.withAgeRatingFull}
       ${Core.Fragments.withRestrictionFull}
     `

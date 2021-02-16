@@ -36,7 +36,7 @@ Generic.Fragments = {
     }`,
     profileImage: gql`
     fragment GenericProfileImage on Generic {
-        images(filter: {type: {in: [COVER, PROFILE]}}) {
+        images(first: 1, filter: {type: {eq: PROFILE}}) {
             id
             type
             image {
