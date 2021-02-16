@@ -162,7 +162,7 @@ const SearchQuery = async (client, searchTerm, first, offset, filter) => {
 
     // enqueue graphql query to get details
     const queries = res.map(x => {
-        return PrepareQuery({ id: x.id }, details(x.type));
+        return PrepareQuery({ id: x.id }, details(x.__typename));
     });
 
     // wait
