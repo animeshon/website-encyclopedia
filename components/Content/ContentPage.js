@@ -13,8 +13,7 @@ import SummaryRelated from '@/components/Summary/SummaryRelated';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
-import { PremiereAny, ByContent } from '@/utilities/Premiere';
+import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
@@ -168,6 +167,8 @@ export const getProps = async (ctx, client, type) => {
         }
     });
 
+    const premiere = ByContent(info.__typename, info.releaseDate, info.runnings);
+
     return {
         description: locale.English(info.descriptions),
         characters: characters,
@@ -185,9 +186,9 @@ export const getProps = async (ctx, client, type) => {
                 { key: 'Volumes', value: info.volumes?.length },
                 { key: 'Episodes', value: info.episodes?.length },
                 { key: 'Status', value: stat.Status(info.status) },
-                { key: 'Season', value: season.JapanAny(info.runnings) },
+                { key: 'Season', value: premiere.season ? premiere.premiere : undefined },
+                { key: 'Released', value: !premiere.season ? premiere.premiere : undefined },
                 { key: 'Length', value: Length(info.length) },
-                { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) },
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
                 { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => { return { text: r }; }) },
             ],

@@ -1,7 +1,7 @@
 import * as season from '@/utilities/Season';
 
 export const ByContent = (type, release, runnings) => {
-    if (type == "VisualNovel") {
+    if (type == "VisualNovel" || type == "Doujinshi") {
         return {season: false, premiere: PremiereAny(release, runnings)};
     }
     return {season: true, premiere: season.JapanAny(runnings)};

@@ -91,9 +91,8 @@ export const getProps = async (ctx, client, type) => {
         voiceActings: voiceActings,
         details: [
             [
-                { key: 'English', value: locale.English(info.names) },
                 { key: 'Japanese', value: locale.Japanese(info.names) },
-                { key: 'Romaji', value: locale.Romaji(info.names) },
+                { key: 'Latin', value: locale.LatinAny(info.names) },
             ],
             [
                 { key: 'Birthday', value: time.EnglishDate(info.birthday) },

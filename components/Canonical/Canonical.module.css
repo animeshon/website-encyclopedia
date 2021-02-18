@@ -22,6 +22,7 @@
     margin-top: -24px;
     position: relative;
     top: 40px;
+    cursor: pointer;
 }
 
 .canonical__item {

@@ -81,7 +81,6 @@ const doujinshiDetails = () => gql`
   ${Core.Fragments.withAgeRatingFull}
 `;
 
-
 const lightNovelDetails = () => gql` 
   query details($id: String!) {
       result : getLightNovel(id:$id) {
@@ -102,7 +101,6 @@ const lightNovelDetails = () => gql`
   ${Generic.Fragments.profileImage}
   ${Core.Fragments.withAgeRatingFull}
 `;
-
 
 const visualNovelDetails = () => gql` 
   query details($id: String!) {
@@ -276,6 +274,36 @@ const personDetails = () => gql`
   ${Generic.Fragments.profileImage}
 `;
 
+const universeDetails = () => gql`
+  query details($id: String!) {
+      result : getUniverse(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+    }
+  }
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
+
+const canonicalDetails = () => gql`
+  query details($id: String!) {
+      result : getCanonical(id:$id) {
+      id
+      __typename
+      ...GenericProfileImage
+      ...GenericNames
+      ...GenericDescriptions
+    }
+  }
+  ${Generic.Fragments.names}
+  ${Generic.Fragments.descriptions}
+  ${Generic.Fragments.profileImage}
+`;
+
 const typeToQuery = {
   "Anime": animeDetails,
   "Manga": mangaDetails,
@@ -291,6 +319,8 @@ const typeToQuery = {
   "Circle": circleDetails,
   "Convention": conventionDetails,
   "Person": personDetails,
+  "Universe": universeDetails,
+  "Canonical": canonicalDetails,
   // TODO Universe
   // TODO Canonicals
   // TODO children volume / chapters / episode

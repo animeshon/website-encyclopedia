@@ -27,7 +27,7 @@ const CanonicalPage = ({ canonicals, universes }) => {
                 <ExpandableSection label={"Series"} >
                     {canonicals && canonicals.length ? canonicals.map(c => {
                         return (<CanonicalCard key={c.id} item={c} />)
-                    }) : "This content is not part of any Serie"}
+                    }) : "This content is not part of any Series"}
                 </ExpandableSection>
             </section>
         </main>
