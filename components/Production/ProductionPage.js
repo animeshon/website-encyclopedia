@@ -7,7 +7,7 @@ import ProductionCard from '@/components/Production/ProductionCard';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as roles from '@/utilities/TypedRole';
-import { byContent } from '@/utilities/Premiere';
+import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
