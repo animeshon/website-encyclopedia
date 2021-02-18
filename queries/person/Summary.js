@@ -23,7 +23,7 @@ export const getSummary = () => gql`
         voiced {
           ... on Character {
             id
-            appearance(filter: {relation: {eq: MAIN}}, first:1)  {
+            appearances(filter: {relation: {eq: MAIN}}, first:1)  {
               id
             }
           }

@@ -4,6 +4,7 @@ import * as manga from '@/queries/manga/Summary';
 import * as lightNovel from '@/queries/light-novel/Summary';
 import * as doujinshi from '@/queries/doujinshi/Summary';
 import * as visualNovel from '@/queries/visual-novel/Summary';
+import * as release from '@/queries/release/Summary';
 
 // ! keep synced with first element of the url in nex.config.js
 // TODO remove after dgraph resolves resolution of fragments on interfaces
@@ -17,6 +18,8 @@ const GetContentSummary = (type) => {
         "light-novels": lightNovel.getSummary,
         "doujinshi": doujinshi.getSummary,
         "visual-novels": visualNovel.getSummary,
+        "visual-novels": visualNovel.getSummary,
+        "releases": release.getSummary,
     }
     if (typeToQuery[type] === undefined) {
         return undefined;

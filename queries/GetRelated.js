@@ -1,27 +1,23 @@
 
-import * as anime from '@/queries/anime/Related';
-import * as manga from '@/queries/manga/Related';
-import * as lightNovel from '@/queries/light-novel/Related';
-import * as doujinshi from '@/queries/doujinshi/Related';
-import * as visualNovel from '@/queries/visual-novel/Related';
+import Content from '@/queries/Content';
+import { gql } from '@apollo/client';
 
-// ! keep synced with first element of the url in nex.config.js
-// TODO remove after dgraph resolves resolution of fragments on interfaces
-// TODO using a getMetadata + on Generic fragment for every resource.
-// https://discuss.dgraph.io/t/fragments-on-interface-not-resolving/11441/3
-
-const GetRelated = (type) => {
-    const typeToQuery = {
-        "anime": anime.getRelated,
-        "manga": manga.getRelated,
-        "light-novels": lightNovel.getRelated,
-        "doujinshi": doujinshi.getRelated,
-        "visual-novels": visualNovel.getRelated,
+const GetRelated = () => {
+    return gql`query related($id: String!) {
+        result : getMetadata(id:$id) {
+            id
+            ... on Content {
+                relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
+                    type
+                    object {
+                        ...ContentMinimal
+                    }
+                }
+            }
+        }
     }
-    if (typeToQuery[type] === undefined) {
-        return undefined;
-    }
-    return typeToQuery[type]()
-  };
+    ${Content.Fragments.contentMinimal}
+    `;
+};
 
-  export default GetRelated
+export default GetRelated

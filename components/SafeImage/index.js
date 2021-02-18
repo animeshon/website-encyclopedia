@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Image from 'next/image'
 
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 import { UserContext } from '@/ctx/User';
 import { useContainer } from '@/components/Container';
@@ -52,7 +52,7 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
         })
     };
     return (
-        <LazyLoad offset={300} once={true}>
+        <LazyLoad offset={300} throttle={0}>
             {isCensored ? <picture>
                 {/* if censored, display censored image */}
                 <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />

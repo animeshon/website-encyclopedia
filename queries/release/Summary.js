@@ -2,20 +2,57 @@ import { gql } from '@apollo/client';
 import Core from '@/queries/Core'
 import Generic from '@/queries/Generic'
 
-export const getRelated = () => gql`
+export const getSummary = () => gql`
   query details($id: String!) {
-    result : getLightNovel(id:$id) {
+    result : getMetadata(id:$id) {
       id
-      relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
+      ...on Generic {
+        ...GenericNames
+        ...GenericDescriptions
+        crossrefs {
+          externalID
+          namespace
+          website {
+            formattedAddress
+          }
+        }
+      }
+      ... on VisualNovelRelease {
+        widthResolution
+        heightResolution
+        isPatch
+        isFree
+        isDoujinshi
         type
-        object {
+        voicedDegree
+        animationStoryDegree
+        animationEroDegree
+        engine
+        languages {
+          alpha2
+        }
+        platforms
+      }
+      ... on WithRestriction {
+        ...RestrictionFull
+      }
+      ... on WithAgeRating {
+        ...AgeRatingFull
+      }
+      ... on Release {
+        contents {
           __typename
-          ... on Anime {
+          ... on Metadata {
             id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
+          }
+          ...on Generic {
             ...GenericNames
+            ...GenericDescriptions
+          }
+          ... on Content {
+            status
+          }
+          ... on Anime {
             runnings {
               localization {
                 country {
@@ -27,11 +64,6 @@ export const getRelated = () => gql`
             }
           }
           ... on Manga {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
             runnings {
               localization {
                 country {
@@ -43,11 +75,6 @@ export const getRelated = () => gql`
             }
           }
           ... on Doujinshi {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
             runnings {
               localization {
                 country {
@@ -59,11 +86,6 @@ export const getRelated = () => gql`
             }
           }
           ... on LightNovel {
-            id
-            status
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
             runnings {
               localization {
                 country {
@@ -75,19 +97,22 @@ export const getRelated = () => gql`
             }
           }
           ... on VisualNovel {
-            id
-            ...AgeRatingFull
-            ...GenericProfileImage
-            ...GenericNames
             releaseDate
           }
         }
+        censorship
+        ean10
+        ean13
+        sku
+        upce
+        upca
       }
     }
   }
   ${Generic.Fragments.names}
-  ${Generic.Fragments.profileImage}
+  ${Generic.Fragments.descriptions}
+  ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.withAgeRatingFull}
 `;
 
-export default getRelated;
+export default getSummary;

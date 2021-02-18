@@ -47,13 +47,13 @@
 
 .expanded_section {
     overflow: hidden;
-    transition: 300ms ease-in-out;
     display: flex;
     flex-wrap: wrap;
 }
 .expanded_section.opened {
     margin-top: 25px;
     height: auto;
+    overflow: unset;
 }
 .expanded_section.closed {
     margin-top: 0;

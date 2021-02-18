@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { withRouter, useRouter } from 'next/router';
 import { useApolloClient } from '@apollo/client';
-import { initializeApollo } from "@/root/lib/apolloClient";
 
 import LoadingBar from 'react-top-loading-bar'
 
@@ -24,6 +23,7 @@ import { PremiereAny } from '@/utilities/Premiere';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
 import { ExecuteQuery, ExecuteQueries, PrepareQuery } from '@/utilities/Query';
+import { initializeApollo } from "@/root/lib/apolloClient";
 import { DeleteUndefined } from '@/root/lib/server-side';
 
 const WEBSITE_NAME = process.env.NEXT_PUBLIC_WEBSITE_NAME || 'Animeshon';
@@ -162,7 +162,7 @@ const SearchQuery = async (client, searchTerm, first, offset, filter) => {
 
     // enqueue graphql query to get details
     const queries = res.map(x => {
-        return PrepareQuery({ id: x.id }, details(x.type));
+        return PrepareQuery({ id: x.id }, details(x.__typename));
     });
 
     // wait

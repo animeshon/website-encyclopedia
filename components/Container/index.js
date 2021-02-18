@@ -160,7 +160,7 @@ export function withContainerProps(getServerSidePropsFunc) {
         // ! TODO use a query for a more reliable guess
         const type = uri.GuessType(ctx.resolvedUrl);
         const apolloClient = initializeApollo();
-        const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery(type)));
+        const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 
         // Get component’s props
         let componentProps = getServerSidePropsFunc && await getServerSidePropsFunc(ctx, apolloClient, type);
@@ -173,7 +173,7 @@ export function withContainerProps(getServerSidePropsFunc) {
             type: data.__typename,
             adult: rating.IsAdultOnly(data.ageRatings),
             title: locale.EnglishAny(data.names),
-            banner: image.Cover(data.images, data.ageRatings),
+            banner: image.Cover(data.covers, data.ageRatings),
             image: image.ProfileAny(data.images, data.ageRatings),
             navigation: Navigation(type, locale.EnglishAny(data.names), data.id),
             isMinorR18Illegal: isMinorR18Illegal

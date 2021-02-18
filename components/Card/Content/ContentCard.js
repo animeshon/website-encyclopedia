@@ -6,19 +6,19 @@ import SafeImage from '@/components/SafeImage';
 import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 
-import styles from './RelatedCard.module.css';
+import styles from './ContentCard.module.css';
 
-const Related = ({ content }) => {
+const ContentCard = ({ content }) => {
     const href = uri.Rewrite(content.type, content.name, content.id);
 
     return (
-        <div key={content.id} className={styles.related__item}>
-            <figure className={styles.related__item_cover}>
+        <div key={content.id} className={styles.content__item}>
+            <figure className={styles.content__item_cover}>
                 <SafeImage image={content.image} />
             </figure>
-            <article className={styles.related__item_contents}>
+            <article className={styles.content__item_contents}>
                 <header>
-                    <p>{content.relation}</p>
+                    {content.header && <p className={styles["content__item-header"]}>{content.header}</p>}
                     <Link href={href}>
                         <a>
                             <h4>{content.name}</h4>
@@ -28,7 +28,7 @@ const Related = ({ content }) => {
                 </header>
                 <aside>
                     <p>
-                        {content.season}
+                        {content.releaseDate.premiere}
                         <span>|</span>
                         {content.media}
                         <span>|</span>
@@ -40,4 +40,4 @@ const Related = ({ content }) => {
     );
 };
 
-export default Related;
+export default ContentCard;

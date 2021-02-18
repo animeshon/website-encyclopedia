@@ -50,6 +50,22 @@ Generic.Fragments = {
             }
         }
     }`,
+    coverImage: gql`
+    fragment GenericCoverImage on Generic {
+        covers: images(first: 1, filter: {type: {eq: COVER}}) {
+            id
+            type
+            image {
+                files {
+                    format
+                    publicUri
+                }
+            }
+            ageRatings {
+                age
+            }
+        }
+    }`,
 }
 
 export default Generic;

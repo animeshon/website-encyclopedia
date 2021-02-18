@@ -51,17 +51,17 @@ export const getProps = async (ctx, client, type) => {
     // prune double characters
     let characters = [];
     (info.voiceActings || []).forEach(i => {
-        const { isPrimary, voiced: { id, appearance } } = i;
+        const { isPrimary, voiced: { id, appearances } } = i;
         if (!isPrimary) {
             return;
         }
         let char = characters.filter(i => i.id === id);
         if (char.length && !char[0].main) {
-            char[0].main = appearance.length > 0;
+            char[0].main = appearances.length > 0;
         } else if (!char.length) {
             characters.push({
                 id: id,
-                main: appearance.length > 0
+                main: appearances.length > 0
             })
         }
     });
@@ -73,7 +73,7 @@ export const getProps = async (ctx, client, type) => {
 
     // enqueue graphql query to get details
     const charQueries = characters.map(x => {
-        return PrepareQuery({ id: x.id }, ContainerQuery("characters"));
+        return PrepareQuery({ id: x.id }, ContainerQuery());
     });
     // wait
     const chars = await ExecuteQueries(client, charQueries);
@@ -91,9 +91,8 @@ export const getProps = async (ctx, client, type) => {
         voiceActings: voiceActings,
         details: [
             [
-                { key: 'English', value: locale.English(info.names) },
                 { key: 'Japanese', value: locale.Japanese(info.names) },
-                { key: 'Romaji', value: locale.Romaji(info.names) },
+                { key: 'Latin', value: locale.LatinAny(info.names) },
             ],
             [
                 { key: 'Birthday', value: time.EnglishDate(info.birthday) },

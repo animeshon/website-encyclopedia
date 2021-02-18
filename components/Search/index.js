@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import CustomInput from '@/components/Input';
-
 const ENTER_KEY = 13;
 
-const Search = ({placeholder, action = () => {}, delay = 0, style = "search__field"}) => {
+const Search = ({ placeholder, action = () => { }, delay = 0, className = "search__field" }) => {
     const [searchValue, setSearchsearchValue] = useState('');
     const [timer, setTimer] = useState(undefined);
 
@@ -19,7 +17,7 @@ const Search = ({placeholder, action = () => {}, delay = 0, style = "search__fie
     }, [searchValue]);
 
     useEffect(() => {
-            document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keydown', handleKeyDown);
 
         // Detach the listeners on component unmount.
         return () => {
@@ -45,12 +43,12 @@ const Search = ({placeholder, action = () => {}, delay = 0, style = "search__fie
 
     return (
         <div className="search">
-            <CustomInput
+            <input
                 name="search__field"
-                onChangeAction={handleOnChange}
+                className={className}
                 type="text"
-                className={style}
                 value={searchValue}
+                onChange={handleOnChange}
                 placeholder={placeholder}
             />
         </div>

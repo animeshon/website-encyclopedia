@@ -151,7 +151,7 @@ module.exports = {
                 // ! basePath: false,
             },
             {
-                source: '/:slug-Canonical_Franchise-:id([A-Za-z0-9-_]{12})/:path*',
+                source: '/:slug-Series-:id([A-Za-z0-9-_]{12})/:path*',
                 destination: '/canonicals/:id/:path*',
                 // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
                 // ! basePath: false,

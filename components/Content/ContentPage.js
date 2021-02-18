@@ -3,7 +3,6 @@ import React from 'react';
 import { GetTypedStaff } from '@/queries/GetStaff';
 import GetContentSummary from '@/queries/GetContentSummary';
 import GetRelated from '@/queries/GetRelated';
-import { initializeApollo } from "@/root/lib/apolloClient";
 
 import DetailsCard from '@/components/DetailsCard';
 import SummaryText from '@/components/Summary/SummaryText';
@@ -14,8 +13,7 @@ import SummaryRelated from '@/components/Summary/SummaryRelated';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
-import { PremiereAny } from '@/utilities/Premiere';
+import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as contentRelation from '@/utilities/ContentRelation';
 import * as uri from '@/utilities/URI';
@@ -41,7 +39,7 @@ const ContentPage = ({
                 <SummaryCharacter characters={characters} />
                 <SummaryRelated related={related} />
                 {/* <SummaryTimeline /> */}
-                {/* <SummaryCanonical canonicals={canonicals} /> */}
+                {canonicals && <SummaryCanonical canonicals={canonicals} />}
             </main>
             <aside className="landing__details">
                 <header>
@@ -57,7 +55,7 @@ export const getProps = async (ctx, client, type) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),
-        PrepareKeyQuery("related", { id: id }, GetRelated(type)),
+        PrepareKeyQuery("related", { id: id }, GetRelated()),
         PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
     ];
     const { info, related, typedRoles } = await ExecuteQueryBatch(client, queries);
@@ -119,15 +117,25 @@ export const getProps = async (ctx, client, type) => {
         return { text: locale.EnglishAny(genre.names) };
     });
 
-    const universes = (info.partOfCanonicals?.partOfUniverses || []).map(universe => {
+    const universes = (info.partOfUniverses || []).map(universe => {
         return {
             href: uri.Rewrite('Universe', locale.EnglishAny(universe.names), universe.id),
             text: locale.EnglishAny(universe.names),
         }
     });
 
+    const canonicals = (info.partOfCanonicals || []).map(canon => {
+        const { id, __typename, images, names, ageRatings } = canon;
+        return {
+            id: id,
+            type: __typename,
+            name: locale.EnglishAny(names),
+            image: image.ProfileAny(images, ageRatings),
+        }
+    });
+
     const relatedContent = (related.relations || []).map(i => {
-        const { id, __typename, status, runnings, images, names, ageRatings } = i.object;
+        const { id, __typename, status, runnings, images, names, ageRatings, releaseDate } = i.object;
         if (names.length === 0) {
             return;
         }
@@ -137,14 +145,12 @@ export const getProps = async (ctx, client, type) => {
             name: locale.EnglishAny(names),
             image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
-            //type: Subtype(__typename, type),
-            season: season.JapanAny(runnings),
+            releaseDate: ByContent(__typename, releaseDate, runnings),
             status: stat.Status(status),
             relation: contentRelation.Type(i.type),
         };
     });
 
-    const length = info.__typename == "VisualNovel" ? Length(info.length) : undefined;
     const crossrefs = (info.crossrefs || []).map(i => {
         const m = {
             "vndb-org": "VNDB",
@@ -161,10 +167,12 @@ export const getProps = async (ctx, client, type) => {
         }
     });
 
+    const premiere = ByContent(info.__typename, info.releaseDate, info.runnings);
+
     return {
         description: locale.English(info.descriptions),
         characters: characters,
-        canonicals: undefined, // TODO: info.partOfCanonicals
+        canonicals: canonicals,
         related: relatedContent,
         details: [
             [
@@ -178,9 +186,9 @@ export const getProps = async (ctx, client, type) => {
                 { key: 'Volumes', value: info.volumes?.length },
                 { key: 'Episodes', value: info.episodes?.length },
                 { key: 'Status', value: stat.Status(info.status) },
-                { key: 'Season', value: season.JapanAny(info.runnings) },
-                { key: 'Length', value: length },
-                { key: 'Released', value: PremiereAny(info.releaseDate, info.runnings) },
+                { key: 'Season', value: premiere.season ? premiere.premiere : undefined },
+                { key: 'Released', value: !premiere.season ? premiere.premiere : undefined },
+                { key: 'Length', value: Length(info.length) },
                 { key: 'Age Rating', value: AgeRating(info.ageRatings, ['USA']), flag: 'us' },
                 { key: 'Restriction', value: restriction.Restrictions(info.restrictions).map(r => { return { text: r }; }) },
             ],

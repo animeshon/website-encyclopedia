@@ -17,6 +17,11 @@ export const AnimeNavigation = (name, id) => [
         as: uri.Rewrite('Anime', name, id, 'related')
     },
     {
+        label: 'Franchise',
+        href: `/anime/[id]/franchise?id=${id}`,
+        as: uri.Rewrite('Anime', name, id, 'franchise')
+    },
+    {
         label: 'Episodes',
         href: `/anime/[id]/episodes?id=${id}`,
         as: uri.Rewrite('Anime', name, id, 'episodes')
@@ -40,25 +45,61 @@ export const UniverseNavigation = (name, id) => [
         as: uri.Rewrite('Universe', name, id)
     },
     {
-        label: 'Manga',
-        href: `/universes/[id]/manga?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'manga')
+        label: 'Series',
+        href: `/universes/[id]/series?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'series')
     },
     {
-        label: 'Anime',
-        href: `/universes/[id]/anime?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'anime')
+        label: 'Official Content',
+        href: `/universes/[id]/official-content?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'official-content')
     },
     {
-        label: 'Light Novel',
-        href: `/universes/[id]/light-novel?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'light-novel')
+        label: 'Doujinshi',
+        href: `/universes/[id]/doujinshi?id=${id}`,
+        as: uri.Rewrite('Universe', name, id, 'doujinshi')
+    },
+];
+
+export const CanonicalNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: `/canonicals/[id]?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id)
     },
     {
-        label: 'Visual Novel',
-        href: `/universes/[id]/visual-novel?id=${id}`,
-        as: uri.Rewrite('Universe', name, id, 'visual-novel')
-    }
+        label: 'Universes',
+        href: `/canonicals/[id]/universes?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'universes')
+    },
+    {
+        label: 'Official Content',
+        href: `/canonicals/[id]/official-content?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'official-content')
+    },
+    {
+        label: 'Doujinshi',
+        href: `/canonicals/[id]/doujinshi?id=${id}`,
+        as: uri.Rewrite('Canonical', name, id, 'doujinshi')
+    },
+];
+
+export const ReleasesNavigation = (name, id) => [
+    {
+        label: 'Summary',
+        href: `/releases/[id]?id=${id}`,
+        as: uri.Rewrite('Release', name, id)
+    },
+    // {
+    //     label: 'Characters',
+    //     href: `/releases/[id]/characters?id=${id}`,
+    //     as: uri.Rewrite('Release', name, id, 'characters')
+    // },
+    // {
+    //     label: 'Staff',
+    //     href: `/releases/[id]/staff?id=${id}`,
+    //     as: uri.Rewrite('Release', name, id, 'staff')
+    // },
 ];
 
 export const MangaNavigation = (name, id) => [
@@ -76,6 +117,11 @@ export const MangaNavigation = (name, id) => [
         label: 'Related',
         href: `/manga/[id]/related?id=${id}`,
         as: uri.Rewrite('Manga', name, id, 'related')
+    },
+    {
+        label: 'Franchise',
+        href: `/manga/[id]/franchise?id=${id}`,
+        as: uri.Rewrite('Manga', name, id, 'franchise')
     },
     {
         label: 'Volumes',
@@ -101,16 +147,6 @@ export const DoujinshiNavigation = (name, id) => [
         as: uri.Rewrite('Doujinshi', name, id)
     },
     {
-        label: 'Volumes',
-        href: `/doujinshi/[id]/volumes?id=${id}`,
-        as: uri.Rewrite('Doujinshi', name, id, 'volumes')
-    },
-    {
-        label: 'Chapters',
-        href: `/doujinshi/[id]/chapters?id=${id}`,
-        as: uri.Rewrite('Doujinshi', name, id, 'chapters')
-    },
-    {
         label: 'Characters',
         href: `/doujinshi/[id]/characters?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'characters')
@@ -119,6 +155,21 @@ export const DoujinshiNavigation = (name, id) => [
         label: 'Related',
         href: `/doujinshi/[id]/related?id=${id}`,
         as: uri.Rewrite('Doujinshi', name, id, 'related')
+    },
+    {
+        label: 'Franchise',
+        href: `/doujinshi/[id]/franchise?id=${id}`,
+        as: uri.Rewrite('Doujinshi', name, id, 'franchise')
+    },
+    {
+        label: 'Volumes',
+        href: `/doujinshi/[id]/volumes?id=${id}`,
+        as: uri.Rewrite('Doujinshi', name, id, 'volumes')
+    },
+    {
+        label: 'Chapters',
+        href: `/doujinshi/[id]/chapters?id=${id}`,
+        as: uri.Rewrite('Doujinshi', name, id, 'chapters')
     },
     {
         label: 'Staff',
@@ -134,16 +185,6 @@ export const LightNovelNavigation = (name, id) => [
         as: uri.Rewrite('LightNovel', name, id)
     },
     {
-        label: 'Volumes',
-        href: `/light-novels/[id]/volumes?id=${id}`,
-        as: uri.Rewrite('LightNovel', name, id, 'volumes')
-    },
-    {
-        label: 'Chapters',
-        href: `/light-novels/[id]/chapters?id=${id}`,
-        as: uri.Rewrite('LightNovel', name, id, 'chapters')
-    },
-    {
         label: 'Characters',
         href: `/light-novels/[id]/characters?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'characters')
@@ -152,6 +193,21 @@ export const LightNovelNavigation = (name, id) => [
         label: 'Related',
         href: `/light-novels/[id]/related?id=${id}`,
         as: uri.Rewrite('LightNovel', name, id, 'related')
+    },
+    {
+        label: 'Franchise',
+        href: `/light-novels/[id]/franchise?id=${id}`,
+        as: uri.Rewrite('LightNovel', name, id, 'franchise')
+    },
+    {
+        label: 'Volumes',
+        href: `/light-novels/[id]/volumes?id=${id}`,
+        as: uri.Rewrite('LightNovel', name, id, 'volumes')
+    },
+    {
+        label: 'Chapters',
+        href: `/light-novels/[id]/chapters?id=${id}`,
+        as: uri.Rewrite('LightNovel', name, id, 'chapters')
     },
     {
         label: 'Staff',
@@ -175,6 +231,16 @@ export const VisualNovelNavigation = (name, id) => [
         label: 'Related',
         href: `/visual-novels/[id]/related?id=${id}`,
         as: uri.Rewrite('VisualNovel', name, id, 'related')
+    },
+    {
+        label: 'Franchise',
+        href: `/visual-novels/[id]/franchise?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'franchise')
+    },
+    {
+        label: 'Releases',
+        href: `/visual-novels/[id]/releases?id=${id}`,
+        as: uri.Rewrite('VisualNovel', name, id, 'releases')
     },
     {
         label: 'Staff',
@@ -298,6 +364,8 @@ const Navigation = (type, name, id) => {
         "conventions": ConventionNavigation,
         "people": PeopleNavigation,
         "universes": UniverseNavigation,
+        "canonicals": CanonicalNavigation,
+        "releases": ReleasesNavigation,
         // TODO Canonicals
         // TODO children volume / chapters / episode
         // ! Volume? Visual Novel Release? Music Collections?

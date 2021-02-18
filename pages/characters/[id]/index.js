@@ -11,7 +11,7 @@ import DetailsCard from '@/components/DetailsCard';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import * as season from '@/utilities/Season';
+import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
@@ -50,9 +50,9 @@ export const getProps = async (ctx, client, type) => {
     ];
     const { info, appearance } = await ExecuteQueryBatch(client, queries);
 
-    const appearances = (appearance.appearance || []).map(i => {
-        const { id, __typename, status, runnings, images, descriptions, names, ageRatings } = i.content;
-        if (names.length === 0) {
+    const appearances = (appearance.appearances || []).map(i => {
+        const { id, __typename, status, runnings, images, descriptions, releaseDate, names, ageRatings } = i.content;
+        if (undefined == names || names.length === 0) {
             return;
         }
         return {
@@ -64,11 +64,11 @@ export const getProps = async (ctx, client, type) => {
             media: Type(__typename),
             //type: Subtype(__typename, type),
             description: locale.English(descriptions),
-            season: season.JapanAny(runnings),
+            releaseDate: ByContent(__typename, releaseDate, runnings),
             status: stat.Status(status),
             relation: i.relation,
         };
-    });
+    }).filter(a => {return a != undefined});
 
     const images = image.All(info.images);
 
@@ -78,7 +78,7 @@ export const getProps = async (ctx, client, type) => {
         name: locale.LatinAny(info.guiseOf.names),
     } : undefined;
 
-    const birthday = info.birthday ? (new Date(birthday)).toLocaleDateString('en-US') : info.birthdayFallback
+    const birthday = info.birthday ? (new Date(info.birthday)).toLocaleDateString('en-US') : info.birthdayFallback
 
     return {
         description: locale.English(info.descriptions),

@@ -32,7 +32,7 @@ const ProductionCard = ({ production }) => {
                     <h5>{production.japaneseName}</h5>
                     <aside>
                         <p>
-                            {production.season}
+                            {production.releaseDate.premiere}
                             <span>|</span>
                             {production.media}
                             <span>|</span>

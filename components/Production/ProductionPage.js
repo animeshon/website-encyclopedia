@@ -7,7 +7,7 @@ import ProductionCard from '@/components/Production/ProductionCard';
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
 import * as roles from '@/utilities/TypedRole';
-import * as season from '@/utilities/Season';
+import { byContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import * as uri from '@/utilities/URI';
 import { Type } from '@/utilities/MediaType';
@@ -47,13 +47,13 @@ const ProductionPage = ({ productions }) => {
     return (
         <main className="anime-characters__description grid">
             <section className="landing-section-box">
-                <header className="header-with-double-filter">
+                <header>
                     <h3>Productions</h3>
                 </header>
                 <div className="grid-halves">
                     {keys.length ? keys.map(c => {
                         const production = productionsMap[c];
-                        return (<ProductionCard key={production.id} production={production}/>)
+                        return (<ProductionCard key={production.id} production={production} />)
                     }) : NotFound}
                 </div>
             </section>
@@ -95,8 +95,7 @@ export const getProps = async (ctx, client, type) => {
                 japaneseName: locale.Japanese(content.names),
                 image: image.ProfileAny(content.images, content.ageRatings),
                 media: Type(content.__typename),
-                //type: Subtype(__typename, type),
-                season: season.JapanAny(content.runnings),
+                releaseDate: ByContent(content.__typename, content.releaseDate, content.runnings),
                 status: stat.Status(content.status),
             },
         };

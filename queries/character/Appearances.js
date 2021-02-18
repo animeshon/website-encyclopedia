@@ -6,7 +6,7 @@ const getAppearances = () => gql`
   query details($id: String!, $first: Int!) {
     result: getCharacter(id: $id) {
       id
-      appearance(first: $first) {
+      appearances(first: $first) {
       relation
       content {
         __typename

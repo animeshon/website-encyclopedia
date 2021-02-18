@@ -2,18 +2,19 @@ import React from 'react';
 import Link from 'next/link';
 
 import * as uri from '@/utilities/URI';
+import * as text from '@/utilities/Text';
 
 const EpisodeCard = ({ episode }) => {
     const href = uri.Rewrite('Episode', episode.name, episode.id);
     const releaseDate = new Date(episode).toLocaleDateString('en-US')
     
     return (
-        <div key={id} className="episodes-list__box">
+        <div key={episode.id} className="episodes-list__box">
             <Link href={href}>
                 <a>
-                    <figure className="episodes-list__image">
+                    <picture className="episodes-list__image">
                         <img src={episode.image.uri} alt={episode.name} />
-                    </figure>
+                    </picture>
                 </a>
             </Link>
             <div className="episode-details">
@@ -31,10 +32,7 @@ const EpisodeCard = ({ episode }) => {
                     <time dateTime={releaseDate}>{releaseDate}</time>
                 </p>
                 <p className="episode-details__description">
-                    {truncate(episode.description, {
-                        length: 240,
-                        omission: ' ...',
-                    })}
+                    {text.Truncate(episode.description, 240)}
                 </p>
             </div>
         </div>
