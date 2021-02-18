@@ -78,7 +78,7 @@ export const getProps = async (ctx, client, type) => {
         name: locale.LatinAny(info.guiseOf.names),
     } : undefined;
 
-    const birthday = info.birthday ? (new Date(birthday)).toLocaleDateString('en-US') : info.birthdayFallback
+    const birthday = info.birthday ? (new Date(info.birthday)).toLocaleDateString('en-US') : info.birthdayFallback
 
     return {
         description: locale.English(info.descriptions),

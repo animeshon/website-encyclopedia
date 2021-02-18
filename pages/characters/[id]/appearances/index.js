@@ -8,7 +8,7 @@ import ExpandableSection from '@/components/ExpandableSection';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
-import {byContent} from '@/utilities/Premiere';
+import {ByContent} from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
 import { Subtype } from '@/utilities/MediaSubtype';
@@ -60,7 +60,7 @@ export const getProps = async (ctx, client, type) => {
 
     const appearances = (data.appearances || []).map(i => {
         const { id, __typename, status, runnings, images, descriptions, releaseDate, names, ageRatings } = i.content;
-        if (names.length === 0) {
+        if (names?.length === 0) {
             return;
         }
         return {

@@ -73,7 +73,7 @@ export const getProps = async (ctx, client, type) => {
     return {
         description: locale.English(info.descriptions),
         characters: characters.sort((a, b) => {
-            return a.occurencies > b.occurencies;
+            return a.occurencies < b.occurencies;
         }).slice(0, 5),
         universes: universes,
         details: [
@@ -83,8 +83,8 @@ export const getProps = async (ctx, client, type) => {
                 { key: 'Romaji', value: locale.Romaji(info.names) },
             ],
             [
-                { key: 'Contents', value: info.contentsAggregate.count },
-                { key: 'Universes', value: info.partOfUniversesAggregate.count },
+                { key: 'Contents', value: info.contentsAggregate?.count || 0 },
+                { key: 'Universes', value: info.partOfUniversesAggregate?.count || 0 },
             ]
         ]
     };
