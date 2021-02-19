@@ -73,6 +73,31 @@ export const FromAlpha2 = (codes) => {
                     code: 'cz',
                     name: '	Czech',
                 };
+            case 'ru':
+                return {
+                    code: 'ru',
+                    name: 'Russian',
+                };
+            case 'tr':
+                return {
+                    code: 'tr',
+                    name: 'Turkish',
+                };
+            case 'vi':
+                return {
+                    code: 'vn',
+                    name: 'Vietnamese',
+                };
+            case 'he':
+                return {
+                    code: 'il',
+                    name: 'Hebrew',
+                };
+            case 'hu':
+                return {
+                    code: 'hu',
+                    name: 'Hungarian',
+                };
             case undefined:
                 return {
                     code: undefined,
