@@ -123,7 +123,7 @@ export const getProps = async (ctx, client, type) => {
             ],
             [
                 { key: 'EAN10', value: info.ean10 },
-                { key: 'EAN13', value: info.ean13 ? info.ean13 : undefined },
+                { key: 'EAN13', value: info.ean13 && info.ean13 != "0" ? info.ean13 : undefined },
                 { key: 'SKU', value: info.sku },
                 { key: 'UPCE', value: info.upce },
                 { key: 'UPCA', value: info.upca },

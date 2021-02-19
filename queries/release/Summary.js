@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 import Core from '@/queries/Core'
 import Generic from '@/queries/Generic'
+import Content from '@/queries/Content';
 
 export const getSummary = () => gql`
   query details($id: String!) {
@@ -43,61 +44,7 @@ export const getSummary = () => gql`
         contents {
           __typename
           ... on Metadata {
-            id
-          }
-          ...on Generic {
-            ...GenericNames
-            ...GenericDescriptions
-          }
-          ... on Content {
-            status
-          }
-          ... on Anime {
-            runnings {
-              localization {
-                country {
-                  code
-                }
-              }
-              from
-              to
-            }
-          }
-          ... on Manga {
-            runnings {
-              localization {
-                country {
-                  code
-                }
-              }
-              from
-              to
-            }
-          }
-          ... on Doujinshi {
-            runnings {
-              localization {
-                country {
-                  code
-                }
-              }
-              from
-              to
-            }
-          }
-          ... on LightNovel {
-            runnings {
-              localization {
-                country {
-                  code
-                }
-              }
-              from
-              to
-            }
-          }
-          ... on VisualNovel {
-            releaseDate
+            ...ContentMinimal
           }
         }
         censorship
@@ -113,6 +60,7 @@ export const getSummary = () => gql`
   ${Generic.Fragments.descriptions}
   ${Core.Fragments.withRestrictionFull}
   ${Core.Fragments.withAgeRatingFull}
+  ${Content.Fragments.contentMinimal}
 `;
 
 export default getSummary;
