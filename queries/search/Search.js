@@ -125,7 +125,6 @@ const songDetails = () => gql`
       result : getSong(id:$id) {
       id
       __typename
-      ...AgeRatingFull
       ...GenericProfileImage
       ...GenericNames
       ...GenericDescriptions
@@ -135,7 +134,6 @@ const songDetails = () => gql`
   ${Generic.Fragments.names}
   ${Generic.Fragments.descriptions}
   ${Generic.Fragments.profileImage}
-  ${Core.Fragments.withAgeRatingFull}
 `;
 
 const chapterDetails = () => gql` 
