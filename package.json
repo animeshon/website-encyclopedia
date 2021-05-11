@@ -33,7 +33,7 @@
     "flagpack": "^1.0.5",
     "graphql": "^15.0.0",
     "html-react-parser": "^0.10.3",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "next": "^10.0.1",
     "next-with-apollo": "^5.0.1",
     "node-fetch": "^2.6.1",
