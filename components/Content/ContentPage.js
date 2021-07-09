@@ -10,6 +10,7 @@ import SummaryCharacter from '@/components/Summary/SummaryCharacter';
 // import SummaryTimeline from '@/components/Summary/SummaryTimeline';
 import SummaryCanonical from '@/components/Summary/SummaryCanonical';
 import SummaryRelated from '@/components/Summary/SummaryRelated';
+import ExternalDistributors from '@/components/ExternalDistributors';
 
 import * as locale from '@/utilities/Localization';
 import * as image from '@/utilities/Image';
@@ -35,6 +36,7 @@ const ContentPage = ({
     return (
         <div className="grid">
             <main className="landing__description">
+                <ExternalDistributors />
                 <SummaryText text={description} />
                 <SummaryCharacter characters={characters} />
                 <SummaryRelated related={related} />

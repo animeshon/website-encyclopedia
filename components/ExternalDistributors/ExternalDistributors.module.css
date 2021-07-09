@@ -1,0 +1,26 @@
+header.header {
+    justify-content: space-between;
+}
+
+.region-filter {
+    width: calc(25% - 20px);
+    margin-right: 20px;
+}
+
+@media screen and (max-width: 1280px) {
+    .region-filter {
+        width: calc(33% - 20px);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .region-filter {
+        width: calc(50% - 20px);
+    }
+}
+
+@media screen and (max-width: 460px) {
+    header.header {
+        display: inline-block;
+    }
+}

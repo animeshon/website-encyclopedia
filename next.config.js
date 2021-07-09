@@ -33,6 +33,11 @@ module.exports = {
                 destination: '/',
             },
 
+            // Encyclopedia pages
+            // {
+            //     source: '/:collection/:id/:slug/:path*',
+            //     destination: '/:collection/:collection.:id/:path*',
+            // },
             // Primary <----------
             {
                 source: '/:slug-Anime-:id([A-Za-z0-9-_]{12})/:path*',

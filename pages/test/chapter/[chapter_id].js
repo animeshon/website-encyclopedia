@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import parse from 'html-react-parser';
 import { kebabCase, replace } from 'lodash';
 
 import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
@@ -131,7 +130,7 @@ const MangaChapterPage = ({
                             <header>
                                 <h3>Description</h3>
                             </header>
-                            <p>{parse(chapter_details.description.en)}</p>
+                            <p>{chapter_details.description.en}</p>
                         </section>
                         {/*  */}
                         <section className="landing-section-box">
