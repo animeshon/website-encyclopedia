@@ -3,9 +3,9 @@ import { gql } from '@apollo/client';
 const Core = {};
 
 Core.Fragments = {
-    withAgeRatingFull: gql`
-    fragment AgeRatingFull on WithAgeRating {
-        ageRatings {
+    withMaturityRatingFull: gql`
+    fragment MaturityRatingFull on WithMaturityRating {
+        maturityRatings {
             country {
                 code
             }
@@ -13,9 +13,9 @@ Core.Fragments = {
             tag
         }
     }`,
-    withRestrictionFull: gql`
-    fragment RestrictionFull on WithRestriction {
-        restrictions {
+    withRegionRestrictionFull: gql`
+    fragment RegionRestrictionFull on WithRegionRestriction {
+        regionRestrictions {
             tag
         }
     }`,
@@ -31,15 +31,14 @@ Core.Fragments = {
         }
     }`,
     textWithLocalization: gql`
-    fragment TextWithLocalization on Text {
-        text
-        localization {
-            language {
-                code
-            }
-            script {
-                code
-            }
+    fragment TextWithLocalization on LocalizedTextPayload {
+        hits {
+            text
+            localizationTag
+        }
+        fallbacks {
+            text
+            localizationTag
         }
     }`
 }

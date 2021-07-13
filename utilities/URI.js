@@ -95,10 +95,6 @@ const removeSymbols = (input) => {
     return result;
 };
 
-export const GuessType = (uri) => {
-    return uri.split('/')[1] != "e" ? uri.split('/')[1] : uri.split('/')[2];
-}
-
 export const AbsoluteURI = (uri) => {
     return HOST + BASEPATH + uri;
 };

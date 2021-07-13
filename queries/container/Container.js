@@ -6,30 +6,32 @@ import Generic from '@/queries/Generic'
 const ContainerQuery = () => {
   return gql`
       query details($id: String!) {
-        result : getMetadata(id:$id) {
+        result : get(id:$id) {
           id
-          __typename
-          ... on Generic {
-            ...GenericProfileImage
-            ...GenericCoverImage
+          ... on GraphGeneric {
+            entityType
             ...GenericNames
             ...GenericDescriptions
           }
-          ... on WithRestriction {
-            ...RestrictionFull
+          ... on WithRegionRestriction {
+            ...RegionRestrictionFull
           }
-          ... on WithAgeRating {
-            ...AgeRatingFull
+          ... on WithMaturityRating {
+            ...MaturityRatingFull
           }
         }
       }
       ${Generic.Fragments.names}
       ${Generic.Fragments.descriptions}
-      ${Generic.Fragments.profileImage}
-      ${Generic.Fragments.coverImage}
-      ${Core.Fragments.withAgeRatingFull}
-      ${Core.Fragments.withRestrictionFull}
+
+      ${Core.Fragments.withMaturityRatingFull}
+      ${Core.Fragments.withRegionRestrictionFull}
     `
 };
+
+// # ...GenericProfileImage
+// # ...GenericCoverImage
+// ${Generic.Fragments.profileImage}
+// ${Generic.Fragments.coverImage}
 
 export default ContainerQuery

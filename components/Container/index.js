@@ -155,10 +155,10 @@ const Container = ({ container, seo, children }) => {
 
 export function withContainerProps(getServerSidePropsFunc) {
     return async (ctx) => {
-        const { id } = ctx.query;
+        // Id gets encoded in collection.id, we need therefore to replace "." with "/" to get the resource name
+        const id = ctx.query.id.replace(".", "/");
 
         // ! TODO use a query for a more reliable guess
-        const type = uri.GuessType(ctx.resolvedUrl);
         const apolloClient = initializeApollo();
         const data = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 

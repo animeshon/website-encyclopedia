@@ -5,14 +5,14 @@ const Generic = {};
 
 Generic.Fragments = {
     names: gql`
-    fragment GenericNames on Generic {
+    fragment GenericNames on GraphGeneric {
         names {
         ...TextWithLocalization
       }
     }
     ${Core.Fragments.textWithLocalization}`,
     descriptions: gql`
-    fragment GenericDescriptions on Generic {
+    fragment GenericDescriptions on GraphGeneric {
         descriptions {
         ...TextWithLocalization
       }

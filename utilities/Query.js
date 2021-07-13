@@ -7,10 +7,14 @@ export const ExecuteQuery = async (client, q) => {
     if (!query || !returnFn) {
         return undefined;
     }
+
+    console.log(getGqlString(query));
+
     const res = await client.query({
         query: query,
         variables: vars ? vars : {},
-    }).catch(error => { errorFn(error); return { data: undefined, error: error } });
+    }).catch(error => { 
+        errorFn(error); return { data: undefined, error: error } });
 
     return returnFn(res.data, res.error);
 }
