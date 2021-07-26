@@ -52,7 +52,7 @@ const ReleasePage = ({
     );
 };
 
-export const getProps = async (ctx, client, type) => {
+export const getProps = async (ctx, client) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("info", { id: id }, GetContentSummary(type)),

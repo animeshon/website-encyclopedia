@@ -3,36 +3,33 @@ import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
 
-import * as uri from '@/utilities/URI';
-import * as text from '@/utilities/Text';
-
 import styles from './ContentCard.module.css';
 
 const ContentCard = ({ content }) => {
-    const href = uri.Rewrite(content.type, content.name, content.id);
-
     return (
-        <div key={content.id} className={styles.content__item}>
+        <div key={content.model.GetID()} className={styles.content__item}>
             <figure className={styles.content__item_cover}>
-                <SafeImage image={content.image} />
+                <SafeImage image={content.model.GetCoverUrl()} />
             </figure>
             <article className={styles.content__item_contents}>
                 <header>
                     {content.header && <p className={styles["content__item-header"]}>{content.header}</p>}
-                    <Link href={href}>
+                    <Link href={content.model.GetURI()}>
                         <a>
-                            <h4>{content.name}</h4>
+                            <h4>{content.model.GetNames().Get()}</h4>
                         </a>
                     </Link>
-                    <p>{text.Truncate(content.description, 160)}</p>
+                    <p>{content.model.GetDescription(160)}</p>
                 </header>
                 <aside>
                     <p>
-                        {content.releaseDate.premiere}
+                        {content.model.GetSeason() ? (content.model.GetSeason()) :
+                            (content.model.GetRunning() ? (content.model.GetRunning()) :
+                                (content.model.GetReleaseDate() ? (content.model.GetReleaseDate()) : undefined))}
                         <span>|</span>
-                        {content.media}
-                        <span>|</span>
-                        {content.status}
+                        {content.model.GetType()}
+                        {content.model.GetSubtype() ? (<><span>|</span> {content.model.GetSubtype()}</>) : undefined}
+                        {content.model.GetStatus() ? (<><span>|</span> {content.model.GetStatus()}</>) : undefined}
                     </p>
                 </aside>
             </article>

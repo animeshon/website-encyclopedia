@@ -29,7 +29,7 @@ const Universes = ({ universes }) => {
     );
 };
 
-export const getProps = async (ctx, client, type) => {
+export const getProps = async (ctx, client) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("uni", { id: id, firstContents: 10 }, getUniverses()),

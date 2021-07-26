@@ -54,7 +54,7 @@ const Appearances = ({ appearances }) => {
     );
 };
 
-export const getProps = async (ctx, client, type) => {
+export const getProps = async (ctx, client) => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(client, PrepareQuery({ id: id, first: 1000000000 }, getAppearances()));
 

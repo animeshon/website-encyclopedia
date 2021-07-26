@@ -19,6 +19,15 @@ const ContainerQuery = () => {
           ... on WithMaturityRating {
             ...MaturityRatingFull
           }
+          ... on GraphAnime {
+            animeType: type
+          }
+          ... on GraphOrganization {
+            organizationType: type
+          }
+          ... on GraphGraphicNovel {
+            graphicNovelType: type
+          }
         }
       }
       ${Generic.Fragments.names}

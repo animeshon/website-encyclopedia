@@ -8,7 +8,7 @@ import { useContainer } from '@/components/Container';
 
 import Button from '@/components/Button';
 
-import { Age } from '@/utilities/AgeRating';
+import { Age } from '@/utilities/Restriction';
 
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 

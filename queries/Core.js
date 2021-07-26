@@ -34,11 +34,25 @@ Core.Fragments = {
     fragment TextWithLocalization on LocalizedTextPayload {
         hits {
             text
-            localizationTag
+            localization {
+                language {
+                    code
+                }
+                script {
+                    code
+                }
+            }
         }
         fallbacks {
             text
-            localizationTag
+            localization {
+                language {
+                    code
+                }
+                script {
+                    code
+                }
+            }
         }
     }`
 }

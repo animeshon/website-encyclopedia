@@ -16,6 +16,9 @@ export const DetailsCard = ({ items }) => {
     return (
         <div className={styles.details__table}>
             {items.map(item => {
+                if (undefined == item) {
+                    return undefined;
+                }
                 var blocks = [];
                 var counter = 0;
 

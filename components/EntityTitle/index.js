@@ -2,7 +2,7 @@ const EntityTitle = ({ breadcrumb = [], title }) => {
     return (
         <div className="entity-title-bar internal-grid">
             <div className="product__breadcrumb">
-                {breadcrumb.map(b => {return(<span key={b}>{b}</span>)} )}
+                {breadcrumb.map(b => {return(b && <span key={b}>{b}</span>)} )}
                     
             </div>
             <h1>{title}</h1>

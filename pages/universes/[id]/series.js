@@ -28,7 +28,7 @@ const Universes = ({ canonicals }) => {
     );
 };
 
-export const getProps = async (ctx, client, type) => {
+export const getProps = async (ctx, client) => {
     const { id } = ctx.query;
     const queries = [
         PrepareKeyQuery("canon", { id: id, firstContents: 10 }, getCanonicals()),

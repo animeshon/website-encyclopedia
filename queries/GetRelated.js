@@ -4,9 +4,9 @@ import { gql } from '@apollo/client';
 
 const GetRelated = () => {
     return gql`query related($id: String!) {
-        result : getMetadata(id:$id) {
+        result : get(id:$id) {
             id
-            ... on Content {
+            ... on GraphContent {
                 relations(filter: {not: {type: {eq: UNKNOWN}}, and: {not: {type: {eq: ORIGINAL}}, and: {not: {type: {eq: PARODY}}}}}) {
                     type
                     object {

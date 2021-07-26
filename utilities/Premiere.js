@@ -1,19 +1,9 @@
-import * as season from '@/utilities/Season';
-
-export const ByContent = (type, release, runnings) => {
-    if (type == "VisualNovel" || type == "Doujinshi") {
-        return {season: false, premiere: PremiereAny(release, runnings)};
-    }
-    return {season: true, premiere: season.JapanAny(runnings)};
-}
-
 export const PremiereAny = (release, runnings) => {
     if (release) {
-        const fromT = new Date(release);
-        return fromT.toLocaleDateString('en-US');
+        return new Date(release);
     }
 
-    return Premiere(runnings, ['JPN'], [{countries: ['USA']}, {}])
+    return Premiere(runnings, ['JPN'], [{ countries: ['USA'] }, {}])
 };
 
 export const Premiere = (runnings, countries, fallback = null) => {
@@ -37,8 +27,8 @@ export const Premiere = (runnings, countries, fallback = null) => {
                 continue;
             }
         }
-    
-        return from.toLocaleDateString('en-US');
+
+        return from;
     }
 
     if (fallback) {
@@ -51,4 +41,59 @@ export const Premiere = (runnings, countries, fallback = null) => {
     }
 
     return undefined;
+};
+
+export const RunningJapanAny = (runnings) => {
+    return Running(runnings, ['JPN'], [{ countries: ['USA'] }, {}])
+};
+
+export const Running = (runnings, countries, fallback = null) => {
+    if (!runnings) {
+        return {from: undefined, to: undefined};
+    }
+
+    for (var i = 0; i < runnings.length; i++) {
+        if (!runnings[i] || !runnings[i].from) {
+            continue;
+        }
+
+        const from = runnings[i].from ? (new Date(runnings[i].from)) : undefined;
+        if (!from) {
+            continue;
+        }
+
+        if (countries && countries.length != 0) {
+            const country = runnings[i].localization?.country?.code;
+            if (!country || !countries.includes(country)) {
+                continue;
+            }
+        }
+
+        // If there is no known end date of airing just return the starting date.
+        let to = runnings[i].to ? (new Date(runnings[i].to)) : undefined;
+
+        if (!to) {
+            return { from: undefined, to: undefined };
+        }
+
+        // if from and to coincide, it means it's an oneshot content
+        if (to.getFullYear() == 1) {
+            // 0001 year (golang's zero date) hotfix
+            to = from;
+        }
+
+        // It probably is a non-Runningal anime. Return both starting and ending dates.
+        return { from, to };
+    }
+
+    if (fallback) {
+        fallback = [...fallback];
+
+        const _fallback = fallback.shift();
+        if (_fallback) {
+            return Running(runnings, _fallback.countries, fallback);
+        }
+    }
+
+    return { from: undefined, to: undefined };
 };
