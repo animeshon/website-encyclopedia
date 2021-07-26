@@ -20,6 +20,11 @@ import '../node_modules/flagpack/dist/flagpack.css';
 import Router from 'next/router';
 import LoadingBar from 'react-top-loading-bar'
 
+import countries from 'i18n-iso-countries';
+import languages from '@cospired/i18n-iso-languages';
+
+countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
+languages.registerLocale(require("@cospired/i18n-iso-languages/langs/en.json"));
 
 const Animeshon = ({ pageProps, Component, safeSearch }) => {
     const apolloClient = useApollo(pageProps.initialApolloState);

@@ -211,6 +211,7 @@ const GetSummary = () => gql`
                 reelaseShops: shops {
                     url
                     isGlobal
+                    name
                     country {
                         code
                     }
@@ -220,6 +221,7 @@ const GetSummary = () => gql`
                 releasableShops: shops {
                     url
                     isGlobal
+                    name
                     country {
                         code
                     }

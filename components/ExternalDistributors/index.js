@@ -4,40 +4,27 @@ import cn from 'classnames';
 import styles from './ExternalDistributors.module.css';
 import FilterSelect from '@/components/Filter/FilterSelect';
 
-
-
-const mockShops = [
-    { region: "USA", url: "s", name: "amazon" },
-    { region: "", url: "f", name: "ebay" },
-    { region: "", url: "a", name: "cdjapan" },
-    { region: "JNP", url: "c", name: "viz" },
-    { region: "JNP", url: "z", name: "crunchyroll" },
-]
-
-const regionToString = (region) => {
-    return region != "" ? region : "Global";
-}
-
-const ExternalDistributors = ({ shops = mockShops }) => {
+const ExternalDistributors = ({ shops }) => {
     const values = [];
     let defaultValue = undefined;
+
     shops.map(s => {
-        if (values.findIndex((v) => (v.value === s.region)) != -1) {
+        const region = s.GetCountry();
+        if (values.findIndex((v) => (v.value === region)) != -1) {
             return;
         }
-        const v = { value: s.region, label: regionToString(s.region) };
+        const v = { value: region, label: s.GetCountryLabel() };
         
         // any first
         // then global
         // then JPN
         if (defaultValue == undefined) {
             defaultValue = v;
-        } else if (s.region == "") {
+        } else if (region == "") {
             defaultValue = v;
-        }
-        else if (s.region == "USA") {
+        } else if (region == "USA") {
             defaultValue = v;
-        } else if (s.region == "JPN") {
+        } else if (region == "JPN") {
             defaultValue = v;
         }
         
@@ -64,15 +51,15 @@ const ExternalDistributors = ({ shops = mockShops }) => {
             </div>
             <div className="grid-halves manga-links">
                 <div className="links-row">
-                    {shops.filter(s => {return s.region == filterRegon.value}).map(link => {
+                    {shops.filter(s => {return s.GetCountry() == filterRegon.value}).map(link => {
                         return (
                             <a
-                                key={link.url}
-                                href={link.url}
+                                key={link.GetURL()}
+                                href={link.GetURL()}
                                 target="_blank"
                                 className="external-platform-button"
                             >
-                                <img src={`/images/${link.name}.png`} alt={link.name} />
+                                <img src={link.GetImageURL()} alt={link.GetName()} />
                             </a>
                         );
                     })}

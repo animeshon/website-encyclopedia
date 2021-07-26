@@ -38,10 +38,12 @@ const ContentPage = ({
     const relatedModels = new RelatedContentDataModelList(relatedContents);
     relatedModels.Localize();
 
+    const shops = model.GetShops();
+
     return (
         <div className="grid">
             <main className="landing__description">
-                <ExternalDistributors />
+                {shops && <ExternalDistributors shops={shops}/> }
                 <SummaryText text={model.GetDescription()} />
                 <SummaryCharacter characters={characterModels} />
                 <SummaryRelated related={relatedModels} />

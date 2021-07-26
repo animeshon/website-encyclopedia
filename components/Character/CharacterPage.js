@@ -149,7 +149,8 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
 };
 
 export const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
+    const id = ctx.query.id.replace(".", "/");
+    
     const queries = [
         PrepareKeyQuery("data", { id: id }, GetCharacters(type)),
         PrepareKeyQuery("cast", { id: id }, GetCast(type)),

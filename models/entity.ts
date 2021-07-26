@@ -4,8 +4,9 @@ import { Truncate } from '@/utilities/Text';
 import { PremiereAny, RunningJapanAny } from '@/utilities/Premiere';
 import { EnglishDate, EnglishMonth } from '@/utilities/Time';
 import { IsAdultOnly } from '@/utilities/Restriction';
-import { FromAlpha2 } from '@/utilities/Nationality';
+import languages from '@cospired/i18n-iso-languages';
 import * as uri from '@/utilities/URI';
+import Shop from '@/models/shop';
 
 export class EntityNames {
     localizedName: string;
@@ -69,6 +70,7 @@ class Entity {
     protected bloodType: string;
 
     protected languages: any[];
+    protected shops: any[];
 
     constructor(rawData: any) {
         this.rawData = rawData;
@@ -95,6 +97,13 @@ class Entity {
             this.languages = this.rawData.personLanguages;
         } else if (this.rawData.releaseReleaseLanguage != undefined) {
             this.languages = this.rawData.releaseReleaseLanguage;
+        }
+
+        // shops
+        if (this.rawData.reelaseShops != undefined) {
+            this.shops = this.rawData.reelaseShops;
+        } else if (this.rawData.releasableShops != undefined) {
+            this.shops = this.rawData.releasableShops;
         }
 
         this.setSubtype();
@@ -268,6 +277,19 @@ class Entity {
 
     public IsIllegal(country: string = ""): boolean {
         return this.rawData.regionRestrictions?.filter(r => { return r.tag == "MINOR-R18" }).length >= 1;
+    }
+
+    public GetShops(locale: string = "en"): Shop[]{
+        return this.shops.map(s => {
+            const shop = new Shop(
+                s.isGlobal,
+                s.name, 
+                s.url,
+                s.country ? s.country.code : "",
+            );
+            shop.Localize(locale);
+            return shop;
+        });
     }
 
     // TODO Move to translation files
@@ -454,11 +476,11 @@ class Entity {
         }
     }
 
-    public Languages(locale: string = ""): any[] {
+    public Languages(locale: string = "en"): any[] {
         if (this.languages == undefined) {
             return undefined;
         }
-        FromAlpha2(this.languages.map(l => l.alpha2)).map(a => { return { text: a.name } })
+        return this.languages.map(l => { return { text: languages.getName(l.code, locale) } });
     }
 
     public NotUndefinedOrEmpty(value: any): boolean {
