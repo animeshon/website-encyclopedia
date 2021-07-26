@@ -150,7 +150,8 @@ class Entity {
 
     public Localize(locale: string = "eng"): void {
         this.names = new EntityNames(
-            Locale(this.rawData.names?.hits, [locale]),
+            // If character, organization or person  and we are not localizing the website in japanese => the localized name is latin
+            ["character", "organization", "person"].includes(this.type) && locale != "jpn" ? LatinAny(this.rawData.names) : Locale(this.rawData.names?.hits, [locale]),
             Japanese(this.rawData.names),
             Romaji(this.rawData.names),
             LatinAny(this.rawData.names),
@@ -279,11 +280,11 @@ class Entity {
         return this.rawData.regionRestrictions?.filter(r => { return r.tag == "MINOR-R18" }).length >= 1;
     }
 
-    public GetShops(locale: string = "en"): Shop[]{
+    public GetShops(locale: string = "en"): Shop[] {
         return this.shops.map(s => {
             const shop = new Shop(
                 s.isGlobal,
-                s.name, 
+                s.name,
                 s.url,
                 s.country ? s.country.code : "",
             );

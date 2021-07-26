@@ -20,9 +20,6 @@ class SummaryDataModel extends Entity {
 
     public Details(locale: string = "eng"): any {
         let name = this.names.GetLocalized();
-        if (["person", "character"].includes(this.type)) {
-            name = this.names.GetLatin();
-        }
 
         const externalSources = this.GetExternalSources();
         const collaborations = this.GetCollaborators(locale);
@@ -127,8 +124,7 @@ class SummaryDataModel extends Entity {
                 value: value.map(p => {
                     p.Localize(locale);
                     return {
-                        // TODO check if locale is latn or not, 
-                        text: p.GetNames().GetLatin(),
+                        text: p.GetNames().Get(),
                         href: p.GetURI()
                     }
                 })

@@ -5,62 +5,56 @@ import CardImage from '@/components/Card/Image';
 import Button from '@/components/Button';
 import Flag from '@/components/Flag';
 
-import * as uri from '@/utilities/URI';
-
 import styles from './CharacterCard.module.css';
 
-const CharacterCard = ({ character, cast }) => {
-    const href = uri.Rewrite('Character', character.name, character.id);
-
+const CharacterCard = ({ character, language }) => {
     return (
         <div className={styles.cast__item}>
-            <Link href={href}>
+            <Link href={character.GetURI()}>
                 <a>
                     <CardImage
-                        image={character.image}
-                        altText={character.name}
+                        image={character.GetCoverUrl()}
+                        altText={character.GetNames().Get()}
                     />
                 </a>
             </Link>
 
             <div className={styles.cast__item_contents}>
                 <header>
-                    <Link href={href}>
+                    <Link href={character.GetURI()}>
                         <a>
-                            <h4>{character.name}</h4>
+                            <h4>{character.GetNames().Get()}</h4>
                         </a>
                     </Link>
-                    {character.role && (
-                        <p className="card__role">{`${character.role}`}</p>
+                    {character.GetRole() && (
+                        <p className="card__role">{`${character.GetRole()}`}</p>
                     )}
                 </header>
 
-                {cast ? cast.map(c => {
-                    const person = c.person;
+                {character.GetSeyuus(language).map(s => {
                     return (<Button
-                        key={`${person.id}-${character.id}`}
+                        key={`${s.GetID()}-${character.GetID()}-${language}`}
                         className="cherry-red medium character-button-ref"
                         type="next-link"
-                        href={uri.Rewrite('Person', person.name, person.id)}
+                        href={s.GetURI()}
                     >
                         <span className="character-image">
                             <CardImage
-                                image={person.image}
-                                altText={person.name}
+                                image={s.GetCoverUrl()}
+                                altText={s.GetNames().Get()}
                                 className={''}
-                                gender={person.gender}
+                                gender={s.GetGender()}
                                 forceSafe={false}
                             />
                         </span>
-                        <Flag nationality={c.nationality}/>
-                        
+                        <Flag nationality={s.GetLocalization().GetCountry().alpha2 ?? s.GetLocalization().GetLanguage().alpha2} />
+
                         <span className="character-name">
-                            {person.name}
+                            {s.GetNames().Get()}
                         </span>
                         {/* TODO Primary */}
                     </Button>)
-                })
-                    : null}
+                })}
             </div>
         </div>
     );
