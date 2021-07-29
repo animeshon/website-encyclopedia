@@ -26,7 +26,7 @@ export const ExecuteQueryAsync = async (client, q) => {
         return undefined;
     }
 
-    // console.log(getGqlString(query))
+    //  console.log(getGqlString(query))
 
     return client.query({
         query: query,

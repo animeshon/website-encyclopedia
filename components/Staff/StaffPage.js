@@ -5,32 +5,22 @@ import { GetTypedStaff } from '@/queries/GetStaff';
 import ExpandableSection from '@/components/ExpandableSection';
 import StaffGrid from '@/components/Staff/StaffGrid';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as roles from '@/utilities/TypedRole';
-import * as uri from '@/utilities/URI';
-import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
+import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 
-const MapStaff = (people) => {
-    let mapStaff = {};
-    people.forEach(v => {
-        const k = v.role.type ? "typed" : "free";
-        if (!mapStaff.hasOwnProperty(k)) {
-            mapStaff[k] = {};
-        }
-        if (!mapStaff[k].hasOwnProperty(v.role.id)) {
-            mapStaff[k][v.role.id] = {
-                role: v.role,
-                staff: [],
-            };
-        }
-        mapStaff[k][v.role.id].staff.push(v.collaborator);
-    });
+import Localization from "@/models/localization";
+import { StaffDataModelList, SortBy } from "@/models/staff";
 
-    return mapStaff;
-}
-const StaffPage = ({ people }) => {
-    const staffMap = MapStaff(people);
+const StaffPage = ({ collaborators, localizations }) => {
+
+    const staffModels = new StaffDataModelList(collaborators);
+    staffModels.Localize();
+    staffModels.Sort(SortBy.NAME);
+    const roles = staffModels.GetAllJobs();
+
+    const localizationsModel = localizations.map(l => Localization.FromRawData(l));
+    // const nationalityOpts = localizationsModel.map(l => {
+    //     return { value: l.GetLanguage().code, label: l.GetLanguage().HumanReadible() }
+    // })
 
     const NotFound = 'There is currently no information about staff available.';
     const order = ["typed", "free"];
@@ -42,17 +32,13 @@ const StaffPage = ({ people }) => {
                     <h3>Staff</h3>
                 </header>
                 <div className="grid-halves">
-                    {people?.length ? order.map(c => {
-                        const collaborations = staffMap[c] ? staffMap[c] : {};
-                        const rol = Object.keys(collaborations)
-                        return rol?.map(rol => {
-                            const coll = collaborations[rol];
-                            return (
-                                <ExpandableSection key={coll.role.id} label={coll.role.name} >
-                                    <StaffGrid collaborations={coll}/>
-                                </ExpandableSection>
-                            )
-                        })
+                    {staffModels.Size() ? roles.map(c => {
+                        const collaborations = staffModels.GetByJobRole(c);
+                        return (
+                            <ExpandableSection key={c} label={collaborations[0].GetJobRole()} >
+                                <StaffGrid collaborations={collaborations}/>
+                            </ExpandableSection>
+                        )
                     }) : NotFound}
                 </div>
             </section>
@@ -61,45 +47,43 @@ const StaffPage = ({ people }) => {
 };
 
 export const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
+    const id = ctx.query.id.replace(".", "/");
     const queries = [
-        PrepareKeyQuery("typedRoles", { id: id, collaborator: true, content: false }, GetTypedStaff(type)),
+        PrepareKeyQuery("collab", {
+            id: id,
+            collaborator: true,
+            content: false,
+            roleIn: [
+                "ART_DIRECTION",
+                "AUTHOR",
+                "DIRECTION",
+                "CHARACTER_DESIGN",
+                "MUSIC_COMPOSITION",
+                "LYRICS",
+                "PRODUCTION",
+                "MUSIC_ARRANGEMENT",
+                "PUBLISHING",
+                "STORY",
+                "SCRIPT",
+                "SERIALIZATION",
+                "ILLUSTRATION",
+                "STUDIO",
+                "VOCALIST"]
+        }, GetTypedStaff()),
     ];
-    const { typedRoles } = await ExecuteQueryBatch(client, queries);
+    const { collab } = await ExecuteQueryBatch(client, queries);
 
-    const people = (typedRoles.staff || []).map(i => {
-        const { role, collaborator, localization } = i;
+    const collaborators = collab.staff || [];
 
-        // TODO: Vastly improve the logic here.
-        // Try to fetch country alpha-2, fallback to language alpha-2.
-        var nationality = undefined;
-        if (localization?.country?.alpha2) {
-            nationality = localization.country.alpha2;
-        }
-        if (nationality === undefined && localization?.language?.alpha2) {
-            nationality = localization.language.alpha2;
-        }
-
-        return {
-            role: {
-                name: role.names ? locale.EnglishAny(role.names) : roles.Role(role.type),
-                type: role.type,
-                id: role.id,
-            },
-            collaborator: {
-                id: collaborator.id,
-                type: collaborator.__typename,
-                image: image.ProfileAny(collaborator.images),
-                name: locale.LatinAny(collaborator.names),
-                japaneseName: locale.Japanese(collaborator.names),
-                gender: collaborator.gender,
-                nationality: nationality,
-            },
-        };
-    });
+    const localizations = collaborators.map(v => v.localization).filter((localization, index, self) =>
+        localization != undefined && index === self.findIndex((t) => (
+            t.id === localization.id
+        ))
+    );
 
     return {
-        people
+        collaborators,
+        localizations,
     };
 };
 

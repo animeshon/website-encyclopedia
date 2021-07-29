@@ -4,46 +4,42 @@ import Link from 'next/link';
 import CardImage from '@/components/Card/Image';
 import Flag from '@/components/Flag';
 
-import * as uri from '@/utilities/URI';
-import * as media from '@/utilities/MediaType';
 
 import styles from './CardInfo.module.css';
 
-const CardInfo = ({ info }) => {
-    const href = uri.Rewrite(info.type, info.name, info.id);
-
+const CardInfo = ({ info, caption }) => {
     return (
-        <div key={info.id} className={styles.card}>
-            <Link href={href}>
+        <div className={styles.card}>
+            <Link href={info.GetURI()}>
                 <a>
                     <CardImage
-                        image={info.image}
-                        gender={info.gender}
-                        altText={`${info.name}`}
+                        image={info.GetCoverUrl()}
+                        gender={info.GetGender()}
+                        altText={`${info.GetNames().Get()}`}
                         className={styles.card__image}
                     />
                 </a>
             </Link>
             <div className={styles.card__info}>
                 <div>
-                    <Link href={href}>
+                    <Link href={info.GetURI()}>
                         <a>
                             <h4>
-                                {info.name}
+                                {info.GetNames().Get()}
                             </h4>
                         </a>
                     </Link>
 
-                    {info.japaneseName &&
-                        <p>{info.japaneseName}</p>}
+                    {info.GetNames().GetOriginal() &&
+                        <p>{info.GetNames().GetOriginal()}</p>}
                 </div>
-                {info.type && (
-                    <b> {media.Type(info.type)} </b>
+                {info.GetType() && (
+                    <b> {info.GetType()} </b>
                 )}
-                <Flag nationality={info.nationality}/>
+                <Flag nationality={info.GetLocalization().GetCountry().alpha2 ?? info.GetLocalization().GetLanguage().alpha2} />
 
-                {info.caption &&
-                    <p className={styles.card__role}>{info.caption}</p>}
+                {caption &&
+                    <p className={styles.card__role}>{caption}</p>}
             </div>
         </div>
     );
