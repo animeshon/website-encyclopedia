@@ -3,8 +3,13 @@ import Core from '@/queries/Core'
 import Generic from '@/queries/Generic'
 
 
-export const performSearch = () => gql` query search($search: String!, $first: Int!, $offset: Int!, $filter: [SearchFilterType!], $minScore: Int = 0) {
-    search(query:$search, first: $first, offset: $offset, filter: $filter, score: $minScore) {
+export const performSearch = () => gql` query searchFulltext(
+    $search: String!, 
+    $first: Int!, 
+    $offset: Int!, 
+    $filter: SearchFulltextFilterInput, 
+    $order: SearchSortInput!) {
+      searchFulltext(query:$search, first: $first, offset: $offset, filter: $filter, order: $order) {
         res : results {
             __typename
             ... on Metadata {

@@ -21,6 +21,7 @@ const CharacterPage = ({ characters, voiceActings, localizations }) => {
     const characterModels = new CharacterDataModelList(characters);
     characterModels.SetSeyuus(voiceActings);
     characterModels.Localize();
+    characterModels.Sort();
 
     const localizationsModel = localizations.map(l => Localization.FromRawData(l));
     const nationalityOpts = localizationsModel.map(l => {
@@ -69,7 +70,7 @@ const CharacterPage = ({ characters, voiceActings, localizations }) => {
                     </FilterGroup>
                     <div className="grid-halves">
                         {filter == '' ? categoryOrder.map(c => {
-                            const chars = characterModels.GetByRolation(c);
+                            const chars = characterModels.GetByRelation(c);
                             if (chars.length > 0) {
                                 const label = chars[0].GetRole();
                                 return (

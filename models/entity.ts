@@ -129,6 +129,14 @@ class Entity {
         this.end = to;
     }
 
+    public Type(): string {
+        return this.type;
+    }
+
+    public Premiere(): Date {
+        return this.premiere;
+    }
+
     public GetID(): string {
         return this.rawData.id;
     }
@@ -315,14 +323,17 @@ class Entity {
         ["voiceover", "Voice Over"],
         ["gamerelease", "Game Release"],
     ]);
-    public GetType(locale: string = ""): string | undefined {
-        if (this.type == undefined) {
+    public static LocalizeType(type: string, locale: string = ""): string | undefined {
+        if (type == undefined) {
             return undefined
         }
-        if (!Entity.typeMap.has(this.type)) {
-            throw new Error(`unknown entity type: '${this.type}'`);
+        if (!Entity.typeMap.has(type)) {
+            throw new Error(`unknown entity type: '${type}'`);
         }
-        return Entity.typeMap.get(this.type);
+        return Entity.typeMap.get(type);
+    }
+    public GetType(locale: string = ""): string | undefined {
+        return Entity.LocalizeType(this.type, locale);
     }
 
     // TODO Move to translation files
@@ -353,33 +364,41 @@ class Entity {
             ["PARTIAL", "Partial Release"],
             ["TRIAL", "Trial Version"],
         ])],
+        ["organization", new Map<string, string>([
+            ["CIRCLE", "Circle"],
+            ["CORPORATE", "Corporation"],
+        ])],
     ])
-    public GetSubtype(locale: string = ""): string | undefined {
-        if (this.subtype == undefined) {
+    public static LocalizeSubtype(type: string, subtype: string, locale: string = ""): string | undefined {
+        if (subtype == undefined) {
             return undefined
         }
 
-        if (this.subtype === "OTHER") {
+        if (subtype === "OTHER") {
             // Return undefined since the "other" information is not something we care about
             // and we will use the type instead
             // return "Other";
             return undefined;
         }
-        if (this.subtype === "UNKNOWN") {
+        if (subtype === "UNKNOWN") {
             return undefined;
         }
 
-        const typeEntry = Entity.subtypeMap.get(this.type);
+        const typeEntry = Entity.subtypeMap.get(type);
         if (typeEntry == undefined) {
             return undefined;
         }
 
-        const subtypeEntry = typeEntry.get(this.subtype);
+        const subtypeEntry = typeEntry.get(subtype);
         if (undefined == subtypeEntry) {
-            throw new Error(`unknown entity subtype type: '${this.subtype}' for type '${this.type}'`);
+            throw new Error(`unknown entity subtype type: '${subtype}' for type '${type}'`);
         }
 
         return subtypeEntry;
+    }
+
+    public GetSubtype(locale: string = ""): string | undefined {
+        return Entity.LocalizeSubtype(this.type, this.subtype, locale);
     }
 
     // TODO Move to translation files
@@ -413,14 +432,18 @@ class Entity {
         ["MALE", "Male"],
         ["MALE_TRAP", "Male Trap"],
     ]);
-    public GetGender(locale: string = ""): string | undefined {
-        if (this.gender == undefined || this.gender == "UNKNOWN") {
+    public static LocalizeGender(gender: string, locale: string = ""): string | undefined {
+        if (gender == undefined || gender == "UNKNOWN") {
             return undefined
         }
-        if (!Entity.genderMap.has(this.gender)) {
-            throw new Error(`unknown entity gender: '${this.gender}'`);
+        if (!Entity.genderMap.has(gender)) {
+            throw new Error(`unknown entity gender: '${gender}'`);
         }
-        return Entity.genderMap.get(this.gender);
+        return Entity.genderMap.get(gender);
+    }
+
+    public GetGender(locale: string = ""): string | undefined {
+        return Entity.LocalizeGender(this.gender, locale);
     }
 
     // TODO Move to translation files
@@ -438,14 +461,18 @@ class Entity {
         ["O_MINUS", "0-"],
         ["O_PLUS", "0+"],
     ]);
-    public GetBloodType(locale: string = ""): string | undefined {
-        if (this.bloodType == undefined) {
+    public static LocalizeBloodType(bloodtype: string, locale: string = ""): string | undefined {
+        if (bloodtype == undefined) {
             return undefined
         }
-        if (!Entity.bloodTypeMap.has(this.bloodType)) {
-            throw new Error(`unknown entity blood type: '${this.bloodType}'`);
+        if (!Entity.bloodTypeMap.has(bloodtype)) {
+            throw new Error(`unknown entity blood type: '${bloodtype}'`);
         }
-        return Entity.bloodTypeMap.get(this.bloodType);
+        return Entity.bloodTypeMap.get(bloodtype);
+    }
+
+    public GetBloodType(locale: string = ""): string | undefined {
+        return Entity.LocalizeBloodType(this.bloodType, locale);
     }
 
     public GetFullTypeString(locale: string = ""): string {

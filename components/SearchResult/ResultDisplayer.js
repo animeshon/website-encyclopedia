@@ -1,16 +1,13 @@
 
 
-import React, { useContext } from 'react';
+import React from 'react';
 import InfiniteScroll from "react-infinite-scroll-component";
-import { SearchContext, searchReducer } from '@/ctx/Search';
 
 import Entry from '@/components/SearchResult/Entry';
 
 import styles from './ResultDisplayer.module.css';
 
-const ResultDisplayer = ({ results, hasMore, more }) => {
-    const { search } = useContext(SearchContext);
-
+const ResultDisplayer = ({ results, hasMore, more, searchQuery }) => {
     return (
         <>
             {results && results.length ?
@@ -24,7 +21,7 @@ const ResultDisplayer = ({ results, hasMore, more }) => {
                         const primary = index <= 3 ? true : false;
                         return (<Entry item={model} primary={primary} key={model.GetID()} />);
                     })}
-                </InfiniteScroll>) : (<>No result was found for the search term <strong>{search.search}</strong>.</>)}
+                </InfiniteScroll>) : (<>No result was found for the search term <strong>{searchQuery}</strong>.</>)}
         </>
     );
 };

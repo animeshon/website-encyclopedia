@@ -9,6 +9,7 @@ export const ExecuteQuery = async (client, q) => {
     }
 
     // console.log(getGqlString(query));
+    // console.log(vars);
 
     const res = await client.query({
         query: query,

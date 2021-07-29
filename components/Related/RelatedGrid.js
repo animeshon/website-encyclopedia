@@ -3,7 +3,7 @@ import React from 'react';
 import ContentCard from '@/components/Card/Content/ContentCard';
 
 const RelatedGrid = ({ related, max = Number.MAX_SAFE_INTEGER}) => {
-    const r = related.Get().slice(0, max).map( r => {
+    const r = related.slice(0, max).map( r => {
         return {model: r, header: r.GetRelation()}
     })
     return (<>

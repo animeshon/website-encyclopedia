@@ -63,8 +63,21 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
 
     const moreResults = async () => {
         ref.current?.continuousStart();
-        const filter = search.filter ? [search.filter] : [];
-        const { results, total, error } = await SearchQuery(apolloClient, search.search, 20, resultsComulative.length, filter);
+        const order = {
+            sorting: search.filter?.s ?? "RELEVANCE",
+            sortingDiretion: "DESC",
+        }
+    
+        const filter = {
+            typesAllowed: search.filter?.ft ?? [],
+            subtypesAllowed: search.filter?.fst ?? [],
+            discardSelfpublished: search.filter?.fds !== undefined ? !search.filter?.fds : false,
+            discardCorporatepublished: search.filter?.fdc !== undefined ? !search.filter?.fdc :false,
+        };
+
+        console.log(search.filter)
+
+        const { results, total, error } = await SearchQuery(apolloClient, search.search, 20, resultsComulative.length, filter, order);
 
         if (error) {
             setError(true);
@@ -118,7 +131,7 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
                     {!isError ? <>
                         <ResultFilter />
 
-                        <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} />
+                        <ResultDisplayer results={resultsComulative} more={moreResults} hasMore={hasMore} searchQuery={searchQuery} />
                     </> : <p>An error has occured, please try again later</p>
                     }
 
@@ -135,7 +148,6 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
 
 export const getServerSideProps = async (ctx) => {
     const searchTerm = ctx.query.q;
-    const filterType = ctx.query.ft;
 
     const apolloClient = initializeApollo();
 
@@ -144,8 +156,20 @@ export const getServerSideProps = async (ctx) => {
         return { props: { results: [], total: 0, queryTime: 0 } };
     }
 
+    const order = {
+        sorting: ctx.query.s ?? "RELEVANCE",
+        sortingDiretion: "DESC",
+    }
+
+    const filter = {
+        typesAllowed: ctx.query.ft ?? [],
+        subtypesAllowed: ctx.query.fst ?? [],
+        discardSelfpublished: ctx.query.fds == "false" ? true : false,
+        discardCorporatepublished: ctx.query.fdc == "false" ? true :false,
+    };
+
     // TODO query parent content for chapters and episodes
-    const { results, total, queryTime, error } = await SearchQuery(apolloClient, searchTerm, 20, 0, filterType ? [filterType] : []);
+    const { results, total, queryTime, error } = await SearchQuery(apolloClient, searchTerm, 20, 0, filter, order);
     return {
         props: DeleteUndefined({
             initialApolloState: apolloClient.cache.extract(),
@@ -158,7 +182,7 @@ export const getServerSideProps = async (ctx) => {
     };
 };
 
-const SearchQuery = async (client, searchTerm, first, offset, filter) => {
+const SearchQuery = async (client, searchTerm, first, offset, filter, order) => {
     const startTime = Date.now();
     // get ids and types from elastic search
     const vars = {
@@ -166,9 +190,9 @@ const SearchQuery = async (client, searchTerm, first, offset, filter) => {
         first: first,
         offset: offset,
         filter: filter,
-        minScore: 1,
+        order: order,
     }
-    const qs = await ExecuteQuery(client, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.search; }));
+    const qs = await ExecuteQuery(client, PrepareQuery(vars, performSearch(), (data, err) => { return err ? err : data?.searchFulltext; }));
     const res = qs?.res;
     if (qs instanceof Error || res == undefined) {
         return { results: [], total: 0, queryTime: 0, error: true }

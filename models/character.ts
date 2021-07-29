@@ -55,14 +55,18 @@ class CharacterDataModel extends Entity {
         ["SUPPORT", "Support Character"],
         ["APPEARS", "Appearance"],
     ]);
-    public GetRole(locale: string = ""): string | undefined {
-        if (this.characterRelation == undefined || this.characterRelation == "") {
+    public static GetRole(role: string, locale: string = ""): string | undefined {
+        if (role == undefined || role == "") {
             return undefined
         }
-        if (!CharacterDataModel.characterRoleMap.has(this.characterRelation)) {
-            throw new Error(`unknown character role: '${this.characterRelation}'`);
+        if (!CharacterDataModel.characterRoleMap.has(role)) {
+            throw new Error(`unknown character role: '${role}'`);
         }
-        return CharacterDataModel.characterRoleMap.get(this.characterRelation);
+        return CharacterDataModel.characterRoleMap.get(role);
+    }
+
+    public GetRole(locale: string = ""): string | undefined {
+        return CharacterDataModel.GetRole(this.characterRelation, locale);
     }
 }
 
@@ -91,7 +95,7 @@ export class CharacterDataModelList {
         return this.list;
     }
 
-    public GetByRolation(relation: string): CharacterDataModel[] {
+    public GetByRelation(relation: string): CharacterDataModel[] {
         return this.list.filter(c => c.Relation() == relation);
     }
 

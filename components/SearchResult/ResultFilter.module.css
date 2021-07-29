@@ -1,6 +1,9 @@
 .filter {
-    border-bottom: 1px solid #dfdfdf;
     margin-bottom: 32px;
+}
+
+.filter-close {
+    border-bottom: 1px solid #dfdfdf;
 }
 
 .filter header {
@@ -31,11 +34,15 @@
     flex-direction: row;
 }
 
-.filter_container.close {
+.close {
     display: none;
 }
 
-.filter_container.open {
+.open {
+    display: unset;
+}
+
+.filter_container {
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
@@ -74,7 +81,7 @@
     margin: 5px 0;
     color: #3a3a3a;
     font-size: 14px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .filter_group a.selected {
