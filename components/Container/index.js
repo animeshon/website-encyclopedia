@@ -93,7 +93,7 @@ const Container = ({ container, seo, children }) => {
                             altText={name}
                             image={container.model.GetCoverUrl()}
                         >
-                            {container.isMinorR18Illegal && (
+                            {container.model.IsIllegal() && (
                                 <p className={styles.consorship}>Censorship is courtesy of the U.N.
                                     <a target="_blank" href={`https://en.wikipedia.org/wiki/Legal_status_of_fictional_pornography_depicting_minors`}><BiLinkExternal /></a>
                                     <a target="_blank" href={`https://www.ohchr.org/Documents/HRBodies/CRC/CRC.C.156_OPSC%20Guidelines.pdf`}><BiLinkExternal /></a>
@@ -161,7 +161,7 @@ const withContainer = (WrappedComponent) => {
         const container = {
             model,
             navigation,
-            selectedLabel
+            selectedLabel,
         };
 
         const seo = {

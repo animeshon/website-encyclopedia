@@ -116,7 +116,7 @@ const GetSummary = () => gql`
                 platforms
             }
             ... on Release {
-                releaseReleaseLanguage: languages {
+                releaseLanguage: languages {
                     alpha2
                     code
                 }

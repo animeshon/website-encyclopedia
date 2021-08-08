@@ -43,7 +43,7 @@ const ContentPage = ({
     return (
         <div className="grid">
             <main className="landing__description">
-                {shops && <ExternalDistributors shops={shops}/> }
+                {shops.length && <ExternalDistributors shops={shops}/> }
                 <SummaryText text={model.GetDescription()} />
                 <SummaryCharacter characters={characterModels} />
                 <SummaryRelated related={relatedModels} />

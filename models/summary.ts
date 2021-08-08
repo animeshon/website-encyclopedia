@@ -29,7 +29,7 @@ class SummaryDataModel extends Entity {
                 { key: 'Name', value: name },
                 { key: 'Original', value: this.names.GetOriginal() },
                 { key: 'Romaji', value: this.names.GetTranscripted() },
-                { key: 'Languages', value: this.Languages() },
+                { key: 'Languages', value: this.LocalizedLanguages()?.map(l => { return { text: l.label } }) },
             ],
             [
                 { key: 'Media', value: this.GetFullTypeString() },

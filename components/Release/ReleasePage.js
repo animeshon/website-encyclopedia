@@ -1,133 +1,67 @@
 import React, { useEffect, useState } from 'react';
 
-import GetReleases from '@/queries/GetRelease';
+import GetReleases from '@/queries/GetReleases';
 
 import ReleaseGrid from '@/components/Release/ReleaseGrid';
 import FilterGroup from '@/components/Filter/FilterGroup';
 import FilterSelect from '@/components/Filter/FilterSelect';
 import Search from '@/components/Search';
 
+import { ReleaseDataModelList, SortBy } from '@/models/release';
+
 import styles from './ReleasePage.module.css';
 
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as gameRelease from '@/utilities/GameReleaseType';
-import { AgeRating } from '@/utilities/AgeRating';
-import { FromAlpha2 } from '@/utilities/Nationality';
-import * as platforms from '@/utilities/Platform';
-
-const filterByPlatfrorm = (shown, platform) => {
-    const newShown = [];
-    shown.forEach(s => {
-        if (s.platforms.includes(platform)) {
-            newShown.push(s);
-        }
-    })
-    return newShown;
-};
-
-const filterByReleaseType = (shown, releaseType) => {
-    const newShown = [];
-    shown.forEach(s => {
-        if (s.releaseType.type == releaseType) {
-            newShown.push(s);
-        }
-    })
-    return newShown;
-};
-
-const filterByReleaseLanguage = (shown, language) => {
-    const newShown = [];
-    shown.forEach(s => {
-        let c = false;
-        s.languages.forEach(l => {
-            if (!c && l.code == language) {
-                newShown.push(s);
-                c = true;
-            }
-        })
-    })
-    return newShown;
-};
-
-
-const search = (shown, search) => {
-    const newShown = [];
-    shown.forEach(s => {
-        if (s.name.toLowerCase().includes(search)) {
-            newShown.push(s);
-        }
-    })
-    return newShown;
-};
-
 const ReleasePage = ({ releases }) => {
-    const [order, setOrder] = useState("name");
+    const releaseModels = new ReleaseDataModelList(releases);
+    releaseModels.Localize();
+    // releaseModels.Sort(SortBy.NAME);
+
+    const [sort, setSort] = useState();
     const [platform, setPlatform] = useState(null);
     const [releaseType, setReleaseType] = useState(null);
     const [language, setLanguage] = useState(null);
     const [filter, setFilter] = useState('');
-    const [releasesShown, setReleasesShown] = useState(releases);
+    const [releasesShown, setReleasesShown] = useState();
     const NotFound = 'There is currently no information about releases available.';
 
-    const PlatformOpts = [];
-
-    releases.forEach(r => {
-        r.platforms.forEach(p => {
-            if (PlatformOpts.filter(po => { return po.value == p }).length == 0) {
-                PlatformOpts.push({ value: p, label: platforms.Platform(p).name });
-            }
-        })
-    });
-
-    const TypeOpts = [];
-    releases.forEach(r => {
-        if (TypeOpts.filter(to => { return to.value == r.releaseType.type }).length == 0) {
-            TypeOpts.push({ value: r.releaseType.type, label: r.releaseType.label });
-        }
-    });
+    const PlatformOpts = releaseModels.GetAllPlatforms();
+    const TypeOpts = releaseModels.GetAllSubtypes();
 
     const LanguageOpts = [];
-    releases.forEach(r => {
-        r.languages.forEach(l => {
-            if (LanguageOpts.filter(lo => { return lo.value == l.code }).length == 0) {
-                LanguageOpts.push({ value: l.code, label: l.name });
+    releaseModels.forEach(r => {
+        r.LocalizedLanguages().forEach(l => {
+            if (!LanguageOpts.find(lo => { return lo.value == l.value })) {
+                LanguageOpts.push(l);
             }
         })
     });
 
-    const OrderBy = [
-        { value: "name", label: "Name" },
-        { value: "date", label: "Date" },
-    ]
+    const sortOpts = [
+        { value: SortBy.NAME, label: "Name" },
+        { value: SortBy.DATE, label: "Date" },
+    ];
 
     useEffect(() => {
-        setOrder(OrderBy[0]);
-    }, []);
+        setSort(sortOpts[0]);
+    }, [])
 
     const applyFiltersAndOrder = () => {
-        let shown = Object.assign([], releases);
-        platform ? shown = filterByPlatfrorm(shown, platform.value) : undefined;
-        releaseType ? shown = filterByReleaseType(shown, releaseType.value) : undefined;
-        language ? shown = filterByReleaseLanguage(shown, language.value) : undefined;
-        filter ? shown = search(shown, filter.toLowerCase()) : undefined;
-        shown.sort(function (a, b) {
-            if (order.value == "date") {
-                const getTime = (date) => {
-                    return date ? new Date(date).getTime() : 9999999999999;
-                }
-                return getTime(a.releaseDate) < getTime(b.releaseDate) ? -1 : 1;
-            }
-            return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
-        });
+        let shown = releaseModels;
+        shown.Sort(sort?.value);
+
+        platform ? shown = shown.filter(r => r.Platforms().includes(platform.value)) : undefined;
+        releaseType ? shown = shown.filter(r => r.Subtype() == releaseType.value) : undefined;
+        language ? shown = shown.filter(r => r.Languages().find(l => l.code == language.value)) : undefined;
+        filter ? shown = shown.ContainsString(filter.toLowerCase()) : undefined;
+
         setReleasesShown(shown);
     };
 
     useEffect(() => {
         applyFiltersAndOrder();
-    }, [order, platform, releaseType, language, filter]);
+    }, [sort, platform, releaseType, language, filter]);
 
     return (
         <main className="landing__description">
@@ -147,9 +81,9 @@ const ReleasePage = ({ releases }) => {
                             <p>Order by</p>
                             <FilterSelect
                                 height={30}
-                                options={OrderBy}
-                                value={order}
-                                onChange={(e) => setOrder(e)} />
+                                options={sortOpts}
+                                value={sort}
+                                onChange={(e) => setSort(e)} />
                         </li>
                     </ul>
                     <ul>
@@ -188,51 +122,17 @@ const ReleasePage = ({ releases }) => {
                         </li>
                     </ul>
                 </FilterGroup>
-                {releasesShown && <ReleaseGrid releases={releasesShown} />}
+                <ReleaseGrid releases={releasesShown} />
             </> : NotFound}
         </main>
     );
 };
 
 export const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
-    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetReleases(type)));
+    const id = ctx.query.id.replace(".", "/");
+    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, GetReleases()));
 
-    const releases = (data.releases || []).map(i => {
-        const { __typename, platforms, id, releaseDate, images, names, descriptions, ageRatings, isDoujinshi, type } = i;
-        if (names.length === 0) {
-            return;
-        }
-        let releaseType = undefined;
-        if (__typename == "VisualNovelRelease") {
-            releaseType = { type: type, label: gameRelease.GameReleaseType(type).name };
-        }
-
-        const languages = [];
-        i.languages?.forEach(l => {
-            let language = undefined;
-            if (l.alpha2) {
-                language = l.alpha2.toLowerCase();
-                languages.push(language);
-            }
-        })
-
-        return {
-            id: id,
-            type: __typename,
-            name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, ageRatings),
-            description: locale.English(descriptions),
-            releaseDate: releaseDate,
-            platforms: platforms,
-            isOfficial: !isDoujinshi,
-            releaseType: releaseType,
-            languages: FromAlpha2(languages),
-            rating: AgeRating(ageRatings, ['USA'], undefined, false)
-        };
-    });
-
-    return { releases: releases };
+    return { releases: data.releases || [] };
 };
 
 export default ReleasePage;

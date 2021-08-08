@@ -7,6 +7,12 @@ import { IsAdultOnly } from '@/utilities/Restriction';
 import languages from '@cospired/i18n-iso-languages';
 import * as uri from '@/utilities/URI';
 import Shop from '@/models/shop';
+import { Language } from './localization';
+
+export interface LocalizedEnum {
+    value: string;
+    label: string;
+}
 
 export class EntityNames {
     localizedName: string;
@@ -69,7 +75,7 @@ class Entity {
     protected gender: string;
     protected bloodType: string;
 
-    protected languages: any[];
+    protected languages: Language[];
     protected shops: any[];
 
     constructor(rawData: any) {
@@ -94,9 +100,9 @@ class Entity {
 
         // languages
         if (this.rawData.personLanguages != undefined) {
-            this.languages = this.rawData.personLanguages;
-        } else if (this.rawData.releaseReleaseLanguage != undefined) {
-            this.languages = this.rawData.releaseReleaseLanguage;
+            this.languages = this.rawData.personLanguages.map(l => new Language(l));
+        } else if (this.rawData.releaseLanguage != undefined) {
+            this.languages = this.rawData.releaseLanguage.map(l => new Language(l));
         }
 
         // shops
@@ -131,6 +137,10 @@ class Entity {
 
     public Type(): string {
         return this.type;
+    }
+
+    public Subtype(): string {
+        return this.subtype;
     }
 
     public Premiere(): Date {
@@ -504,11 +514,15 @@ class Entity {
         }
     }
 
-    public Languages(locale: string = "en"): any[] {
+    public Languages(): Language[] {
+        return this.languages
+    }
+
+    public LocalizedLanguages(locale: string = "en"): LocalizedEnum[] {
         if (this.languages == undefined) {
             return undefined;
         }
-        return this.languages.map(l => { return { text: languages.getName(l.code, locale) } });
+        return this.languages.map(l => { return { value: l.code, label: languages.getName(l.code, locale) } });
     }
 
     public NotUndefinedOrEmpty(value: any): boolean {
