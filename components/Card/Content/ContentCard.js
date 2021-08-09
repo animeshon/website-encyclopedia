@@ -24,8 +24,7 @@ const ContentCard = ({ content }) => {
                 <aside>
                     <p>
                         {content.model.GetSeason() ? (content.model.GetSeason()) :
-                            (content.model.GetRunning() ? (content.model.GetRunning()) :
-                                (content.model.GetReleaseDate() ? (content.model.GetReleaseDate()) : undefined))}
+                            (content.model.GetReleaseDate() ? (content.model.GetReleaseDate()) : undefined)}
                         <span>|</span>
                         {content.model.GetType()}
                         {content.model.GetSubtype() ? (<><span>|</span> {content.model.GetSubtype()}</>) : undefined}

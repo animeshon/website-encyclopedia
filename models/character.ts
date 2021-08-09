@@ -1,4 +1,5 @@
 import Entity from "@/models/entity";
+import EntityList from "@/models/entity-list";
 import Localization from "@/models/localization";
 
 export class Seyuu extends Entity {
@@ -22,8 +23,8 @@ class CharacterDataModel extends Entity {
     protected characterRelation: string;
     protected seyuus: Seyuu[];
 
-    constructor(rawData: any) {
-        super(rawData.character);
+    constructor(rawData: any, field: string) {
+        super(rawData[field]);
 
         this.characterRelation = rawData.relation;
         this.seyuus = [];
@@ -55,7 +56,7 @@ class CharacterDataModel extends Entity {
         ["SUPPORT", "Support Character"],
         ["APPEARS", "Appearance"],
     ]);
-    public static GetRole(role: string, locale: string = ""): string | undefined {
+    public static LocalizeRole(role: string, locale: string = ""): string | undefined {
         if (role == undefined || role == "") {
             return undefined
         }
@@ -66,66 +67,70 @@ class CharacterDataModel extends Entity {
     }
 
     public GetRole(locale: string = ""): string | undefined {
-        return CharacterDataModel.GetRole(this.characterRelation, locale);
+        return CharacterDataModel.LocalizeRole(this.characterRelation, locale);
     }
 }
 
-export class CharacterDataModelList {
-    list: CharacterDataModel[];
+export class CharacterDataModelList extends EntityList<CharacterDataModel> {
+    constructor(len) {
+        super(len);
+    }
 
-    constructor(rawData: any[]) {
-        this.list = [];
+    static FromCharacterRawData(rawData): CharacterDataModelList {
+        const l = new CharacterDataModelList(0);
         for (let data of rawData) {
-            const char = new CharacterDataModel(data);
-            this.list.push(char);
+            const char = new CharacterDataModel(data, "character");
+            l.push(char);
         }
+        return l;
     }
 
-    public Localize(locale: string = "eng"): void {
-        for (let char of this.list) {
-            char.Localize(locale);
+    static FromContentRawData(rawData: any[]): CharacterDataModelList {
+        const l = new CharacterDataModelList(0);
+        for (let data of rawData) {
+            const d = new CharacterDataModel(data, "content");
+            l.push(d);
         }
-    }
-
-    public Size(): number {
-        return this.list.length;
+        return l;
     }
 
     public Get(): CharacterDataModel[] {
-        return this.list;
+        return this;
     }
 
-    public GetByRelation(relation: string): CharacterDataModel[] {
-        return this.list.filter(c => c.Relation() == relation);
+    public GetByRelation(relation: string): CharacterDataModelList {
+        return this.filter(c => relation?.length ? c.Relation() == relation : true) as CharacterDataModelList;
     }
 
-    public ContainsString(str: string): CharacterDataModel[] {
-        if (str == "") {
-            return this.list;
+    public GetAllRoles(priorty: string[] = []): string [] {
+        const roles = [];
+        for (const l of this) {
+            if (!roles.includes(l.Relation())) {
+                roles.push(l.Relation());
+            }
         }
-        const _str = str.toLowerCase();
-        return this.list.filter(c => c.GetNames().Get().toLowerCase().includes(_str));
-    }
-
-    public GetCharacter(id: string): CharacterDataModel | undefined {
-        return this.list.find(c => c.GetID() == id);
-    }
+        return roles.sort((a, b) => {
+            if (priorty.includes(a) && priorty.includes(b)) {
+                return 0;
+            } 
+            if (priorty.includes(a)) {
+                return -1;
+            }
+            if (priorty.includes(b)) {
+                return 1;
+            }
+            return a.localeCompare(b);
+        })
+    } 
 
     public SetSeyuus(rawData: any[]): void {
         for (let seyuu of rawData) {
-            const char = this.GetCharacter(seyuu.voiced.id)
+            const char = this.GetByID(seyuu.voiced.id)
             if (char == undefined) {
                 continue;
             }
             char.SetSeyuu(new Seyuu(seyuu));
         }
-    }
-
-    // TODO ENUM
-    public Sort(by: string = "NAME"): void {
-        this.list = this.list.sort((a, b) => {
-            return a.GetNames().Get() < b.GetNames().Get() ? -1 : 1;
-        })
     }
 }
 

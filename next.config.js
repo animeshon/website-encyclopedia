@@ -33,11 +33,32 @@ module.exports = {
                 destination: '/',
             },
 
+            // Releases <----------
+            {
+                source: '/gamereleases/:id/:slug/:path*',
+                destination: '/releases/gamereleases.:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
+            },
+            {
+                source: '/volumes/:id/:slug/:path*',
+                destination: '/releases/volumes.:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
+            },
+            {
+                source: '/musicreleases/:id/:slug/:path*',
+                destination: '/releases/musicreleases.:id/:path*',
+                // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
+                // ! basePath: false,
+            },
+
             // Encyclopedia pages
             {
                 source: '/:collection/:id/:slug/:path*',
                 destination: '/:collection/:collection.:id/:path*',
             },
+
             // // Primary <----------
             // {
             //     source: '/:slug-Anime-:id([A-Za-z0-9-_]{12})/:path*',

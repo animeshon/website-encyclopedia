@@ -10,6 +10,9 @@ Collaboration.Fragments = {
     fragment CollaborationTyped on Collaboration {
       id
       role {
+        # ... on Metadata {
+        #   id
+        # } 
         ... on TypedJobRole {
           type
         }

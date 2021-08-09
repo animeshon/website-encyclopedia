@@ -1,10 +1,11 @@
 import Entity from "@/models/entity";
+import EntityList from "@/models/entity-list";
 
 class RelatedContentDataModel extends Entity {
     protected relationType: string;
 
-    constructor(rawData: any) {
-        super(rawData.object);
+    constructor(rawData: any, field: string) {
+        super(rawData[field]);
 
         this.relationType = rawData.type;
     }
@@ -46,31 +47,18 @@ class RelatedContentDataModel extends Entity {
     }
 }
 
-export enum SortBy {
-    DATE,
-    NAME,
-} 
-export class RelatedContentDataModelList extends Array<RelatedContentDataModel> {
-    constructor(rawData: any[]) {
-        if (typeof rawData == 'number') {
-            super(rawData);
-            return;
-        }
-        super();
+export class RelatedContentDataModelList extends EntityList<RelatedContentDataModel> {
+    constructor(len) {
+        super(len);
+    }
+
+    static FromRelatedRawData(rawData: any[]): RelatedContentDataModelList {
+        const l = new RelatedContentDataModelList(0);
         for (let data of rawData) {
-            const d = new RelatedContentDataModel(data);
-            this.push(d);
+            const d = new RelatedContentDataModel(data, "object");
+            l.push(d);
         }
-    }
-
-    public Localize(locale: string = "eng"): void {
-        for (let relations of this) {
-            relations.Localize(locale);
-        }
-    }
-
-    public Size(): number {
-        return this.length;
+        return l;
     }
 
     public GetAllRelations(priorty: string[] = []): string [] {
@@ -94,34 +82,8 @@ export class RelatedContentDataModelList extends Array<RelatedContentDataModel> 
         })
     } 
 
-    public GetAllTypes(): string [] {
-        const types = [];
-        for (const l of this) {
-            if (!types.includes(l.Type())) {
-                types.push(l.Type());
-            }
-        }
-        return types.sort((a, b) => {
-            return a.localeCompare(b);
-        })
-    } 
-
     public GetByRelation(relation: string): RelatedContentDataModelList {
         return this.filter(c => c.Relation() == relation) as RelatedContentDataModelList;
-    }
-
-    public GetByTypes(types: string[]): RelatedContentDataModelList {
-        return this.filter(c => types.includes(c.Type())) as RelatedContentDataModelList;
-    }
-
-    public Sort(by: SortBy = SortBy.DATE): void {
-        this.sort((a, b) => {
-            if (by == SortBy.NAME) {
-                return a.GetNames().Get() < b.GetNames().Get() ? -1 : 1;
-            } else if (by == SortBy.DATE) {
-                return a.Premiere().getTime() < b.Premiere().getTime() ? -1 : 1;
-            }
-        })
     }
 }
 

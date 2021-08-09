@@ -32,10 +32,10 @@ const ContentPage = ({
     model.SetCollaborators(collaborators);
     model.Localize();
 
-    const characterModels = new CharacterDataModelList(characters);
+    const characterModels = CharacterDataModelList.FromCharacterRawData(characters);
     characterModels.Localize();
 
-    const relatedModels = new RelatedContentDataModelList(relatedContents);
+    const relatedModels = RelatedContentDataModelList.FromRelatedRawData(relatedContents);
     relatedModels.Localize();
 
     const shops = model.GetShops();
@@ -43,7 +43,7 @@ const ContentPage = ({
     return (
         <div className="grid">
             <main className="landing__description">
-                {shops.length && <ExternalDistributors shops={shops}/> }
+                {shops.length ? <ExternalDistributors shops={shops}/> : undefined}
                 <SummaryText text={model.GetDescription()} />
                 <SummaryCharacter characters={characterModels} />
                 <SummaryRelated related={relatedModels} />

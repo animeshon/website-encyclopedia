@@ -16,5 +16,5 @@ export const GameVoice = (degree) => {
             return { name: "Fully Voiced" };
         }
     }
-    return { name: "Unknown" };
+    return { name: undefined };
 } 

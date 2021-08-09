@@ -1,16 +1,17 @@
 import Entity from "@/models/entity";
 import Localization from "@/models/localization";
 import { Role } from '@/utilities/TypedRole';
+import EntityList from "@/models/entity-list";
 
 class StaffDataModel extends Entity {
     protected jobRole: string;
     localization: Localization;
 
-    constructor(rawData: any) {
+    constructor(rawData: any, localization: any) {
         super(rawData.collaborator);
 
         this.jobRole = rawData.role.type;
-        this.localization = Localization.FromRawData(rawData.localization);
+        this.localization = Localization.FromRawData(localization);
     }
 
     public JobRole(): string {
@@ -26,31 +27,17 @@ class StaffDataModel extends Entity {
     }
 }
 
-export enum SortBy {
-    DATE,
-    NAME,
-} 
-export class StaffDataModelList extends Array<StaffDataModel> {
+export class StaffDataModelList extends EntityList<StaffDataModel> {
     constructor(rawData: any[]) {
         if (typeof rawData == 'number') {
             super(rawData);
             return;
         }
-        super();
+        super(0);
         for (let data of rawData) {
-            const d = new StaffDataModel(data);
+            const d = new StaffDataModel(data, data.localization);
             this.push(d);
         }
-    }
-
-    public Localize(locale: string = "eng"): void {
-        for (let staff of this) {
-            staff.Localize(locale);
-        }
-    }
-
-    public Size(): number {
-        return this.length;
     }
 
     public GetAllJobs(priorty: string[] = []): string [] {
@@ -76,14 +63,6 @@ export class StaffDataModelList extends Array<StaffDataModel> {
 
     public GetByJobRole(job: string): StaffDataModelList {
         return this.filter(c => c.JobRole() == job) as StaffDataModelList;
-    }
-
-    public Sort(by: SortBy = SortBy.DATE): void {
-        this.sort((a, b) => {
-            if (by == SortBy.NAME) {
-                return a.GetNames().Get() < b.GetNames().Get() ? -1 : 1;
-            }
-        })
     }
 }
 

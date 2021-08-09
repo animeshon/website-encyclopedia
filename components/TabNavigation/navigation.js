@@ -242,40 +242,47 @@ export const CharacterNavigation = (name, id) => [
     {
         label: 'Summary',
         href: `/characters/[id]?id=${id}`,
-        as: uri.Rewrite(name, id)
+        as: uri.Rewrite(name, id),
+        key: ""
     },
     {
         label: 'Appearances',
         href: `/characters/[id]/appearances?id=${id}`,
-        as: uri.Rewrite(name, id, 'appearances')
+        as: uri.Rewrite(name, id, 'appearances'),
+        key: "appearances"
     },
     {
         label: 'Voices',
         href: `/characters/[id]/voices?id=${id}`,
-        as: uri.Rewrite(name, id, 'voices')
+        as: uri.Rewrite(name, id, 'voices'),
+        key: "voices"
     },
-    {
-        label: 'Pictures',
-        href: `/characters/[id]/pictures?id=${id}`,
-        as: uri.Rewrite(name, id, 'pictures')
-    },
+    // {
+    //     label: 'Pictures',
+    //     href: `/characters/[id]/pictures?id=${id}`,
+    //     as: uri.Rewrite(name, id, 'pictures'),
+    //     key: "pictures"
+    // },
 ];
 
 export const PeopleNavigation = (name, id) => [
     {
         label: 'Biography',
         href: `/people/[id]?id=${id}`,
-        as: uri.Rewrite(name, id)
+        as: uri.Rewrite(name, id),
+        key: ""
     },
     {
         label: 'Voice Actings',
         href: `/people/[id]/voice-actings?id=${id}`,
-        as: uri.Rewrite(name, id, 'voice-actings')
+        as: uri.Rewrite(name, id, 'voice-actings'),
+        key: "voice-actings"
     },
     {
         label: 'Productions',
         href: `/people/[id]/productions?id=${id}`,
-        as: uri.Rewrite(name, id, 'productions')
+        as: uri.Rewrite(name, id, 'productions'),
+        key: "productions"
     },
 ];
 
@@ -283,12 +290,14 @@ export const CompanyNavigation = (name, id) => [
     {
         label: 'Summary',
         href: `/organizations/[id]?id=${id}`,
-        as: uri.Rewrite(name, id)
+        as: uri.Rewrite(name, id),
+        key: ""
     },
     {
         label: 'Productions',
         href: `/organizations/[id]/productions?id=${id}`,
-        as: uri.Rewrite(name, id, 'productions')
+        as: uri.Rewrite(name, id, 'productions'),
+        key: "productions"
     },
 ];
 
@@ -296,12 +305,14 @@ export const MagazineNavigation = (name, id) => [
     {
         label: 'Summary',
         href: `/magazines/[id]?id=${id}`,
-        as: uri.Rewrite(name, id)
+        as: uri.Rewrite(name, id),
+        key: ""
     },
     {
         label: 'Productions',
         href: `/magazines/[id]/productions?id=${id}`,
-        as: uri.Rewrite(name, id, 'productions')
+        as: uri.Rewrite(name, id, 'productions'),
+        key: "productions"
     },
 ];
 
@@ -334,7 +345,9 @@ const Navigation = (type, name, id) => {
         "person": PeopleNavigation,
         "universe": UniverseNavigation,
         "canonical": CanonicalNavigation,
-        "release": ReleasesNavigation,
+        "gamerelease": ReleasesNavigation,
+        "volume": ReleasesNavigation,
+        "musicrelease": ReleasesNavigation,
         // TODO children volume / chapters / episode
         // ! Volume? Visual Novel Release? Music Collections?
     }

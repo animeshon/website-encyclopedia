@@ -21,6 +21,7 @@ Core.Fragments = {
     }`,
     localizationCodeAlpha2: gql`
     fragment CodeAlpha2 on Localization {
+        tag
         language {
             code
             alpha2

@@ -9,14 +9,15 @@ import FilterSelect from '@/components/Filter/FilterSelect';
 
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
-import RelatedContentDataModel, { RelatedContentDataModelList, SortBy } from '@/models/related-content';
+import RelatedContentDataModel, { RelatedContentDataModelList } from '@/models/related-content';
 import Entity from '@/models/entity';
+import { SortBy } from '@/models/entity-list';
 
 const RelatedPage = ({ related, highlighted }) => {
     const [sort, setSort] = useState();
     const [typeFilter, setTypeFilter] = useState([]);
 
-    const relatedModels = new RelatedContentDataModelList(related);
+    const relatedModels = RelatedContentDataModelList.FromRelatedRawData(related);
     relatedModels.Localize();
 
     const relations = relatedModels.GetAllRelations(highlighted);
@@ -62,7 +63,7 @@ const RelatedPage = ({ related, highlighted }) => {
                         </li>
                         <li>
                             <p>Types</p>
-                            <FilterSelect height={30} options={typesOpts} value={typeFilter} onChange={onTypeFilterChange} />
+                            <FilterSelect height={30} options={typesOpts} value={typeFilter} isClearable={true} onChange={onTypeFilterChange} />
                         </li>
                     </ul>
                 </FilterGroup>

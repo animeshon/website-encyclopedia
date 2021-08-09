@@ -21,7 +21,7 @@ const SummaryVoiceActings = ({ characters }) => {
             </header>
             <ul className="characters-list">
                 {characters.map(item => {
-                    return (<CharacterPreview key={item.id} item={item} />);
+                    return (<CharacterPreview key={item.GetID()} item={item} />);
                 })}
             </ul>
         </section> : undefined}

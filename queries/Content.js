@@ -22,24 +22,24 @@ Content.Fragments = {
         #         count
         #     }
         # }
-        ... on GraphGraphicNovel {
-            graphicNovelType: type
-            # graphicNovelChapterCount: chapterCount
-            # graphicNovelChapterAggregate: chaptersAggregate(
-            #     filter: { type: { eq: REGULAR } }
-            # ) {
-            #     count
-            # }
-        }
-        ... on GraphAnime {
-            animeType: type
-            # animeEpisodeCount: episodeCount
-            # animeEpisodeAggregate: episodesAggregate(
-            #     filter: { type: { in: [REGULAR, RECAP] } }
-            # ) {
-            #     count
-            # }
-        }
+        # ... on GraphGraphicNovel {
+        #     graphicNovelType: type
+        #     # graphicNovelChapterCount: chapterCount
+        #     # graphicNovelChapterAggregate: chaptersAggregate(
+        #     #     filter: { type: { eq: REGULAR } }
+        #     # ) {
+        #     #     count
+        #     # }
+        # }
+        # ... on GraphAnime {
+        #     animeType: type
+        #     # animeEpisodeCount: episodeCount
+        #     # animeEpisodeAggregate: episodesAggregate(
+        #     #     filter: { type: { in: [REGULAR, RECAP] } }
+        #     # ) {
+        #     #     count
+        #     # }
+        # }
         ... on GraphGeneric {
             ...GenericNames
             ...GenericDescriptions

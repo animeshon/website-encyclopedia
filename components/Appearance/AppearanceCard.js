@@ -9,32 +9,31 @@ import * as text from '@/utilities/Text';
 import styles from './AppearanceCard.module.css';
 
 const AppearanceCard = ({ content }) => {
-    const href = uri.Rewrite(content.type, content.name, content.id);
-
     return (
-        <div key={content.name} className={styles.appearences__item}>
+        <div key={content.GetID()} className={styles.appearences__item}>
             <figure className={styles.appearences__item_cover}>
-                <SafeImage image={content.image} />
+                <SafeImage image={content.GetCoverUrl()} />
             </figure>
             <article className={styles.appearences__item_contents}>
                 <header>
-                    <Link href={href}>
+                    <p className={styles["content__item-header"]}>{content.GetRole()}</p>
+                    <Link href={content.GetURI()}>
                         <a>
-                            <h4>{content.name}</h4>
-                            <h5>{content.japaneseName}</h5>
+                            <h4>{content.GetNames().Get()}</h4>
+                            {/* <h5>{content.GetNames().GetOriginal()}</h5> */}
                         </a>
                     </Link>
-                    <p>{text.Truncate(content.description, 160)}</p>
+                    {/* <p>{content.GetDescription(80)}</p> */}
                 </header>
                 <aside>
                     <p>
-                        {content.releaseDate.premiere}
+                        {content.GetSeason() ? (content.GetSeason()) :
+                            (content.GetReleaseDate() ? (content.GetReleaseDate()) : undefined)}
                         <span>|</span>
-                        {content.media}
-                        <span>|</span>
-                        {content.status}
+                        {content.GetType()}
+                        {content.GetSubtype() ? (<><span>|</span> {content.GetSubtype()}</>) : undefined}
+                        {content.GetStatus() ? (<><span>|</span> {content.GetStatus()}</>) : undefined}
                     </p>
-                    <p>{content.role}</p>
                 </aside>
             </article>
         </div>

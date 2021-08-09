@@ -8,7 +8,8 @@ import StaffGrid from '@/components/Staff/StaffGrid';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 
 import Localization from "@/models/localization";
-import { StaffDataModelList, SortBy } from "@/models/staff";
+import { StaffDataModelList } from "@/models/staff";
+import { SortBy } from '@/models/entity-list';
 
 const StaffPage = ({ collaborators, localizations }) => {
 

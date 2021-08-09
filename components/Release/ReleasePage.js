@@ -7,7 +7,8 @@ import FilterGroup from '@/components/Filter/FilterGroup';
 import FilterSelect from '@/components/Filter/FilterSelect';
 import Search from '@/components/Search';
 
-import { ReleaseDataModelList, SortBy } from '@/models/release';
+import { ReleaseDataModelList } from '@/models/release';
+import { SortBy } from '@/models/entity-list';
 
 import styles from './ReleasePage.module.css';
 

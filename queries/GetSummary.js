@@ -109,9 +109,9 @@ const GetSummary = () => gql`
                 isPatch
                 isFree
                 gameReleaseType: type
-                voicedDegree
-                animationStoryDegree
-                animationEroDegree
+                # voicedDegree
+                # animationStoryDegree
+                # animationEroDegree
                 engine
                 platforms
             }
@@ -125,7 +125,7 @@ const GetSummary = () => gql`
                         ...ContentMinimal
                     }
                 }
-                censorship
+                # censorship
                 ean10
                 ean13
                 sku

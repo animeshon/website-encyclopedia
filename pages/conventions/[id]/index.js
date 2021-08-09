@@ -1,55 +1,43 @@
 import React from 'react';
 
-import getSummary from '@/queries/convention/Summary';
+import GetSummary from '@/queries/GetSummary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
-import SummaryMember from '@/components/Summary/SummaryMember';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as time from '@/utilities/Time';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
+import SummaryDataType from '@/models/summary';
+
 const Convention = ({
-    description,
-    details,
+    info,
 }) => {
+    const model = new SummaryDataType(info);
+    model.Localize();
+
     return (
         <div className="grid">
             <main className="landing__description">
-                <SummaryText text={description} />
-                {/* TODO: Add productions for convention. */}
+                <SummaryText text={model.GetDescription()} />
+                {/* TODO: Add productions for Convention. */}
             </main>
             <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
-                <DetailsCard items={details} />
+                <DetailsCard items={model.Details()} />
             </aside>
         </div>
     );
 };
 
 export const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
-    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
+    const id = ctx.query.id.replace(".", "/");
+    const info = await ExecuteQuery(client, PrepareQuery({ id: id }, GetSummary()));
 
     return {
-        description: locale.English(data.descriptions),
-        details: [
-            [
-                { key: 'English', value: locale.English(data.names) },
-                { key: 'Japanese', value: locale.Japanese(data.names) },
-                { key: 'Romaji', value: locale.Romaji(data.names) },
-            ],
-            [
-                { key: 'Year', value: `${(new Date(data.from)).getFullYear()}` },
-                { key: 'Date', value: time.FormatNoYear(new Date(data.from), new Date(data.to)) },
-                { key: 'Address', value: data.address?.formattedAddress },
-            ]
-        ]
+        info
     };
 };
 

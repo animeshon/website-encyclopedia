@@ -16,5 +16,5 @@ export const GameAnimation = (degree) => {
             return { name: "Fully Animated" };
         }
     }
-    return { name: "Unknown" };
+    return { name: undefined };
 } 

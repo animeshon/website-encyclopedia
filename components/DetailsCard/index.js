@@ -28,6 +28,9 @@ export const DetailsCard = ({ items }) => {
 
                 blocks.push(item.map(pair => {
                     var value = undefined;
+                    if (undefined == pair) {
+                        return;
+                    }
                     if (!Array.isArray(pair.value)) {
                         if (!pair.value) { return undefined } else { counter++ }
 

@@ -78,6 +78,8 @@ class Entity {
     protected languages: Language[];
     protected shops: any[];
 
+    protected platforms: string[];
+
     constructor(rawData: any) {
         this.rawData = rawData;
 
@@ -112,6 +114,8 @@ class Entity {
             this.shops = this.rawData.releasableShops;
         }
 
+        this.platforms = rawData.platforms;
+
         this.setSubtype();
         this.setDates();
     }
@@ -143,6 +147,10 @@ class Entity {
         return this.subtype;
     }
 
+    public Gender(): string {
+        return this.gender;
+    }
+
     public Premiere(): Date {
         return this.premiere;
     }
@@ -167,9 +175,9 @@ class Entity {
     }
 
     public Localize(locale: string = "eng"): void {
+        let localizedName = Locale(this.rawData.names?.hits, [locale]);
         this.names = new EntityNames(
-            // If character, organization or person  and we are not localizing the website in japanese => the localized name is latin
-            ["character", "organization", "person"].includes(this.type) && locale != "jpn" ? LatinAny(this.rawData.names) : Locale(this.rawData.names?.hits, [locale]),
+            localizedName == undefined && locale != "jpn" ? LatinAny(this.rawData.names) : localizedName,
             Japanese(this.rawData.names),
             Romaji(this.rawData.names),
             LatinAny(this.rawData.names),
@@ -265,7 +273,7 @@ class Entity {
             return EnglishDate(this.rawData.personBirthDay);
         } else if (this.rawData.characterBirthDay) {
             const tokens = this.rawData.characterBirthDay.split(".");
-            return `${EnglishMonth(tokens[0])} ${tokens[1]}`;
+            return `${EnglishMonth(new Date(0, tokens[0], 0))} ${tokens[1]}`;
         }
         return undefined;
     }
@@ -422,7 +430,7 @@ class Entity {
         ["WORK_IN_PROGRESS", "Work In Progress"],
     ]);
     public GetStatus(locale: string = ""): string | undefined {
-        if (this.rawData.status == undefined) {
+        if (this.rawData.status == undefined || this.rawData.status == "UNKNOWN") {
             return undefined
         }
         if (!Entity.statusMap.has(this.rawData.status)) {
@@ -472,7 +480,7 @@ class Entity {
         ["O_PLUS", "0+"],
     ]);
     public static LocalizeBloodType(bloodtype: string, locale: string = ""): string | undefined {
-        if (bloodtype == undefined) {
+        if (bloodtype == undefined || bloodtype == "UNKNOWN") {
             return undefined
         }
         if (!Entity.bloodTypeMap.has(bloodtype)) {
@@ -483,6 +491,63 @@ class Entity {
 
     public GetBloodType(locale: string = ""): string | undefined {
         return Entity.LocalizeBloodType(this.bloodType, locale);
+    }
+
+    public Platforms(): string[] {
+        return this.platforms;
+    }
+
+
+    // TODO Move to translation files
+    private static platformMap = new Map<string, string>([
+        ["WINDOWS", "Windows"],
+        ["DOS", "Dos"],
+        ["LINUX", "Linux"],
+        ["MAC", "Macintosh"],
+        ["IOS", "iOS"],
+        ["ANDROID", "Android"],
+        ["DVD_PLAYER", "DVD Player"],
+        ["BLU_RAY_PLAYER", "Blue-Ray Player"],
+        ["FM_TOWNS", "FM Towns"],
+        ["GAMEBOY_ADVANCE", "GameBoy Advance"],
+        ["GAMEBOY_COLOR", "GameBoy Color"],
+        ["NES", "Nintendo Nes"],
+        ["PC88", "PC 88"],
+        ["PC98", "PC 93"],
+        ["PC_ENGINE", "PC Engine"],
+        ["PC_FX", "Pc-FX"],
+        ["PSP", "PlayStation Portable"],
+        ["PS1", "PlayeStation"],
+        ["PS2", "PlayeStation2"],
+        ["PS3", "PlayeStation3"],
+        ["PS4", "PlayeStation4"],
+        ["PS_VITA", "PlayeStation Vita"],
+        ["DGRAMCAST", "Dramcast"],
+        ["SEGA_SATURN", "Saga Saturn"],
+        ["SUPER_NINTENDO", "Super Nintendo"],
+        ["NINTENDO_SWITCH", "Nintendo Switch"],
+        ["NINTENDO_WII", "Nintendo Wii"],
+        ["NINTENDO_WII_U", "Nintendo Wii U"],
+        ["NINTENDO_3DS", "Nintendo 3DS"],
+        ["X68000", "X68000"],
+        ["XBOX_ONE", "Xbox One"],
+        ["XBOX_360", "Xbox 360"],
+        ["XBOX", "Xbox"],
+        ["WEBSITE", "Web Game"],
+        ["OTHER", "Other"],
+    ]);
+    public static LocalizePlatform(p: string, locale: string = ""): string | undefined {
+        if (p == undefined) {
+            return undefined
+        }
+        if (!Entity.platformMap.has(p)) {
+            throw new Error(`unknown release platform: '${p}'`);
+        }
+        return Entity.platformMap.get(p);
+    }
+
+    public LocalizedPlatforms(locale: string = "en"): string[] {
+        return this.platforms.map(p => Entity.LocalizePlatform(p, locale));
     }
 
     public GetFullTypeString(locale: string = ""): string {

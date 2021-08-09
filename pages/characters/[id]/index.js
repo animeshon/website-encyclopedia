@@ -1,100 +1,59 @@
 import React from 'react';
 
 import withContainer, { withContainerProps } from '@/components/Container';
-import getSummary from '@/queries/character/Summary';
-import getAppearances from '@/queries/character/Appearances';
+import GetSummary from '@/queries/GetSummary';
+import GetAppearances from '@/queries/GetAppearances';
 
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryImages from '@/components/Summary/SummaryImages';
 import SummaryAppearance from '@/components/Summary/SummaryAppearance';
 import DetailsCard from '@/components/DetailsCard';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import { ByContent } from '@/utilities/Premiere';
-import * as stat from '@/utilities/ContentStatus';
-import * as uri from '@/utilities/URI';
-import { Type } from '@/utilities/MediaType';
-import { Subtype } from '@/utilities/MediaSubtype';
+import SummaryDataType from '@/models/summary';
+import { CharacterDataModelList } from '@/models/character';
+
 import { PrepareKeyQuery, ExecuteQueryBatch } from '@/utilities/Query';
 
 const Character = ({
-    description,
-    images,
+    info,
     appearances,
-    details,
-    hrefs
 }) => {
+    const model = new SummaryDataType(info);
+    model.Localize();
+
+    const appearancesModel = CharacterDataModelList.FromContentRawData(appearances);
+    appearancesModel.Localize();
+    appearancesModel.Sort();
+
     return (
         <div className="grid">
             <main className="landing__description">
-                <SummaryText text={description} />
-                <SummaryImages images={images} />
-                <SummaryAppearance appearances={appearances} />
+                <SummaryText text={model.GetDescription()} />
+                {/* <SummaryImages images={images} /> */}
+                <SummaryAppearance appearances={appearancesModel} />
             </main>
             <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
-                <DetailsCard items={details} />
+                <DetailsCard items={model.Details()} />
             </aside>
         </div>
     );
 };
 
 export const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
+    const id = ctx.query.id.replace(".", "/");
+
     const queries = [
-        PrepareKeyQuery("info", { id: id }, getSummary()),
-        PrepareKeyQuery("appearance", { id: id, first: 7 }, getAppearances()),
+        PrepareKeyQuery("info", { id: id }, GetSummary()),
+        PrepareKeyQuery("appearance", { id: id, first: 7 }, GetAppearances()),
     ];
     const { info, appearance } = await ExecuteQueryBatch(client, queries);
 
-    const appearances = (appearance.appearances || []).map(i => {
-        const { id, __typename, status, runnings, images, descriptions, releaseDate, names, ageRatings } = i.content;
-        if (undefined == names || names.length === 0) {
-            return;
-        }
-        return {
-            id: id,
-            type: __typename,
-            name: locale.EnglishAny(names),
-            japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images, ageRatings),
-            media: Type(__typename),
-            //type: Subtype(__typename, type),
-            description: locale.English(descriptions),
-            releaseDate: ByContent(__typename, releaseDate, runnings),
-            status: stat.Status(status),
-            relation: i.relation,
-        };
-    }).filter(a => {return a != undefined});
-
-    const images = image.All(info.images);
-
-    const guiseOf = info.guiseOf ? {
-        id: info.guiseOf.id,
-        type: info.guiseOf.__typename,
-        name: locale.LatinAny(info.guiseOf.names),
-    } : undefined;
-
-    const birthday = info.birthday ? (new Date(info.birthday)).toLocaleDateString('en-US') : info.birthdayFallback
-
     return {
-        description: locale.English(info.descriptions),
-        images: images,
-        appearances: appearances,
-        details: [
-            [
-                { key: 'English', value: locale.English(info.names) },
-                { key: 'Japanese', value: locale.Japanese(info.names) },
-                { key: 'Romaji', value: locale.Romaji(info.names) },
-            ],
-            [
-                { key: 'Birthday', value: birthday != '' ? birthday : undefined },
-                { key: 'Guise of', value: guiseOf != undefined ? uri.Rewrite(guiseOf.type, guiseOf.names, guiseOf.id) : undefined },
-            ]
-        ]
+        info,
+        appearances: appearance.appearances || [],
     };
 };
 

@@ -18,7 +18,7 @@ const CharacterPage = ({ characters, voiceActings, localizations }) => {
     const [language, setLanguage] = useState({value: ""});
     const [filter, setFilter] = useState('');
     
-    const characterModels = new CharacterDataModelList(characters);
+    const characterModels = CharacterDataModelList.FromCharacterRawData(characters);
     characterModels.SetSeyuus(voiceActings);
     characterModels.Localize();
     characterModels.Sort();
@@ -64,7 +64,7 @@ const CharacterPage = ({ characters, voiceActings, localizations }) => {
                             </li>
                             {nationalityOpts.length != 0 ? <li>
                                 <p>Show Seyuu for language</p>
-                                <FilterSelect height={30} options={nationalityOpts} value={language} onChange={onLanguageChange} />
+                                <FilterSelect height={30} options={nationalityOpts} value={language} isClearable={true} onChange={onLanguageChange} />
                             </li> : undefined}
                         </ul>
                     </FilterGroup>

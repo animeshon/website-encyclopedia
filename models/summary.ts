@@ -2,6 +2,8 @@ import Entity from "@/models/entity";
 import { Restrictions, MaturityRating } from '@/utilities/Restriction';
 import { FormatNoYear } from '@/utilities/Time';
 import { Role } from '@/utilities/TypedRole';
+import { GameVoice } from '@/utilities/GameVoice';
+import { GameAnimation } from '@/utilities/GameAnimation';
 
 interface CollaboratorsInfo {
     key: string;
@@ -23,6 +25,10 @@ class SummaryDataModel extends Entity {
 
         const externalSources = this.GetExternalSources();
         const collaborations = this.GetCollaborators(locale);
+        const guiseOfs = this.GuiseOf().map(g => { return {
+            text: g.GetNames().Get(),
+            href: g.GetURI(),
+        }});
 
         return [
             [
@@ -32,7 +38,7 @@ class SummaryDataModel extends Entity {
                 { key: 'Languages', value: this.LocalizedLanguages()?.map(l => { return { text: l.label } }) },
             ],
             [
-                { key: 'Media', value: this.GetFullTypeString() },
+                this.Type() == "organization" ? { key: 'Organization Type', value: this.GetSubtype()} : undefined ,
                 { key: 'Status', value: this.GetStatus() },
                 this.GetRunning() != undefined ?
                     { key: 'Running', value: this.GetRunning() } :
@@ -46,11 +52,23 @@ class SummaryDataModel extends Entity {
                 { key: 'Gender', value: this.GetGender() },
                 { key: 'Blood Type', value: this.GetBloodType() },
                 { key: 'Length', value: this.GetGameLength() },
+                guiseOfs.length != 0 ? { key: 'Guise of', value: guiseOfs } : undefined,
             ],
             [
                 { key: 'Is Original', value: this.IsContent() ? this.IsOriginal() ? "Yes" : "No" : undefined },
                 { key: 'Is Self Published', value: this.IsContent() ? this.Independent() ? "Yes" : "No" : undefined },
                 { key: 'Is Freeware', value: this.rawData.isFree != undefined ? this.rawData.isFree ? "Yes" : "No" : undefined },
+                { key: 'Patchable Release', value: this.rawData.isPatch ? "Yes" : "No" },
+            ],
+            [
+                { key: 'Voiced', value: GameVoice(this.rawData.voicedDegree).name },
+                { key: 'Animation', value: GameAnimation(this.rawData.animationStoryDegree).name },
+                { key: 'Animation Erotic Scenes', value: GameAnimation(this.rawData.animationEroDegree).name },
+                { key: 'Platforms', value: this.LocalizedPlatforms().map(p => {return {text: p}}) },
+            ],
+            [
+                { key: 'Resolution', value: this.rawData.widthResolution && this.rawData.heightResolution ? `${this.rawData.widthResolution}x${this.rawData.heightResolution}` : undefined },
+                { key: 'Engine', value: this.rawData.engine },
             ],
             [
                 { key: 'EAN10', value: this.NotUndefinedOrEmpty(this.rawData.ean10) ? this.rawData.ean10 : undefined },
@@ -136,8 +154,18 @@ class SummaryDataModel extends Entity {
         return coll;
     }
 
-    // TODO Character Guise of
-    // { key: 'Guise of', value: guiseOf != undefined ? uri.Rewrite(guiseOf.type, guiseOf.names, guiseOf.id) : undefined },
+    public GuiseOf(): Entity[] {
+        if (this.rawData.guiseOf == undefined) {
+            return [];
+        }
+        const guiseof: Entity[] = [];
+        for (let r of this.rawData.guiseOf) {
+            const g = new Entity(r);
+            g.Localize();
+            guiseof.push(g);
+        }
+        return guiseof;
+    }
 
     // TODO Move to translation files
     private static audienceMap = new Map<string, string>([
