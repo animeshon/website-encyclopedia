@@ -556,7 +556,7 @@ class Entity {
     }
 
     public LocalizedPlatforms(locale: string = "en"): string[] {
-        return this.platforms.map(p => Entity.LocalizePlatform(p, locale));
+        return this.platforms ? this.platforms.map(p => Entity.LocalizePlatform(p, locale)) : [];
     }
 
     public GetFullTypeString(locale: string = ""): string {
