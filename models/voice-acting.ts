@@ -1,6 +1,7 @@
 import Entity from "@/models/entity";
 import Localization from "@/models/localization";
 import EntityList, { SortBy as entitySortBy } from "@/models/entity-list";
+import BooleanString from "@/models/boolean-string";
 
 export enum SortBy {
     DATE,
@@ -9,16 +10,16 @@ export enum SortBy {
 }
 
 class AudibleModel extends Entity {
-    primary: boolean;
+    primary: BooleanString;
     localization: Localization;
 
-    constructor(rawData: any, primary: boolean, localization: any) {
+    constructor(rawData: any, primary: BooleanString, localization: any) {
         super(rawData);
         this.primary = primary;
         this.localization = Localization.FromRawData(localization);
     }
 
-    public IsPrimary(): boolean {
+    public IsPrimary(): BooleanString {
         return this.primary;
     }
 
@@ -69,7 +70,7 @@ export class VoiceActingModelList extends EntityList<VoiceActingModel> {
                 l.push(va);
             }
 
-            const aud = new AudibleModel(data.content, data.primary, data.localization);
+            const aud = new AudibleModel(data.content, new BooleanString(data.primary), data.localization);
             va.AddAudible(aud);
         }
         return l;

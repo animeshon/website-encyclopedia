@@ -7,7 +7,8 @@ import { IsAdultOnly } from '@/utilities/Restriction';
 import languages from '@cospired/i18n-iso-languages';
 import * as uri from '@/utilities/URI';
 import Shop from '@/models/shop';
-import { Language } from './localization';
+import { Language } from '@/models/localization';
+import BooleanString from '@/models/boolean-string';
 
 export interface LocalizedEnum {
     value: string;
@@ -290,8 +291,16 @@ class Entity {
         return this.rawData.publishingType && this.rawData.publishingType == "SELF" || false;
     }
 
-    public IsOriginal(): boolean {
-        return this.rawData.original ?? false;
+    public IsOriginal(): BooleanString {
+        return new BooleanString(this.rawData.original);
+    }
+
+    public IsFree(): BooleanString {
+        return new BooleanString(this.rawData.isFree);
+    }
+
+    public IsPatch(): BooleanString {
+        return new BooleanString(this.rawData.isPatch);
     }
 
     public IsContent(): boolean {

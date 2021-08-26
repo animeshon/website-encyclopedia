@@ -19,6 +19,7 @@ import SummaryDataType from '@/models/summary';
 // import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import EntityList from '@/models/entity-list';
+import BooleanString from '@/models/boolean-string';
 // import { AgeRating } from '@/utilities/AgeRating';
 // import { Length } from '@/utilities/VisualNovelLength';
 
@@ -60,7 +61,8 @@ export const getProps = async (ctx, client) => {
     let characters = [];
     (info.voiceActings || []).forEach(i => {
         const { isPrimary, voiced: { id, appearancesAggregate } } = i;
-        if (!isPrimary || appearancesAggregate?.count == 0 || appearancesAggregate?.count == undefined || characters.find(i => i.id === id)) {
+        const isPrimaryBool = new BooleanString(isPrimary);
+        if (isPrimaryBool.Value() != true || appearancesAggregate?.count == 0 || appearancesAggregate?.count == undefined || characters.find(i => i.id === id)) {
             return;
         }
 

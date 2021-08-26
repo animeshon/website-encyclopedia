@@ -1,16 +1,17 @@
 import Entity from "@/models/entity";
 import EntityList from "@/models/entity-list";
 import Localization from "@/models/localization";
+import BooleanString from "@/models/boolean-string";
 
 export class Seyuu extends Entity {
 
-    isPrimary: Boolean;
+    isPrimary: BooleanString;
     localization: Localization;
 
     constructor(rawData: any) {
         super(rawData.actor);
 
-        this.isPrimary = rawData.isPrimary;
+        this.isPrimary = new BooleanString(rawData.isPrimary);
         this.localization = Localization.FromRawData(rawData.localization);
     }
 
@@ -102,7 +103,7 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
         return this.filter(c => relation?.length ? c.Relation() == relation : true) as CharacterDataModelList;
     }
 
-    public GetAllRoles(priorty: string[] = []): string [] {
+    public GetAllRoles(priorty: string[] = []): string[] {
         const roles = [];
         for (const l of this) {
             if (!roles.includes(l.Relation())) {
@@ -112,7 +113,7 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
         return roles.sort((a, b) => {
             if (priorty.includes(a) && priorty.includes(b)) {
                 return 0;
-            } 
+            }
             if (priorty.includes(a)) {
                 return -1;
             }
@@ -121,7 +122,7 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
             }
             return a.localeCompare(b);
         })
-    } 
+    }
 
     public SetSeyuus(rawData: any[]): void {
         for (let seyuu of rawData) {

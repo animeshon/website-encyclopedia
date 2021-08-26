@@ -55,10 +55,10 @@ class SummaryDataModel extends Entity {
                 guiseOfs.length != 0 ? { key: 'Guise of', value: guiseOfs } : undefined,
             ],
             [
-                { key: 'Is Original', value: this.IsContent() ? this.IsOriginal() ? "Yes" : "No" : undefined },
+                { key: 'Is Original', value: this.IsOriginal().ToString("Yes", "No") },
                 { key: 'Is Self Published', value: this.IsContent() ? this.Independent() ? "Yes" : "No" : undefined },
-                { key: 'Is Freeware', value: this.rawData.isFree != undefined ? this.rawData.isFree ? "Yes" : "No" : undefined },
-                { key: 'Patchable Release', value: this.rawData.isPatch ? "Yes" : "No" },
+                { key: 'Is Freeware', value: this.IsFree().ToString("Yes", "No") },
+                { key: 'Patchable Release', value: this.IsPatch().ToString("Yes", "No") },
             ],
             [
                 { key: 'Voiced', value: GameVoice(this.rawData.voicedDegree).name },
