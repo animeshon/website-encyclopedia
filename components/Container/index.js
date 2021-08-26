@@ -132,6 +132,9 @@ export function withContainerProps(getServerSidePropsFunc) {
         const apolloClient = initializeApollo();
         const containerData = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 
+        // TODO
+        // 404
+
         // Get component’s props
         let componentProps = getServerSidePropsFunc && await getServerSidePropsFunc(ctx, apolloClient);
         return {
