@@ -13,7 +13,6 @@ import SummaryRelated from '@/components/Summary/SummaryRelated';
 import ExternalDistributors from '@/components/ExternalDistributors';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
 import * as uri from '@/utilities/URI';
 
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
@@ -103,7 +102,7 @@ export const getProps = async (ctx, client) => {
             id: id,
             type: entityType,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, maturityRatings),
+            // image: image.ProfileAny(images, maturityRatings),
         }
     });
 

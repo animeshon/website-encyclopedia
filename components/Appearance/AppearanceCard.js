@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
 
-import * as uri from '@/utilities/URI';
-import * as text from '@/utilities/Text';
-
 import styles from './AppearanceCard.module.css';
 
 const AppearanceCard = ({ content }) => {
+    const thisRef = useRef(null);
     return (
         <div key={content.GetID()} className={styles.appearences__item}>
-            <figure className={styles.appearences__item_cover}>
-                <SafeImage image={content.GetCoverUrl()} />
+            <figure ref={thisRef} className={styles.appearences__item_cover}>
+                <SafeImage parent={thisRef} image={content.CoverImage()} />
             </figure>
             <article className={styles.appearences__item_contents}>
                 <header>

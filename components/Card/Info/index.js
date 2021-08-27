@@ -13,7 +13,7 @@ const CardInfo = ({ info, caption }) => {
             <Link href={info.GetURI()}>
                 <a>
                     <CardImage
-                        image={info.GetCoverUrl()}
+                        image={info.CoverImage()}
                         gender={info.GetGender()}
                         altText={`${info.GetNames().Get()}`}
                         className={styles.card__image}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
@@ -8,13 +8,14 @@ import styles from './ProductionCard.module.css';
 
 const ProductionCard = ({ production }) => {
     const order = ["typed", "free"];
+    const thisRef = useRef(null);
 
     return (
         <div key={production.id} className={styles.related__item}>
             <Link href={production.GetURI()}>
                 <a>
-                    <figure className={styles.related__item_cover}>
-                        <SafeImage image={production.GetCoverUrl()} />
+                    <figure ref={thisRef} className={styles.related__item_cover}>
+                        <SafeImage parent={thisRef} image={production.CoverImage()} />
                     </figure>
                 </a>
             </Link>
@@ -42,7 +43,7 @@ const ProductionCard = ({ production }) => {
                     {/* TODO: Handle freeetext jobrole */}
                     <CollapsableSection maxHeight={50} collapsedClass={styles.collapsed} moreClass={styles.more_trigger} mainClass={styles.expandable}>
                         {production.Roles().map(o => {
-                                return (<p key={[production.GetID(), o]}>{o.GetJobRole()}</p>)
+                            return (<p key={[production.GetID(), o]}>{o.GetJobRole()}</p>)
                         })}
                     </CollapsableSection>
                 </aside>

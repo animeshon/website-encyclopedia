@@ -29,6 +29,9 @@ const GetReleases = () => gql`
                 ...GenericNames
                 ...GenericDescriptions
                 entityType
+                coverImage {
+                  ...SafeImage
+                }
             }
             ... on GraphGameRelease {
                 widthResolution
@@ -49,12 +52,11 @@ const GetReleases = () => gql`
       }
     }
   }
+  ${Generic.Fragments.safeImage}
   ${Generic.Fragments.names}
   ${Generic.Fragments.descriptions}
   ${Core.Fragments.withMaturityRatingFull}
   ${Core.Fragments.withRegionRestrictionFull}
 `;
-
-//   ${Generic.Fragments.profileImage}
 
 export default GetReleases;

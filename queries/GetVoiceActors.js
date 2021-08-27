@@ -17,8 +17,10 @@ const GetVoiceActors = () => gql`
           ... on GraphGeneric {
             entityType
             ...GenericNames
+            coverImage {
+              ...SafeImage
+            }
           }
-          # ...GenericProfileImage
         }
         content {
           ... on Metadata {
@@ -27,6 +29,9 @@ const GetVoiceActors = () => gql`
           ... on GraphGeneric {
             entityType
             ...GenericNames
+            coverImage {
+              ...SafeImage
+            }
           }
           ... on GraphContent {
             publishingType
@@ -50,10 +55,9 @@ const GetVoiceActors = () => gql`
       }
     }
   }
+  ${Generic.Fragments.safeImage}
   ${Core.Fragments.localizationCodeAlpha2}
   ${Generic.Fragments.names}
 `;
-
-//   ${Generic.Fragments.profileImage}
 
 export default GetVoiceActors;

@@ -8,7 +8,6 @@ import SummaryCharacter from '@/components/Summary/SummaryCharacter';
 import DetailsCard from '@/components/DetailsCard';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
 import { PrepareKeyQuery, ExecuteQueryBatch } from '@/utilities/Query';
 import SummaryCanonical from '@/components/Summary/SummaryCanonical';
 
@@ -66,7 +65,7 @@ export const getProps = async (ctx, client) => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, ageRatings),
+            // image: image.ProfileAny(images, ageRatings),
         }
     });
 

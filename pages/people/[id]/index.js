@@ -10,18 +10,9 @@ import SummaryText from '@/components/Summary/SummaryText';
 
 import SummaryDataType from '@/models/summary';
 
-// import * as locale from '@/utilities/Localization';
-// import * as image from '@/utilities/Image';
-// import * as time from '@/utilities/Time';
-// import * as blood from '@/utilities/BloodType';
-// import * as gender from '@/utilities/Gender';
-// import * as uri from '@/utilities/URI';
-// import { Type } from '@/utilities/MediaType';
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
 import EntityList from '@/models/entity-list';
 import BooleanString from '@/models/boolean-string';
-// import { AgeRating } from '@/utilities/AgeRating';
-// import { Length } from '@/utilities/VisualNovelLength';
 
 const PersonPage = ({
     info,

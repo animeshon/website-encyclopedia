@@ -26,7 +26,9 @@ Collaboration.Fragments = {
         }
         ... on GraphGeneric {
           entityType
-          #...GenericProfileImage
+          coverImage {
+            ...SafeImage
+          }
           ...GenericNames
         }
       }
@@ -34,12 +36,11 @@ Collaboration.Fragments = {
         ...ContentMinimal
       }
     }
+    ${Generic.Fragments.safeImage}
     ${Generic.Fragments.names}
     ${Core.Fragments.localizationCodeAlpha2}
     ${Content.Fragments.contentMinimal}
   `,
 };
-
-// ${Generic.Fragments.profileImage}
 
 export default Collaboration;

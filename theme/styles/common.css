@@ -176,7 +176,9 @@ footer {
     letter-spacing: unset;
     font-weight: 400;
     text-align: initial;
-    padding-left: 0;
+    /*if image need padding 0*/
+    /* padding-left: 0; */
+    padding-left: 5px;
     display: flex;
     align-items: center;
 }

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import Image from 'next/image'
+import React, { useContext, useState, useEffect } from 'react';
+import Image from '@/models/image'
 
 import LazyLoad from 'react-lazy-load';
 
@@ -12,38 +12,24 @@ import { Age } from '@/utilities/Restriction';
 
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
-const getURIByFormat = (image, reqFormat) => {
-    if (image === undefined || image === null) {
-        return undefined;
-    }
-    if (image.files === undefined || image.files === null) {
-        return undefined;
-    }
-
-    for (var j = 0; j < image.files.length; j++) {
-        const format = image.files[j].format;
-        if (!format || format != reqFormat) {
-            continue;
-        }
-        return image.files[j].publicUri;
-    }
-    return undefined;
-}
-
-const censor = (image, force, container) => {
-    const age = image ? Age(image.ratings) : undefined;
-    return age !== undefined ? age > 17 : (force && container.adult);
-}
-
 // TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
 // https://nextjs.org/docs/api-reference/next/image
 
-const SafeImage = ({ image, altText, force = true, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
+const SafeImage = ({ image, altText, parent = undefined, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
+    const [height, setHeight] = useState(0)
+    const [width, setWidth] = useState(0)
+    const [loaded, setLoaded] = useState(false)
+
+    const img = image || new Image(fallback);
+
     const { user, dispatchUser } = useContext(UserContext);
-    const container = useContainer();
-    const isCensored = user.safeSearch && censor(image, force, container);
-    const img = image ? getURIByFormat(image, 'PNG') : fallback;
-    const webP = image ? getURIByFormat(image, 'WEBP') : undefined
+    const isCensored = user.safeSearch && img.IsAdult();
+
+    useEffect(() => {
+        setHeight(parent ? parent.current.clientHeight : 0);
+        setWidth(parent ? parent.current.clientWidth : 0);
+        setLoaded(true);
+    }, []);
 
     const onClick = e => {
         dispatchUser({
@@ -52,20 +38,23 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
         })
     };
     return (
-        <LazyLoad offset={300} throttle={0}>
-            {isCensored ? <picture>
-                {/* if censored, display censored image */}
-                <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />
-                {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
-            </picture> :
-                <picture>
-                    {/* WEBP */}
-                    {webP ? <source srcSet={webP} type="image/webp" alt={altText} /> : undefined}
-                    {/* default (PNG) */}
+            <LazyLoad offset={300} throttle={0}>
 
-                    <img src={img} alt={altText} />
-                </picture>}
-        </LazyLoad >
+                {loaded && <>
+                    {isCensored ? <picture>
+                        {/* if censored, display censored image */}
+                        <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />
+                        {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
+                    </picture> :
+                        <picture>
+                            {/* WEBP */}
+                            <source srcset={img.GetURL("WEBP", width, height)} type="image/webp" alt={altText} />
+                            {/* default */}
+                            <img src={img.GetURL("", width, height)} alt={altText} />
+                        </picture>}
+
+                </>}
+            </LazyLoad >
     )
 }
 

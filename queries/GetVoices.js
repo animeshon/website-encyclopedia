@@ -17,7 +17,9 @@ const GetVoices = () => gql`
                         gender
                         id
                         ...GenericNames
-                        # ...GenericProfileImage
+                        coverImage {
+                         ...SafeImage
+                        }
                     }
                     voiced {
                         __typename
@@ -29,10 +31,9 @@ const GetVoices = () => gql`
             }
         }
     }
+    ${Generic.Fragments.safeImage}
     ${Core.Fragments.localizationCodeAlpha2}
     ${Generic.Fragments.names}
 `;
-
-//     ${Generic.Fragments.profileImage}
 
 export default GetVoices

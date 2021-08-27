@@ -45,6 +45,7 @@ class SummaryDataModel extends Entity {
                     { key: 'Released', value: this.GetReleaseDate() },
                 { key: 'Season', value: this.GetSeason() },
                 { key: 'Birthday', value: this.GetBirthday() },
+                { key: 'Age', value: this.Age() ?? this.LocalizeAgeType() },
                 { key: 'Foundation', value: this.GetFoundation() },
                 // TODO Move to translation files
                 { key: 'Audience Target', value: this.GetAudienceTarget() },

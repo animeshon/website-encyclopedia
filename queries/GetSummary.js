@@ -109,9 +109,9 @@ const GetSummary = () => gql`
                 isPatch
                 isFree
                 gameReleaseType: type
-                # voicedDegree
-                # animationStoryDegree
-                # animationEroDegree
+                voicedDegree
+                animationStoryDegree
+                animationEroDegree
                 engine
                 platforms
             }
@@ -125,7 +125,7 @@ const GetSummary = () => gql`
                         ...ContentMinimal
                     }
                 }
-                # censorship
+                censorship
                 ean10
                 ean13
                 sku
@@ -201,7 +201,9 @@ const GetSummary = () => gql`
                     character {
                         id
                         ... on GraphCharacter {
-                            # ...GenericProfileImage
+                            coverImage {
+                                ...SafeImage
+                            }
                             ...GenericNames
                         }
                     }
@@ -246,6 +248,7 @@ const GetSummary = () => gql`
     ${Core.Fragments.withRegionRestrictionFull}
     ${Core.Fragments.textWithLocalization}
     ${Content.Fragments.contentMinimal}
+    ${Generic.Fragments.safeImage}
 `;
 
 // ${Canonizable.Fragments.universesSummary}

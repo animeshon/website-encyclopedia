@@ -9,7 +9,6 @@ import SummaryUniverse from '@/components/Summary/SummaryUniverses';
 import DetailsCard from '@/components/DetailsCard';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
 import { PrepareKeyQuery, ExecuteQueryBatch } from '@/utilities/Query';
 
 const Canonical = ({
@@ -66,7 +65,7 @@ export const getProps = async (ctx, client) => {
             id: id,
             type: __typename,
             name: locale.EnglishAny(names),
-            image: image.ProfileAny(images, ageRatings),
+            // image: image.ProfileAny(images, ageRatings),
         }
     });
 

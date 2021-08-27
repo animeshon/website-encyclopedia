@@ -7,7 +7,6 @@ import ExpandableSection from '@/components/ExpandableSection';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
 import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
@@ -73,7 +72,7 @@ export const getProps = async (ctx, client) => {
             type: __typename,
             name: locale.EnglishAny(names),
             description: locale.EnglishAny(descriptions),
-            image: image.ProfileAny(images, ageRatings),
+            //image: image.ProfileAny(images, ageRatings),
             contents: (universe.contents || []).map(content => {
                 const { id, __typename, status, runnings, images, names, descriptions, ageRatings, releaseDate } = content;
                 return {

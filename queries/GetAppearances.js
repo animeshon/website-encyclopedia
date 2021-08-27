@@ -16,6 +16,9 @@ const GetAppearances = () => gql`
             ...GenericNames
             ...GenericDescriptions
             entityType
+            coverImage {
+              ...SafeImage
+            }
           }
           ... on GraphContent {
             publishingType
@@ -51,6 +54,7 @@ const GetAppearances = () => gql`
       }
     }
   }
+  ${Generic.Fragments.safeImage}
   ${Generic.Fragments.names}
   ${Generic.Fragments.descriptions}
   ${Core.Fragments.withMaturityRatingFull}

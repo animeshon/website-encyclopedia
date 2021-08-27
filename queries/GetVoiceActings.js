@@ -19,7 +19,9 @@ export const GetVoiceActings = () => gql`
           ... on GraphCharacter {
             ...GenericNames
             entityType
-            # ...GenericProfileImage
+            coverImage {
+              ...SafeImage
+            }
           }
           ... on GraphVoiceOver {
             entityType
@@ -35,6 +37,9 @@ export const GetVoiceActings = () => gql`
           ... on GraphGeneric {
             entityType
             ...GenericNames
+            coverImage {
+              ...SafeImage
+            }
           }
           ... on GraphContent {
             publishingType
@@ -58,10 +63,10 @@ export const GetVoiceActings = () => gql`
       }
     }
   }
+  ${Generic.Fragments.safeImage}
   ${Generic.Fragments.names}
   ${Core.Fragments.localizationCodeAlpha2}
   ${Core.Fragments.textWithLocalization}
 `;
 
-//   ${Generic.Fragments.profileImage}
 export default GetVoiceActings;

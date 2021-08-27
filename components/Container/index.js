@@ -21,9 +21,6 @@ import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 import ContainerQuery from '@/queries/container/Container';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as uri from '@/utilities/URI';
 import * as text from '@/utilities/Text';
 import { WebMetaTag, IsAdultOnly } from "@/utilities/Restriction"
 
@@ -65,7 +62,7 @@ const Container = ({ container, seo, children }) => {
                 <meta property="og:site_name" content={seo.site}></meta>
                 <meta property="og:title" content={title} />
                 {description ? (<meta property="og:description" content={description} />) : undefined}
-                {seo.image ? (<meta property="og:image" content={getImage(seo.image)} />) : undefined}
+                {seo.image ? (<meta property="og:image" content={seo.image.GetURL("jpeg", 720, 0)} />) : undefined}
                 <meta property="og:url" content={seo.url} />
 
                 {/* Twitter */}
@@ -83,7 +80,7 @@ const Container = ({ container, seo, children }) => {
                 <BannerImage
                     title={name}
                     altText={name}
-                    image={container.model.GetBannerUrl()}
+                    image={container.model.BannerImage()}
                     breadcrumb={[container.model.GetType(), container.model.GetSubtype(), name, container.selectedLabel]}
                 />
                 <TabNavigation items={container.navigation} selected={container.selectedLabel} />
@@ -91,7 +88,7 @@ const Container = ({ container, seo, children }) => {
                     <div className="any-landing__cover">
                         <ProfileImage
                             altText={name}
-                            image={container.model.GetCoverUrl()}
+                            image={container.model.CoverImage()}
                         >
                             {container.model.IsIllegal() && (
                                 <p className={styles.consorship}>Censorship is courtesy of the U.N.
@@ -174,7 +171,7 @@ const withContainer = (WrappedComponent) => {
 
             description: model.GetDescription(160),
             title: text.Truncate(model.GetNames().Get(), 64),
-            image: model.GetCoverUrl(),
+            image: model.CoverImage(),
 
             url: model.GetURI(subpath, true),
             canonical: model.GetCanonicalURI(subpath),

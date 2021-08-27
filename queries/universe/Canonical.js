@@ -7,7 +7,9 @@ const getCanonicals = () => gql`
       result: getUniverse(id: $id) {
         canonicals {
           id
-          ...GenericProfileImage
+          coverImage {
+            ...SafeImage
+          }
           ...GenericNames
           ...GenericDescriptions
           # ... on WithRestriction {
@@ -24,7 +26,7 @@ const getCanonicals = () => gql`
   }
   ${Generic.Fragments.names}
   ${Generic.Fragments.descriptions}
-  ${Generic.Fragments.profileImage}
+  ${Generic.Fragments.safeImage}
   ${Content.Fragments.contentMinimal}
 `;
 

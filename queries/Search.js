@@ -58,6 +58,9 @@ export const performSearch = () => gql` query searchFulltext(
               ...GenericNames
               ...GenericDescriptions
               entityType
+              coverImage {
+                ...SafeImage
+              }
             }
             ... on GraphContent {
               publishingType
@@ -92,12 +95,12 @@ export const performSearch = () => gql` query searchFulltext(
         resultTotal
     }
   }
+  ${Generic.Fragments.safeImage}
   ${Generic.Fragments.names}
   ${Generic.Fragments.descriptions}
   ${Core.Fragments.withMaturityRatingFull}
   ${Core.Fragments.withRegionRestrictionFull}
   ${Core.Fragments.textWithLocalization}
-    `;
-
+  `;
 
 export default performSearch;

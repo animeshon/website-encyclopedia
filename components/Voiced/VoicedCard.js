@@ -17,14 +17,14 @@ const VoicedCard = ({ subject }) => {
                 <a>
                     <CardImage
                         gender={subject.Gender()}
-                        image={subject.GetCoverUrl()}
+                        image={subject.CoverImage()}
                         altText={subject.GetNames().Get()}
                         className={""}
                     />
                 </a>
             </Link> : <CardImage
                 gender={subject.Gender()}
-                image={subject.GetCoverUrl()}
+                image={subject.CoverImage()}
                 altText={subject.GetNames().Get()}
                 className={""}
             />}

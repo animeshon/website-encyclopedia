@@ -34,36 +34,14 @@ Generic.Fragments = {
             }
         }
     }`,
-    profileImage: gql`
-    fragment GenericProfileImage on Generic {
-        images(first: 1, filter: {type: {eq: PROFILE}}) {
-            id
-            type
-            image {
-                files {
-                    format
-                    publicUri
-                }
-            }
-            ageRatings {
-                age
-            }
-        }
-    }`,
-    coverImage: gql`
-    fragment GenericCoverImage on Generic {
-        covers: images(first: 1, filter: {type: {eq: COVER}}) {
-            id
-            type
-            image {
-                files {
-                    format
-                    publicUri
-                }
-            }
-            ageRatings {
-                age
-            }
+    safeImage: gql`
+    fragment SafeImage on Image {
+        url
+        annotations {
+          safeSearch {
+            adult
+            juvenile
+          }
         }
     }`,
 }

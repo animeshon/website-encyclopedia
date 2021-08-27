@@ -13,7 +13,9 @@ const GetCharacters = () => gql`
                     __typename
                     ... on GraphCharacter {
                         id
-                        # ...GenericProfileImage
+                        coverImage {
+                            ...SafeImage
+                        }
                         ...GenericNames
                     }
                 }
@@ -21,9 +23,8 @@ const GetCharacters = () => gql`
         }
     }
     }
+    ${Generic.Fragments.safeImage}
     ${Generic.Fragments.names}
 `
-
-//     ${Generic.Fragments.profileImage}
 
 export default GetCharacters

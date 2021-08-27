@@ -13,7 +13,7 @@ const CharacterCard = ({ character, language }) => {
             <Link href={character.GetURI()}>
                 <a>
                     <CardImage
-                        image={character.GetCoverUrl()}
+                        image={character.CoverImage()}
                         altText={character.GetNames().Get()}
                     />
                 </a>
@@ -38,15 +38,14 @@ const CharacterCard = ({ character, language }) => {
                         type="next-link"
                         href={s.GetURI()}
                     >
-                        <span className="character-image">
+                        {/* <span className="character-image">
                             <CardImage
-                                image={s.GetCoverUrl()}
+                                image={s.CoverImage()}
                                 altText={s.GetNames().Get()}
                                 className={''}
                                 gender={s.GetGender()}
-                                forceSafe={false}
                             />
-                        </span>
+                        </span> */}
                         <Flag nationality={s.GetLocalization().GetCountry().alpha2 ?? s.GetLocalization().GetLanguage().alpha2} />
 
                         <span className="character-name">

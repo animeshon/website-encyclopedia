@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import { FromAlpha2 } from '@/utilities/Nationality';
@@ -9,10 +9,11 @@ import styles from './ReleaseCard.module.css';
 import Flag from '@/components/Flag';
 
 const ReleaseCard = ({ release }) => {
+    const thisRef = useRef(null);
     return (
         <div key={release.id} className={styles["release-details__item"]}>
-            <figure>
-                <SafeImage image={release.GetCoverUrl()} />
+            <figure ref={thisRef}>
+                <SafeImage parent={thisRef} image={release.CoverImage()} />
             </figure>
             <div className={styles["release-details"]}>
                 <Link href={release.GetURI()}>

@@ -2,7 +2,6 @@ import withContainer, { withContainerProps } from '@/components/Container';
 import CanonizableContent from '@/components/Canonical/CanonizableContent';
 
 import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
 import { ByContent } from '@/utilities/Premiere';
 import * as stat from '@/utilities/ContentStatus';
 import { Type } from '@/utilities/MediaType';
@@ -25,7 +24,7 @@ export const getProps = async (ctx, client) => {
             type: __typename,
             name: locale.EnglishAny(names),
             description: locale.English(descriptions),
-            image: image.ProfileAny(images, ageRatings),
+            // image: image.ProfileAny(images, ageRatings),
             media: Type(__typename),
             //type: Subtype(__typename, type),
             releaseDate: ByContent(__typename, releaseDate, runnings),

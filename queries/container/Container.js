@@ -10,6 +10,12 @@ const ContainerQuery = () => {
           id
           ... on GraphGeneric {
             entityType
+            coverImage {
+              ...SafeImage
+            }
+            bannerImage {
+              ...SafeImage
+            }
             ...GenericNames
             ...GenericDescriptions
           }
@@ -32,7 +38,7 @@ const ContainerQuery = () => {
       }
       ${Generic.Fragments.names}
       ${Generic.Fragments.descriptions}
-
+      ${Generic.Fragments.safeImage}
       ${Core.Fragments.withMaturityRatingFull}
       ${Core.Fragments.withRegionRestrictionFull}
     `

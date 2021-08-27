@@ -9,6 +9,7 @@ import * as uri from '@/utilities/URI';
 import Shop from '@/models/shop';
 import { Language } from '@/models/localization';
 import BooleanString from '@/models/boolean-string';
+import Image from './image';
 
 export interface LocalizedEnum {
     value: string;
@@ -81,6 +82,9 @@ class Entity {
 
     protected platforms: string[];
 
+    protected coverImage?: Image;
+    protected bannerImage?: Image;
+
     constructor(rawData: any) {
         this.rawData = rawData;
 
@@ -116,6 +120,14 @@ class Entity {
         }
 
         this.platforms = rawData.platforms;
+
+        // images
+        if (rawData.coverImage) {
+            this.coverImage = Image.FromRawData(rawData.coverImage);
+        }
+        if (rawData.bannerImage) {
+            this.bannerImage = Image.FromRawData(rawData.bannerImage);
+        }
 
         this.setSubtype();
         this.setDates();
@@ -160,6 +172,13 @@ class Entity {
         return this.rawData.id;
     }
 
+    public CoverImage(): Image | undefined {
+        return this.coverImage;
+    }
+    public BannerImage(): Image | undefined {
+        return this.bannerImage;
+    }
+
     public GetURI(subpath: string = null, absolute: boolean = false): string {
         const u = uri.Rewrite(this.GetNames().Get(), this.GetID(), subpath);
         if (absolute) {
@@ -185,14 +204,6 @@ class Entity {
         )
 
         this.description = Locale(this.rawData.descriptions?.hits, [locale]);
-    }
-
-    public GetCoverUrl(): string {
-        return undefined
-    }
-
-    public GetBannerUrl(): string {
-        return undefined
     }
 
     public GetNames(): EntityNames {
@@ -506,6 +517,35 @@ class Entity {
         return this.platforms;
     }
 
+    // TODO Move to translation files
+    private static ageTypeMap = new Map<string, string>([
+        ["UNKNOWN", "Undefined"],
+        ["INFANT", "Undefined"],
+        ["CHILD", "Other"],
+        ["TEEN", "Female"],
+        ["YOUNG_ADULT", "Female Trap"],
+        ["ADULT", "Hermaphroditic"],
+        ["ELDERY", "Intersexual"],
+        ["NOT_APPLICABLE", "Male"],
+        ["WITHOUT", "Male Trap"],
+    ]);
+    public static LocalizeAgeType(AgeType: string, locale: string = ""): string | undefined {
+        if (AgeType == undefined || AgeType == "UNKNOWN") {
+            return undefined
+        }
+        if (!Entity.ageTypeMap.has(AgeType)) {
+            throw new Error(`unknown entity AgeType: '${AgeType}'`);
+        }
+        return Entity.ageTypeMap.get(AgeType);
+    }
+
+    public LocalizeAgeType(locale: string = ""): string | undefined {
+        return this.rawData.ageType ? Entity.LocalizeAgeType(this.rawData.ageType, locale) : undefined;
+    }
+
+    public Age(): number | undefined {
+        return this.rawData.age
+    }
 
     // TODO Move to translation files
     private static platformMap = new Map<string, string>([
