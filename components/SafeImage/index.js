@@ -43,7 +43,7 @@ const SafeImage = ({ image, altText, parent = undefined, displayButton = false, 
                 {loaded && <>
                     {isCensored ? <picture>
                         {/* if censored, display censored image */}
-                        <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />
+                        <img src={img.GetSafeURL("", width, height)} alt={altText} />
                         {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
                     </picture> :
                         <picture>

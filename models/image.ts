@@ -1,3 +1,5 @@
+const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
+
 export enum Likelihood {
     UNKNOWN = "UNKNOWN",
     VERY_UNLIKELY = "VERY_UNLIKELY",
@@ -51,6 +53,13 @@ class Image {
         // console.log(`${this.url} ${format} ${width} ${height}`)
         // return `${this.url}=s${width > height ? width : height}-${format.toLocaleLowerCase()}`;
         return this.url;
+    }
+
+    public GetSafeURL(format: string, width: number, height: number): string {
+        if (this.IsAdult()) {
+            return `${ASSET_PREFIX}/images/adult-only-warning.jpg`;
+        }
+        return this.GetURL(format, width, height);
     }
 };
 

@@ -62,7 +62,7 @@ const Container = ({ container, seo, children }) => {
                 <meta property="og:site_name" content={seo.site}></meta>
                 <meta property="og:title" content={title} />
                 {description ? (<meta property="og:description" content={description} />) : undefined}
-                {seo.image ? (<meta property="og:image" content={seo.image.GetURL("jpeg", 720, 0)} />) : undefined}
+                {seo.image ? (<meta property="og:image" content={seo.image.GetSafeURL("jpeg", 720, 0)} />) : undefined}
                 <meta property="og:url" content={seo.url} />
 
                 {/* Twitter */}
