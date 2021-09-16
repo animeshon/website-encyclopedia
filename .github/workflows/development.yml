@@ -1,20 +1,20 @@
-name: Encyclopedia WebUI [production]
+name: Encyclopedia WebUI [development]
 
 env:
   # Environment
-  ENVIRONMENT: production
+  ENVIRONMENT: development
 
   # Google Cloud Credentials
-  PROJECT_ID:             ${{ secrets.TIER_0_SERVICES_PROJECT }}
-  KUBERNETES_CREDENTIALS: ${{ secrets.TIER_0_SERVICES_KUBERNETES_CREDENTIALS }}
-  REGISTRY_CREDENTIALS:   ${{ secrets.TIER_0_SERVICES_REGISTRY_CREDENTIALS }}
+  PROJECT_ID:             ${{ secrets.TIER_2_SERVICES_PROJECT }}
+  KUBERNETES_CREDENTIALS: ${{ secrets.TIER_2_SERVICES_KUBERNETES_CREDENTIALS }}
+  REGISTRY_CREDENTIALS:   ${{ secrets.TIER_2_SERVICES_REGISTRY_CREDENTIALS }}
 
-  US_CLUSTER: ${{ secrets.TIER_0_SERVICES_US_CLUSTER }}
-  US_ZONE:    ${{ secrets.TIER_0_SERVICES_US_ZONE }}
+  US_CLUSTER: ${{ secrets.TIER_2_SERVICES_US_CLUSTER }}
+  US_ZONE:    ${{ secrets.TIER_2_SERVICES_US_ZONE }}
 
 on:
   push:
-    branches: [master]
+    branches-ignore: [master]
 
 jobs:
   build:

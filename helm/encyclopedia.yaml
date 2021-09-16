@@ -1,0 +1,7 @@
+fullnameOverride: "encyclopedia"
+
+livenessProbe:
+  enabled: false
+
+readinessProbe:
+  enabled: false
