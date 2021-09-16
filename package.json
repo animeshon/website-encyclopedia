@@ -12,16 +12,6 @@
     "start:production": "next start -p $PORT",
     "build-fragment": "node introspection/generate.js"
   },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ]
-  },
   "dependencies": {
     "@apollo/client": "^3.3.21",
     "@apollo/react-components": "^4.0.0",
@@ -53,6 +43,7 @@
   },
   "devDependencies": {
     "eslint": "^7.30.0",
+    "eslint-config-next": "^11.1.2",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
