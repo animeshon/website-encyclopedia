@@ -29,6 +29,7 @@ jobs:
         with:
           username: _json_key
           password: ${{ env.REGISTRY_CREDENTIALS }}
+          dockerfile: Dockerfile.development
           registry: gcr.io
           repository: ${{ env.PROJECT_ID }}/web-ui/encyclopedia
           tags: latest,${{ github.sha }}
