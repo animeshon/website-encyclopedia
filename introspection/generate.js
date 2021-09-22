@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 
-fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || `http://127.0.0.1:8080/graphql`, {
+fetch(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || `http://127.0.0.1:4000/graphql`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({

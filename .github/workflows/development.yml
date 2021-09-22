@@ -1,0 +1,68 @@
+name: Encyclopedia WebUI [development]
+
+env:
+  # Environment
+  ENVIRONMENT: development
+
+  # Google Cloud Credentials
+  PROJECT_ID:             ${{ secrets.TIER_2_SERVICES_PROJECT }}
+  KUBERNETES_CREDENTIALS: ${{ secrets.TIER_2_SERVICES_KUBERNETES_CREDENTIALS }}
+  REGISTRY_CREDENTIALS:   ${{ secrets.TIER_2_SERVICES_REGISTRY_CREDENTIALS }}
+
+  US_CLUSTER: ${{ secrets.TIER_2_SERVICES_US_CLUSTER }}
+  US_ZONE:    ${{ secrets.TIER_2_SERVICES_US_ZONE }}
+
+on:
+  push:
+    branches-ignore: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone the repository code
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker images to Google Cloud Registry
+        uses: docker/build-push-action@v1
+        with:
+          username: _json_key
+          password: ${{ env.REGISTRY_CREDENTIALS }}
+          dockerfile: Dockerfile.development
+          registry: gcr.io
+          repository: ${{ env.PROJECT_ID }}/web-ui/encyclopedia
+          tags: latest,${{ github.sha }}
+          tag_with_ref: true
+          tag_with_sha: true
+
+  deployment:
+    needs: [build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone the repository code
+        uses: actions/checkout@v2
+
+      - uses: azure/setup-kubectl@v1
+      - uses: azure/setup-helm@v1
+
+      - name: Install and configure Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ env.KUBERNETES_CREDENTIALS }}
+          project_id: ${{ env.PROJECT_ID }}
+
+      - name: Authenticate to kubernetes (US)
+        run: |-
+          gcloud --quiet auth configure-docker
+          gcloud container clusters get-credentials "$US_CLUSTER" --zone "$US_ZONE"
+
+      - name: Install or upgrade the Helm chart
+        run: |-
+          helm upgrade encyclopedia ./helm/charts/web-ui  \
+            --install \
+            --values    helm/encyclopedia.yaml \
+            --values    helm/encyclopedia.${{ env.ENVIRONMENT }}.yaml \
+            --set       image.tag=${{ github.sha }} \
+            --namespace web-ui

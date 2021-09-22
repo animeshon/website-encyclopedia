@@ -1,40 +1,44 @@
 
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
 
-import { Rewrite } from '@/utilities/URI';
-
 import styles from './Entry.module.css';
 
 const Entry = ({ item, primary }) => {
-    const itemHref = Rewrite(item.type, item.title, item.id)
+    const thisRef = useRef(null);
     return (
         <article className={`${styles.search_result} ${primary ? styles.primary_result : styles.secondary_result}`} >
-            <Link href={itemHref}>
+            <Link href={item.GetURI()}>
                 <div className={styles.search_result__row}>
-                    {item.image && (
-                        <figure className={styles.search_result__image}>
-                            <SafeImage image={item.image} altText={`${item.title} Cover (${item.media})`} />
+                    {item.CoverImage() && (
+                        <figure ref={thisRef} className={styles.search_result__image}>
+                            <SafeImage parent={thisRef} image={item.CoverImage()} altText={`${item.GetNames().Get()} Cover (${item.GetFullTypeString()})`} />
                         </figure>
                     )}
                     <header className={styles.search_result__texts}>
                         <div className={styles.search_result__breadcrumb}>
-                            {item.parent && (
+                            {/* {item.parent && (
                                 <span>{item.parent.media}</span>
                             )}
                             {item.parent && (
                                 <span>{item.parent.title}</span>
+                            )} */}
+                            <span>{item.GetType()}</span>
+                            {item.GetSubtype() && (
+                                <span>{item.GetSubtype()}</span>
                             )}
-                            <span>{item.media}</span>
-                            <span>{item.title}</span>
+                            <span>{item.GetNames().Get()}</span>
                         </div>
-                        <h2>{item.title}</h2>
-                        {item.subtype && (<strong>{item.subtype}</strong>)}
-                        {item.premiere && (<small>{item.premiere}</small>)}
-                        <p>{item.description}</p>
+                        <h2>{item.GetNames().Get()}</h2>
+                        {item.GetSeason() ? (<small>{item.GetSeason()}</small>) :
+                            (item.GetRunning() ? (<small>{item.GetRunning()}</small>) :
+                                (item.GetReleaseDate() ? (<small>{item.GetReleaseDate()}</small>) : undefined))}
+                        {item.GetEpisodeCount() ? (<p>{item.GetEpisodeCount()} episodes</p>) : undefined}
+                        {item.GetChaptersCount() ? (<p>{item.GetChaptersCount()} chapters</p>) : undefined}
+                        <p>{item.GetDescription(360)}</p>
                     </header>
                 </div>
             </Link>

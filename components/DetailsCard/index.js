@@ -16,6 +16,9 @@ export const DetailsCard = ({ items }) => {
     return (
         <div className={styles.details__table}>
             {items.map(item => {
+                if (undefined == item) {
+                    return undefined;
+                }
                 var blocks = [];
                 var counter = 0;
 
@@ -25,6 +28,9 @@ export const DetailsCard = ({ items }) => {
 
                 blocks.push(item.map(pair => {
                     var value = undefined;
+                    if (undefined == pair) {
+                        return;
+                    }
                     if (!Array.isArray(pair.value)) {
                         if (!pair.value) { return undefined } else { counter++ }
 

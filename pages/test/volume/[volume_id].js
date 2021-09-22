@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import parse from 'html-react-parser';
 import { MangaDetailsBox } from '@/components/_MangaDetailsBox';
 
 const renderBuyLinks = links => {
@@ -70,7 +69,7 @@ const MangaVolumePage = ({
                             <header>
                                 <h3>Description</h3>
                             </header>
-                            <p>{parse(volume_details.description.en)}</p>
+                            <p>{volume_details.description.en}</p>
                         </section>
                         {/*  */}
                         <section className="landing-section-box">

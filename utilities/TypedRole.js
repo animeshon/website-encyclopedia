@@ -9,12 +9,8 @@ export const Role = (type) => {
         return "Character Design";
     case "DIRECTION":
         return "Direction";
-    case "GAME_DEVELOPMENT":
-        return "Game Development";
     case "ILLUSTRATION":
         return "Illustration";
-    case "LICENSING":
-        return "Licensing";
     case "LYRICS":
         return "Lyrics";
     case "MUSIC_ARRANGEMENT":

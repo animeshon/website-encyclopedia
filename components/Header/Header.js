@@ -13,17 +13,10 @@ const Header = ({ isSearchAvailable }) => {
     const [ sidebarOpen, setSidebar] = useState(false);
 
     useEffect(() => {
-        const { q, ft } = Router.router.query;
         dispatchSearch({
-            type: 'changeSearchQuery',
-            payload: q,
+            type: 'loadSearchQuery',
+            payload: Router.router.query,
         });
-        if (ft) {
-            dispatchSearch({
-                type: 'applyFilter',
-                payload: ft,
-            });
-        }
     }, []);
 
     const handleInputChange = e => {

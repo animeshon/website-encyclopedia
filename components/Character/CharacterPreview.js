@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
 
-import * as uri from '@/utilities/URI';
-
 const CharacterPreview = ({ item }) => {
-    const href = uri.Rewrite('Character', item.name, item.id);
+    const thisRef = useRef(null);
     return (
         <li>
-            <Link href={href}>
+            <Link href={item.GetURI()}>
                 <a>
-                    <div className="cover">
-                        <SafeImage image={item.image} />
+                    <div className="cover" ref={thisRef}>
+                        <SafeImage image={item.CoverImage()} parent={thisRef} />
                     </div>
-                    <span>{item.name}</span>
+                    <span>{item.GetNames().Get()}</span>
                 </a>
             </Link>
         </li>

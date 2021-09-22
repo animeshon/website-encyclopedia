@@ -1,6 +1,6 @@
 import React from 'react';
 
-import getSummary from '@/queries/person/Summary';
+import GetSummary from '@/queries/GetSummary';
 import ContainerQuery from '@/queries/container/Container';
 
 import DetailsCard from '@/components/DetailsCard';
@@ -8,68 +8,63 @@ import SummaryVoiceActings from '@/components/Summary/SummaryVoiceActings';
 import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as time from '@/utilities/Time';
-import * as blood from '@/utilities/BloodType';
-import * as gender from '@/utilities/Gender';
-import * as uri from '@/utilities/URI';
-import { Type } from '@/utilities/MediaType';
+import SummaryDataType from '@/models/summary';
+
 import { ExecuteQueryBatch, PrepareKeyQuery, PrepareQuery, ExecuteQueries } from '@/utilities/Query';
-import { AgeRating } from '@/utilities/AgeRating';
-import { Length } from '@/utilities/VisualNovelLength';
+import EntityList from '@/models/entity-list';
+import BooleanString from '@/models/boolean-string';
 
 const PersonPage = ({
-    description,
-    details,
+    info,
     voiceActings,
 }) => {
+    const model = new SummaryDataType(info);
+    model.Localize();
+
+    const voiceActingModels = EntityList.DefaultFromRawData(voiceActings);
+    voiceActingModels.Localize();
+
     return (
         <div className="grid">
             <main className="landing__description">
-                <SummaryText text={description} />
-                <SummaryVoiceActings characters={voiceActings} />
+                <SummaryText text={model.GetDescription()} />
+                <SummaryVoiceActings characters={voiceActingModels} />
             </main>
             <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
-                <DetailsCard items={details} />
+                <DetailsCard items={model.Details()} />
             </aside>
         </div>
     );
 };
 
-export const getProps = async (ctx, client, type) => {
-    const { id } = ctx.query;
+export const getProps = async (ctx, client) => {
+    const id = ctx.query.id.replace(".", "/");
 
     const queries = [
-        PrepareKeyQuery("info", { id: id }, getSummary()),
+        PrepareKeyQuery("info", { id: id }, GetSummary()),
     ];
     const { info } = await ExecuteQueryBatch(client, queries);
 
     // prune double characters
     let characters = [];
     (info.voiceActings || []).forEach(i => {
-        const { isPrimary, voiced: { id, appearances } } = i;
-        if (!isPrimary) {
+        const { isPrimary, voiced: { id, appearancesAggregate } } = i;
+        const isPrimaryBool = new BooleanString(isPrimary);
+        if (isPrimaryBool.Value() != true || appearancesAggregate?.count == 0 || appearancesAggregate?.count == undefined || characters.find(i => i.id === id)) {
             return;
         }
-        let char = characters.filter(i => i.id === id);
-        if (char.length && !char[0].main) {
-            char[0].main = appearances.length > 0;
-        } else if (!char.length) {
-            characters.push({
-                id: id,
-                main: appearances.length > 0
-            })
-        }
+
+        characters.push({
+            id: id,
+            mainCount: appearancesAggregate.count
+        })
     });
 
     // Get voice actings of primary characters
-    characters = characters.filter(c => c.main)
-        .concat(characters.filter(c => !c.main))
-        .slice(0, 5);
+    characters = characters.sort((a, b) => { return a.mainCount > b.mainCount ? -1 : 1; }).slice(0, 5);
 
     // enqueue graphql query to get details
     const charQueries = characters.map(x => {
@@ -77,31 +72,10 @@ export const getProps = async (ctx, client, type) => {
     });
     // wait
     const chars = await ExecuteQueries(client, charQueries);
-    const voiceActings = (chars || []).map(i => {
-        const { id, images, names } = i;
-        return {
-            id,
-            name: locale.LatinAny(names),
-            image: image.ProfileAny(images),
-        };
-    });
 
     return {
-        description: locale.English(info.descriptions),
-        voiceActings: voiceActings,
-        details: [
-            [
-                { key: 'Japanese', value: locale.Japanese(info.names) },
-                { key: 'Latin', value: locale.LatinAny(info.names) },
-            ],
-            [
-                { key: 'Birthday', value: time.EnglishDate(info.birthday) },
-                // TODO hometown
-                // TODO birthplace
-                { key: 'Gender', value: gender.Gender(info.gender) },
-                { key: 'Blood Type', value: blood.BloodType(info.bloodType) },
-            ]
-        ]
+        info,
+        voiceActings: chars || [],
     };
 };
 

@@ -12,48 +12,42 @@
     "start:production": "next start -p $PORT",
     "build-fragment": "node introspection/generate.js"
   },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended"
-    ]
-  },
   "dependencies": {
-    "@apollo/client": "^3.3.3",
+    "@apollo/client": "^3.3.21",
     "@apollo/react-components": "^4.0.0",
-    "@apollo/react-ssr": "^3.1.5",
+    "@apollo/react-ssr": "^4.0.0",
+    "@cospired/i18n-iso-languages": "^3.0.0",
+    "@types/react": "^17.0.14",
     "cookie-cutter": "^0.2.0",
     "cookies": "^0.8.0",
-    "cross-fetch": "^3.0.6",
+    "cross-fetch": "^3.1.4",
     "es6-promise": "^4.2.8",
     "flagpack": "^1.0.5",
-    "graphql": "^15.0.0",
-    "html-react-parser": "^0.10.3",
-    "lodash": "^4.17.20",
-    "next": "^10.0.1",
-    "next-with-apollo": "^5.0.1",
+    "graphql": "^15.5.1",
+    "i18n-iso-countries": "^6.8.0",
+    "lodash": "^4.17.21",
+    "next": "^11.0.1",
+    "next-with-apollo": "^5.2.1",
     "node-fetch": "^2.6.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-icons": "^4.1.0",
-    "react-infinite-scroll-component": "^5.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-lazy-load": "^3.1.13",
-    "react-responsive": "^8.0.3",
-    "react-select": "^4.0.2",
-    "react-share": "^4.3.1",
-    "react-tiny-fab": "^4.0.2",
-    "react-top-loading-bar": "^2.0.1"
+    "react-responsive": "^8.2.0",
+    "react-select": "^4.3.1",
+    "react-share": "^4.4.0",
+    "react-tiny-fab": "^4.0.3",
+    "react-top-loading-bar": "^2.0.1",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "eslint": "^7.13.0",
-    "eslint-config-standard": "^16.0.1",
-    "eslint-plugin-import": "^2.22.1",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.21.5"
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.24.0"
   }
 }

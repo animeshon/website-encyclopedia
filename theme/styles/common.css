@@ -176,7 +176,9 @@ footer {
     letter-spacing: unset;
     font-weight: 400;
     text-align: initial;
-    padding-left: 0;
+    /*if image need padding 0*/
+    /* padding-left: 0; */
+    padding-left: 5px;
     display: flex;
     align-items: center;
 }
@@ -589,15 +591,12 @@ ul.grid-halves {
     padding: 10px 20px;
     border: 1px solid #cfcfcf;
     border-radius: 5px;
-    width: calc(25% - calc(40px / 3));
+    width: calc(25% - 20px);
     margin-right: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-}
-.external-platform-button:nth-child(4n) {
-    margin-right: 0;
 }
 
 .grid-halves.manga-links .external-platform-button {
@@ -613,21 +612,24 @@ ul.grid-halves {
     font-style: italic;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (min-width: 1280px) {
+    .external-platform-button:nth-child(4n) {
+        margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1280px) {
     .external-platform-button {
-        width: calc(33% - calc(40px / 3));
+        width: calc(33% - 20px);
     }
     .external-platform-button:nth-child(3n) {
         margin-right: 0;
     }
-    .grid-halves.manga-links .external-platform-button:nth-child(3n) {
-        margin-right: 20px;
-    }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: 460px) and (max-width: 768px) {
     .external-platform-button {
-        width: calc(50% - calc(40px / 3));
+        width: calc(50% - 20px);
     }
     .external-platform-button:nth-child(2n) {
         margin-right: 0;
@@ -637,20 +639,9 @@ ul.grid-halves {
         display: flex;
         justify-content: center;
     }
-    .grid-halves.manga-links .external-platform-button {
-        width: calc(33% - calc(54px / 3));
-        margin-right: 20px;
-    }
 }
 
 @media screen and (max-width: 460px) {
-    .grid-halves.manga-links .external-platform-button {
-        width: 100%;
-        margin-right: 0;
-    }
-}
-
-@media screen and (max-width: 440px) {
     .external-platform-button {
         width: 100%;
         margin-right: 0;

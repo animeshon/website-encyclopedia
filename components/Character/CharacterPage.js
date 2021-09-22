@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import GetCharacters from '@/queries/GetCharacters';
-import GetCast from '@/queries/GetCast';
+import GetVoices from '@/queries/GetVoices';
 
 import CharacterGrid from '@/components/Character/CharacterGrid';
 import ExpandableSection from '@/components/ExpandableSection';
@@ -9,102 +9,45 @@ import Search from '@/components/Search';
 import FilterGroup from '@/components/Filter/FilterGroup';
 import FilterSelect from '@/components/Filter/FilterSelect';
 
-import { Role } from '@/utilities/CharacterRole';
-import * as locale from '@/utilities/Localization';
-import * as image from '@/utilities/Image';
-import * as uri from '@/utilities/URI';
-import { FromAlpha2 } from '@/utilities/Nationality';
 import { ExecuteQueryBatch, PrepareKeyQuery } from '@/utilities/Query';
 
-const MapAndSort = (chars, casts) => {
-    const map = {};
-    (chars || []).forEach(i => {
-        if (map[i.relation] === undefined) {
-            map[i.relation] = {
-                role: i.role,
-                items: [],
-            };
-        }
-        map[i.relation].items.push({
-            character: i,
-            cast: (casts || []).filter(c => c.characterId == i.id),
-        });
-    });
+import { CharacterDataModelList } from '@/models/character';
+import Localization from "@/models/localization";
 
-    Object.keys(map).map(i => {
-        (map[i].items || []).sort((x, y) => { return x.name < y.name ? -1 : x.name > y.name; });
-    });
-
-    return map;
-}
-
-const CanDisplay = (item, filter, country) => {
-    if (filter === '') {
-        return true;
-    }
-    if (item.character.name.toLowerCase().includes(filter)) {
-        return true;
-    }
-    return false;
-}
-
-const FilteredCahracters = (map, filter, country) => {
-    let newCharacter = {};
-    Object.keys(map).map(i => {
-        if (filter === '') {
-            newCharacter = map;
-        } else {
-            // filter cards, checking if the whole card match the filter
-            newCharacter[i] = {
-                role: map[i].role,
-                items: map[i].items.filter(c => CanDisplay(c, filter, country)),
-            };
-        }
-        // filter che voice actors according to the country
-        newCharacter[i].items ? newCharacter[i].items.map(item => {
-            item.cast ? item.cast = item.cast.filter(c => c.nationality == country.value) : undefined;
-        }) : undefined;
-    });
-    return newCharacter;
-}
-
-const CharacterPage = ({ characters, cast, nationalities }) => {
-    const [country, setCountry] = useState({});
+const CharacterPage = ({ characters, voiceActings, localizations }) => {
+    const [language, setLanguage] = useState({value: ""});
     const [filter, setFilter] = useState('');
+    
+    const characterModels = CharacterDataModelList.FromCharacterRawData(characters);
+    characterModels.SetSeyuus(voiceActings);
+    characterModels.Localize();
+    characterModels.Sort();
 
-    const charactersMap = MapAndSort(characters, cast);
+    const localizationsModel = localizations.map(l => Localization.FromRawData(l));
+    const nationalityOpts = localizationsModel.map(l => {
+        return { value: l.GetLanguage().code, label: l.GetLanguage().HumanReadible() }
+    })
 
     const categoryOrder = ["MAIN", "SUPPORT", "APPEARS"];
 
-    const [charactersState, setSetCharacters] = useState(FilteredCahracters(charactersMap, filter, country));
-
-    const onCountryChange = async (selectedOption) => {
-        setCountry(selectedOption);
+    const onLanguageChange = async (selectedOption) => {
+        setLanguage(selectedOption);
     };
 
     const onFilterChange = (value) => {
         setFilter(value);
     };
 
-    useEffect(() => {
-        setSetCharacters(FilteredCahracters(charactersMap, filter, country));
-    }, [country, filter]);
-
     const NotFound = 'There is currently no information about characters available.';
 
-    const nationalityOpts = nationalities.map(n => {
-        return { value: n.code, label: n.name }
-    })
-
     useEffect(() => {
-        const jp = nationalityOpts.filter(n => { return n.value == "jp" });
-        if (jp.length != 0) {
-            setCountry(jp[0]);
+        const jp = nationalityOpts.find(n => { return n.value == "jpn" });
+        if (jp != undefined) {
+            setLanguage(jp);
         } else if (nationalityOpts.length != 0) {
-            setCountry(nationalityOpts[0])
+            setLanguage(nationalityOpts[0])
         }
-
-    }, [nationalities])
+    }, [])
 
     return (
         <main className="anime-characters__description grid">
@@ -112,7 +55,7 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
                 <header>
                     <h3>Characters</h3>
                 </header>
-                {charactersState && Object.keys(charactersState).length ? <>
+                {characterModels.Size() ? <>
                     <FilterGroup>
                         <ul>
                             <li>
@@ -121,25 +64,24 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
                             </li>
                             {nationalityOpts.length != 0 ? <li>
                                 <p>Show Seyuu for language</p>
-                                <FilterSelect height={30} options={nationalityOpts} value={country} onChange={onCountryChange} />
+                                <FilterSelect height={30} options={nationalityOpts} value={language} isClearable={true} onChange={onLanguageChange} />
                             </li> : undefined}
                         </ul>
                     </FilterGroup>
                     <div className="grid-halves">
-                        {categoryOrder.map(c => {
-                            const chars = charactersState[c] ? charactersState[c] : undefined;
-                            if (filter == '') {
-                                if (chars?.items?.length > 0) {
-                                    return (
-                                        <ExpandableSection key={c} label={chars.role} >
-                                            <CharacterGrid characters={chars.items} />
-                                        </ExpandableSection>
-                                    )
-                                }
+                        {filter == '' ? categoryOrder.map(c => {
+                            const chars = characterModels.GetByRelation(c);
+                            if (chars.length > 0) {
+                                const label = chars[0].GetRole();
+                                return (
+                                    <ExpandableSection key={[c, language?.value]} label={label} >
+                                        <CharacterGrid characters={chars} language={language?.value ?? ""} />
+                                    </ExpandableSection>
+                                )
                             } else {
-                                return (<CharacterGrid characters={chars?.items} />)
+                                return undefined
                             }
-                        })}
+                        }) : (<CharacterGrid characters={characterModels.ContainsString(filter)} language={language?.value ?? ""} />)}
                     </div>
                 </> : NotFound}
             </section>
@@ -148,60 +90,27 @@ const CharacterPage = ({ characters, cast, nationalities }) => {
     );
 };
 
-export const getProps = async (ctx, client, type) => {
-    const { id } = ctx.query;
+export const getProps = async (ctx, client) => {
+    const id = ctx.query.id.replace(".", "/");
+
     const queries = [
-        PrepareKeyQuery("data", { id: id }, GetCharacters(type)),
-        PrepareKeyQuery("cast", { id: id }, GetCast(type)),
+        PrepareKeyQuery("characters", { id: id }, GetCharacters()),
+        PrepareKeyQuery("voices", { id: id }, GetVoices()),
     ];
-    const { data, cast } = await ExecuteQueryBatch(client, queries);
+    const { characters, voices } = await ExecuteQueryBatch(client, queries);
 
-    const characters = (data?.starring || []).map(i => {
-        const { id, images, names, __typename } = i.character;
-        return {
-            id,
-            type: __typename,
-            name: locale.LatinAny(names),
-            japaneseName: locale.Japanese(names),
-            image: image.ProfileAny(images),
-            role: Role(i.relation),
-            relation: i.relation,
-        }
-    });
+    const voiceActings = voices.voiceActings || [];
 
-    const nationalities = [];
-    const casts = (cast?.voiceActings || []).map(member => {
-        const { isPrimary, actor, voiced, localization } = member;
-
-        // TODO: Vastly improve the logic here.
-        // Try to fetch country alpha-2, fallback to language alpha-2.
-        var nationality = undefined;
-        if (localization?.country?.alpha2) {
-            nationality = localization.country.alpha2;
-        } else if (localization?.language?.alpha2) {
-            nationality = localization.language.alpha2;
-        }
-
-        nationality = nationality?.toLowerCase();
-        nationality ? nationalities.push(nationality) : null;
-
-        return {
-            nationality: FromAlpha2([nationality])[0]?.code,
-            characterId: voiced.id,
-            primary: isPrimary,
-            person: {
-                id: actor.id,
-                name: locale.LatinAny(actor.names),
-                image: image.ProfileAny(actor.images),
-                gender: actor.gender,
-            }
-        };
-    });
+    const localizations = voiceActings.map(v => v.localization).filter((localization, index, self) =>
+        localization != undefined && index === self.findIndex((t) => (
+            t.id === localization.id
+        ))
+    );
 
     return {
-        characters,
-        cast: casts,
-        nationalities: FromAlpha2(nationalities)
+        characters: characters.starring || [],
+        voiceActings,
+        localizations,
     };
 };
 

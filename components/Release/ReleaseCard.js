@@ -1,69 +1,52 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
-import * as uri from '@/utilities/URI';
-import * as text from '@/utilities/Text';
-import * as platforms from '@/utilities/Platform';
+import { FromAlpha2 } from '@/utilities/Nationality';
 
 import SafeImage from '@/components/SafeImage';
-import { PremiereAny } from '@/utilities/Premiere';
 
 import styles from './ReleaseCard.module.css';
 import Flag from '@/components/Flag';
 
 const ReleaseCard = ({ release }) => {
-    const href = uri.Rewrite(release.type, release.name, release.id);
-    const premiere = PremiereAny(release.releaseDate, undefined)
-
+    const thisRef = useRef(null);
     return (
         <div key={release.id} className={styles["release-details__item"]}>
-            <figure>
-                <SafeImage image={release.image} />
+            <figure ref={thisRef}>
+                <SafeImage parent={thisRef} image={release.CoverImage()} />
             </figure>
             <div className={styles["release-details"]}>
-                <Link href={href}>
+                <Link href={release.GetURI()}>
                     <a>
-                        <h4>{release.name}</h4>
+                        <h4>{release.GetNames().Get()}</h4>
                     </a>
                 </Link>
                 <article>
                     <div className={styles.justified}>
                         <header>
-                            <p>{text.Truncate(release.description, 160)}</p>
+                            <p>{release.GetDescription(160)}</p>
                         </header>
                     </div>
                     <div className={styles.justified}>
                         <header>
                             <p className={styles["strong"]}>Available on</p>
-                            <p>{release.platforms.map(m => platforms.Platform(m).name).join(", ")}</p>
+                            <p>{release.LocalizedPlatforms().join(", ")}</p>
                         </header>
                         <aside>
                             <p>
-                                {premiere ? premiere : "Unknown release date"}
-                                {release.languages.length != 0 ?
-                                    <>
-                                        <span>|</span>
-                                        {release.languages.map((l, i) => {
-                                            return <Flag key={JSON.stringify([l, i])}nationality={l.code} className={styles["release-lang"]} />
-                                        })}
-                                        
-                                    </>
-                                    : undefined}
+                                {release.GetReleaseDate() ? release.GetReleaseDate() : "Unknown release date"}
+                                {release.Languages().map((l, i) => (<>
+                                    <span>|</span>
+                                    <Flag nationality={FromAlpha2([l.alpha2])[0].code} className={styles["release-lang"]} />
+                                </>))}
 
                                 <span>|</span>
-                                {release.isOfficial ? "Official" : "Doujinshi"}
+                                {release.Independent() ? "Self Published" : "Official"}
 
-                                {release.releaseType ?
+                                {release.Subtype() ?
                                     <>
                                         <span>|</span>
-                                        {release.releaseType.label}
-                                    </>
-                                    : undefined}
-
-                                {release.rating ?
-                                    <>
-                                        <span>|</span>
-                                        {release.rating}
+                                        {release.GetSubtype()}
                                     </>
                                     : undefined}
                             </p>

@@ -24,14 +24,14 @@ export const EnglishDateNoYear = (date) => {
     return `${EnglishWeekDay(date)}, ${EnglishDay(date)} ${EnglishMonth(date)}`;
 }
 
-export const FormatNoYear = (from, to) => {
-    if (from.getDate() == to.getDate() && from.getMonth() == to.getMonth()) {
-        return EnglishDateNoYear(from);
+export const FormatNoYear = (d) => {
+    if (d == undefined) {
+        return undefined;
     }
 
-    return `${EnglishDateNoYear(from)}\n${EnglishDateNoYear(to)}`;
+    return EnglishDateNoYear(from);
 };
 
 export const EnglishDate = (date) => {
-    return date ? new Date(date).toLocaleDateString('en-US') : undefined;
+    return date ? new Date(date).toLocaleDateString('en-US', {month: "short",  year: "numeric", day: "numeric"}) : undefined;
 };

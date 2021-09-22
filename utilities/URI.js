@@ -3,63 +3,16 @@ import * as unicode from '@/utilities/Unicode';
 const BASEPATH = process.env.NEXT_PUBLIC_BASEPATH || '';
 const HOST = process.env.NEXT_PUBLIC_HOST || 'http://127.0.0.1:3000';
 
-export const Rewrite = (type, name, id, path = null) => {
-    switch (type) {
-        case 'Anime':
-            return rewrite('Anime', name, id, path);
-        case 'Manga':
-            return rewrite('Manga', name, id, path);
-        case 'Doujinshi':
-            return rewrite('Doujinshi', name, id, path);
-        case 'Song':
-            return rewrite('Track', name, id, path);
-        case 'LightNovel':
-            return rewrite('Light_Novel', name, id, path);
-        case 'VisualNovel':
-            return rewrite('Visual_Novel', name, id, path);
-        
-        case 'Release':
-            return rewrite('Release', name, id, path);
-        case 'Chapter':
-            return rewrite('Chapter', name, id, path);
-        case 'Volume':
-            return rewrite('Volume', name, id, path);
-        case 'MusicCollection':
-            return rewrite('Music_Record', name, id, path);
-        case 'Episode':
-            return rewrite('Episode', name, id, path);
-        
-        case 'Organization':
-            return rewrite('Organization', name, id, path);
-        case 'Character':
-            return rewrite('Character', name, id, path);
-        case 'Person':
-            return rewrite('Person', name, id, path);
-        case 'Circle':
-            return rewrite('Circle', name, id, path);
-        case 'Convention':
-            return rewrite('Convention', name, id, path);
-        case 'Magazine':
-            return rewrite('Magazine', name, id, path);
-        
-        case 'Universe':
-            return rewrite('Universe', name, id, path);
-        case 'Canonical':
-            return rewrite('Series', name, id, path);
-
-        case 'VisualNovelRelease':
-            return rewrite('Release', name, id, path);
-    };
-
-    return undefined;
+export const Rewrite = (name, id, path = null) => {
+    return rewrite(name, id, path);
 };
 
-export const rewrite = (type, name, id, path) => {
+export const rewrite = (name, id, path) => {
     if (!path) {
-        return `/${removeSymbols(name)}-${type}-${id}`;
+        return `/${id}/${removeSymbols(name)}`;
     }
 
-    return `/${removeSymbols(name)}-${type}-${id}/${path}`;
+    return `/${id}/${removeSymbols(name)}/${path}`;
 };
 
 const removeSymbols = (input) => {
@@ -95,14 +48,6 @@ const removeSymbols = (input) => {
     return result;
 };
 
-export const GuessType = (uri) => {
-    return uri.split('/')[1] != "e" ? uri.split('/')[1] : uri.split('/')[2];
-}
-
 export const AbsoluteURI = (uri) => {
     return HOST + BASEPATH + uri;
-};
-
-export const CanonicalURI = (pathname, id) => {
-    return AbsoluteURI(pathname.replace('[id]', id));
 };

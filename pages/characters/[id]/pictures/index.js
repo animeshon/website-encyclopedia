@@ -5,7 +5,6 @@ import getPictures from '@/queries/character/Pictures';
 
 import ImageGrid from '@/components/ImageGrid';
 
-import * as image from '@/utilities/Image';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 const Pictures = ({ images }) => {
@@ -21,14 +20,14 @@ const Pictures = ({ images }) => {
     );
 };
 
-export const getProps = async (ctx, client, type) => {
+export const getProps = async (ctx, client) => {
     const { id } = ctx.query;
     const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getPictures()));
 
-    const images = image.All(data.images);
+    // const images = image.All(data.images);
 
     return {
-        images
+        // images
     };
 };
 

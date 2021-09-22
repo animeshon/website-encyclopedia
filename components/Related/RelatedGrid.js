@@ -2,13 +2,13 @@ import React from 'react';
 
 import ContentCard from '@/components/Card/Content/ContentCard';
 
-const RelatedGrid = ({ related }) => {
-    const r = related.map( r => {
-        return {...r, header: r.relation}
+const RelatedGrid = ({ related, max = Number.MAX_SAFE_INTEGER}) => {
+    const r = related.slice(0, max).map( r => {
+        return {model: r, header: r.hasOwnProperty("GetRelation") ? r.GetRelation() : undefined}
     })
     return (<>
         {r.map(item => {
-            return (<ContentCard key={item.id} content={item} />);
+            return (<ContentCard key={item.model.GetID()} content={item} />);
         })}
     </>);
 };

@@ -1,52 +1,49 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 
 import SafeImage from '@/components/SafeImage';
 import CollapsableSection from '@/components/CollapsableSection';
 
-import * as uri from '@/utilities/URI';
-
 import styles from './ProductionCard.module.css';
 
 const ProductionCard = ({ production }) => {
-    const href = uri.Rewrite(production.type, production.name, production.id);
     const order = ["typed", "free"];
+    const thisRef = useRef(null);
 
     return (
         <div key={production.id} className={styles.related__item}>
-            <Link href={href}>
+            <Link href={production.GetURI()}>
                 <a>
-                    <figure className={styles.related__item_cover}>
-                        <SafeImage image={production.image} />
+                    <figure ref={thisRef} className={styles.related__item_cover}>
+                        <SafeImage parent={thisRef} image={production.CoverImage()} />
                     </figure>
                 </a>
             </Link>
             <article className={styles.related__item_contents}>
                 <header>
-                    <p>{production.relation}</p>
-                    <Link href={href}>
+                    {/* <p>{production.relation}</p> */}
+                    <Link href={production.GetURI()}>
                         <a>
-                            <h4>{production.name}</h4>
+                            <h4>{production.GetNames().Get()}</h4>
                         </a>
                     </Link>
-                    <h5>{production.japaneseName}</h5>
+                    <h5>{production.GetNames().GetOriginal()}</h5>
                     <aside>
                         <p>
-                            {production.releaseDate.premiere}
+                            {production.GetSeason() ? (production.GetSeason()) :
+                                (production.GetReleaseDate() ? (production.GetReleaseDate()) : undefined)}
                             <span>|</span>
-                            {production.media}
-                            <span>|</span>
-                            {production.status}
+                            {production.GetType()}
+                            {production.GetSubtype() ? (<><span>|</span> {production.GetSubtype()}</>) : undefined}
+                            {production.GetStatus() ? (<><span>|</span> {production.GetStatus()}</>) : undefined}
                         </p>
                     </aside>
                 </header>
                 <aside>
+                    {/* TODO: Handle freeetext jobrole */}
                     <CollapsableSection maxHeight={50} collapsedClass={styles.collapsed} moreClass={styles.more_trigger} mainClass={styles.expandable}>
-                        {order.map(o => {
-                            const collaborations = production.roles[o] ? production.roles[o] : [];
-                            return collaborations.map(r => {
-                                return (<p key={r.id}>{r.name}</p>)
-                            })
+                        {production.Roles().map(o => {
+                            return (<p key={[production.GetID(), o]}>{o.GetJobRole()}</p>)
                         })}
                     </CollapsableSection>
                 </aside>

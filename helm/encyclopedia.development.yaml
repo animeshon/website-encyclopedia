@@ -1,0 +1,25 @@
+# Values strictly related to the [development] environment.
+
+# Set the development image registry.
+image:
+  repository: gcr.io/animeshon-services--devel/web-ui/encyclopedia
+
+env:
+  - name: PORT
+    value: "8080"
+  - name: NEXT_PUBLIC_HOST
+    value: "https://animeshon.dev"
+  - name: NEXT_PUBLIC_WEBSITE_NAME
+    value: "Animeshon Encyclopedia"
+  - name: NEXT_PUBLIC_BASEPATH
+    value: "/e"
+  - name: NEXT_PUBLIC_ASSET_PREFIX
+    value: "/e"
+  - name: NEXT_PUBLIC_GRAPHQL_ENDPOINT
+    value: "https://graphql.animeapis.dev/graphql"
+  - name: INTERNAL_GRAPHQL_ENDPOINT
+    value: "https://graphql.animeapis.dev/graphql"
+  - name: NEXT_PUBLIC_TAG_MANAGER_ID
+    value: "-"
+  - name: NODE_ENV
+    value: "development"

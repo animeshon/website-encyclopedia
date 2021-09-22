@@ -1,54 +1,44 @@
 import React from 'react';
 
-import getSummary from '@/queries/organization/Summary';
+import GetSummary from '@/queries/GetSummary';
 
 import DetailsCard from '@/components/DetailsCard';
 import withContainer, { withContainerProps } from '@/components/Container';
 import SummaryText from '@/components/Summary/SummaryText';
 import SummaryMember from '@/components/Summary/SummaryMember';
 
-import * as locale from '@/utilities/Localization';
-import * as contentFocus from '@/utilities/ContentFocus';
-import * as time from '@/utilities/Time';
 import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
+import SummaryDataType from '@/models/summary';
+
 const Organization = ({
-    description,
-    details,
+    info,
 }) => {
+    const model = new SummaryDataType(info);
+    model.Localize();
+
     return (
         <div className="grid">
             <main className="landing__description">
-                <SummaryText text={description} />
+                <SummaryText text={model.GetDescription()} />
                 {/* TODO: Add productions for organization. */}
             </main>
             <aside className="landing__details">
                 <header>
                     <h3>Details</h3>
                 </header>
-                <DetailsCard items={details} />
+                <DetailsCard items={model.Details()} />
             </aside>
         </div>
     );
 };
 
 const getProps = async (ctx, client) => {
-    const { id } = ctx.query;
-    const data = await ExecuteQuery(client, PrepareQuery({ id: id }, getSummary()));
+    const id = ctx.query.id.replace(".", "/");
+    const info = await ExecuteQuery(client, PrepareQuery({ id: id }, GetSummary()));
 
     return {
-        description: locale.English(data.descriptions),
-        details: [
-            [
-                { key: 'English', value: locale.English(data.names) },
-                { key: 'Japanese', value: locale.Japanese(data.names) },
-                { key: 'Romaji', value: locale.Romaji(data.names) },
-            ],
-            [
-                { key: 'Foundation', value: time.EnglishDate(data.foundation) },
-                { key: 'Content Focus', value: contentFocus.Focus(data.contentFocus) },
-            ]
-        ]
+        info
     };
 };
 
