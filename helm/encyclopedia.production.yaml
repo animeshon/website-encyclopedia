@@ -12,9 +12,9 @@ env:
   - name: NEXT_PUBLIC_ASSET_PREFIX
     value: "/e"
   - name: NEXT_PUBLIC_GRAPHQL_ENDPOINT
-    value: "https://api.animeshon.com/graphql"
+    value: "https://graphql.animeapis.com/graphql"
   - name: INTERNAL_GRAPHQL_ENDPOINT
-    value: "https://api.animeshon.com/graphql"
+    value: "https://graphql.animeapis.com/graphql"
   - name: NEXT_PUBLIC_TAG_MANAGER_ID
     value: "GTM-NRN5LVP"
   - name: NODE_ENV
