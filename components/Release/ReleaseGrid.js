@@ -7,7 +7,7 @@ const ReleaseGrid = ({ releases }) => {
         <section>
             <div className="release-list">
                 {releases && releases.Size() ? releases.map(item => {
-                    return (<ReleaseCard key={item.GetID()} release={item} />);
+                    return (<ReleaseCard key={item.GetResourceName()} release={item} />);
                 }) : 'There is currently no information about releases available.'}
             </div>
         </section>

@@ -13,6 +13,7 @@ module.exports = {
             'r.cdn-us.animeshon.com',
             'r.cdn-eu.animeshon.com',
             'r.cdn-asia.animeshon.com',
+            'lh1.animeusercontent.dev',
         ],
     },
 

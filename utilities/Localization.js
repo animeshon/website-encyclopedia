@@ -45,27 +45,27 @@ export const fallbackScriptAny = [
 ];
 
 export const LatinAny = (values) => {
-    return Locale(values?.hits, [], ['Latn'], [], fallbackScriptAny)
+    return Locale(values, [], ['Latn'], [], fallbackScriptAny)
 };
 
 export const Japanese = (values) => {
-    return Locale(values?.hits, ['jpn'], ['Jpan'])
+    return Locale(values, ['jpn'], ['Jpan'])
 };
 
 export const Romaji = (values) => {
-    return Locale(values?.hits, ['jpn'], ['Latn'])
+    return Locale(values, ['jpn'], ['Latn'])
 };
 
 export const English = (values) => {
-    return Locale(values?.hits, ['eng'], ['Latn'])
+    return Locale(values, ['eng'], ['Latn'])
 };
 
 export const JapaneseAny = (values) => {
-    return Locale(values?.hits, ['jpn'], ['Jpan'], [], fallbackLatinAny)
+    return Locale(values, ['jpn'], ['Jpan'], [], fallbackLatinAny)
 };
 
 export const EnglishAny = (values) => {
-    return Locale(values?.hits, ['eng'], ['Latn'], [], fallbackLatinAny)
+    return Locale(values, ['eng'], ['Latn'], [], fallbackLatinAny)
 };
 
 export const Locale = (values, languages = [], scripts = [], countries = [], fallback = null) => {

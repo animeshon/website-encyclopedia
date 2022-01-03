@@ -8,14 +8,16 @@ import SafeImage from '@/components/SafeImage';
 import styles from './Entry.module.css';
 
 const Entry = ({ item, primary }) => {
-    const thisRef = useRef(null);
+    console.log(item)
     return (
         <article className={`${styles.search_result} ${primary ? styles.primary_result : styles.secondary_result}`} >
             <Link href={item.GetURI()}>
                 <div className={styles.search_result__row}>
                     {item.CoverImage() && (
-                        <figure ref={thisRef} className={styles.search_result__image}>
-                            <SafeImage parent={thisRef} image={item.CoverImage()} altText={`${item.GetNames().Get()} Cover (${item.GetFullTypeString()})`} />
+                        <figure className={styles.search_result__image}>
+                            <SafeImage image={item.CoverImage()} 
+                                force={item.IsAdultOnly()}
+                                altText={`${item.GetNames().Get()} Cover (${item.GetFullTypeString()})`} />
                         </figure>
                     )}
                     <header className={styles.search_result__texts}>

@@ -1,9 +1,9 @@
-import Entity, { LocalizedEnum } from "@/models/entity";
-import EntityList from "@/models/entity-list";
+import Entity, { LocalizedEnum } from "@/models/graph/entity";
+import EntityList from "@/models/graph/entity-list";
 
 class ReleaseDataModel extends Entity {
     constructor(rawData: any) {
-        super(rawData);
+        super();
     }
 }
 

@@ -19,7 +19,7 @@ const ResultDisplayer = ({ results, hasMore, more, searchQuery }) => {
                 >
                     {results.map((model, index) => {
                         const primary = index <= 3 ? true : false;
-                        return (<Entry item={model} primary={primary} key={model.GetID()} />);
+                        return (<Entry item={model} primary={primary} key={model.GetResourceName()} />);
                     })}
                 </InfiniteScroll>) : (<>No result was found for the search term <strong>{searchQuery}</strong>.</>)}
         </>

@@ -126,7 +126,7 @@ export function withContainerProps(getServerSidePropsFunc) {
         const id = ctx.query.id.replace(".", "/");
 
         // ! TODO use a query for a more reliable guess
-        const apolloClient = initializeApollo();
+        const apolloClient = initializeApollo(null, ctx.req.headers.cookie);
         const containerData = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 
         // TODO
@@ -147,7 +147,8 @@ export function withContainerProps(getServerSidePropsFunc) {
 // HOC best practice https://it.reactjs.org/docs/higher-order-components.html
 const withContainer = (WrappedComponent) => {
     return ({ containerData, ...passThroughProps }) => {
-        const model = new Entity(containerData);
+        const model = new Entity();
+        model.loadRawData(containerData);
         model.Localize();
 
         // ! TODO: The following trick seems to be not very clean.
@@ -155,7 +156,7 @@ const withContainer = (WrappedComponent) => {
         const { pathname } = useRouter();
 
         const subpath = pathname.split('/').slice(3).join('/');
-        const navigation = Navigation(model.type, model.GetNames().Get(), model.GetID());
+        const navigation = Navigation(model.type, model.GetNames().Get(), model.GetResourceName());
         const selectedLabel = navigation.find(i => subpath === i.key)?.label || "";
 
         const container = {

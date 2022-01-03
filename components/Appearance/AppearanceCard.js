@@ -8,9 +8,9 @@ import styles from './AppearanceCard.module.css';
 const AppearanceCard = ({ content }) => {
     const thisRef = useRef(null);
     return (
-        <div key={content.GetID()} className={styles.appearences__item}>
-            <figure ref={thisRef} className={styles.appearences__item_cover}>
-                <SafeImage parent={thisRef} image={content.CoverImage()} />
+        <div key={content.GetResourceName()} className={styles.appearences__item}>
+            <figure className={styles.appearences__item_cover}>
+                <SafeImage image={content.CoverImage()} />
             </figure>
             <article className={styles.appearences__item_contents}>
                 <header>

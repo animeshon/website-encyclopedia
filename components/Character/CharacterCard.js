@@ -33,7 +33,7 @@ const CharacterCard = ({ character, language }) => {
 
                 {character.GetSeyuus(language).map(s => {
                     return (<Button
-                        key={`${s.GetID()}-${character.GetID()}-${language}`}
+                        key={`${s.GetResourceName()}-${character.GetResourceName()}-${language}`}
                         className="cherry-red medium character-button-ref"
                         type="next-link"
                         href={s.GetURI()}

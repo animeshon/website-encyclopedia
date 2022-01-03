@@ -9,8 +9,8 @@ const CharacterPreview = ({ item }) => {
         <li>
             <Link href={item.GetURI()}>
                 <a>
-                    <div className="cover" ref={thisRef}>
-                        <SafeImage image={item.CoverImage()} parent={thisRef} />
+                    <div className="cover">
+                        <SafeImage image={item.CoverImage()} />
                     </div>
                     <span>{item.GetNames().Get()}</span>
                 </a>

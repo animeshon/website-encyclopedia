@@ -50,7 +50,7 @@ export class Language {
 }
 
 class Localization {
-    id: string;
+    name: string;
     tag: string;
     country: Country;
     language: Language;
@@ -59,15 +59,15 @@ class Localization {
         return new Localization(rawData.id, rawData.tag, new Country(rawData.country ?? {}), new Language(rawData.language ?? {}))
     }
 
-    constructor(id: string, tag: string, country: Country = new Country({}), language: Language = new Language({})) {
-        this.id = id;
+    constructor(name: string, tag: string, country: Country = new Country({}), language: Language = new Language({})) {
+        this.name = name;
         this.tag = tag;
         this.country = country;
         this.language = language;
     }
 
-    public GetID(): string {
-        return this.id;
+    public GetResourceName(): string {
+        return this.name;
     }
 
     public GetCountry(): Country {

@@ -12,8 +12,8 @@ const ReleaseCard = ({ release }) => {
     const thisRef = useRef(null);
     return (
         <div key={release.id} className={styles["release-details__item"]}>
-            <figure ref={thisRef}>
-                <SafeImage parent={thisRef} image={release.CoverImage()} />
+            <figure>
+                <SafeImage image={release.CoverImage()} />
             </figure>
             <div className={styles["release-details"]}>
                 <Link href={release.GetURI()}>

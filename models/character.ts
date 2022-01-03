@@ -1,18 +1,21 @@
-import Entity from "@/models/entity";
-import EntityList from "@/models/entity-list";
-import Localization from "@/models/localization";
-import BooleanString from "@/models/boolean-string";
+import Entity from "@/models/graph/entity";
+import EntityList from "@/models/graph/entity-list";
+import Localization from "@/models/graph/localization";
+import BooleanString from "@/models/graph/boolean-string";
 
 export class Seyuu extends Entity {
 
     isPrimary: BooleanString;
     localization: Localization;
 
-    constructor(rawData: any) {
-        super(rawData.actor);
-
+    public loadRawData(rawData: any) {
+        super.loadRawData(rawData);
         this.isPrimary = new BooleanString(rawData.isPrimary);
         this.localization = Localization.FromRawData(rawData.localization);
+    }
+
+    constructor() {
+        super();
     }
 
     public GetLocalization(): Localization {
@@ -24,10 +27,13 @@ class CharacterDataModel extends Entity {
     protected characterRelation: string;
     protected seyuus: Seyuu[];
 
-    constructor(rawData: any, field: string) {
-        super(rawData[field]);
-
+    public loadRawDataEx(rawData: any, field: string) {
+        super.loadRawData(rawData[field]);
         this.characterRelation = rawData.relation;
+    }
+
+    constructor() {
+        super();
         this.seyuus = [];
     }
 
@@ -80,7 +86,8 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
     static FromCharacterRawData(rawData): CharacterDataModelList {
         const l = new CharacterDataModelList(0);
         for (let data of rawData) {
-            const char = new CharacterDataModel(data, "character");
+            const char = new CharacterDataModel();
+            char.loadRawDataEx(data, "character");
             l.push(char);
         }
         return l;
@@ -89,7 +96,8 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
     static FromContentRawData(rawData: any[]): CharacterDataModelList {
         const l = new CharacterDataModelList(0);
         for (let data of rawData) {
-            const d = new CharacterDataModel(data, "content");
+            const d = new CharacterDataModel();
+            d.loadRawDataEx(data, "content");
             l.push(d);
         }
         return l;
@@ -130,7 +138,9 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
             if (char == undefined) {
                 continue;
             }
-            char.SetSeyuu(new Seyuu(seyuu));
+            const s = new Seyuu();
+            s.loadRawData(seyuu);
+            char.SetSeyuu(s);
         }
     }
 }

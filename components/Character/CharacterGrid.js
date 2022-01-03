@@ -6,7 +6,7 @@ const CharacterGrid = ({ characters, language }) => {
     return (<>
         {characters?.map(item => {
             return (<CharacterCard
-                key={item.GetID()}
+                key={item.GetResourceName()}
                 character={item}
                 language={language} />
             );

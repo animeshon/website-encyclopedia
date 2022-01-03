@@ -10,7 +10,7 @@ const AppearanceGrid = ({ appearances }) => {
     return (
         <>
             {appearances?.map(item => {
-                return (<AppearanceCard key={item.GetID()} content={item} />);
+                return (<AppearanceCard key={item.GetResourceName()} content={item} />);
             })}
         </>
     );

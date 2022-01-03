@@ -1,16 +1,16 @@
-import Entity from "@/models/entity";
-import Localization from "@/models/localization";
-import EntityList from "@/models/entity-list";
+import Entity from "@/models/graph/entity";
+import Localization from "@/models/graph/localization";
+import EntityList from "@/models/graph/entity-list";
 import { Role } from '@/utilities/TypedRole';
 
 export class RoleData {
-    protected ID : string;
+    protected name : string;
     protected jobRole: string;
     localization: Localization;
 
     // TODO handle freetext role
     constructor(rawData: any, localization: any) {
-        this.ID = rawData.id;
+        this.name = rawData.name;
         this.jobRole = rawData.type;
         this.localization = Localization.FromRawData(localization);
     }
@@ -27,16 +27,16 @@ export class RoleData {
         return this.localization;
     }
 
-    public GetID(): string {
-        return this.ID;
+    public GetResourceName(): string {
+        return this.name;
     }
 }
 
 class ProductionModel extends Entity {
     roles: RoleData[];
 
-    constructor(rawData: any) {
-        super(rawData);
+    constructor() {
+        super();
         this.roles = [];
     }
 
@@ -70,7 +70,8 @@ export class ProductionModelList extends EntityList<ProductionModel> {
         for (let data of rawData) {
             let va = l.GetByID(data[field].id);
             if (undefined == va) {
-                va = new ProductionModel(data[field]);
+                va = new ProductionModel();
+                va.loadRawData(data[field]);
                 // prune not handled resources (which are release for now)
                 if (!va.IsContent()) {
                     continue;
