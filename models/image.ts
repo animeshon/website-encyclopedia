@@ -55,8 +55,8 @@ class Image {
         return this.url;
     }
 
-    public GetSafeURL(format: string, width: number, height: number): string {
-        if (this.IsAdult()) {
+    public GetSafeURL(format: string, width: number, height: number, force: boolean): string {
+        if (this.IsAdult() || force) {
             return `${ASSET_PREFIX}/images/adult-only-warning.jpg`;
         }
         return this.GetURL(format, width, height);

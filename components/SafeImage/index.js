@@ -8,19 +8,28 @@ import { useContainer } from '@/components/Container';
 
 import Button from '@/components/Button';
 
-const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
+import { Age } from '@/utilities/Restriction';
 
-const censor = (image, force, container) => {
-    return image ? image.IsAdult() : (force && container.adult);
-}
+const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
 // TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
 // https://nextjs.org/docs/api-reference/next/image
 
-const SafeImage = ({ image, altText, force = false, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
+const SafeImage = ({ image, altText, force = false, parent = undefined, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
+    const [height, setHeight] = useState(0)
+    const [width, setWidth] = useState(0)
+    const [loaded, setLoaded] = useState(false)
+
+    const img = image || new Image(fallback);
+
     const { user, dispatchUser } = useContext(UserContext);
-    // const container = useContainer();
-    const isCensored = user.safeSearch && (image.IsAdult() || force );
+    const isCensored = user.safeSearch && (img.IsAdult() || force);
+
+    useEffect(() => {
+        setHeight(parent ? parent.current.clientHeight : 0);
+        setWidth(parent ? parent.current.clientWidth : 0);
+        setLoaded(true);
+    }, []);
 
     const onClick = e => {
         dispatchUser({
@@ -29,20 +38,23 @@ const SafeImage = ({ image, altText, force = false, displayButton = false, fallb
         })
     };
     return (
-        <LazyLoad offset={300} throttle={0}>
-            {isCensored ? <picture>
-                {/* if censored, display censored image */}
-                <img src={`${ASSET_PREFIX}/images/adult-only-warning.jpg`} alt={altText} />
-                {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
-            </picture> :
-                <picture>
-                    {/* WEBP */}
-                    {image.GetURL() ? <source srcSet={image.GetURL()} type="image/webp" alt={altText} /> : undefined}
-                    {/* default (PNG) */}
+            <LazyLoad offset={300} throttle={0}>
 
-                    <img src={image.GetURL()} alt={altText} />
-                </picture>}
-        </LazyLoad >
+                {loaded && <>
+                    {isCensored ? <picture>
+                        {/* if censored, display censored image */}
+                        <img src={img.GetSafeURL("", width, height, isCensored)} alt={altText} />
+                        {displayButton ? <Button className="cherry-red big" type="form-submit" onClick={onClick}>SHOW</Button> : undefined}
+                    </picture> :
+                        <picture>
+                            {/* WEBP */}
+                            <source srcset={img.GetURL("WEBP", width, height)} type="image/webp" alt={altText} />
+                            {/* default */}
+                            <img src={img.GetURL("", width, height)} alt={altText} />
+                        </picture>}
+
+                </>}
+            </LazyLoad >
     )
 }
 
