@@ -9,6 +9,8 @@ import * as uri from '@/utilities/URI';
 import Shop from '@/models/shop';
 import { Language } from '@/models/localization';
 import BooleanString from '@/models/boolean-string';
+import Image from '@/models/image';
+import {toJSDate} from '@/models/date';
 
 export interface LocalizedEnum {
     value: string;
@@ -20,335 +22,377 @@ export class EntityNames {
     originalName: string;
     transcriptedName: string;
     latinName: string;
-
+  
     constructor(ln: string, on: string, tn: string, latnn: string) {
-        this.localizedName = ln;
-        this.originalName = on;
-        this.transcriptedName = tn;
-        this.latinName = latnn;
+      this.localizedName = ln;
+      this.originalName = on;
+      this.transcriptedName = tn;
+      this.latinName = latnn;
     }
-
+  
     public Get(): string {
-        if (this.localizedName != undefined) {
-            return this.localizedName;
-        }
-        if (this.originalName != undefined) {
-            return this.originalName;
-        }
-        if (this.transcriptedName != undefined) {
-            return this.transcriptedName;
-        }
-        if (this.latinName != undefined) {
-            return this.latinName;
-        }
-        return undefined;
+      if (this.localizedName != undefined) {
+        return this.localizedName;
+      }
+      if (this.originalName != undefined) {
+        return this.originalName;
+      }
+      if (this.transcriptedName != undefined) {
+        return this.transcriptedName;
+      }
+      if (this.latinName != undefined) {
+        return this.latinName;
+      }
+      return undefined;
     }
-
+  
     public GetLocalized(): string {
-        return this.localizedName
+      return this.localizedName
     }
+  
     public GetOriginal(): string {
-        return this.originalName
+      return this.originalName
     }
+  
     public GetTranscripted(): string {
-        return this.transcriptedName
+      return this.transcriptedName
     }
+  
     public GetLatin(): string {
-        return this.latinName
+      return this.latinName
     }
 }
+  
+
 
 class Entity {
     // raw data coming from datasource
     protected rawData: any;
-
+  
     protected type: string;
     protected subtype: string;
-
+  
     protected description: string;
     protected names: EntityNames;
-
+    protected genres: string[];
+  
     protected premiere: Date;
     protected end: Date;
-
+  
     protected isAdultOnly: boolean;
-
+  
     protected gender: string;
     protected bloodType: string;
-
+  
     protected languages: Language[];
     protected shops: any[];
-
+  
     protected platforms: string[];
-
-    constructor(rawData: any) {
-        this.rawData = rawData;
-
-        this.type = rawData.entityType?.toLowerCase();
-        this.isAdultOnly = IsAdultOnly(this.rawData.maturityRating);
-
-        // Gender
-        if (this.rawData.personGender != undefined) {
-            this.gender = this.rawData.personGender;
-        } else if (this.rawData.characterGender != undefined) {
-            this.gender = this.rawData.characterGender;
-        }
-
-        // Blood type
-        if (this.rawData.characterBloodType != undefined) {
-            this.bloodType = this.rawData.characterBloodType;
-        } else if (this.rawData.personBloodType != undefined) {
-            this.bloodType = this.rawData.personBloodType;
-        }
-
-        // languages
-        if (this.rawData.personLanguages != undefined) {
-            this.languages = this.rawData.personLanguages.map(l => new Language(l));
-        } else if (this.rawData.releaseLanguage != undefined) {
-            this.languages = this.rawData.releaseLanguage.map(l => new Language(l));
-        }
-
-        // shops
-        if (this.rawData.reelaseShops != undefined) {
-            this.shops = this.rawData.reelaseShops;
-        } else if (this.rawData.releasableShops != undefined) {
-            this.shops = this.rawData.releasableShops;
-        }
-
-        this.platforms = rawData.platforms;
-
-        this.setSubtype();
-        this.setDates();
+  
+    protected coverImage?: Image;
+    protected bannerImage?: Image;
+  
+    public loadRawData(rawData: any) {
+      this.rawData = rawData;
+  
+      this.type = rawData.entityType;
+      this.isAdultOnly = IsAdultOnly(this.rawData.maturityRatings);
+  
+      // Gender
+      if (this.rawData.personGender != undefined) {
+        this.gender = this.rawData.personGender;
+      } else if (this.rawData.characterGender != undefined) {
+        this.gender = this.rawData.characterGender;
+      }
+  
+      // Blood type
+      if (this.rawData.characterBloodType != undefined) {
+        this.bloodType = this.rawData.characterBloodType;
+      } else if (this.rawData.personBloodType != undefined) {
+        this.bloodType = this.rawData.personBloodType;
+      }
+  
+      // languages
+      if (this.rawData.personLanguages != undefined) {
+        this.languages = this.rawData.personLanguages.map(l => new Language(l));
+      } else if (this.rawData.releaseLanguage != undefined) {
+        this.languages = this.rawData.releaseLanguage.map(l => new Language(l));
+      }
+  
+      // shops
+      if (this.rawData.reelaseShops != undefined) {
+        this.shops = this.rawData.reelaseShops;
+      } else if (this.rawData.releasableShops != undefined) {
+        this.shops = this.rawData.releasableShops;
+      }
+  
+      this.platforms = rawData.platforms;
+  
+      // images
+      if (rawData.coverImage) {
+        this.coverImage = Image.FromRawData(rawData.coverImage);
+      }
+      if (rawData.bannerImage) {
+        this.bannerImage = Image.FromRawData(rawData.bannerImage);
+      }    
+  
+      this.setSubtype();
+      this.setDates();
     }
-
+  
+    constructor() {
+      
+    }
+  
     private setSubtype(): void {
-        if (this.rawData.organizationType != undefined) {
-            this.subtype = this.rawData.organizationType;
-        } else if (this.rawData.gameReleaseType != undefined) {
-            this.subtype = this.rawData.gameReleaseType;
-        } else if (this.rawData.graphicNovelType != undefined) {
-            this.subtype = this.rawData.graphicNovelType;
-        } else if (this.rawData.animeType != undefined) {
-            this.subtype = this.rawData.animeType;
-        }
+      if (this.rawData.organizationType != undefined) {
+        this.subtype = this.rawData.organizationType;
+      } else if (this.rawData.gameReleaseType != undefined) {
+        this.subtype = this.rawData.gameReleaseType;
+      } else if (this.rawData.graphicNovelType != undefined) {
+        this.subtype = this.rawData.graphicNovelType;
+      } else if (this.rawData.animeType != undefined) {
+        this.subtype = this.rawData.animeType;
+      }
     }
-
+  
     private setDates(): void {
-        // Get the premiere date
-        this.premiere = PremiereAny(this.rawData.releaseDate, this.rawData.runnings);
-        const { to } = RunningJapanAny(this.rawData.runnings);
-        this.end = to;
+      const _releaseDate = toJSDate(this.rawData.releaseDate);
+      const _runnings = this.rawData.runnings?.map(r => ({
+        ...this,
+        from: toJSDate(r.from),
+        to: toJSDate(r.to),
+      }))
+  
+      // Get the premiere date
+      this.premiere = PremiereAny(_releaseDate, _runnings);
+      const { to } = RunningJapanAny(_runnings);
+      this.end = to;
     }
-
+  
     public Type(): string {
-        return this.type;
+      return this.type;
     }
-
+  
     public Subtype(): string {
-        return this.subtype;
+      return this.subtype;
     }
-
+  
     public Gender(): string {
-        return this.gender;
+      return this.gender;
     }
-
+  
     public Premiere(): Date {
-        return this.premiere;
+      return this.premiere;
     }
-
-    public GetID(): string {
-        return this.rawData.id;
+  
+    public GetResourceName(): string {
+      return this.rawData.name;
     }
-
+  
+    public CoverImage(): Image | undefined {
+      return this.coverImage;
+    }
+  
+    public BannerImage(): Image | undefined {
+      return this.bannerImage;
+    }
+  
     public GetURI(subpath: string = null, absolute: boolean = false): string {
-        const u = uri.Rewrite(this.GetNames().Get(), this.GetID(), subpath);
-        if (absolute) {
-            return uri.AbsoluteURI(u);
-        }
-        return u;
+      const u = uri.Rewrite(this.GetNames().Get(), this.GetResourceName(), subpath);
+      if (absolute) {
+        return uri.AbsoluteURI(u);
+      }
+      return u;
     }
-
+  
     public GetCanonicalURI(subpath: string): string {
-        if (subpath.length != 0) {
-            return uri.AbsoluteURI(`/${this.GetID()}/${subpath}`);
-        }
-        return uri.AbsoluteURI(`/${this.GetID()}`);
+      if (subpath.length != 0) {
+        return uri.AbsoluteURI(`/${this.GetResourceName()}/${subpath}`);
+      }
+      return uri.AbsoluteURI(`/${this.GetResourceName()}`);
     }
-
+  
     public Localize(locale: string = "eng"): void {
-        let localizedName = Locale(this.rawData.names?.hits, [locale]);
-        this.names = new EntityNames(
-            localizedName == undefined && locale != "jpn" ? LatinAny(this.rawData.names) : localizedName,
-            Japanese(this.rawData.names),
-            Romaji(this.rawData.names),
-            LatinAny(this.rawData.names),
-        )
-
-        this.description = Locale(this.rawData.descriptions?.hits, [locale]);
+      let localizedName = Locale(this.rawData.names, [locale]);
+      this.names = new EntityNames(
+        localizedName == undefined && locale != "jpn" ? LatinAny(this.rawData.names) : localizedName,
+        Japanese(this.rawData.names),
+        Romaji(this.rawData.names),
+        LatinAny(this.rawData.names),
+      )
+      this.description = Locale(this.rawData.descriptions, [locale]);
+      this.genres = []
+      if  (this.rawData.genres){
+        for (let genre of this.rawData.genres) {
+          this.genres.push(Locale(genre.names, [locale]))
+        }
+      }
     }
-
-    public GetCoverUrl(): string {
-        return undefined
-    }
-
-    public GetBannerUrl(): string {
-        return undefined
-    }
-
+  
     public GetNames(): EntityNames {
-        return this.names;
+      return this.names;
     }
-
+  
     public GetDescription(maxLength: number = 0): string {
-        if (maxLength != 0) {
-            return Truncate(this.description ?? "", maxLength);
-        }
-        return this.description ?? "";
+      if (maxLength != 0) {
+        return Truncate(this.description ?? "", maxLength);
+      }
+      return this.description ?? "";
     }
-
+  
+    public GetGenres(maxCount: number = 0): string[] {
+      if (maxCount != 0) {
+        return this.genres.slice(0, maxCount) ?? []
+      }
+      return this.genres ?? [];
+    }
+  
     public GetReleaseDate(): string | undefined {
-        return EnglishDate(this.premiere);
+      return EnglishDate(this.premiere);
     }
-
+  
     public GetSeason(): string | undefined {
-        if (this.premiere == undefined) {
-            return undefined;
-        }
-
-        if (!["anime"].includes(this.type)) {
-            return undefined
-        }
-
-        const timeSincePremiere = Math.floor((Date.now() - this.premiere.getTime()) / 1000);
-        let end = this.end;
-        if (end == undefined) {
-            // if no end, ongoing and more than 5 months, then is not seasonal
-            if (this.rawData.status == "ONGOING" && timeSincePremiere > 2592000 * 9) {
-                return undefined;
-            }
-            // oneshot
-            end = this.premiere;
-        }
-
-        // if from and to coincide, it means it's an oneshot content
-        if (end.getFullYear() == 1) {
-            // 0001 year (golang's zero date) hotfix
-            end = this.premiere;
-        }
-
-        if ((end.getMonth() + end.getFullYear() * 12) - (this.premiere.getMonth() + this.premiere.getFullYear() * 12) <= 8 || this.premiere == end) {
-            switch (this.premiere.getMonth()) {
-                case 0:
-                    return `Winter ${this.premiere.getFullYear() - 1}`;
-                case 1:
-                case 2:
-                case 3:
-                    return `Spring ${this.premiere.getFullYear()}`;
-                case 4:
-                case 5:
-                case 6:
-                    return `Summer ${this.premiere.getFullYear()}`;
-                case 7:
-                case 8:
-                case 9:
-                    return `Autumn ${this.premiere.getFullYear()}`;
-                case 10:
-                case 11:
-                    return `Winter ${this.premiere.getFullYear()}`;
-            }
-        }
-
-        // It probably is a non-seasonal anime. Return undefined
+      if (this.premiere == undefined) {
         return undefined;
+      }
+  
+      if (!["Anime"].includes(this.type)) {
+        return undefined
+      }
+  
+      const timeSincePremiere = Math.floor((Date.now() - this.premiere.getTime()) / 1000);
+      let end = this.end;
+      if (end == undefined) {
+        // if no end, ongoing and more than 5 months, then is not seasonal
+        if (this.rawData.status == "ONGOING" && timeSincePremiere > 2592000 * 9) {
+          return undefined;
+        }
+        // oneshot
+        end = this.premiere;
+      }
+  
+      // if from and to coincide, it means it's an oneshot content
+      if (end.getFullYear() == 1) {
+        // 0001 year (golang's zero date) hotfix
+        end = this.premiere;
+      }
+  
+      if ((end.getMonth() + end.getFullYear() * 12) - (this.premiere.getMonth() + this.premiere.getFullYear() * 12) <= 8 || this.premiere == end) {
+        switch (this.premiere.getMonth()) {
+          case 0:
+            return `Winter ${this.premiere.getFullYear() - 1}`;
+          case 1:
+          case 2:
+          case 3:
+            return `Spring ${this.premiere.getFullYear()}`;
+          case 4:
+          case 5:
+          case 6:
+            return `Summer ${this.premiere.getFullYear()}`;
+          case 7:
+          case 8:
+          case 9:
+            return `Autumn ${this.premiere.getFullYear()}`;
+          case 10:
+          case 11:
+            return `Winter ${this.premiere.getFullYear()}`;
+        }
+      }
+  
+      // It probably is a non-seasonal anime. Return undefined
+      return undefined;
     }
-
+  
     public GetRunning(): string | undefined {
-        if (this.premiere == undefined || this.end == undefined) {
-            return undefined
-        }
-        return `${EnglishDate(this.premiere)} - ${EnglishDate(this.end)}`;
+      if (this.premiere == undefined || this.end == undefined) {
+        return undefined
+      }
+      return `${EnglishDate(this.premiere)} - ${EnglishDate(this.end)}`;
     }
-
+  
     public GetBirthday(): string | undefined {
-        if (this.rawData.personBirthDay != undefined) {
-            return EnglishDate(this.rawData.personBirthDay);
-        } else if (this.rawData.characterBirthDay) {
-            const tokens = this.rawData.characterBirthDay.split(".");
-            return `${EnglishMonth(new Date(0, tokens[0], 0))} ${tokens[1]}`;
-        }
-        return undefined;
+      if (this.rawData.personBirthDay != undefined) {
+        return EnglishDate(this.rawData.personBirthDay);
+      } else if (this.rawData.characterBirthDay) {
+        const tokens = this.rawData.characterBirthDay.split(".");
+        return `${EnglishMonth(new Date(0, tokens[0], 0))} ${tokens[1]}`;
+      }
+      return undefined;
     }
-
+  
     public GetFoundation(): string | undefined {
-        if (this.rawData.foundation == undefined) {
-            return undefined;
-        }
-
-        return EnglishDate(this.rawData.foundation.foundation);
+      if (this.rawData.foundation == undefined) {
+        return undefined;
+      }
+  
+      return EnglishDate(this.rawData.foundation.foundation);
     }
-
+  
     public Independent(): boolean {
-        return this.rawData.publishingType && this.rawData.publishingType == "SELF" || false;
+      return this.rawData.publishingType && this.rawData.publishingType == "SELF" || false;
     }
-
+  
     public IsOriginal(): BooleanString {
-        return new BooleanString(this.rawData.original);
+      return new BooleanString(this.rawData.original);
     }
-
+  
     public IsFree(): BooleanString {
-        return new BooleanString(this.rawData.isFree);
+      return new BooleanString(this.rawData.isFree);
     }
-
+  
     public IsPatch(): BooleanString {
-        return new BooleanString(this.rawData.isPatch);
+      return new BooleanString(this.rawData.isPatch);
     }
-
+  
     public IsContent(): boolean {
-        return ["anime", "graphicnovel", "lightnovel", "visualnovel"].includes(this.type);
+      return ["anime", "graphicnovel", "lightnovel", "visualnovel"].includes(this.type);
     }
-
+  
     public IsAdultOnly(): boolean {
-        return this.isAdultOnly;
+      return this.isAdultOnly;
     }
-
+  
     public IsIllegal(country: string = ""): boolean {
-        return this.rawData.regionRestrictions?.filter(r => { return r.tag == "MINOR-R18" }).length >= 1;
+      return this.rawData.regionRestrictions?.filter(r => {
+        return r.tag == "MINOR-R18"
+      }).length >= 1;
     }
-
+  
     public GetShops(locale: string = "en"): Shop[] {
-        return this.shops.map(s => {
-            const shop = new Shop(
-                s.isGlobal,
-                s.name,
-                s.url,
-                s.country ? s.country.code : "",
-            );
-            shop.Localize(locale);
-            return shop;
-        });
+      return this.shops.map(s => {
+        const shop = new Shop(
+          s.isGlobal,
+          s.name,
+          s.url,
+          s.country ? s.country.code : "",
+        );
+        shop.Localize(locale);
+        return shop;
+      });
     }
 
     // TODO Move to translation files
     private static typeMap = new Map<string, string>([
-        ["anime", "Anime"],
-        ["graphicnovel", "Graphic Novel"],
-        ["lightnovel", "Light Novel"],
-        ["visualnovel", "Visual Novel"],
-        ["track", "Music Track"],
-        ["episode", "Episode"],
-        ["chapter", "Chapter"],
-        ["universe", "Universe"],
-        ["canonical", "Canonical Franchise"],
-        ["volume", "Volume"],
-        ["episode", "Episode"],
-        ["musicrelease", "Music Release"],
-        ["character", "Character"],
-        ["organization", "Organization"],
-        ["magazine", "magazine"],
-        ["convention", "Convention"],
-        ["person", "Person"],
-        ["voiceover", "Voice Over"],
-        ["gamerelease", "Game Release"],
+        ["Anime", "Anime"],
+        ["GraphicNovel", "Graphic Novel"],
+        ["LightNovel", "Light Novel"],
+        ["Visualnovel", "Visual Novel"],
+        ["Track", "Music Track"],
+        ["Episode", "Episode"],
+        ["Chapter", "Chapter"],
+        ["Universe", "Universe"],
+        ["Canonical", "Canonical Franchise"],
+        ["Volume", "Volume"],
+        ["Episode", "Episode"],
+        ["MusicRelease", "Music Release"],
+        ["Character", "Character"],
+        ["Organization", "Organization"],
+        ["Magazine", "magazine"],
+        ["Convention", "Convention"],
+        ["Person", "Person"],
+        ["Voiceover", "Voice Over"],
+        ["GameRelease", "Game Release"],
     ]);
     public static LocalizeType(type: string, locale: string = ""): string | undefined {
         if (type == undefined) {
@@ -365,7 +409,7 @@ class Entity {
 
     // TODO Move to translation files
     private static subtypeMap = new Map<string, Map<string, string>>([
-        ["anime", new Map<string, string>([
+        ["Anime", new Map<string, string>([
             ["MOVIE", "Movie"],
             ["MUSIC_VIDEO", "Music Video"],
             ["ONA", "ONA"],
@@ -374,7 +418,7 @@ class Entity {
             ["TV", "TV Series"],
             ["WEB", "Web Anime"],
         ])],
-        ["graphicnovel", new Map<string, string>([
+        ["GraphicNovel", new Map<string, string>([
             ["MANGA", "Manga"],
             ["MANHUA", "Manhua"],
             ["MANHWA", "Manhwa"],
@@ -385,13 +429,13 @@ class Entity {
             ["WEB_COMIC", "Web Comic"],
             ["YON_KOMA", "4 Koma"],
         ])],
-        ["gamerelease", new Map<string, string>([
+        ["GameRelease", new Map<string, string>([
             ["COMPLETE", "Complete Release"],
             ["DLC", "Dlc Expansion"],
             ["PARTIAL", "Partial Release"],
             ["TRIAL", "Trial Version"],
         ])],
-        ["organization", new Map<string, string>([
+        ["Organization", new Map<string, string>([
             ["CIRCLE", "Circle"],
             ["CORPORATE", "Corporation"],
         ])],

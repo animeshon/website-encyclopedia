@@ -14,8 +14,8 @@ class SummaryDataModel extends Entity {
 
     collaborators: Map<string, Entity[]>;
 
-    constructor(rawData: any) {
-        super(rawData);
+    constructor() {
+        super();
 
         this.collaborators = new Map<string, Entity[]>();
     }
@@ -38,7 +38,7 @@ class SummaryDataModel extends Entity {
                 { key: 'Languages', value: this.LocalizedLanguages()?.map(l => { return { text: l.label } }) },
             ],
             [
-                this.Type() == "organization" ? { key: 'Organization Type', value: this.GetSubtype()} : undefined ,
+                //this.Type() == "organization" ? { key: 'Organization Type', value: this.GetSubtype()} : undefined ,
                 { key: 'Status', value: this.GetStatus() },
                 this.GetRunning() != undefined ?
                     { key: 'Running', value: this.GetRunning() } :
@@ -126,9 +126,13 @@ class SummaryDataModel extends Entity {
     public SetCollaborators(collaborations: any): void {
         collaborations.forEach(v => {
             if (!this.collaborators.has(v.role.type)) {
-                this.collaborators.set(v.role.type, [new Entity(v.collaborator)]);
+                const ent = new Entity();
+                ent.loadRawData(v.collaborator);
+                this.collaborators.set(v.role.type, [ent]);
             } else {
-                this.collaborators.set(v.role.type, this.collaborators.get(v.role.type).concat(new Entity(v.collaborator)));
+                const ent = new Entity();
+                ent.loadRawData(v.collaborator);
+                this.collaborators.set(v.role.type, this.collaborators.get(v.role.type).concat(ent));
             }
 
         });
@@ -160,7 +164,8 @@ class SummaryDataModel extends Entity {
         }
         const guiseof: Entity[] = [];
         for (let r of this.rawData.guiseOf) {
-            const g = new Entity(r);
+            const g = new Entity();
+            g.loadRawData(r);
             g.Localize();
             guiseof.push(g);
         }

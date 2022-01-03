@@ -18,7 +18,7 @@ const SummaryCharacter = ({ characters, showMore = true }) => {
             </header>
             {characters && characters.Size() ? <ul className="characters-list">
                 {characters.Get().map(item => {
-                    return (<CharacterPreview key={item.GetID()} item={item} />);
+                    return (<CharacterPreview key={item.GetResourceName()} item={item} />);
                 })}
             </ul> : 'There is currently no information about characters available.'}
         </section>

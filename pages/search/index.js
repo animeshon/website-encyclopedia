@@ -40,7 +40,8 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
 
     useEffect(() => {
         const models = results.map(r => {
-            const model = new Entity(r);
+            const model = new Entity();
+            model.loadRawData(r);
             model.Localize();
             return model;
         })
@@ -84,8 +85,8 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
         }
 
         const models = results.map(r => {
-            const model = new Entity(r);
-            model.Localize();
+            const model = new Entity();
+            model.loadRawData(r);
             return model;
         })
 
@@ -149,7 +150,7 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
 export const getServerSideProps = async (ctx) => {
     const searchTerm = ctx.query.q;
 
-    const apolloClient = initializeApollo();
+    const apolloClient = initializeApollo(null, ctx.req.headers.cookie);
 
     // No query, no results
     if (searchTerm === undefined) {

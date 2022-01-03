@@ -1,5 +1,7 @@
 import  countries from 'i18n-iso-countries';
 
+const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
+
 class Shop {
     isGlobal: boolean;
     name: string;
@@ -32,7 +34,7 @@ class Shop {
         }
 
         public GetImageURL(): string {
-            return `/images/${this.name}.png`;
+            return `${ASSET_PREFIX}/images/${this.name}.png`;
         }
 
         public GetURL(): string {

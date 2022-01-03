@@ -8,42 +8,19 @@ import { useContainer } from '@/components/Container';
 
 import Button from '@/components/Button';
 
-import { Age } from '@/utilities/Restriction';
-
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_ASSET_PREFIX || '';
 
-const getURIByFormat = (image, reqFormat) => {
-    if (image === undefined || image === null) {
-        return undefined;
-    }
-    if (image.files === undefined || image.files === null) {
-        return undefined;
-    }
-
-    for (var j = 0; j < image.files.length; j++) {
-        const format = image.files[j].format;
-        if (!format || format != reqFormat) {
-            continue;
-        }
-        return image.files[j].publicUri;
-    }
-    return undefined;
-}
-
 const censor = (image, force, container) => {
-    const age = image ? Age(image.ratings) : undefined;
-    return age !== undefined ? age > 17 : (force && container.adult);
+    return image ? image.IsAdult() : (force && container.adult);
 }
 
 // TODO use next/image as soon as https://github.com/vercel/next.js/discussions/18739 is resolved
 // https://nextjs.org/docs/api-reference/next/image
 
-const SafeImage = ({ image, altText, force = true, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
+const SafeImage = ({ image, altText, force = false, displayButton = false, fallback = `${ASSET_PREFIX}/images/default-profile-picture.jpg` }) => {
     const { user, dispatchUser } = useContext(UserContext);
-    const container = useContainer();
-    const isCensored = user.safeSearch && censor(image, force, container);
-    const img = image ? getURIByFormat(image, 'PNG') : fallback;
-    const webP = image ? getURIByFormat(image, 'WEBP') : undefined
+    // const container = useContainer();
+    const isCensored = user.safeSearch && (image.IsAdult() || force );
 
     const onClick = e => {
         dispatchUser({
@@ -60,10 +37,10 @@ const SafeImage = ({ image, altText, force = true, displayButton = false, fallba
             </picture> :
                 <picture>
                     {/* WEBP */}
-                    {webP ? <source srcSet={webP} type="image/webp" alt={altText} /> : undefined}
+                    {image.GetURL() ? <source srcSet={image.GetURL()} type="image/webp" alt={altText} /> : undefined}
                     {/* default (PNG) */}
 
-                    <img src={img} alt={altText} />
+                    <img src={image.GetURL()} alt={altText} />
                 </picture>}
         </LazyLoad >
     )

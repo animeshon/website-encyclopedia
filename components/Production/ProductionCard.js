@@ -14,7 +14,7 @@ const ProductionCard = ({ production }) => {
             <Link href={production.GetURI()}>
                 <a>
                     <figure className={styles.related__item_cover}>
-                        <SafeImage image={production.GetCoverUrl()} />
+                        <SafeImage image={production.CoverImage()?.GetURL()} />
                     </figure>
                 </a>
             </Link>
@@ -42,7 +42,7 @@ const ProductionCard = ({ production }) => {
                     {/* TODO: Handle freeetext jobrole */}
                     <CollapsableSection maxHeight={50} collapsedClass={styles.collapsed} moreClass={styles.more_trigger} mainClass={styles.expandable}>
                         {production.Roles().map(o => {
-                                return (<p key={[production.GetID(), o]}>{o.GetJobRole()}</p>)
+                                return (<p key={[production.GetResourceName(), o]}>{o.GetJobRole()}</p>)
                         })}
                     </CollapsableSection>
                 </aside>

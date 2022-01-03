@@ -1,7 +1,7 @@
-import Entity from "@/models/entity";
-import Localization from "@/models/localization";
-import EntityList, { SortBy as entitySortBy } from "@/models/entity-list";
-import BooleanString from "@/models/boolean-string";
+import Entity from "@/models/graph/entity";
+import Localization from "@/models/graph/localization";
+import EntityList, { SortBy as entitySortBy } from "@/models/graph/entity-list";
+import BooleanString from "@/models/graph/boolean-string";
 
 export enum SortBy {
     DATE,
@@ -13,8 +13,8 @@ class AudibleModel extends Entity {
     primary: BooleanString;
     localization: Localization;
 
-    constructor(rawData: any, primary: BooleanString, localization: any) {
-        super(rawData);
+    constructor(primary: BooleanString, localization: any) {
+        super();
         this.primary = primary;
         this.localization = Localization.FromRawData(localization);
     }
@@ -31,8 +31,8 @@ class AudibleModel extends Entity {
 class VoiceActingModel extends Entity {
     audibles: EntityList<AudibleModel>;
 
-    constructor(rawData: any) {
-        super(rawData);
+    constructor() {
+        super();
         this.audibles = new EntityList<AudibleModel>(0);
     }
 
@@ -66,11 +66,13 @@ export class VoiceActingModelList extends EntityList<VoiceActingModel> {
         for (let data of rawData) {
             let va = l.GetByID(data[field].id);
             if (undefined == va) {
-                va = new VoiceActingModel(data[field]);
+                va = new VoiceActingModel();
+                va.loadRawData(data[field]);
                 l.push(va);
             }
 
-            const aud = new AudibleModel(data.content, new BooleanString(data.primary), data.localization);
+            const aud = new AudibleModel(new BooleanString(data.primary), data.localization);
+            aud.loadRawData(data.content);
             va.AddAudible(aud);
         }
         return l;

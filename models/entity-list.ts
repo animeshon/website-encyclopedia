@@ -13,7 +13,8 @@ class EntityList<T extends Entity> extends Array<T> {
     public static DefaultFromRawData(rawData: any[]): EntityList<Entity> {
         const l = new EntityList<Entity>(0);
         for (let d of rawData) {
-            const e = new Entity(d);
+            const e = new Entity();
+            e.loadRawData(d);
             l.push(e);
         }
         return l
@@ -58,7 +59,7 @@ class EntityList<T extends Entity> extends Array<T> {
         const subTypes: LocalizedEnum[] = [];
         for (const l of this) {
             if (!subTypes.find(s => s.value == l.Subtype())) {
-                subTypes.push({ value: l.Subtype(), label: l.GetSubtype(locale) });
+                subTypes.push({ value: l.Subtype(), label: ""/*l.GetSubtype(locale)*/ });
             }
         }
         return subTypes.sort((a, b) => {
@@ -79,7 +80,7 @@ class EntityList<T extends Entity> extends Array<T> {
     }
 
     public GetByID(id: string): T | undefined {
-        return this.find(c => c.GetID() == id);
+        return this.find(c => c.GetResourceName() == id);
     }
 }
 

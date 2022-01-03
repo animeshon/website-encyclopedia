@@ -83,7 +83,7 @@ const Container = ({ container, seo, children }) => {
                 <BannerImage
                     title={name}
                     altText={name}
-                    image={container.model.GetBannerUrl()}
+                    image={container.model.BannerImage()?.GetURL()}
                     breadcrumb={[container.model.GetType(), container.model.GetSubtype(), name, container.selectedLabel]}
                 />
                 <TabNavigation items={container.navigation} selected={container.selectedLabel} />
@@ -91,7 +91,7 @@ const Container = ({ container, seo, children }) => {
                     <div className="any-landing__cover">
                         <ProfileImage
                             altText={name}
-                            image={container.model.GetCoverUrl()}
+                            image={container.model.CoverImage()?.GetURL()}
                         >
                             {container.model.IsIllegal() && (
                                 <p className={styles.consorship}>Censorship is courtesy of the U.N.
@@ -129,7 +129,7 @@ export function withContainerProps(getServerSidePropsFunc) {
         const id = ctx.query.id.replace(".", "/");
 
         // ! TODO use a query for a more reliable guess
-        const apolloClient = initializeApollo();
+        const apolloClient = initializeApollo(null, ctx.req.headers.cookie);
         const containerData = await ExecuteQuery(apolloClient, PrepareQuery({ id: id }, ContainerQuery()));
 
         // Get component’s props
@@ -147,7 +147,8 @@ export function withContainerProps(getServerSidePropsFunc) {
 // HOC best practice https://it.reactjs.org/docs/higher-order-components.html
 const withContainer = (WrappedComponent) => {
     return ({ containerData, ...passThroughProps }) => {
-        const model = new Entity(containerData);
+        const model = new Entity();
+        model.loadRawData(containerData);
         model.Localize();
 
         // ! TODO: The following trick seems to be not very clean.
@@ -155,7 +156,7 @@ const withContainer = (WrappedComponent) => {
         const { pathname } = useRouter();
 
         const subpath = pathname.split('/').slice(3).join('/');
-        const navigation = Navigation(model.type, model.GetNames().Get(), model.GetID());
+        const navigation = Navigation(model.type, model.GetNames().Get(), model.GetResourceName());
         const selectedLabel = navigation.find(i => subpath === i.key)?.label || "";
 
         const container = {
@@ -171,7 +172,7 @@ const withContainer = (WrappedComponent) => {
 
             description: model.GetDescription(160),
             title: text.Truncate(model.GetNames().Get(), 64),
-            image: model.GetCoverUrl(),
+            image: model.CoverImage()?.GetURL(),
 
             url: model.GetURI(subpath, true),
             canonical: model.GetCanonicalURI(subpath),

@@ -8,7 +8,7 @@ const RelatedGrid = ({ related, max = Number.MAX_SAFE_INTEGER}) => {
     })
     return (<>
         {r.map(item => {
-            return (<ContentCard key={item.model.GetID()} content={item} />);
+            return (<ContentCard key={item.model.GetResourceName()} content={item} />);
         })}
     </>);
 };

@@ -9,7 +9,7 @@ const CharacterPreview = ({ item }) => {
             <Link href={item.GetURI()}>
                 <a>
                     <div className="cover">
-                        <SafeImage image={item.GetCoverUrl()} />
+                        <SafeImage image={item.CoverImage()?.GetURL()} />
                     </div>
                     <span>{item.GetNames().Get()}</span>
                 </a>

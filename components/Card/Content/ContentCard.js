@@ -7,9 +7,9 @@ import styles from './ContentCard.module.css';
 
 const ContentCard = ({ content }) => {
     return (
-        <div key={content.model.GetID()} className={styles.content__item}>
+        <div key={content.model.GetResourceName()} className={styles.content__item}>
             <figure className={styles.content__item_cover}>
-                <SafeImage image={content.model.GetCoverUrl()} />
+                <SafeImage image={content.model.CoverImage()?.GetURL()} />
             </figure>
             <article className={styles.content__item_contents}>
                 <header>

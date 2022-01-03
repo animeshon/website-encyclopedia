@@ -22,7 +22,7 @@ const ProductionPage = ({ productions }) => {
                 </header>
                 <div className="grid-halves">
                     {productionModels.Size() ? productionModels.map(p => {
-                        return (<ProductionCard key={p.GetID()} production={p} />)
+                        return (<ProductionCard key={p.GetResourceName()} production={p} />)
                     }) : NotFound}
                 </div>
             </section>

@@ -1,16 +1,20 @@
-import Entity from "@/models/entity";
-import Localization from "@/models/localization";
+import Entity from "@/models/graph/entity";
+import Localization from "@/models/graph/localization";
 import { Role } from '@/utilities/TypedRole';
-import EntityList from "@/models/entity-list";
+import EntityList from "@/models/graph/entity-list";
 
 class StaffDataModel extends Entity {
     protected jobRole: string;
     localization: Localization;
 
-    constructor(rawData: any, localization: any) {
-        super(rawData.collaborator);
-
+    public loadRawData(rawData: any) {
+        super.loadRawData(rawData);
         this.jobRole = rawData.role.type;
+    }
+
+    constructor(localization: any) {
+        super();
+
         this.localization = Localization.FromRawData(localization);
     }
 
@@ -35,7 +39,8 @@ export class StaffDataModelList extends EntityList<StaffDataModel> {
         }
         super(0);
         for (let data of rawData) {
-            const d = new StaffDataModel(data, data.localization);
+            const d = new StaffDataModel(data.localization);
+            d.loadRawData(data);
             this.push(d);
         }
     }

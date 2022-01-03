@@ -42,7 +42,7 @@ const VoiceActings = ({ voiceActings }) => {
             </FilterGroup>
             <div className="grid-halves">
                 {shown && shown.Size() ? shown.map(v => {
-                    return (<VoicedCard key={v.GetID()} subject={v} />)
+                    return (<VoicedCard key={v.GetResourceName()} subject={v} />)
                 }) : 'There is currently no voice acting information available.'}
             </div>
         </main>

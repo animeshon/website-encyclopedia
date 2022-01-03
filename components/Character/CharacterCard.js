@@ -13,7 +13,7 @@ const CharacterCard = ({ character, language }) => {
             <Link href={character.GetURI()}>
                 <a>
                     <CardImage
-                        image={character.GetCoverUrl()}
+                        image={character.CoverImage()?.GetURL()}
                         altText={character.GetNames().Get()}
                     />
                 </a>
@@ -33,14 +33,14 @@ const CharacterCard = ({ character, language }) => {
 
                 {character.GetSeyuus(language).map(s => {
                     return (<Button
-                        key={`${s.GetID()}-${character.GetID()}-${language}`}
+                        key={`${s.GetResourceName()}-${character.GetResourceName()}-${language}`}
                         className="cherry-red medium character-button-ref"
                         type="next-link"
                         href={s.GetURI()}
                     >
                         <span className="character-image">
                             <CardImage
-                                image={s.GetCoverUrl()}
+                                image={s.CoverImage()?.GetURL()}
                                 altText={s.GetNames().Get()}
                                 className={''}
                                 gender={s.GetGender()}

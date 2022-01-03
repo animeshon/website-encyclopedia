@@ -10,9 +10,9 @@ import styles from './AppearanceCard.module.css';
 
 const AppearanceCard = ({ content }) => {
     return (
-        <div key={content.GetID()} className={styles.appearences__item}>
+        <div key={content.GetResourceName()} className={styles.appearences__item}>
             <figure className={styles.appearences__item_cover}>
-                <SafeImage image={content.GetCoverUrl()} />
+                <SafeImage image={content.CoverImage()?.GetURL()} />
             </figure>
             <article className={styles.appearences__item_contents}>
                 <header>

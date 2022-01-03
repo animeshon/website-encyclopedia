@@ -12,7 +12,7 @@ const ReleaseCard = ({ release }) => {
     return (
         <div key={release.id} className={styles["release-details__item"]}>
             <figure>
-                <SafeImage image={release.GetCoverUrl()} />
+                <SafeImage image={release.CoverImage()?.GetURL()} />
             </figure>
             <div className={styles["release-details"]}>
                 <Link href={release.GetURI()}>

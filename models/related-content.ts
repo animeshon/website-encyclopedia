@@ -1,13 +1,16 @@
-import Entity from "@/models/entity";
-import EntityList from "@/models/entity-list";
+import Entity from "@/models/graph/entity";
+import EntityList from "@/models/graph/entity-list";
 
 class RelatedContentDataModel extends Entity {
     protected relationType: string;
 
-    constructor(rawData: any, field: string) {
-        super(rawData[field]);
-
+    public loadRawDataEx(rawData: any, field: string) {
+        super.loadRawData(rawData[field]);
         this.relationType = rawData.type;
+    }
+
+    constructor() {
+        super();
     }
 
     public Relation(): string {
@@ -55,7 +58,8 @@ export class RelatedContentDataModelList extends EntityList<RelatedContentDataMo
     static FromRelatedRawData(rawData: any[]): RelatedContentDataModelList {
         const l = new RelatedContentDataModelList(0);
         for (let data of rawData) {
-            const d = new RelatedContentDataModel(data, "object");
+            const d = new RelatedContentDataModel();
+            d.loadRawDataEx(data, "object");
             l.push(d);
         }
         return l;

@@ -22,7 +22,7 @@ const VoiceActors = ({ voiceActors }) => {
             </section>
             <div className="grid-halves">
                 {voiceActorsModels.Size() ? voiceActorsModels.map(v => {
-                    return (<VoicedCard key={v.GetID()} subject={v} />)
+                    return (<VoicedCard key={v.GetResourceName()} subject={v} />)
                 }) : 'There is currently no appearances information available.'}
             </div>
         </main>

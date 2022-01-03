@@ -17,14 +17,14 @@ const VoicedCard = ({ subject }) => {
                 <a>
                     <CardImage
                         gender={subject.Gender()}
-                        image={subject.GetCoverUrl()}
+                        image={subject.CoverImage()?.GetURL()}
                         altText={subject.GetNames().Get()}
                         className={""}
                     />
                 </a>
             </Link> : <CardImage
                 gender={subject.Gender()}
-                image={subject.GetCoverUrl()}
+                image={subject.CoverImage()?.GetURL()}
                 altText={subject.GetNames().Get()}
                 className={""}
             />}
@@ -51,7 +51,7 @@ const VoicedCard = ({ subject }) => {
                 <CollapsableSection maxHeight={176} collapsedClass={styles.collapsed} moreClass={styles.more_trigger} mainClass={styles.expandable}>
                     {subject.Audibles().map(production => {
                         return (
-                            <p key={`${subject.GetID()}-${production.GetID()}`}>
+                            <p key={`${subject.GetResourceName()}-${production.GetResourceName()}`}>
                                 <Link href={production.GetURI()} >
                                     <a>{production.GetNames().Get()}</a>
                                 </Link> | {production.GetFullTypeString()} | {production.GetSeason() ? (production.GetSeason()) :
