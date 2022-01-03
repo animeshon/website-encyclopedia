@@ -7,6 +7,7 @@ import styles from './AppearanceCard.module.css';
 
 const AppearanceCard = ({ content }) => {
     const thisRef = useRef(null);
+    
     return (
         <div key={content.GetResourceName()} className={styles.appearences__item}>
             <figure className={styles.appearences__item_cover}>
