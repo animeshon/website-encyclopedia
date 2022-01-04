@@ -76,8 +76,6 @@ const Search = ({ searchQuery, queryTime, results, total, error = false }) => {
             discardCorporatepublished: search.filter?.fdc !== undefined ? !search.filter?.fdc :false,
         };
 
-        console.log(search.filter)
-
         const { results, total, error } = await SearchQuery(apolloClient, search.search, 20, resultsComulative.length, filter, order);
 
         if (error) {

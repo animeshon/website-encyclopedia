@@ -8,23 +8,18 @@ const Collaboration = {};
 Collaboration.Fragments = {
   typed: gql`
     fragment CollaborationTyped on Collaboration {
-      id
       role {
-        # ... on Metadata {
-        #   id
-        # } 
         ... on TypedJobRole {
           type
         }
       }
       localization {
+        name
         ...CodeAlpha2
       }
       collaborator @include(if: $collaborator) {
-        ... on Metadata {
-          id
-        }
         ... on GraphGeneric {
+          name
           entityType
           coverImage {
             ...SafeImage

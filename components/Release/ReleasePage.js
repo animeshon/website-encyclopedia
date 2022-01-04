@@ -16,6 +16,7 @@ import { ExecuteQuery, PrepareQuery } from '@/utilities/Query';
 
 const ReleasePage = ({ releases }) => {
     const releaseModels = new ReleaseDataModelList(releases);
+
     releaseModels.Localize();
     // releaseModels.Sort(SortBy.NAME);
 

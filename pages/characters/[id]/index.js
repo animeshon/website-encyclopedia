@@ -18,7 +18,8 @@ const Character = ({
     info,
     appearances,
 }) => {
-    const model = new SummaryDataType(info);
+    const model = new SummaryDataType();
+    model.loadRawData(info);
     model.Localize();
 
     const appearancesModel = CharacterDataModelList.FromContentRawData(appearances);

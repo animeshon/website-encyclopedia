@@ -1,8 +1,8 @@
-import Entity, { LocalizedEnum } from "@/models/graph/entity";
-import EntityList from "@/models/graph/entity-list";
+import Entity, { LocalizedEnum } from "@/models/entity";
+import EntityList from "@/models/entity-list";
 
 class ReleaseDataModel extends Entity {
-    constructor(rawData: any) {
+    constructor() {
         super();
     }
 }
@@ -15,7 +15,8 @@ export class ReleaseDataModelList extends EntityList<ReleaseDataModel> {
         }
         super(0);
         for (let data of rawData) {
-            const d = new ReleaseDataModel(data);
+            const d = new ReleaseDataModel();
+            d.loadRawData(data);
             this.push(d);
         }
     }

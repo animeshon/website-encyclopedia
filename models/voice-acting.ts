@@ -1,7 +1,7 @@
-import Entity from "@/models/graph/entity";
-import Localization from "@/models/graph/localization";
-import EntityList, { SortBy as entitySortBy } from "@/models/graph/entity-list";
-import BooleanString from "@/models/graph/boolean-string";
+import Entity from "@/models/entity";
+import Localization from "@/models/localization";
+import EntityList, { SortBy as entitySortBy } from "@/models/entity-list";
+import BooleanString from "@/models/boolean-string";
 
 export enum SortBy {
     DATE,
@@ -64,7 +64,7 @@ export class VoiceActingModelList extends EntityList<VoiceActingModel> {
     static FromRawData(rawData: any[], field: string): VoiceActingModelList {
         const l = new VoiceActingModelList(0);
         for (let data of rawData) {
-            let va = l.GetByID(data[field].id);
+            let va = l.GetByID(data[field].name);
             if (undefined == va) {
                 va = new VoiceActingModel();
                 va.loadRawData(data[field]);

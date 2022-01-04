@@ -331,25 +331,21 @@ export const ConventionNavigation = (name, id) => [
 
 const Navigation = (type, name, id) => {
     const typeToNavigation = {
-        "anime": AnimeNavigation,
-        "graphicnovel": GraphicNovelNavigation,
-        "lightnovel": LightNovelNavigation,
-        "visualnovel": VisualNovelNavigation,
+        "Anime": AnimeNavigation,
+        "GraphicNovel": GraphicNovelNavigation,
+        "LightNovel": LightNovelNavigation,
+        "VisualNovel": VisualNovelNavigation,
         // "Tracks": track,
         // "episodes": episode,
         // "chapters": chapter,
-        "character": CharacterNavigation,
-        "organization": CompanyNavigation,
-        "magazine": MagazineNavigation,
-        "convention": ConventionNavigation,
-        "person": PeopleNavigation,
-        "universe": UniverseNavigation,
-        "canonical": CanonicalNavigation,
-        "gamerelease": ReleasesNavigation,
-        "volume": ReleasesNavigation,
-        "musicrelease": ReleasesNavigation,
-        // TODO children volume / chapters / episode
-        // ! Volume? Visual Novel Release? Music Collections?
+        "Character": CharacterNavigation,
+        "Organization": CompanyNavigation,
+        "Magazine": MagazineNavigation,
+        "Convention": ConventionNavigation,
+        "Person": PeopleNavigation,
+        "Universe": UniverseNavigation,
+        "Canonical": CanonicalNavigation,
+        "GameRelease": ReleasesNavigation,
     }
 
     if (typeToNavigation[type] === undefined) {

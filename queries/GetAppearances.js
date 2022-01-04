@@ -4,15 +4,13 @@ import Generic from '@/queries/Generic'
 
 const GetAppearances = () => gql`
   query details($id: String!, $first: Int!) {
-    result: getCharacter(id: $id) {
-      id
+    result: getCharacter(name: $id) {
+      name
       appearances(first: $first) {
         relation
         content {
-          ... on Metadata {
-            id
-          }
           ... on GraphGeneric {
+            name
             ...GenericNames
             ...GenericDescriptions
             entityType
@@ -30,10 +28,22 @@ const GetAppearances = () => gql`
                   code
                 }
               }
-              from
-              to
+              from {
+                year
+                month
+                day
+              }
+              to {
+                year
+                month
+                day
+              }
             }
-            releaseDate
+            releaseDate {
+                year
+                month
+                day
+              }
           }
           ... on GraphAnime {
             animeType: type

@@ -18,7 +18,8 @@ const PersonPage = ({
     info,
     voiceActings,
 }) => {
-    const model = new SummaryDataType(info);
+    const model = new SummaryDataType();
+    model.loadRawData(info);
     model.Localize();
 
     const voiceActingModels = EntityList.DefaultFromRawData(voiceActings);
@@ -51,14 +52,14 @@ export const getProps = async (ctx, client) => {
     // prune double characters
     let characters = [];
     (info.voiceActings || []).forEach(i => {
-        const { isPrimary, voiced: { id, appearancesAggregate } } = i;
+        const { isPrimary, voiced: { name, appearancesAggregate } } = i;
         const isPrimaryBool = new BooleanString(isPrimary);
-        if (isPrimaryBool.Value() != true || appearancesAggregate?.count == 0 || appearancesAggregate?.count == undefined || characters.find(i => i.id === id)) {
+        if (isPrimaryBool.Value() != true || appearancesAggregate?.count == 0 || appearancesAggregate?.count == undefined || characters.find(i => i.name === name)) {
             return;
         }
 
         characters.push({
-            id: id,
+            name: name,
             mainCount: appearancesAggregate.count
         })
     });
@@ -68,13 +69,13 @@ export const getProps = async (ctx, client) => {
 
     // enqueue graphql query to get details
     const charQueries = characters.map(x => {
-        return PrepareQuery({ id: x.id }, ContainerQuery());
+        return PrepareQuery({ id: x.name }, ContainerQuery());
     });
     // wait
     const chars = await ExecuteQueries(client, charQueries);
 
     return {
-        info,
+        info: info || {},
         voiceActings: chars || [],
     };
 };

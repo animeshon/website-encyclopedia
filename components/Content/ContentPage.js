@@ -27,7 +27,8 @@ const ContentPage = ({
     relatedContents,
     collaborators
 }) => {
-    const model = new SummaryDataType(info);
+    const model = new SummaryDataType();
+    model.loadRawData(info);
     model.SetCollaborators(collaborators);
     model.Localize();
 
@@ -85,26 +86,22 @@ export const getProps = async (ctx, client) => {
 
     const { info, related, collaborators } = await ExecuteQueryBatch(client, queries);
 
-    const genres = (info.genres || []).map(genre => {
-        return { text: locale.EnglishAny(genre.names) };
-    });
+    // const universes = (info.partOfUniverses || []).map(universe => {
+    //     return {
+    //         href: uri.Rewrite(locale.EnglishAny(universe.names), universe.id),
+    //         text: locale.EnglishAny(universe.names),
+    //     }
+    // });
 
-    const universes = (info.partOfUniverses || []).map(universe => {
-        return {
-            href: uri.Rewrite(locale.EnglishAny(universe.names), universe.id),
-            text: locale.EnglishAny(universe.names),
-        }
-    });
-
-    const canonicals = (info.partOfCanonicals || []).map(canon => {
-        const { id, entityType, images, names, maturityRatings } = canon;
-        return {
-            id: id,
-            type: entityType,
-            name: locale.EnglishAny(names),
-            // image: image.ProfileAny(images, maturityRatings),
-        }
-    });
+    // const canonicals = (info.partOfCanonicals || []).map(canon => {
+    //     const { id, entityType, images, names, maturityRatings } = canon;
+    //     return {
+    //         id: id,
+    //         type: entityType,
+    //         name: locale.EnglishAny(names),
+    //         // image: image.ProfileAny(images, maturityRatings),
+    //     }
+    // });
 
     return {
         info,

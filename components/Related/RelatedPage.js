@@ -15,7 +15,7 @@ import { SortBy } from '@/models/entity-list';
 
 const RelatedPage = ({ related, highlighted }) => {
     const [sort, setSort] = useState();
-    const [typeFilter, setTypeFilter] = useState([]);
+    const [typeFilter, setTypeFilter] = useState(undefined);
 
     const relatedModels = RelatedContentDataModelList.FromRelatedRawData(related);
     relatedModels.Localize();
@@ -70,8 +70,8 @@ const RelatedPage = ({ related, highlighted }) => {
                 {relatedModels.Sort(sort?.value)}
                 {relations.map(i => {
                     let entities = relatedModels.GetByRelation(i);
-                    if (typeFilter.length) {
-                        entities = entities.GetByTypes(typeFilter.map(t => t.value));
+                    if (typeFilter) {
+                        entities = entities.GetByTypes([typeFilter.value]);
                     }
                     return entities.Size() ? (<ExpandableSection key={[i, sort?.vlaue]} label={RelatedContentDataModel.LocalizeRelation(i)}>
                         <RelatedGrid related={entities} />

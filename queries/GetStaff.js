@@ -5,8 +5,8 @@ import { gql } from '@apollo/client';
 // TODO improve logic in order to get only ALL roles
 export const GetTypedStaff = () => gql`
     query details($id: String!, $collaborator: Boolean!, $content: Boolean!, $roleIn: [TypedJobRoleType] = []) {
-        result : get(id:$id) {
-            id
+        result : getGraphGeneric(name:$id) {
+            name
             ... on WithStaff {
                 staff(filter: {in: $roleIn}) {
                     ...CollaborationTyped

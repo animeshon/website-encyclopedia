@@ -59,7 +59,7 @@ class EntityList<T extends Entity> extends Array<T> {
         const subTypes: LocalizedEnum[] = [];
         for (const l of this) {
             if (!subTypes.find(s => s.value == l.Subtype())) {
-                subTypes.push({ value: l.Subtype(), label: ""/*l.GetSubtype(locale)*/ });
+                subTypes.push({ value: l.Subtype(), label: l.GetSubtype(locale) });
             }
         }
         return subTypes.sort((a, b) => {

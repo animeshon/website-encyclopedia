@@ -17,7 +17,8 @@ import withContainer, { withContainerProps } from '@/components/Container';
 const ReleasePage = ({
     info
 }) => {
-    const model = new SummaryDataType(info);
+    const model = new SummaryDataType();
+    model.loadRawData(info);
     model.Localize();
 
     const contents = EntityList.DefaultFromRawData(info.releaseContents);

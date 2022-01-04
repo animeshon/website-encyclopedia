@@ -6,19 +6,17 @@ import Generic from '@/queries/Generic'
 const ContainerQuery = () => {
   return gql`
       query details($id: String!) {
-        result : get(id:$id) {
-          id
-          ... on GraphGeneric {
-            entityType
-            coverImage {
-              ...SafeImage
-            }
-            bannerImage {
-              ...SafeImage
-            }
-            ...GenericNames
-            ...GenericDescriptions
+        result : getGraphGeneric(name:$id) {
+          name
+          entityType
+          coverImage {
+            ...SafeImage
           }
+          bannerImage {
+            ...SafeImage
+          }
+          ...GenericNames
+          ...GenericDescriptions
           ... on WithRegionRestriction {
             ...RegionRestrictionFull
           }
@@ -43,10 +41,5 @@ const ContainerQuery = () => {
       ${Core.Fragments.withRegionRestrictionFull}
     `
 };
-
-// # ...GenericProfileImage
-// # ...GenericCoverImage
-// ${Generic.Fragments.profileImage}
-// ${Generic.Fragments.coverImage}
 
 export default ContainerQuery

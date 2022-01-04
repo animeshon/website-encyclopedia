@@ -8,7 +8,6 @@ import SafeImage from '@/components/SafeImage';
 import styles from './Entry.module.css';
 
 const Entry = ({ item, primary }) => {
-    console.log(item)
     return (
         <article className={`${styles.search_result} ${primary ? styles.primary_result : styles.secondary_result}`} >
             <Link href={item.GetURI()}>

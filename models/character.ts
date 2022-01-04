@@ -1,7 +1,7 @@
-import Entity from "@/models/graph/entity";
-import EntityList from "@/models/graph/entity-list";
-import Localization from "@/models/graph/localization";
-import BooleanString from "@/models/graph/boolean-string";
+import Entity from "@/models/entity";
+import EntityList from "@/models/entity-list";
+import Localization from "@/models/localization";
+import BooleanString from "@/models/boolean-string";
 
 export class Seyuu extends Entity {
 
@@ -9,7 +9,7 @@ export class Seyuu extends Entity {
     localization: Localization;
 
     public loadRawData(rawData: any) {
-        super.loadRawData(rawData);
+        super.loadRawData(rawData.actor);
         this.isPrimary = new BooleanString(rawData.isPrimary);
         this.localization = Localization.FromRawData(rawData.localization);
     }
@@ -134,7 +134,7 @@ export class CharacterDataModelList extends EntityList<CharacterDataModel> {
 
     public SetSeyuus(rawData: any[]): void {
         for (let seyuu of rawData) {
-            const char = this.GetByID(seyuu.voiced.id)
+            const char = this.GetByID(seyuu.voiced.name)
             if (char == undefined) {
                 continue;
             }

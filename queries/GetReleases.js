@@ -4,8 +4,8 @@ import Generic from '@/queries/Generic'
 
 const GetReleases = () => gql`
   query details($id: String!) {
-    result : get(id:$id) {
-      id
+    result : getGraphGeneric(name:$id) {
+      name
       ... on Releasable {
         releases {
             __typename
@@ -14,18 +14,17 @@ const GetReleases = () => gql`
                     alpha2
                     code
                 }
-                ean10
-                ean13
-                sku
-                upce
-                upca
-                releaseDate
+                gtin
+                asin
+                releaseDate {
+                  year
+                  month
+                  day
+                }
                 publishingType
             }
-            ... on Metadata {
-                id
-            }
             ... on GraphGeneric {
+                name
                 ...GenericNames
                 ...GenericDescriptions
                 entityType

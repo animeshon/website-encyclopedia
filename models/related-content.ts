@@ -1,5 +1,5 @@
-import Entity from "@/models/graph/entity";
-import EntityList from "@/models/graph/entity-list";
+import Entity from "@/models/entity";
+import EntityList from "@/models/entity-list";
 
 class RelatedContentDataModel extends Entity {
     protected relationType: string;

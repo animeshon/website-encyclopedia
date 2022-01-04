@@ -11,15 +11,13 @@ const Content = {};
 
 Content.Fragments = {
     contentMinimal: gql`
-    fragment ContentMinimal on Metadata {
+    fragment ContentMinimal on GraphGeneric {
         __typename
-        ...on Metadata {
-            id
-        }
         ... on GraphVisualNovel {
             visualNovelLength: length
         }
         ... on GraphGeneric {
+            name
             ...GenericNames
             ...GenericDescriptions
             entityType
@@ -37,10 +35,22 @@ Content.Fragments = {
                         code
                     }
                 }
-                from
-                to
+                from {
+                    year
+                    month
+                    day
+                }
+                to {
+                    year
+                    month
+                    day
+                }
             }
-            releaseDate
+            releaseDate {
+                year
+                month
+                day
+            }
         }
 
         ... on WithMaturityRating {

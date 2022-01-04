@@ -1,14 +1,14 @@
-import Entity from "@/models/graph/entity";
-import Localization from "@/models/graph/localization";
+import Entity from "@/models/entity";
+import Localization from "@/models/localization";
 import { Role } from '@/utilities/TypedRole';
-import EntityList from "@/models/graph/entity-list";
+import EntityList from "@/models/entity-list";
 
 class StaffDataModel extends Entity {
     protected jobRole: string;
     localization: Localization;
 
     public loadRawData(rawData: any) {
-        super.loadRawData(rawData);
+        super.loadRawData(rawData.collaborator);
         this.jobRole = rawData.role.type;
     }
 

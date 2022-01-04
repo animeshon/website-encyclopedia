@@ -13,7 +13,8 @@ import SummaryDataType from '@/models/summary';
 const Convention = ({
     info,
 }) => {
-    const model = new SummaryDataType(info);
+    const model = new SummaryDataType();
+    model.loadRawData(info);
     model.Localize();
 
     return (

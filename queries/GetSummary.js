@@ -7,8 +7,8 @@ import Content from '@/queries/Content';
 
 const GetSummary = () => gql`
     query details($id: String!) {
-        result: get(id: $id) {
-            id
+        result: getGraphGeneric(name:$id) {
+            name
             ... on GraphPerson {
                 personLanguages: languages {
                     alpha2
@@ -21,7 +21,7 @@ const GetSummary = () => gql`
                     isPrimary
                     voiced {
                         ... on GraphCharacter {
-                            id
+                            name
                             appearancesAggregate(
                                 filter: { relation: { eq: MAIN } }
                             ) {
@@ -30,29 +30,43 @@ const GetSummary = () => gql`
                         }
                     }
                 }
-                personBirthDay: birthday
-                personGender: gender
-                personBloodType: bloodType
+                birthday {
+                    year
+                    month
+                    day
+                }
+                gender
+                bloodType
             }
             ... on GraphCharacter {
-                characterBirthDay: birthday
-                characterGender: gender
-                characterBloodType: bloodType
-                age
-                ageType
+                birthday {
+                    year
+                    month
+                    day
+                }
+                gender
+                bloodType
                 guiseOf {
-                    id
+                    name
                     entityType
                     ...GenericNames
                 }
             }
             ... on GraphConvention {
-                from
-                to
+                from {
+                    year
+                    month
+                    day
+                }
+                to {
+                    year
+                    month
+                    day
+                }
             }
             ... on GraphUniverse {
                 canonicals(first: 5) {
-                    id
+                    name
                     entityType
                     ...GenericNames
                 }
@@ -60,7 +74,7 @@ const GetSummary = () => gql`
                     ... on Starring {
                         starring(filter: { relation: { eq: MAIN } }) {
                             character {
-                                id
+                                name
                                 entityType
                                 ...GenericNames
                             }
@@ -76,7 +90,7 @@ const GetSummary = () => gql`
             }
             ... on GraphCanonical {
                 partOfUniverses(first: 5) {
-                    id
+                    name
                     entityType
                     ...GenericNames
                 }
@@ -84,7 +98,7 @@ const GetSummary = () => gql`
                     ... on Starring {
                         starring(filter: { relation: { eq: MAIN } }) {
                             character {
-                                id
+                                name
                                 entityType
                                 ...GenericNames
                             }
@@ -99,8 +113,11 @@ const GetSummary = () => gql`
                 }
             }
             ... on GraphOrganization {
-                foundation
-                contentFocus
+                foundation {
+                    year
+                    month
+                    day
+                }
                 organizationType: type
             }
             ... on GraphGameRelease {
@@ -121,16 +138,12 @@ const GetSummary = () => gql`
                     code
                 }
                 releaseContents: contents {
-                    ... on Metadata {
+                    ... on GraphGeneric {
                         ...ContentMinimal
                     }
                 }
-                censorship
-                ean10
-                ean13
-                sku
-                upce
-                upca
+                asin
+                gtin
             }
             ... on GraphVisualNovel {
                 visualNovelLength: length
@@ -183,10 +196,22 @@ const GetSummary = () => gql`
                             code
                         }
                     }
-                    from
-                    to
+                    from {
+                        year
+                        month
+                        day
+                    }
+                    to {
+                        year
+                        month
+                        day
+                    }
                 }
-                releaseDate
+                releaseDate {
+                    year
+                    month
+                    day
+                }
             }
             ... on WithGenre {
                 genres {
@@ -197,9 +222,8 @@ const GetSummary = () => gql`
             }
             ... on Starring {
                 starring(first: 5, filter: { relation: { eq: MAIN } }) {
-                	id
                     character {
-                        id
+                        name
                         ... on GraphCharacter {
                             coverImage {
                                 ...SafeImage
@@ -214,9 +238,6 @@ const GetSummary = () => gql`
                     url
                     isGlobal
                     name
-                    country {
-                        code
-                    }
                 }
             }
             ... on Releasable {
@@ -224,9 +245,6 @@ const GetSummary = () => gql`
                     url
                     isGlobal
                     name
-                    country {
-                        code
-                    }
                 }
             }
 

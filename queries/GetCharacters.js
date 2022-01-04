@@ -4,15 +4,15 @@ import Generic from '@/queries/Generic'
 
 const GetCharacters = () => gql`
     query details($id: String!) {
-        result : get(id:$id) {
-        id
+        result : getGraphGeneric(name:$id) {
+        name
         ... on Starring {
             starring {
                 relation
                 character {
                     __typename
                     ... on GraphCharacter {
-                        id
+                        name
                         coverImage {
                             ...SafeImage
                         }

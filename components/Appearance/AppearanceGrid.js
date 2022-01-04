@@ -3,7 +3,7 @@ import React from 'react';
 import AppearanceCard from '@/components/Appearance/AppearanceCard';
 
 export const PruneInvalidAppearances = (appearances) => {
-    return appearances.filter(a => ["anime", "lightnovel", "visualnovel", "graphicnovel"].includes(a.Type()));
+    return appearances.filter(a => ["Anime", "LightNovel", "VisualNovel", "GraphicNovel"].includes(a.Type()));
 }
 
 const AppearanceGrid = ({ appearances }) => {

@@ -346,7 +346,7 @@ class Entity {
     }
   
     public IsContent(): boolean {
-      return ["anime", "graphicnovel", "lightnovel", "visualnovel"].includes(this.type);
+      return ["Anime", "GraphicNovel", "LightNovel", "VisualNovel"].includes(this.type);
     }
   
     public IsAdultOnly(): boolean {
@@ -377,7 +377,7 @@ class Entity {
         ["Anime", "Anime"],
         ["GraphicNovel", "Graphic Novel"],
         ["LightNovel", "Light Novel"],
-        ["Visualnovel", "Visual Novel"],
+        ["VisualNovel", "Visual Novel"],
         ["Track", "Music Track"],
         ["Episode", "Episode"],
         ["Chapter", "Chapter"],

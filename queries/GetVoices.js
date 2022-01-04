@@ -4,18 +4,18 @@ import Generic from '@/queries/Generic';
 
 const GetVoices = () => gql`
     query details($id: String!) {
-        result : get(id:$id) {
-            id
+        result : getGraphGeneric(name:$id) {
+            name
             ... on Audible {
                 voiceActings {
                     isPrimary
                     localization {
-                        id
+                        name
                         ...CodeAlpha2
                     }
                     actor {
                         gender
-                        id
+                        name
                         ...GenericNames
                         coverImage {
                          ...SafeImage
@@ -23,8 +23,8 @@ const GetVoices = () => gql`
                     }
                     voiced {
                         __typename
-                        ... on Metadata {
-                            id
+                        ... on GraphGeneric {
+                            name
                         }
                     }
                 }

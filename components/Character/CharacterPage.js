@@ -103,7 +103,7 @@ export const getProps = async (ctx, client) => {
 
     const localizations = voiceActings.map(v => v.localization).filter((localization, index, self) =>
         localization != undefined && index === self.findIndex((t) => (
-            t.id === localization.id
+            t.name === localization.name
         ))
     );
 

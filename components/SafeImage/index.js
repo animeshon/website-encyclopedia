@@ -48,7 +48,7 @@ const SafeImage = ({ image, altText, force = false, parent = undefined, displayB
                     </picture> :
                         <picture>
                             {/* WEBP */}
-                            <source srcset={img.GetURL("WEBP", width, height)} type="image/webp" alt={altText} />
+                            <source srcSet={img.GetURL("WEBP", width, height)} type="image/webp" alt={altText} />
                             {/* default */}
                             <img src={img.GetURL("", width, height)} alt={altText} />
                         </picture>}

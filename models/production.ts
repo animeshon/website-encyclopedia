@@ -1,6 +1,6 @@
-import Entity from "@/models/graph/entity";
-import Localization from "@/models/graph/localization";
-import EntityList from "@/models/graph/entity-list";
+import Entity from "@/models/entity";
+import Localization from "@/models/localization";
+import EntityList from "@/models/entity-list";
 import { Role } from '@/utilities/TypedRole';
 
 export class RoleData {
@@ -68,7 +68,7 @@ export class ProductionModelList extends EntityList<ProductionModel> {
     static FromRawData(rawData: any[], field: string): ProductionModelList {
         const l = new ProductionModelList(0);
         for (let data of rawData) {
-            let va = l.GetByID(data[field].id);
+            let va = l.GetByID(data[field].name);
             if (undefined == va) {
                 va = new ProductionModel();
                 va.loadRawData(data[field]);

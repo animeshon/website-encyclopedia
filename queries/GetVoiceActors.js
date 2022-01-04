@@ -4,29 +4,26 @@ import Generic from '@/queries/Generic'
 
 const GetVoiceActors = () => gql`
   query details($id: String!) {
-    result: getCharacter(id: $id) {
-      id
+    result: getCharacter(name: $id) {
+      name
       voices {
         isPrimary
         localization {
+          name
           ...CodeAlpha2
         }
         actor {
           gender
-          id
-          ... on GraphGeneric {
-            entityType
-            ...GenericNames
-            coverImage {
-              ...SafeImage
-            }
+          name
+          entityType
+          ...GenericNames
+          coverImage {
+            ...SafeImage
           }
         }
         content {
-          ... on Metadata {
-            id
-          }
           ... on GraphGeneric {
+            name
             entityType
             ...GenericNames
             coverImage {
@@ -43,10 +40,22 @@ const GetVoiceActors = () => gql`
                   code
                 }
               }
-              from
-              to
+              from {
+                year
+                month
+                day
+              }
+              to {
+                year
+                month
+                day
+              }
             }
-            releaseDate
+            releaseDate {
+                year
+                month
+                day
+              }
           }
           ... on GraphAnime {
             animeType: type

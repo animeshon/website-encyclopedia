@@ -56,7 +56,7 @@ class Localization {
     language: Language;
 
     static FromRawData(rawData){
-        return new Localization(rawData.id, rawData.tag, new Country(rawData.country ?? {}), new Language(rawData.language ?? {}))
+        return new Localization(rawData.name, rawData.tag, new Country(rawData.country ?? {}), new Language(rawData.language ?? {}))
     }
 
     constructor(name: string, tag: string, country: Country = new Country({}), language: Language = new Language({})) {
