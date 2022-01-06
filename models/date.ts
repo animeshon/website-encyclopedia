@@ -19,22 +19,22 @@ export const toJSDate = (date: _Date): Date => {
   return new Date(date.year, date.month-1, date.day) ;
 }
 
-export const toString = (date: _Date): string => {
+export const toString = (date: _Date, monthRep: "numeric" | "2-digit" | "long" | "short" | "narrow" = 'numeric'): string => {
   const _date = new Date(date.year, date.month-1, date.day) 
 
   if (date.month == 0 && date.day == 0) {
     return _date.toLocaleDateString('en-US', { year: 'numeric', month: undefined, day: undefined})
   }
   if (date.day == 0) {
-    return _date.toLocaleDateString('en-US', { year: 'numeric', month: 'numeric', day: undefined})
+    return _date.toLocaleDateString('en-US', { year: 'numeric', month: monthRep, day: undefined})
   }
   if (date.year == 0) {
-    return _date.toLocaleDateString('en-US', { year: undefined, month: 'numeric', day: 'numeric'})
+    return _date.toLocaleDateString('en-US', { year: undefined, month: monthRep, day: 'numeric'})
   }
   if (date.day == 99 || date.month == 99 || date.year == 9999) {
     return "?";
   }
-  return _date.toLocaleDateString('en-US');
+  return _date.toLocaleDateString('en-US', {year: 'numeric', month: monthRep, day: 'numeric'});
 }
 
 export const getTime = (date: _Date): number => {

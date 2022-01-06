@@ -320,7 +320,7 @@ class Entity {
   
     public GetBirthday(): string | undefined {
       if (this.birthdayDate != undefined) {
-        return toString(this.rawData.birthday);
+        return toString(this.rawData.birthday, "long");
       } 
       return undefined;
     }
