@@ -10,7 +10,7 @@ import Shop from '@/models/shop';
 import { Language } from '@/models/localization';
 import BooleanString from '@/models/boolean-string';
 import Image from '@/models/image';
-import {toJSDate} from '@/models/date';
+import {toJSDate, toString} from '@/models/date';
 
 export interface LocalizedEnum {
     value: string;
@@ -91,6 +91,8 @@ class Entity {
   
     protected coverImage?: Image;
     protected bannerImage?: Image;
+
+    protected birthdayDate: Date;
   
     public loadRawData(rawData: any) {
       this.rawData = rawData;
@@ -134,7 +136,12 @@ class Entity {
       }
       if (rawData.bannerImage) {
         this.bannerImage = Image.FromRawData(rawData.bannerImage);
-      }    
+      } 
+
+      // birthday
+      if (rawData.birthday) {
+        this.birthdayDate = toJSDate(rawData.birthday)
+      }
   
       this.setSubtype();
       this.setDates();
@@ -312,12 +319,9 @@ class Entity {
     }
   
     public GetBirthday(): string | undefined {
-      if (this.rawData.personBirthDay != undefined) {
-        return EnglishDate(this.rawData.personBirthDay);
-      } else if (this.rawData.characterBirthDay) {
-        const tokens = this.rawData.characterBirthDay.split(".");
-        return `${EnglishMonth(new Date(0, tokens[0], 0))} ${tokens[1]}`;
-      }
+      if (this.birthdayDate != undefined) {
+        return toString(this.rawData.birthday);
+      } 
       return undefined;
     }
   
