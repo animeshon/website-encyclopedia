@@ -36,8 +36,8 @@ module.exports = {
 
             // Releases <----------
             {
-                source: '/gamereleases/:id/:slug/:path*',
-                destination: '/releases/gamereleases.:id/:path*',
+                source: '/gameReleases/:id/:slug/:path*',
+                destination: '/releases/gameReleases.:id/:path*',
                 // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
                 // ! basePath: false,
             },
@@ -48,8 +48,8 @@ module.exports = {
                 // ! basePath: false,
             },
             {
-                source: '/musicreleases/:id/:slug/:path*',
-                destination: '/releases/musicreleases.:id/:path*',
+                source: '/musicReleases/:id/:slug/:path*',
+                destination: '/releases/musicReleases.:id/:path*',
                 // ! TODO: This is currently not working properly, see https://github.com/vercel/next.js/discussions/16958.
                 // ! basePath: false,
             },
