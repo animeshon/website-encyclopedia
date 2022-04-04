@@ -48,7 +48,7 @@ jobs:
       - uses: azure/setup-helm@v1
 
       - name: Install and configure Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@v0
         with:
           service_account_key: ${{ env.KUBERNETES_CREDENTIALS }}
           project_id: ${{ env.PROJECT_ID }}
